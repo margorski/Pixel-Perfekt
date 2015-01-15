@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" width="32" height="16" tilewidth="6" tileheight="6">
+ <properties>
+  <property name="name" value="Mess invaders"/>
+ </properties>
+ <tileset firstgid="1" name="tileset" tilewidth="6" tileheight="6">
+  <image source="../../../../Assets/world1/tileset.png" width="120" height="60"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="32" height="16">
+  <properties>
+   <property name="texture" value="tileset"/>
+  </properties>
+  <data encoding="csv">
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,11,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,13,14,1,
+1,0,0,20,0,0,0,0,6,0,0,0,0,0,0,6,6,0,0,0,0,0,0,6,0,0,0,0,15,16,17,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,6,0,0,0,0,0,0,0,6,0,0,0,1,
+1,0,121,1,1,1,41,0,0,0,21,101,1,1,41,0,0,21,101,1,1,141,0,0,0,21,1,1,1,41,0,1,
+1,0,1,1,1,101,1,0,0,0,1,1,1,1,121,0,0,141,1,1,1,1,0,0,0,161,1,141,1,101,0,1,
+1,0,141,61,22,81,1,0,0,0,1,161,22,81,1,0,0,1,61,22,181,1,0,0,0,1,61,22,81,1,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1
+</data>
+ </layer>
+ <objectgroup name="enemy" width="32" height="16">
+  <properties>
+   <property name="_type" value="1"/>
+   <property name="sizex" value="12"/>
+   <property name="sizey" value="8"/>
+   <property name="speedx" value="10"/>
+   <property name="speedy" value="10"/>
+   <property name="texture" value="enemies_12x8"/>
+  </properties>
+  <object name="type1" type="1" x="10" y="5">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type1" type="1" x="40" y="5">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type1" type="1" x="55" y="5">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type1" type="1" x="70" y="5">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type1" type="1" x="85" y="5">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type1" type="1" x="100" y="5">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type1" type="1" x="115" y="5">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type1" type="1" x="145" y="5">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type2" type="2" x="10" y="17">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type2" type="2" x="25" y="17">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type2" type="2" x="40" y="17">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type2" type="2" x="70" y="17">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type2" type="2" x="100" y="17">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type2" type="2" x="115" y="17">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type2" type="2" x="130" y="17">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type2" type="2" x="145" y="17">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type0" type="0" x="40" y="29">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type0" type="0" x="55" y="29">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type0" type="0" x="70" y="29">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type0" type="0" x="85" y="29">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type0" type="0" x="115" y="29">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type0" type="0" x="130" y="29">
+   <polyline points="0,0 24,0"/>
+  </object>
+  <object name="type0" type="0" x="145" y="29">
+   <polyline points="0,0 24,0"/>
+  </object>
+ </objectgroup>
+</map>
