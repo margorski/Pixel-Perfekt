@@ -58,7 +58,6 @@ namespace PixelPerfect
 
         public override void Exit(int nextStateId)
         {
-            content.Unload();
         }
 
         public override void Resume(int poppedStateId)

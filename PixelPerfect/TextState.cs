@@ -22,8 +22,9 @@ namespace PixelPerfect
         GameStateManager gameStateManager;
         SpriteFont menuFont;
 
-        MouseState prevMouseState;
-        MouseState currMouseState;
+        //MouseState prevMouseState;
+        //MouseState currMouseState;
+        TouchCollection touchState;
         GamePadState prevGPState;
         GamePadState currGPState;
 
@@ -80,7 +81,26 @@ namespace PixelPerfect
             }
             prevGPState = currGPState;
 
-            currMouseState = Mouse.GetState();
+            touchState = TouchPanel.GetState();
+            foreach(TouchLocation touch in touchState)
+            {
+                if (touch.State == TouchLocationState.Pressed)
+                {
+                    if (!texted)
+                    {
+                        drawLetterCount = textStrings[currentText].Length;
+                        texted = true;
+                    }
+                    else
+                    {
+                        currentText++;
+                        texted = false;
+                        drawLetterCount = 0;
+                    }
+                    break;
+                }
+            }
+            /*currMouseState = Mouse.GetState();
             if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
                 if (!texted)
@@ -95,7 +115,7 @@ namespace PixelPerfect
                     drawLetterCount = 0;
                 }
             }
-
+            */
             if (!texted)
             {
                 letterTime += gameTime.ElapsedGameTime;
@@ -107,7 +127,7 @@ namespace PixelPerfect
                         texted = true;
                 }
             }
-            prevMouseState = currMouseState;
+            //prevMouseState = currMouseState;
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended)

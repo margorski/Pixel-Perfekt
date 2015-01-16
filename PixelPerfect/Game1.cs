@@ -23,9 +23,6 @@ namespace PixelPerfect
         SpriteBatch spriteBatch;
         GameStateManager gameStateManager;
 
-        MouseState curMouse;
-        MouseState preMouse;
-
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,7 +48,6 @@ namespace PixelPerfect
             gameStateManager.RegisterState(Config.States.MENU, new MenuState(graphics, Content, gameStateManager));
             gameStateManager.RegisterState(Config.States.PAUSE, new PauseState(Content, gameStateManager));
             gameStateManager.ChangeState(Config.States.MENU);
-            curMouse = preMouse = Mouse.GetState();
         }
 
         protected override void LoadContent()
