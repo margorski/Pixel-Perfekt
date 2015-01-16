@@ -23,17 +23,51 @@ namespace PixelPerfect
         SpriteBatch spriteBatch;
         GameStateManager gameStateManager;
 
+        private float scale = 1.0f;
+        //private float margin = 0.0f;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
-            graphics.PreferredBackBufferHeight = Config.SCREEN_HEIGHT;
-            graphics.PreferredBackBufferWidth = Config.SCREEN_WIDTH;
+            //graphics.PreferredBackBufferHeight = Config.SCREEN_HEIGHT;
+            //graphics.PreferredBackBufferWidth = Config.SCREEN_WIDTH;
             graphics.IsFullScreen = true;
             graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
+
+            ScaleScreen();
 
             Content.RootDirectory = "Content";
         }
 
+        private void ScaleScreen()
+        {
+                    // autoscaling part from web
+            int? scaleFactor = null;
+            var content = App.Current.Host.Content;
+            var scaleFactorProperty = content.GetType().GetProperty("ScaleFactor");
+
+            if (scaleFactorProperty != null)
+                scaleFactor = scaleFactorProperty.GetValue(content, null) as int?;
+
+            if (scaleFactor == null)
+                scaleFactor = 100; // 100% WVGA resolution
+
+            scale = (int)scaleFactor / 100.0f;
+            scale *= Config.SCALE_FACTOR;
+            //scale *= 2.0f; // applying game scaling
+            /*
+            if (scaleFactor == 150)
+            { 
+                // 150% for 720P (scaled to 1200x720 viewport, not 1280x720 screen-res)
+                // Centered letterboxing - move Margin.Left to the right by 0.5*(1280-1200)/scale
+                GamePage.Instance.XnaSurface.Margin = new System.Windows.Thickness(40 / scale, 0, 0, 0);                
+            }
+            */
+            /*System.Windows.Media.ScaleTransform scaleTransform = new System.Windows.Media.ScaleTransform();
+            scaleTransform.ScaleX = scaleTransform.ScaleY = 6.0f;//scale * 2.0f;
+            // The auto-scaling magic happens on the following line!
+            GamePage.Instance.XnaSurface.RenderTransform = scaleTransform;*/
+        }
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
         /// This is where it can query for any required services and load any non-graphic
@@ -45,8 +79,11 @@ namespace PixelPerfect
             // TODO: Add your initialization logic here
             base.Initialize();
             gameStateManager = new GameStateManager();
-            gameStateManager.RegisterState(Config.States.MENU, new MenuState(graphics, Content, gameStateManager));
-            gameStateManager.RegisterState(Config.States.PAUSE, new PauseState(Content, gameStateManager));
+            var menuState = new MenuState(graphics, Content, gameStateManager);            
+            var pauseState = new PauseState(Content, gameStateManager); 
+            menuState.scale = pauseState.scale = scale;
+            gameStateManager.RegisterState(Config.States.MENU, menuState);
+            gameStateManager.RegisterState(Config.States.PAUSE, pauseState);
             gameStateManager.ChangeState(Config.States.MENU);
         }
 
@@ -77,7 +114,8 @@ namespace PixelPerfect
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Black);
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateScale(2.0f));
+            //spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateScale(scale));
             gameStateManager.Draw(spriteBatch);
             spriteBatch.End();
             base.Draw(gameTime);

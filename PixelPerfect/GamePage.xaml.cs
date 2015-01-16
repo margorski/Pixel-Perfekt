@@ -16,12 +16,16 @@ namespace PixelPerfect
     public partial class GamePage : PhoneApplicationPage
     {
         private Game1 _game;
+        public static GamePage Instance = null;
 
         // Constructor
         public GamePage()
         {
             InitializeComponent();
 
+            if (Instance != null)
+                throw new InvalidOperationException("There can be only one GamePage object!");
+            Instance = this;
             _game = XamlGame<Game1>.Create("", this);
 
             // Sample code to localize the ApplicationBar

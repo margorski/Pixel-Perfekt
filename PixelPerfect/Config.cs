@@ -15,11 +15,12 @@ namespace PixelPerfect
 {
     static class Config
     {
-        public const int SCREEN_WIDTH = 400;
+        /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
-        public const int SCREEN_WIDTH_SCALED = SCREEN_WIDTH / 2;
-        public const int SCREEN_HEIGHT_SCALED = SCREEN_HEIGHT / 2;
-
+         */
+        public const int SCREEN_WIDTH_SCALED = 200; //SCREEN_WIDTH / 2;
+        public const int SCREEN_HEIGHT_SCALED = 120; //SCREEN_HEIGHT / 2;
+        public const int SCALE_FACTOR = 4;
         public const int ANIMATION_SPEED_FACTOR = 135;
         public const int DRAW_OFFSET_X = 4;
         public const int DRAW_OFFSET_Y = 0;

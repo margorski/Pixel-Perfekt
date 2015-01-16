@@ -13,6 +13,8 @@ namespace GameStateMachine
 {
     public abstract class GameState
     {
+        public float scale = 1.0f;
+
         public abstract void Enter(int previousStateId);
         public abstract void Exit(int nextStateId);
         public abstract void Suspend(int pushedStateId);

@@ -54,7 +54,7 @@ namespace PixelPerfect
             //prevMouseState = currMouseState = Mouse.GetState();
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
             worlds = World.LoadWorlds();
-            menuPhase = MenuPhase.MAIN;
+            menuPhase = MenuPhase.WORLDSELECT;
             int levelId = Config.States.LEVEL;
             int textstateId = Config.States.TEXT;
             while (gameStateManager.UnregisterState(levelId++)) ;
@@ -174,7 +174,9 @@ namespace PixelPerfect
 
                     for (int i = 0; i < worlds[selectedWorld].levelNames.Count; i++)
                     {
-                        gameStateManager.RegisterState(Config.States.LEVEL + i, new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i), gameStateManager));
+                        var levelState = new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i), gameStateManager);
+                        levelState.scale = scale;
+                        gameStateManager.RegisterState(Config.States.LEVEL + i, levelState);
                     }
                     gameStateManager.ChangeState(Config.States.LEVEL + clickedSquare);
                 }
@@ -254,11 +256,14 @@ namespace PixelPerfect
 
         public int ClickedSquare(int X, int Y)
         {
-            if ((Y/2) < 30 || (Y/2) > 110)
+            X /= (int)scale;
+            Y /= (int)scale;
+
+            if ((Y) < 30 || (Y) > 110)
                 return -1;
 
-            int x = (X / 2) / 40; 
-            int y = (Y / 2 - 25) / 45;
+            int x = (X) / 40; 
+            int y = (Y - 25) / 45;
 
             return x + y * 5;
         }

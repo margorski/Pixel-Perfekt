@@ -105,11 +105,13 @@ namespace PixelPerfect
                         player.EndOfStop(gameTime);
                     }
 
-                    if (new Rectangle(Config.SCREEN_WIDTH / 2, 0, Config.SCREEN_WIDTH / 2, Config.SCREEN_HEIGHT).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y))
+                    if (new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0, 
+                                      (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y))
                         && tl.State == TouchLocationState.Pressed)
                         player.Jump();
 
-                    else if (new Rectangle(0, 0, Config.SCREEN_WIDTH / 2, Config.SCREEN_HEIGHT).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y)))
+                    else if (new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 
+                                                 (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y)))
                     {
                         if (tl.State == TouchLocationState.Pressed)
                         {
