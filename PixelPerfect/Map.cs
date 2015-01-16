@@ -20,7 +20,7 @@ namespace PixelPerfect
     {
         // Privates
         private Rectangle tileRect = new Rectangle(0, 0, Config.Tile.SIZE, Config.Tile.SIZE);
-        private Byte[] mapa;
+        private int[] mapa;
         private Tile[] tileMapa;
         private Texture2D tileset;
         private List<Enemy> enemiesList = new List<Enemy>();
@@ -34,7 +34,7 @@ namespace PixelPerfect
         public string levelName { private set; get; }
 
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, byte[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName)
+        public Map(Texture2D tileset, Texture2D pixel, int[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName)
         {
             this.mapa = mapa;
             this.enemiesList = enemiesList;
@@ -316,7 +316,7 @@ namespace PixelPerfect
             List<Enemy> enemiesList = new List<Enemy>();
             List<Emiter> emiterList = new List<Emiter>();
             List<Trigger> triggerList = new List<Trigger>();
-            Byte[] mapa = new Byte[Config.Map.WIDTH * Config.Map.HEIGHT];
+            int[] mapa = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
             string levelName = "";
             int triggerCount = 0;
 
@@ -352,7 +352,16 @@ namespace PixelPerfect
                                 xmlreader.ReadToFollowing("data");
                                 string[] dataStrings = xmlreader.ReadElementContentAsString().Split(',');
                                 for (int i = 0; i < Config.Map.WIDTH * Config.Map.HEIGHT; i++)
-                                    mapa[i] = Byte.Parse(dataStrings[i]);
+                                {
+                                    try
+                                    {
+                                        mapa[i] = Int32.Parse(dataStrings[i]);
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        string j = ex.Message;
+                                    }
+                                }
                                     
                                 break;
 
