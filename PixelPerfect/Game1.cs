@@ -37,6 +37,12 @@ namespace PixelPerfect
             ScaleScreen();
 
             Content.RootDirectory = "Content";
+
+            // Frame rate is 30 fps by default for Windows Phone.
+            TargetElapsedTime = TimeSpan.FromTicks(333333);
+
+            // Extend battery life under lock.
+            InactiveSleepTime = TimeSpan.FromSeconds(1);
         }
 
         private void ScaleScreen()
