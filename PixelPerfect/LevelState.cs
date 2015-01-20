@@ -159,14 +159,14 @@ namespace PixelPerfect
                 if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)                
                     InitLevel();
             }
-            /*
-        else if (player.GetState(Player.State.dying))
-        {
-            if (tl.State == TouchLocationState.Released)
+            else if (player.GetState(Player.State.dying))
             {
-                player.SetState(Player.State.dead, true);
+                if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
+                {
+                    player.SetState(Player.State.dead, true);
+                    InitLevel();
+                }
             }
-        }*/
             else
             {
                 if (currentMouseState.LeftButton == ButtonState.Released && previousMouseState.LeftButton == ButtonState.Pressed) // mouse button released
@@ -181,7 +181,7 @@ namespace PixelPerfect
                                                         (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale));
                     var mousePosition = new Point((int)currentMouseState.X, (int)currentMouseState.Y);
 
-                    if (leftScreenHalf.Contains(mousePosition))                
+                    if (leftScreenHalf.Contains(mousePosition))
                         player.Stop(gameTime);
                     else if (rightScreenHalf.Contains(mousePosition))
                         player.Jump();
@@ -198,15 +198,15 @@ namespace PixelPerfect
             {
                 if (currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
                     InitLevel();
-            }
-            /*
-        else if (player.GetState(Player.State.dying))
-        {
-            if (tl.State == TouchLocationState.Released)
+            }            
+            else if (player.GetState(Player.State.dying))
             {
-                player.SetState(Player.State.dead, true);
+                if (currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
+                {
+                    player.SetState(Player.State.dead, true);
+                    InitLevel();
+                }
             }
-        }*/
             else
             {
                 if (currentKeyboardState.IsKeyUp(Keys.LeftShift) && previousKeyboardState.IsKeyDown(Keys.LeftShift)) // left shift
@@ -235,15 +235,15 @@ namespace PixelPerfect
                 {
                     if (tl.State == TouchLocationState.Pressed)
                         InitLevel();
-                }
-                /*
-            else if (player.GetState(Player.State.dying))
-            {
-                if (tl.State == TouchLocationState.Released)
+                }                
+                else if (player.GetState(Player.State.dying))
                 {
-                    player.SetState(Player.State.dead, true);
+                    if (tl.State == TouchLocationState.Pressed)
+                    {
+                        player.SetState(Player.State.dead, true);
+                        InitLevel();
+                    }
                 }
-            }*/
                 else
                 {
                     if (tl.State == TouchLocationState.Released && tl.Id == touchId)
