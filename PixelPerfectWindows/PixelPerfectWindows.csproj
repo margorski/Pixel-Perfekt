@@ -1,0 +1,341 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0C64B25D-DFB7-4731-9E3A-16EF5EE5909B}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PixelPerfect</RootNamespace>
+    <AssemblyName>PixelPerfectWindows</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Windows\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
+    <PlatformTarget>x86</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Windows\Release\</OutputPath>
+    <DefineConstants>TRACE;WINDOWS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\PixelPerfect\Animation.cs">
+      <Link>Animation.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Config.cs">
+      <Link>Config.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Emiter.cs">
+      <Link>Emiter.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\EmiterPart.cs">
+      <Link>EmiterPart.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Enemy.cs">
+      <Link>Enemy.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Game1.cs">
+      <Link>Game1.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\GameStateMachine\GameState.cs">
+      <Link>GameStateMachine\GameState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\GameStateMachine\GameStateManager.cs">
+      <Link>GameStateMachine\GameStateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Hud.cs">
+      <Link>Hud.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\LevelState.cs">
+      <Link>LevelState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Map.cs">
+      <Link>Map.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\MenuState.cs">
+      <Link>MenuState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\OnscreenStates.cs">
+      <Link>OnscreenStates.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\PixelParticle.cs">
+      <Link>PixelParticle.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Player.cs">
+      <Link>Player.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\TextState.cs">
+      <Link>TextState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Tile.cs">
+      <Link>Tile.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\TileFactory.cs">
+      <Link>TileFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Trigger.cs">
+      <Link>Trigger.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Util.cs">
+      <Link>Util.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\World.cs">
+      <Link>World.cs</Link>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="MonoGame.Framework">
+      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\bonus\tutorial1.txt">
+      <Link>Levels\bonus\tutorial1.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\bonus\tutorial2.txt">
+      <Link>Levels\bonus\tutorial2.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\bonus\tutorial3.txt">
+      <Link>Levels\bonus\tutorial3.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\bonus\tutorial4.txt">
+      <Link>Levels\bonus\tutorial4.txt</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\worlds.xml">
+      <Link>Levels\worlds.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Icon.ico" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\bonus\enemies_12x12.xnb">
+      <Link>Content\bonus\enemies_12x12.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\bonus\enemies_16x16.xnb">
+      <Link>Content\bonus\enemies_16x16.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\bonus\enemies_5x5.xnb">
+      <Link>Content\bonus\enemies_5x5.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\bonus\player.xnb">
+      <Link>Content\bonus\player.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\bonus\tileset.xnb">
+      <Link>Content\bonus\tileset.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\leveltile.xnb">
+      <Link>Content\leveltile.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\pacman\emiter_8x8.xnb">
+      <Link>Content\pacman\emiter_8x8.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\pacman\enemies_14x14.xnb">
+      <Link>Content\pacman\enemies_14x14.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\pacman\player.xnb">
+      <Link>Content\pacman\player.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\pacman\tileset.xnb">
+      <Link>Content\pacman\tileset.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\pixel.xnb">
+      <Link>Content\pixel.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\Silkscreen.xnb">
+      <Link>Content\Silkscreen.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\spaceinvaders\emiter_3x5.xnb">
+      <Link>Content\spaceinvaders\emiter_3x5.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\spaceinvaders\enemies_12x8.xnb">
+      <Link>Content\spaceinvaders\enemies_12x8.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\spaceinvaders\player.xnb">
+      <Link>Content\spaceinvaders\player.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\content\content\bin\psm\content\spaceinvaders\tileset.xnb">
+      <Link>Content\spaceinvaders\tileset.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\bonus\manic1.tmx">
+      <Link>Levels\bonus\manic1.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\bonus\manic2.tmx">
+      <Link>Levels\bonus\manic2.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\bonus\manic3.tmx">
+      <Link>Levels\bonus\manic3.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\bonus\manic4.tmx">
+      <Link>Levels\bonus\manic4.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\bonus\manic5.tmx">
+      <Link>Levels\bonus\manic5.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\bonus\manic6.tmx">
+      <Link>Levels\bonus\manic6.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\bonus\manic7.tmx">
+      <Link>Levels\bonus\manic7.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\pacman\level1.tmx">
+      <Link>Levels\pacman\level1.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\pacman\level2.tmx">
+      <Link>Levels\pacman\level2.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\pacman\level3.tmx">
+      <Link>Levels\pacman\level3.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\pacman\level4.tmx">
+      <Link>Levels\pacman\level4.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\pacman\level5.tmx">
+      <Link>Levels\pacman\level5.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\spaceinvaders\level1.tmx">
+      <Link>Levels\spaceinvaders\level1.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\spaceinvaders\level2.tmx">
+      <Link>Levels\spaceinvaders\level2.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\spaceinvaders\level3.tmx">
+      <Link>Levels\spaceinvaders\level3.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\spaceinvaders\level4.tmx">
+      <Link>Levels\spaceinvaders\level4.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\assets\levels\spaceinvaders\level5.tmx">
+      <Link>Levels\spaceinvaders\level5.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

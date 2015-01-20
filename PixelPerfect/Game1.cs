@@ -31,23 +31,26 @@ namespace PixelPerfect
             graphics = new GraphicsDeviceManager(this);
             //graphics.PreferredBackBufferHeight = Config.SCREEN_HEIGHT;
             //graphics.PreferredBackBufferWidth = Config.SCREEN_WIDTH;
+
+#if !WINDOWS
             graphics.IsFullScreen = true;
             graphics.SupportedOrientations = DisplayOrientation.LandscapeLeft | DisplayOrientation.LandscapeRight;
 
+            // Extend battery life under lock.
+            InactiveSleepTime = TimeSpan.FromSeconds(1);
+#endif
             ScaleScreen();
-
             Content.RootDirectory = "Content";
 
             // Frame rate is 30 fps by default for Windows Phone.
             TargetElapsedTime = TimeSpan.FromTicks(333333);
-
-            // Extend battery life under lock.
-            InactiveSleepTime = TimeSpan.FromSeconds(1);
         }
+
 
         private void ScaleScreen()
         {
-                    // autoscaling part from web
+#if !WINDOWS
+            // autoscaling part from web
             int? scaleFactor = null;
             var content = App.Current.Host.Content;
             var scaleFactorProperty = content.GetType().GetProperty("ScaleFactor");
@@ -73,13 +76,13 @@ namespace PixelPerfect
             scaleTransform.ScaleX = scaleTransform.ScaleY = 6.0f;//scale * 2.0f;
             // The auto-scaling magic happens on the following line!
             GamePage.Instance.XnaSurface.RenderTransform = scaleTransform;*/
+#else 
+            scale = 4.0f;
+#endif
         }
-        /// <summary>
-        /// Allows the game to perform any initialization it needs to before starting to run.
-        /// This is where it can query for any required services and load any non-graphic
-        /// related content.  Calling base.Initialize will enumerate through any components
-        /// and initialize them as well.
-        /// </summary>
+
+
+
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
