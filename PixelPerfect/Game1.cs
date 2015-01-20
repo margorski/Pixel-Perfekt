@@ -38,6 +38,8 @@ namespace PixelPerfect
 
             // Extend battery life under lock.
             InactiveSleepTime = TimeSpan.FromSeconds(1);
+#else
+            this.IsMouseVisible = true;
 #endif
             ScaleScreen();
             Content.RootDirectory = "Content";

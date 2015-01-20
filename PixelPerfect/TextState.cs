@@ -22,9 +22,12 @@ namespace PixelPerfect
         GameStateManager gameStateManager;
         SpriteFont menuFont;
 
-        //MouseState prevMouseState;
-        //MouseState currMouseState;
+#if WINDOWS
+        MouseState prevMouseState;
+        MouseState currMouseState;
+#else
         TouchCollection touchState;
+#endif
         GamePadState prevGPState;
         GamePadState currGPState;
 
@@ -42,6 +45,12 @@ namespace PixelPerfect
             this.graphics = graphics;
             this.content = content;
             this.hud = hud;
+
+#if WINDOWS
+            prevMouseState = currMouseState = Mouse.GetState();
+#else
+            touchState = TouchPanel.GetState();
+#endif
         }
 
         public override void Enter(int previousStateId)
@@ -81,6 +90,7 @@ namespace PixelPerfect
             }
             prevGPState = currGPState;
 
+#if !WINDOWS
             touchState = TouchPanel.GetState();
             foreach(TouchLocation touch in touchState)
             {
@@ -100,7 +110,8 @@ namespace PixelPerfect
                     break;
                 }
             }
-            /*currMouseState = Mouse.GetState();
+#else
+            currMouseState = Mouse.GetState();
             if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
                 if (!texted)
@@ -115,7 +126,9 @@ namespace PixelPerfect
                     drawLetterCount = 0;
                 }
             }
-            */
+            prevMouseState = currMouseState;
+#endif
+
             if (!texted)
             {
                 letterTime += gameTime.ElapsedGameTime;
@@ -126,8 +139,7 @@ namespace PixelPerfect
                     if (drawLetterCount >= textStrings[currentText].Length)
                         texted = true;
                 }
-            }
-            //prevMouseState = currMouseState;
+            }            
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended)

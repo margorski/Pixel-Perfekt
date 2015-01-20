@@ -28,9 +28,12 @@ namespace PixelPerfect
         GameStateManager gameStateManager;
         SpriteFont menuFont;
 
+#if !WINDOWS
         TouchCollection touchState;
-        //MouseState prevMouseState;
-        //MouseState currMouseState;
+#else
+        MouseState prevMouseState;
+        MouseState currMouseState;
+#endif
         GamePadState prevGPState;
         GamePadState currGPState;
 
@@ -50,8 +53,11 @@ namespace PixelPerfect
         {
             menuFont = content.Load<SpriteFont>("Silkscreen");
             levelTile = content.Load<Texture2D>("leveltile");
+#if !WINDOWS
             touchState = TouchPanel.GetState();
-            //prevMouseState = currMouseState = Mouse.GetState();
+#else
+            prevMouseState = currMouseState = Mouse.GetState();
+#endif
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
             worlds = World.LoadWorlds();
             menuPhase = MenuPhase.WORLDSELECT;
@@ -79,9 +85,30 @@ namespace PixelPerfect
                 return;
 
             Update_HandleBack();
+            
+#if WINDOWS
+            currMouseState = Mouse.GetState();
 
+            switch (menuPhase)
+            {
+                case MenuPhase.MAIN:                    
+                    if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                        menuPhase = MenuPhase.WORLDSELECT;
+                    break;
+
+                case MenuPhase.WORLDSELECT:
+                    Update_WorldSelect();
+                    break;
+
+                case MenuPhase.LEVELSELECT:
+                    Update_LevelSelect();
+                    break;
+            }
+
+            prevMouseState = currMouseState;
+#else
             touchState = TouchPanel.GetState();
-            //currMouseState = Mouse.GetState();
+            
 
             switch (menuPhase)
             {
@@ -93,8 +120,6 @@ namespace PixelPerfect
                             menuPhase = MenuPhase.WORLDSELECT;
                         }
                     }
-                    //if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
-                    //menuPhase = MenuPhase.WORLDSELECT;
                     break;
 
                 case MenuPhase.WORLDSELECT:
@@ -105,7 +130,7 @@ namespace PixelPerfect
                     Update_LevelSelect();
                     break;
             }
-            //prevMouseState = currMouseState;
+#endif
         }
 
         public void Update_HandleBack()
@@ -133,6 +158,7 @@ namespace PixelPerfect
 
         public void Update_WorldSelect()
         {
+#if !WINDOWS
             foreach (TouchLocation touch in touchState)
             {
                 if (touch.State == TouchLocationState.Pressed)
@@ -147,7 +173,7 @@ namespace PixelPerfect
                     break;
                 }
             }
-            /*
+#else
             if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
                 int clickedSquare = ClickedSquare(currMouseState.X, currMouseState.Y);
@@ -158,11 +184,12 @@ namespace PixelPerfect
                 selectedWorld = clickedSquare;
                 menuPhase = MenuPhase.LEVELSELECT;
             }
-             * */
+#endif
         }
 
         public void Update_LevelSelect()
         {     
+#if !WINDOWS
             foreach (TouchLocation touch in touchState)
             {
                 if (touch.State == TouchLocationState.Pressed)
@@ -182,7 +209,7 @@ namespace PixelPerfect
                 }
 
             }
-            /*
+#else     
             if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
                 int clickedSquare = ClickedSquare(currMouseState.X, currMouseState.Y);
@@ -192,11 +219,13 @@ namespace PixelPerfect
 
                 for (int i = 0; i < worlds[selectedWorld].levelNames.Count; i++)
                 {
-                    gameStateManager.RegisterState(Config.States.LEVEL + i, new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i), gameStateManager));
+                    var levelState = new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i), gameStateManager);
+                    levelState.scale = scale;
+                    gameStateManager.RegisterState(Config.States.LEVEL + i, levelState);
                 }
                 gameStateManager.ChangeState(Config.States.LEVEL + clickedSquare);
             }
-             */
+#endif 
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended)

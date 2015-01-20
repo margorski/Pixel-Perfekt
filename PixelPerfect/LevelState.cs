@@ -26,10 +26,16 @@ namespace PixelPerfect
         private Map map;
         private Player player;
         private Hud hud;
+#if !WINDOWS
         private TouchCollection touchCollection;
+        private int touchId = 0;
+#else
+        private MouseState previousMouseState;
+        private MouseState currentMouseState;
+#endif
         private GamePadState prevGPState;
         private GamePadState currGPState;
-        private int touchId = 0;
+
         private int i = 0;
         private string levelFile = "";
         private string directory = "";
@@ -53,7 +59,7 @@ namespace PixelPerfect
             silkscreenFont = content.Load<SpriteFont>("Silkscreen");
             hud = new Hud(silkscreenFont);
             InitLevel();
-            ResetTouch();
+            ResetInput();
         }
 
         public override void Exit(int nextStateId)
@@ -62,7 +68,7 @@ namespace PixelPerfect
 
         public override void Resume(int poppedStateId)
         {
-            ResetTouch();
+            ResetInput();
         }
 
         public override void Suspend(int pushedStateId)
@@ -80,48 +86,12 @@ namespace PixelPerfect
                 gameStateManager.PushState(Config.States.PAUSE);
             }
             prevGPState = currGPState;
-            
-            touchCollection = TouchPanel.GetState();
-            foreach (TouchLocation tl in touchCollection)
-            {
-                if (player.GetState(Player.State.dead))
-                {
-                    if (tl.State == TouchLocationState.Pressed)
-                        InitLevel();
-                }
-                    /*
-                else if (player.GetState(Player.State.dying))
-                {
-                    if (tl.State == TouchLocationState.Released)
-                    {
-                        player.SetState(Player.State.dead, true);
-                    }
-                }*/
-                else
-                {
-                    if (tl.State == TouchLocationState.Released && tl.Id == touchId)
-                    {
-                        touchId = 0;
-                        player.EndOfStop(gameTime);
-                    }
 
-                    if (new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0, 
-                                      (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y))
-                        && tl.State == TouchLocationState.Pressed)
-                        player.Jump();
-
-                    else if (new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 
-                                                 (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y)))
-                    {
-                        if (tl.State == TouchLocationState.Pressed)
-                        {
-                            touchId = tl.Id;
-                            player.Stop(gameTime);
-                        }
-                    }
-                }
-            }
-
+#if !WINDOWS
+            TouchInput(gameTime);
+#else
+            MouseInput(gameTime);
+#endif
             player.Update(gameTime);
             if (!player.GetState(Player.State.dead) && !player.GetState(Player.State.dying))
             {
@@ -176,6 +146,92 @@ namespace PixelPerfect
             hud.Update(gameTime);
         }
 
+#if WINDOWS
+        private void MouseInput(GameTime gameTime)
+        {
+ 	        currentMouseState = Mouse.GetState();
+            
+            if (player.GetState(Player.State.dead))
+            {
+                if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)                
+                    InitLevel();
+            }
+            /*
+        else if (player.GetState(Player.State.dying))
+        {
+            if (tl.State == TouchLocationState.Released)
+            {
+                player.SetState(Player.State.dead, true);
+            }
+        }*/
+            else
+            {
+                if (currentMouseState.LeftButton == ButtonState.Released && previousMouseState.LeftButton == ButtonState.Pressed) // mouse button released
+                {
+                    player.EndOfStop(gameTime);
+                }
+                else if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released) // mouse button pressed
+                {
+                    var leftScreenHalf = new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2),
+                                                             (int)(Config.SCREEN_HEIGHT_SCALED * scale));
+                    var rightScreenHalf = new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0,
+                                                        (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale));
+                    var mousePosition = new Point((int)currentMouseState.X, (int)currentMouseState.Y);
+
+                    if (leftScreenHalf.Contains(mousePosition))                
+                        player.Stop(gameTime);
+                    else if (rightScreenHalf.Contains(mousePosition))
+                        player.Jump();
+                }
+            }
+            previousMouseState = currentMouseState;
+        }
+#else
+        private void TouchInput(GameTime gameTime)
+        {
+            touchCollection = TouchPanel.GetState();
+            foreach (TouchLocation tl in touchCollection)
+            {
+                if (player.GetState(Player.State.dead))
+                {
+                    if (tl.State == TouchLocationState.Pressed)
+                        InitLevel();
+                }
+                /*
+            else if (player.GetState(Player.State.dying))
+            {
+                if (tl.State == TouchLocationState.Released)
+                {
+                    player.SetState(Player.State.dead, true);
+                }
+            }*/
+                else
+                {
+                    if (tl.State == TouchLocationState.Released && tl.Id == touchId)
+                    {
+                        touchId = 0;
+                        player.EndOfStop(gameTime);
+                    }
+
+                    if (new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0,
+                                      (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y))
+                        && tl.State == TouchLocationState.Pressed)
+                        player.Jump();
+
+                    else if (new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2),
+                                                 (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y)))
+                    {
+                        if (tl.State == TouchLocationState.Pressed)
+                        {
+                            touchId = tl.Id;
+                            player.Stop(gameTime);
+                        }
+                    }
+                }
+            }
+        }
+#endif
+
         public override void Draw(SpriteBatch spriteBatch, bool suspended)
         {
             map.Draw(spriteBatch);
@@ -185,15 +241,19 @@ namespace PixelPerfect
 
         private void InitLevel()
         {
-            map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud);
+            map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud, scale);
             hud.Init(map.levelName, map.collectiblesCount);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics, content.Load<Texture2D>("pixel"));
         }
 
-        private void ResetTouch()
+        private void ResetInput()
         {
-            touchId = 0;
-            touchCollection = TouchPanel.GetState();
+#if WINDOWS
+            previousMouseState = currentMouseState = Mouse.GetState();
+#else
+                touchId = 0;
+                touchCollection = TouchPanel.GetState();
+#endif
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
         }
     }

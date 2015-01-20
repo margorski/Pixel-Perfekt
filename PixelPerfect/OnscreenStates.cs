@@ -19,9 +19,12 @@ namespace PixelPerfect
         ContentManager content;
         GameStateManager gameStateManager;
 
-        //MouseState prevMouseState;
-        //MouseState currMouseState;
+#if WINDOWS
+        MouseState prevMouseState;
+        MouseState currMouseState;
+#else
         TouchCollection touchState;
+#endif
         GamePadState prevGPState;
         GamePadState currGPState;
 
@@ -37,8 +40,11 @@ namespace PixelPerfect
         {
             menuFont = content.Load<SpriteFont>("Silkscreen");
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
+#if !WINDOWS
             touchState = TouchPanel.GetState();
-            //prevMouseState = currMouseState = Mouse.GetState();
+#else
+            prevMouseState = currMouseState = Mouse.GetState();
+#endif
         }
 
         public override void Exit(int nextStateId)
@@ -63,6 +69,7 @@ namespace PixelPerfect
             }
             prevGPState = currGPState;
 
+#if !WINDOWS
             touchState = TouchPanel.GetState();
             foreach (TouchLocation touch in touchState)
             {
@@ -72,10 +79,15 @@ namespace PixelPerfect
                     break;
                 }
             }
-            //currMouseState = Mouse.GetState();
 
-            //if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
-               // gameStateManager.PopState();
+#else
+            currMouseState = Mouse.GetState();
+
+            if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+                gameStateManager.PopState();
+
+            prevMouseState = currMouseState;
+#endif
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended)
