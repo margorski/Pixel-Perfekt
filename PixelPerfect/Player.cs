@@ -28,6 +28,7 @@ namespace PixelPerfect
             public const UInt32 onMovingPlatform = 1 << 7;
             public const UInt32 dying = 1 << 8;
             public const UInt32 boomed = 1 << 9;
+            public const UInt32 jumpStopped = 1 << 10;  // wtf hack for jumping from stopped position
         }
         // Public
         public Rectangle boundingBox
@@ -138,7 +139,8 @@ namespace PixelPerfect
             speed.Y += Config.Player.GRAVITY * timeFactor;
             speed.Y = MathHelper.Clamp(speed.Y, Config.Player.JUMP_SPEED, Config.Player.MAX_FALL_SPEED);
 
-            if (GetState(State.stopped))
+            if ((GetState(State.stopped) && !GetState(State.jumping)) || 
+                (GetState(State.jumping) && GetState(State.jumpStopped)))
                 speed.X = 0.0f + enviroSpeed.X;
             else
                 speed.X = (GetState(State.directionLeft) ? -1 : 1) * baseSpeed.X + enviroSpeed.X;
@@ -166,8 +168,10 @@ namespace PixelPerfect
             if (GetState(Player.State.dead))
                 return;
 
-            if ((GetState(State.stopped) && !GetState(State.jumping) && !GetState(State.onMovingPlatform)) 
-                || (GetState(State.stoppedTemp) && !GetState(State.onMovingPlatform)))
+            if (((GetState(State.stopped) || GetState(State.stoppedTemp)) && 
+                                                 !GetState(State.jumping) && 
+                                                 !GetState(State.onMovingPlatform))) 
+                //|| (GetState(State.stoppedTemp) && !GetState(State.onMovingPlatform)))
                 return;
 
             if ((state & State.falling) > 0)
@@ -241,9 +245,12 @@ namespace PixelPerfect
                 SetState(State.tryJump, true);
                 return;
             }
-            
-            if (GetState(Player.State.stopped))
+
+            if (GetState(State.stopped))
+            {
                 SetState(State.stoppedTemp, true);
+                SetState(State.jumpStopped, true);
+            }
             SetState(State.jumping, true);
             SetSpeedY(Config.Player.JUMP_SPEED);
             jumpY = position.Y;
@@ -251,8 +258,8 @@ namespace PixelPerfect
 
         public void Stop(GameTime gameTime)
         {
-            if (GetState(Player.State.jumping))
-                return;
+            //if (GetState(Player.State.jumping) && !GetState(Player.State.falling))
+            //    return;
 
             SetState(Player.State.stopped, true);
             if (stopTimeForReverse == TimeSpan.Zero)
@@ -264,7 +271,10 @@ namespace PixelPerfect
             SetState(Player.State.stopped, false);
             if ((gameTime.TotalGameTime - stopTimeForReverse).TotalMilliseconds < Config.Player.STOPTIME_REVERSE_MS)
             {
-                Reverse();
+                if (GetState(State.jumping) && GetState(State.falling)) // when jumping, reverse only on falling
+                    Reverse();
+                else if (!GetState(State.jumping))  // reverse when not jumping
+                    Reverse();
             }
             stopTimeForReverse = TimeSpan.Zero;
         }
@@ -281,6 +291,7 @@ namespace PixelPerfect
             SetState(Player.State.stoppedTemp, false);
             SetState(Player.State.jumping, false);
             SetState(Player.State.falling, false);
+            SetState(Player.State.jumpStopped, false);
 
             if (GetState(Player.State.falling))
             {

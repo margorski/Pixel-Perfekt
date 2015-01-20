@@ -68,7 +68,7 @@ namespace PixelPerfect
             public const float GRAVITY = 140.0f;
             public const float MAX_FALL_SPEED = 30.0f;
             public const float MAX_FALL_DISTANCE = 25.0f;
-            public const float MOVE_SPEED = 25.0f;
+            public const float MOVE_SPEED = 30.0f;
             public const int ANIMATION_DELAY = 70;
         }
 
