@@ -80,9 +80,6 @@ namespace PixelPerfect
             if (suspended)
                 return;
 
-            if (currentText >= textStrings.Count)
-                gameStateManager.PopState();
-
             currGPState = GamePad.GetState(PlayerIndex.One);
             if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
             {
@@ -128,6 +125,11 @@ namespace PixelPerfect
             }
             prevMouseState = currMouseState;
 #endif
+            if (currentText >= textStrings.Count)
+            {
+                gameStateManager.PopState();
+                return;
+            }
 
             if (!texted)
             {
