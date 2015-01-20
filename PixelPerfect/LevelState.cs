@@ -120,12 +120,18 @@ namespace PixelPerfect
                 }
                 else
                 {
-                    if (i++ > 0 && !player.GetState(Player.State.jumping))
+                    if (player.speed.Y > 0.0f && !player.GetState(Player.State.jumping))
                     {
-                        i = 0;
-                        player.SetState(Player.State.jumping, true);
-                        player.SetState(Player.State.falling, true);
-                        player.jumpY = player.boundingBox.Y;
+                        var playerBoxMovedDown = player.boundingBox;
+                        playerBoxMovedDown.Y += 1;
+
+                        if (!map.CheckCollisions(playerBoxMovedDown, Tile.Attributes.Solid, out tempRectangle) &&  // check if there is not collision from bottom
+                            !map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle))
+                        {
+                            player.SetState(Player.State.jumping, true);
+                            player.SetState(Player.State.falling, true);
+                            player.jumpY = player.boundingBox.Y;
+                        }
                     }
                 }
 

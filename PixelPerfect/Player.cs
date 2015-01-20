@@ -251,6 +251,9 @@ namespace PixelPerfect
 
         public void Stop(GameTime gameTime)
         {
+            if (GetState(Player.State.jumping))
+                return;
+
             SetState(Player.State.stopped, true);
             if (stopTimeForReverse == TimeSpan.Zero)
                 stopTimeForReverse = gameTime.TotalGameTime;
@@ -279,10 +282,13 @@ namespace PixelPerfect
             SetState(Player.State.jumping, false);
             SetState(Player.State.falling, false);
 
-            if ((boundingBox.Y - jumpY) > Config.Player.MAX_FALL_DISTANCE)
+            if (GetState(Player.State.falling))
             {
-                StartDying();
-                return;
+                if ((boundingBox.Y - jumpY) > Config.Player.MAX_FALL_DISTANCE)
+                {
+                    StartDying();
+                    return;
+                }
             }
             SetVerticalPositionOnTile(tileBox);
 
