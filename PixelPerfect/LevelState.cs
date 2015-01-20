@@ -32,6 +32,8 @@ namespace PixelPerfect
 #else
         private MouseState previousMouseState;
         private MouseState currentMouseState;
+        private KeyboardState previousKeyboardState;
+        private KeyboardState currentKeyboardState;
 #endif
         private GamePadState prevGPState;
         private GamePadState currGPState;
@@ -91,6 +93,7 @@ namespace PixelPerfect
             TouchInput(gameTime);
 #else
             MouseInput(gameTime);
+            KeyboardInput(gameTime);
 #endif
             player.Update(gameTime);
             if (!player.GetState(Player.State.dead) && !player.GetState(Player.State.dying))
@@ -185,6 +188,42 @@ namespace PixelPerfect
                 }
             }
             previousMouseState = currentMouseState;
+        }
+
+        private void KeyboardInput(GameTime gameTime)
+        {
+            currentKeyboardState = Keyboard.GetState();
+
+            if (player.GetState(Player.State.dead))
+            {
+                if (currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
+                    InitLevel();
+            }
+            /*
+        else if (player.GetState(Player.State.dying))
+        {
+            if (tl.State == TouchLocationState.Released)
+            {
+                player.SetState(Player.State.dead, true);
+            }
+        }*/
+            else
+            {
+                if (currentKeyboardState.IsKeyUp(Keys.LeftShift) && previousKeyboardState.IsKeyDown(Keys.LeftShift)) // left shift
+                {
+                    player.EndOfStop(gameTime);
+                }
+                else if (currentKeyboardState.IsKeyDown(Keys.LeftShift) && previousKeyboardState.IsKeyUp(Keys.LeftShift))
+                {
+                    player.Stop(gameTime);
+                }
+
+                if (currentKeyboardState.IsKeyDown(Keys.RightShift) && previousKeyboardState.IsKeyUp(Keys.RightShift)) // right shift
+                {
+                    player.Jump();
+                }
+            }
+            previousKeyboardState = currentKeyboardState;
         }
 #else
         private void TouchInput(GameTime gameTime)
