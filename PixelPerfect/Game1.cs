@@ -63,8 +63,7 @@ namespace PixelPerfect
             if (scaleFactor == null)
                 scaleFactor = 100; // 100% WVGA resolution
 
-            scale = (int)scaleFactor / 100.0f;
-            scale *= Config.SCALE_FACTOR;
+            scale = (int)scaleFactor / 100.0f;            
             //scale *= 2.0f; // applying game scaling
             /*
             if (scaleFactor == 150)
@@ -78,9 +77,8 @@ namespace PixelPerfect
             scaleTransform.ScaleX = scaleTransform.ScaleY = 6.0f;//scale * 2.0f;
             // The auto-scaling magic happens on the following line!
             GamePage.Instance.XnaSurface.RenderTransform = scaleTransform;*/
-#else 
-            scale = 4.0f;
 #endif
+            scale *= Config.SCALE_FACTOR;
         }
 
 
