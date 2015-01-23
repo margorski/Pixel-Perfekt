@@ -59,6 +59,9 @@
     <Compile Include="..\PixelPerfect\GameStateMachine\GameStateManager.cs">
       <Link>GameStateMachine\GameStateManager.cs</Link>
     </Compile>
+    <Compile Include="..\PixelPerfect\Globals.cs">
+      <Link>Globals.cs</Link>
+    </Compile>
     <Compile Include="..\PixelPerfect\Hud.cs">
       <Link>Hud.cs</Link>
     </Compile>

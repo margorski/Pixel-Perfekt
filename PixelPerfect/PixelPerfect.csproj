@@ -80,6 +80,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="GameStateMachine\GameState.cs" />
     <Compile Include="GameStateMachine\GameStateManager.cs" />
+    <Compile Include="Globals.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="LevelState.cs" />
     <Compile Include="LocalizedStrings.cs" />

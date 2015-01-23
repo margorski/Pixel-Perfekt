@@ -4,7 +4,7 @@
   <property name="name" value="Manic miner level 3"/>
  </properties>
  <tileset firstgid="1" name="Tileset" tilewidth="6" tileheight="6">
-  <image source="../../../media/tileset1_black.png" width="120" height="36"/>
+  <image source="tileset.png" width="120" height="36"/>
  </tileset>
  <layer name="Tile Layer 1" width="32" height="16">
   <properties>

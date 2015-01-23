@@ -29,7 +29,6 @@ namespace PixelPerfect
 
         // Public
         public Vector2 startPosition { private set; get; }
-        public float movingModifier { private set; get; }
         public byte collectiblesCount { private set;  get; }
         public string levelName { private set; get; }
 
@@ -63,8 +62,6 @@ namespace PixelPerfect
 
         public void Update(GameTime gameTime)
         {
-            movingModifier = 0.0f;
-
             foreach (Tile tile in tileMapa)
                 tile.Update(gameTime);
             foreach (Enemy enemy in enemiesList)
@@ -146,23 +143,25 @@ namespace PixelPerfect
             return false;
         }
 
-        public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle)
+        public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle, out float movingModifier)
         {
             Rectangle tileRectangle;
             outRectangle = new Rectangle(0, 0, 0, 0);
-
+            movingModifier = 0.0f;
             boundingBox.Y += (boundingBox.Height - 1);
             boundingBox.Height = 1;
 
-            int row = boundingBox.Top / Config.Tile.SIZE;
+            int row = boundingBox.Top / Config.Tile.SIZE;    
+            int endRow = (boundingBox.Bottom - 1) / Config.Tile.SIZE;
             int startColumn = boundingBox.Left / Config.Tile.SIZE;
             int endColumn = (boundingBox.Right - 1) / Config.Tile.SIZE;
+
 
             for (int j = startColumn; j <= endColumn; j++)
             {
                 int index = row * Config.Map.WIDTH + j;
-                if (index > tileMapa.Length - 1)
-                    return false;
+                if (index > tileMapa.Length - 1 || index < 0)
+                    continue;
 
                 tileRectangle = tileMapa[index].boundingBox;
                 tileRectangle.Height = 1;

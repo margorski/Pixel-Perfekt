@@ -106,7 +106,6 @@ namespace PixelPerfect
         // Private
         private float tileHeight = (float)Config.Tile.SIZE;
         private bool standing = false;
-        private List<PixelParticle> pixelParticles = new List<PixelParticle>();
         private TimeSpan pixelEmitTime = TimeSpan.Zero;
         private Random rnd = new Random();
         private Texture2D pixelTexture;
@@ -128,15 +127,6 @@ namespace PixelPerfect
         {
             base.Update(gameTime);
 
-            for (int i = 0; i < pixelParticles.Count; i++)
-            {
-                if (pixelParticles[i].Update(gameTime))
-                {
-                    pixelParticles.RemoveAt(i);
-                    i--;
-                }
-            }
-
             if (standing)
             {
                 float timeFactor = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
@@ -152,7 +142,7 @@ namespace PixelPerfect
                 }
 
                 pixelEmitTime += gameTime.ElapsedGameTime;
-                if (pixelEmitTime.TotalMilliseconds > Config.PixelParticle.PIXELPARTICLE_EMITTIME)
+                if (pixelEmitTime.TotalMilliseconds > Config.PixelParticle.EMITTIME)
                 {
                     pixelEmitTime = TimeSpan.Zero;
                     EmitPixel();
@@ -166,9 +156,6 @@ namespace PixelPerfect
                 return;
 
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
-
-            foreach (PixelParticle pixelParticle in pixelParticles)
-                pixelParticle.Draw(spriteBatch);
         }
 
         public void StandOn()
@@ -179,11 +166,11 @@ namespace PixelPerfect
         public void EmitPixel()
         {
             int x = rnd.Next(Config.Tile.SIZE);
-            pixelParticles.Add(new PixelParticle(pixelTexture, 
+            Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixelTexture, 
                                new Vector2(boundingBox.Left + x, boundingBox.Bottom),
-                               rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
-                               new Vector2(0.0f, Config.PixelParticle.PIXELPARTICLE_SPEED), 
-                               new Vector2(0.0f, 0.0f), color, false, false));
+                               0.0f,//rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
+                               new Vector2(0.0f, Config.PixelParticle.SPEED),
+                               new Vector2(0.0f, 0.0f), color, true, false, Globals.CurrentMap));
         }
     }
 

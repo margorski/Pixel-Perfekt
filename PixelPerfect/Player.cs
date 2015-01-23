@@ -26,9 +26,8 @@ namespace PixelPerfect
             public const UInt32 stoppedTemp = 1 << 5;
             public const UInt32 tryJump = 1 << 6;
             public const UInt32 onMovingPlatform = 1 << 7;
-            public const UInt32 dying = 1 << 8;
-            public const UInt32 boomed = 1 << 9;
-            public const UInt32 jumpStopped = 1 << 10;  // wtf hack for jumping from stopped position
+            public const UInt32 dying = 1 << 8;            
+            public const UInt32 jumpStopped = 1 << 9;  // wtf hack for jumping from stopped position
         }
         // Public
         public Rectangle boundingBox
@@ -57,8 +56,6 @@ namespace PixelPerfect
         private TimeSpan blinkTime = TimeSpan.Zero;
         private TimeSpan tryJumpTime = TimeSpan.Zero;
         private TimeSpan stopTimeForReverse = TimeSpan.Zero;
-
-        private List<PixelParticle> dyingPixels = new List<PixelParticle>();
 
         private Rectangle sourceRectangle
         {
@@ -93,30 +90,15 @@ namespace PixelPerfect
 
             if (GetState(Player.State.dying))
             {
-                if (GetState(Player.State.boomed))
+                boomColorTime += gameTime.ElapsedGameTime;
+                if (boomColorTime.TotalMilliseconds > Config.Player.BOOMCOLOR_TIME_MS)
                 {
-                        for (int i = 0; i < dyingPixels.Count; i++)
-                        {
-                            if (dyingPixels[i].Update(gameTime))
-                            {
-                                dyingPixels.RemoveAt(i--);
-                            }
-                            if (dyingPixels.Count == 0)
-                            {
-                                SetState(Player.State.dead, true);
-                            }
-                        }
-                }
-                else
-                {
-                    boomColorTime += gameTime.ElapsedGameTime;
-                    if (boomColorTime.TotalMilliseconds > Config.Player.BOOMCOLOR_TIME_MS)
+                    boomColorTime = TimeSpan.Zero;
+                    if (++boomColorIndex >= boomColors.Length)
                     {
-                        boomColorTime = TimeSpan.Zero;
-                        if (++boomColorIndex >= boomColors.Length)
-                        {
-                            SetState(Player.State.boomed, true);
-                        }
+                        PixelExplosion();
+                        SetState(State.dying, false);
+                        SetState(State.dead, true);
                     }
                 }
                 return;
@@ -151,13 +133,6 @@ namespace PixelPerfect
             if (GetState(Player.State.dead))
                 return;
 
-            if (GetState(Player.State.boomed))
-            {
-                foreach (PixelParticle pixel in dyingPixels)
-                    pixel.Draw(spriteBatch);
-                return;
-            }
-
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height),
                             sourceRectangle, boomColors[boomColorIndex], 0.0f, Vector2.Zero, 
 							(GetState(State.directionLeft) ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
@@ -190,7 +165,7 @@ namespace PixelPerfect
             position.Y += speed.Y * timeFactor;
 
             if (position.Y > Config.SCREEN_HEIGHT_SCALED)
-                Die();
+                SetState(Player.State.dead, true);
 
             if (GetState(State.jumping) && position.Y > jumpY)
                 SetState(State.falling, true);
@@ -297,7 +272,7 @@ namespace PixelPerfect
             {
                 if ((boundingBox.Y - jumpY) > Config.Player.MAX_FALL_DISTANCE)
                 {
-                    StartDying();
+                    SetState(State.dying, true);
                     return;
                 }
             }
@@ -317,9 +292,8 @@ namespace PixelPerfect
                 Reverse();
         }
 
-        public void StartDying()
+        public void PixelExplosion()
         {
-            SetState(Player.State.dying, true);
             Texture2D texture = GetCurrentFrameTexture(graphics);
             Random rnd = new Random();
 
@@ -334,19 +308,14 @@ namespace PixelPerfect
                     Vector2 pixPos = position + new Vector2(i % texture.Width, i / texture.Width);
                     Vector2 pixSpeed = (pixPos - boomCenter) * 10;
 
-                    dyingPixels.Add(new PixelParticle(pixel, pixPos,
-                                    Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
-                                    pixSpeed, Vector2.Zero, boomColors[boomColorIndex], true, true));
+                    Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixel, pixPos,
+                                    0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
+                                    pixSpeed, Vector2.Zero, boomColors[rnd.Next(boomColors.Length)], true, false, Globals.CurrentMap));
                 }
             }
         }
 
-        public void Die()
-        {
-            SetState(Player.State.dead, true);
-            while (dyingPixels.Count > 0)
-                dyingPixels.RemoveAt(0);
-        }
+
 
         public void SetMovingPlatformState(float modifyValue)
         {

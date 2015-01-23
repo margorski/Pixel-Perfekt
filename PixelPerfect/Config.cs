@@ -49,12 +49,12 @@ namespace PixelPerfect
 
         public struct PixelParticle
         {
-            public const float PIXELPARTICLE_SPEED = 10.0f;
-            public const float PIXELPARTICLE_EMITTIME = 50.0f;
-            public const int PIXELPARTICLE_LIFETIME_MIN = 700;
-            public const int PIXELPARTICLE_LIFETIME_MAX = 1000;
-            public const int PIXELPARTICLE_PLAYER_LIFETIME_MIN = 700;
-            public const int PIXELPARTICLE_PLAYER_LIFETIME_MAX = 2500;
+            public const float SPEED = 10.0f;
+            public const float EMITTIME = 50.0f;
+            public const float HTORQUE = 2.0f;
+            public const float HBRAKE = 0.5f;
+            public const float MAX_FALL_SPEED = 50.0f;
+            public const float MAX_FLY_SPEED = -150.0f;
         }
 
         public struct Player

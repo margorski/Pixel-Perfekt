@@ -26,6 +26,7 @@ namespace PixelPerfect
         private Map map;
         private Player player;
         private Hud hud;
+        private List<PixelParticle> pixelParticles = new List<PixelParticle>();
 #if !WINDOWS
         private TouchCollection touchCollection;
         private int touchId = 0;
@@ -60,12 +61,14 @@ namespace PixelPerfect
         {
             silkscreenFont = content.Load<SpriteFont>("Silkscreen");
             hud = new Hud(silkscreenFont);
+            Globals.CurrentLevelState = this;
             InitLevel();
             ResetInput();
         }
 
         public override void Exit(int nextStateId)
         {
+            Globals.CurrentLevelState = null;
         }
 
         public override void Resume(int poppedStateId)
@@ -95,9 +98,19 @@ namespace PixelPerfect
             MouseInput(gameTime);
             KeyboardInput(gameTime);
 #endif
+            for (int i = 0; i < pixelParticles.Count; i++)
+            {
+                if (pixelParticles[i].Update(gameTime))
+                {
+                    pixelParticles.RemoveAt(i);
+                    i--;
+                }
+            }
+
             player.Update(gameTime);
             if (!player.GetState(Player.State.dead) && !player.GetState(Player.State.dying))
             {
+                float movingModifier = 0.0f;
                 Rectangle tempRectangle;
                 player.MoveHorizontally(gameTime);
                 if (map.CheckCollisions(player.boundingBox, Tile.Attributes.Solid, out tempRectangle))
@@ -114,7 +127,7 @@ namespace PixelPerfect
                     else
                         player.HitTheCeiling(tempRectangle);
                 }
-                else if (player.speed.Y > 0.0f && map.CheckPlatformCollisions(player.boundingBox, out tempRectangle))
+                else if (player.speed.Y > 0.0f && map.CheckPlatformCollisions(player.boundingBox, out tempRectangle, out movingModifier))
                 {
                     player.HitTheGround(tempRectangle);
                 }
@@ -126,7 +139,7 @@ namespace PixelPerfect
                         playerBoxMovedDown.Y += 1;
 
                         if (!map.CheckCollisions(playerBoxMovedDown, Tile.Attributes.Solid, out tempRectangle) &&  // check if there is not collision from bottom
-                            !map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle))
+                            !map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle, out movingModifier))
                         {
                             player.SetState(Player.State.jumping, true);
                             player.SetState(Player.State.falling, true);
@@ -135,7 +148,7 @@ namespace PixelPerfect
                     }
                 }
 
-                player.SetMovingPlatformState(map.movingModifier);
+                player.SetMovingPlatformState(movingModifier);
 
                 map.CheckTriggers(player.boundingBox);
 
@@ -143,7 +156,7 @@ namespace PixelPerfect
                     hud.Collect();
 
                 if (map.KillThisBastard(player, graphics))
-                    player.StartDying();
+                    player.SetState(Player.State.dying, true);
 
                 if (map.EnteredDoors(player.boundingBox))
                 {
@@ -152,6 +165,7 @@ namespace PixelPerfect
                 }
             }
             map.Update(gameTime);
+
             hud.Update(gameTime);
         }
 
@@ -280,13 +294,17 @@ namespace PixelPerfect
         public override void Draw(SpriteBatch spriteBatch, bool suspended)
         {
             map.Draw(spriteBatch);
+            
+            foreach (PixelParticle pixelParticle in pixelParticles)
+                pixelParticle.Draw(spriteBatch);
+
             player.Draw(spriteBatch);
             hud.Draw(spriteBatch);
         }
 
         private void InitLevel()
         {
-            map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud, scale);
+            Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud, scale);            
             hud.Init(map.levelName, map.collectiblesCount);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics, content.Load<Texture2D>("pixel"));
         }
@@ -300,6 +318,11 @@ namespace PixelPerfect
                 touchCollection = TouchPanel.GetState();
 #endif
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
+        }
+
+        public void AddPixelParticle(PixelParticle pixelParticle)
+        {
+            pixelParticles.Add(pixelParticle);
         }
     }
 }

@@ -13,14 +13,14 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PixelPerfect
 {
-    class Util
+    static class Util
     {
         public enum Align
         {
             Left,
             Right,
             Center
-        }
+        }        
 
         public static Rectangle GetSharedRectangle(Rectangle rect1, Rectangle rect2)
         {
