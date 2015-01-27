@@ -25,27 +25,16 @@ namespace PixelPerfect
         double accX;
         Color color;
         bool gravityAffect;
-        bool scaled;
-        
-        public CrushyTile.StandingType standingType = CrushyTile.StandingType.Pixel;
+
+        public Config.StandingType standingType = Config.StandingType.Pixel;
 
         public Vector2 enviroSpeed;
-        float scale
-        {            
-            get 
-            {
-                if (scaled)
-                    return 1.0f + (1.0f - (float)((maxLifeMs - currentLifeMs) / maxLifeMs)) * 10.0f;
-                else
-                    return 1.0f;
-            }
-        }
 
         public Rectangle BoundingBox
         {
             get
             {
-                return new Rectangle((int)Math.Ceiling(position.X), (int)Math.Ceiling(position.Y), (int)scale, (int)scale);
+                return new Rectangle((int)Math.Ceiling(position.X), (int)Math.Ceiling(position.Y), 1, 1);
             }
             private set 
             {
@@ -55,7 +44,7 @@ namespace PixelPerfect
 
         public Map map;
 
-        public PixelParticle(Texture2D texture, Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, bool scaled, Map map = null)
+        public PixelParticle(Texture2D texture, Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null)
         {
             enviroSpeed = Vector2.Zero;
             this.texture = texture;
@@ -68,7 +57,6 @@ namespace PixelPerfect
             this.accX = acc.X;
             this.color = color;
             this.gravityAffect = gravityAffect;
-            this.scaled = scaled;
             this.map = map;
         }
 
@@ -129,7 +117,7 @@ namespace PixelPerfect
         private void alignHorizontalToTile(Rectangle tileBox)
         {
             if (speedX > 0.0f)
-                position.X = (float)(tileBox.Left - scale);
+                position.X = (float)(tileBox.Left - 1);
             else
                 position.X = (float)tileBox.Right;
         }
@@ -137,14 +125,14 @@ namespace PixelPerfect
         private void alignVerticalToTile(Rectangle tileBox)
         {
             if (speedY > 0.0f)
-                position.Y = (float)(tileBox.Top - scale);
+                position.Y = (float)(tileBox.Top - 1);
             else
                 position.Y = (float)tileBox.Bottom;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(position.X + Config.DRAW_OFFSET_X, position.Y + Config.DRAW_OFFSET_Y), null, color, 0.0f, Vector2.Zero, scale, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, new Vector2(position.X + Config.DRAW_OFFSET_X, position.Y + Config.DRAW_OFFSET_Y), null, color, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0);
             //spriteBatch.Draw(texture, new Vector2(position.X + Config.DRAW_OFFSET_X, position.Y + Config.DRAW_OFFSET_Y), color,);
         }
     }

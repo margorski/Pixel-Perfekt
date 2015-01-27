@@ -307,10 +307,11 @@ namespace PixelPerfect
                     Vector2 boomCenter = position + new Vector2(texture.Width / 2, texture.Height);
                     Vector2 pixPos = position + new Vector2(i % texture.Width, i / texture.Width);
                     Vector2 pixSpeed = (pixPos - boomCenter) * 10;
+                    Vector2 acc = new Vector2(rnd.Next(-100,100), rnd.Next(-100, 100));
 
                     Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixel, pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
-                                    pixSpeed, Vector2.Zero, boomColors[rnd.Next(boomColors.Length)], true, false, Globals.CurrentMap));
+                                    pixSpeed, acc, boomColors[rnd.Next(boomColors.Length)], true, Globals.CurrentMap));
                 }
             }
         }

@@ -115,7 +115,7 @@ namespace PixelPerfect
             return false;
         }
 
-        public bool CheckCollisions(Rectangle boundingBox, UInt32 attributes, out Rectangle outRectangle, CrushyTile.StandingType standingType = CrushyTile.StandingType.Player)
+        public bool CheckCollisions(Rectangle boundingBox, UInt32 attributes, out Rectangle outRectangle, Config.StandingType standingType = Config.StandingType.Player)
         {
             outRectangle = new Rectangle(0,0,0,0);
 
@@ -144,7 +144,7 @@ namespace PixelPerfect
             return false;
         }
 
-        public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle, out float movingModifier, CrushyTile.StandingType standingType = CrushyTile.StandingType.Player)
+        public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle, out float movingModifier, Config.StandingType standingType = Config.StandingType.Player)
         {
             Rectangle tileRectangle;
             outRectangle = new Rectangle(0, 0, 0, 0);

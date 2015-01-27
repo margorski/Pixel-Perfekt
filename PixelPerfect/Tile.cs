@@ -103,12 +103,6 @@ namespace PixelPerfect
 
     class CrushyTile : Tile
     {
-        public enum StandingType
-        {
-            NoImpact = 0,
-            Player,
-            Pixel
-        }
 
         // Private
         private float tileHeight = (float)Config.Tile.SIZE;
@@ -167,15 +161,15 @@ namespace PixelPerfect
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
         }
 
-        public void StandOn(StandingType standingType = StandingType.Player)
+        public void StandOn(Config.StandingType standingType = Config.StandingType.Player)
         {
             switch (standingType)
             {
-                case StandingType.Player:
+                case Config.StandingType.Player:
                     standing = true;
                     break;
 
-                case StandingType.Pixel:
+                case Config.StandingType.Pixel:
                     pixelCount++;
                     if (pixelCount >= Config.Tile.CRUSH_PIXEL_COUNT)
                         standing = true;
@@ -190,7 +184,7 @@ namespace PixelPerfect
                                new Vector2(boundingBox.Left + x, boundingBox.Bottom),
                                0.0f,//rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
                                new Vector2(0.0f, Config.PixelParticle.SPEED),
-                               new Vector2(0.0f, 0.0f), color, true, false, Globals.CurrentMap));
+                               new Vector2(0.0f, 0.0f), color, true, Globals.CurrentMap));
         }
     }
 

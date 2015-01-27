@@ -311,7 +311,7 @@ namespace PixelPerfect
             foreach (PixelParticle pixelParticle in pixelParticles)
             {
                 pixelParticle.map = Globals.CurrentMap;
-                pixelParticle.standingType = CrushyTile.StandingType.NoImpact;
+                pixelParticle.standingType = Config.StandingType.NoImpact;
             }
         }        
 

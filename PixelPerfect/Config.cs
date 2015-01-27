@@ -61,7 +61,7 @@ namespace PixelPerfect
 
         public struct Player
         {
-            public const int BOOMCOLOR_TIME_MS = 40;
+            public const int BOOMCOLOR_TIME_MS = 20;
             public const int TRYJUMP_RESETTIME = 200;
             public const int STOPTIME_REVERSE_MS = 300;
             public const int WIDTH = 6;
@@ -72,6 +72,13 @@ namespace PixelPerfect
             public const float MAX_FALL_DISTANCE = 24.0f;
             public const float MOVE_SPEED = 30.0f;
             public const int ANIMATION_DELAY = 70;
+        }
+
+        public enum StandingType
+        {
+            NoImpact = 0,
+            Player,
+            Pixel
         }
 
         public enum TileType
