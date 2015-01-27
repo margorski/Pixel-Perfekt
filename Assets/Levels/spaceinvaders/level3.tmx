@@ -4,7 +4,7 @@
   <property name="name" value="Mess invaders"/>
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="6" tileheight="6">
-  <image source="../../../../Assets/world1/tileset.png" width="120" height="60"/>
+  <image source="tileset.png" width="120" height="60"/>
  </tileset>
  <layer name="Tile Layer 1" width="32" height="16">
   <properties>
