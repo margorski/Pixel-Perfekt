@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="32" height="16" tilewidth="6" tileheight="6">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="32" height="16" tilewidth="6" tileheight="6" nextobjectid="13">
  <properties>
   <property name="name" value="Mess invaders"/>
  </properties>
@@ -29,7 +29,7 @@
 1,2,2,2,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,2,2,2,2,2,2,1
 </data>
  </layer>
- <objectgroup name="enemy" width="32" height="16">
+ <objectgroup name="enemy">
   <properties>
    <property name="_type" value="1"/>
    <property name="sizex" value="12"/>
@@ -38,17 +38,29 @@
    <property name="speedy" value="20"/>
    <property name="texture" value="enemies_12x8"/>
   </properties>
-  <object type="2" x="62" y="60">
+  <object id="1" type="2" x="62" y="60">
    <polyline points="-18,0 68,0"/>
   </object>
-  <object type="0" x="66" y="36">
+  <object id="2" type="0" x="66" y="36">
    <polyline points="-16,0 60,0"/>
   </object>
-  <object type="1" x="80" y="12">
-   <polyline points="-12,0 38,0"/>
+  <object id="10" type="2" x="150" y="6">
+   <properties>
+    <property name="reverse" value="0"/>
+   </properties>
+   <polyline points="0,0 30,0 30,18 0,18 0,0"/>
+  </object>
+  <object id="11" type="1" x="18" y="22.9091">
+   <polyline points="0,0 0,-16 28.9091,-2.90909"/>
+  </object>
+  <object id="12" type="0" x="71.4545" y="-0.181818">
+   <properties>
+    <property name="reverse" value="0"/>
+   </properties>
+   <polyline points="0,0 0.727273,11.6364 54.3636,11.8182 55.4545,1.09091"/>
   </object>
  </objectgroup>
- <objectgroup name="enemy_stop" width="32" height="16">
+ <objectgroup name="enemy_stop">
   <properties>
    <property name="_type" value="1"/>
    <property name="sizex" value="12"/>
@@ -57,14 +69,14 @@
    <property name="speedy" value="0"/>
    <property name="texture" value="enemies_12x8"/>
   </properties>
-  <object type="3" x="46" y="92">
+  <object id="4" type="3" x="46" y="92">
    <polyline points="0,0 0,0"/>
   </object>
-  <object type="3" x="136" y="92">
+  <object id="5" type="3" x="136" y="92">
    <polyline points="0,0 0,0"/>
   </object>
  </objectgroup>
- <objectgroup name="emmiters" width="32" height="16">
+ <objectgroup name="emmiters">
   <properties>
    <property name="_type" value="2"/>
    <property name="delay" value="1200"/>
@@ -74,10 +86,10 @@
    <property name="speed" value="30"/>
    <property name="texture" value="emiter_3x5"/>
   </properties>
-  <object x="50" y="90">
+  <object id="6" x="50" y="90">
    <polyline points="0,0 0,-100"/>
   </object>
-  <object x="140" y="90">
+  <object id="7" x="140" y="90">
    <polyline points="0,0 0,-100"/>
   </object>
  </objectgroup>
