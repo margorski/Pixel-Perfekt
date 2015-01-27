@@ -103,9 +103,17 @@ namespace PixelPerfect
 
     class CrushyTile : Tile
     {
+        public enum StandingType
+        {
+            NoImpact = 0,
+            Player,
+            Pixel
+        }
+
         // Private
         private float tileHeight = (float)Config.Tile.SIZE;
         private bool standing = false;
+        private int pixelCount = 0;
         private TimeSpan pixelEmitTime = TimeSpan.Zero;
         private Random rnd = new Random();
         private Texture2D pixelTexture;
@@ -133,6 +141,7 @@ namespace PixelPerfect
                 tileHeight -= timeFactor * Config.Tile.CRUSH_SPEED;
                 tileHeight = MathHelper.Clamp(tileHeight, 0.0f, (float)Config.Tile.SIZE);
                 standing = false;
+                pixelCount = 0;
                 sourceRect.Height = (int)tileHeight;
 
                 if (sourceRect.Height == 0)
@@ -158,9 +167,20 @@ namespace PixelPerfect
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
         }
 
-        public void StandOn()
+        public void StandOn(StandingType standingType = StandingType.Player)
         {
-            standing = true;
+            switch (standingType)
+            {
+                case StandingType.Player:
+                    standing = true;
+                    break;
+
+                case StandingType.Pixel:
+                    pixelCount++;
+                    if (pixelCount >= Config.Tile.CRUSH_PIXEL_COUNT)
+                        standing = true;
+                    break;
+            }                            
         }
 
         public void EmitPixel()

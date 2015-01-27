@@ -20,11 +20,14 @@ namespace PixelPerfect
         Vector2 currentPosition;
         Vector2 targetPosition;
         Vector2 speed;
-        Vector2 startPosition;
-        Vector2 endPosition;
+        //Vector2 startPosition;
+        //Vector2 endPosition;
         Vector2 textureSize;
-        
+        List<Vector2> movepointsList = new List<Vector2>();
+        int currentPath = 0;
         int textureColumn;
+        bool reverse;
+        bool goingBack = false;
 
         // debug
         public float x_move = 0;
@@ -53,16 +56,15 @@ namespace PixelPerfect
             }
         }
 
-        public Enemy(Texture2D texture, Vector2 startPosition, Vector2 endPosition, Vector2 speed, Vector2 textureSize, int textureColumn)
+        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, bool reverse = true)
         {
             this.texture = texture;
-            this.startPosition = startPosition;
-            this.endPosition = endPosition;
             this.speed = speed;
             this.textureSize = textureSize;
-            this.textureColumn = textureColumn;
-            this.currentPosition = startPosition;
-            this.targetPosition = endPosition;
+            this.textureColumn = textureColumn;            
+            this.currentPosition = this.targetPosition = startPosition;
+            AddMovepoint(startPosition);
+            this.reverse = reverse;
 
             animation = new Animation(4, (int)(5000 - speed.Length() * Config.ANIMATION_SPEED_FACTOR) / 2, false);
  
@@ -73,10 +75,10 @@ namespace PixelPerfect
         {
             Vector2 tempSpeed = new Vector2(Math.Abs(speed.X), Math.Abs(speed.Y));
 
-            if (startPosition.X > endPosition.X)
+            if (currentPosition.X > targetPosition.X)
                 tempSpeed.X *= -1;
 
-            if (startPosition.Y > endPosition.Y)
+            if (currentPosition.Y > targetPosition.Y)
                 tempSpeed.Y *= -1;
 
             speed = tempSpeed;
@@ -84,6 +86,11 @@ namespace PixelPerfect
 
         public void Update(GameTime gameTime)
         {
+            if (currentPosition.Y == targetPosition.Y && currentPosition.X == targetPosition.X)
+            {
+                NextPath();
+            }
+
             currentPosition.X += (float)(gameTime.ElapsedGameTime.TotalSeconds * speed.X);
             currentPosition.Y += (float)(gameTime.ElapsedGameTime.TotalSeconds * speed.Y);
 
@@ -111,18 +118,41 @@ namespace PixelPerfect
                     currentPosition.Y = targetPosition.Y;
             }
 
-            if (currentPosition.Y == targetPosition.Y && currentPosition.X == targetPosition.X)
-                Bounce();
         }
 
-        private void Bounce()
+        private void NextPath()
         {
-            if (targetPosition == endPosition)
-                targetPosition = startPosition;
+            if (reverse)
+            {
+                if (goingBack)
+                {
+                    if (--currentPath < 0)
+                    {
+                        goingBack = !goingBack;
+                        currentPath = 1;
+                    }
+                }
+                else
+                {
+                    if (++currentPath >= movepointsList.Count)
+                    {
+                        goingBack = !goingBack;
+                        currentPath = movepointsList.Count - 2;
+                    }
+                }
+            }
             else
-                targetPosition = endPosition;
+            {
+                if (++currentPath >= movepointsList.Count)
+                    currentPath = 0;
+            }
+            SetTarget();
+            AdjustSpeed();
+        }
 
-            speed *= -1;
+        private void SetTarget()
+        {
+            targetPosition = movepointsList[currentPath];
         }
 
         public void Draw(SpriteBatch spriteBatch)
@@ -135,6 +165,11 @@ namespace PixelPerfect
         public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)
         {
             return Util.BlitTexture(graphic, texture, sourceRectangle, leftDirection);
+        }
+
+        public void AddMovepoint(Vector2 movePoint)
+        {
+            movepointsList.Add(movePoint);
         }
     }
 }

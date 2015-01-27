@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.IO;
 using System.Xml;
+using System.Globalization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -114,7 +115,7 @@ namespace PixelPerfect
             return false;
         }
 
-        public bool CheckCollisions(Rectangle boundingBox, UInt32 attributes, out Rectangle outRectangle)
+        public bool CheckCollisions(Rectangle boundingBox, UInt32 attributes, out Rectangle outRectangle, CrushyTile.StandingType standingType = CrushyTile.StandingType.Player)
         {
             outRectangle = new Rectangle(0,0,0,0);
 
@@ -135,7 +136,7 @@ namespace PixelPerfect
                     {
                         outRectangle = tileMapa[i * Config.Map.WIDTH + j].boundingBox;
                         if (tileMapa[index] is CrushyTile)
-                            ((CrushyTile)tileMapa[index]).StandOn();
+                            ((CrushyTile)tileMapa[index]).StandOn(standingType);
                         return true;
                     }
                 }
@@ -143,7 +144,7 @@ namespace PixelPerfect
             return false;
         }
 
-        public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle, out float movingModifier)
+        public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle, out float movingModifier, CrushyTile.StandingType standingType = CrushyTile.StandingType.Player)
         {
             Rectangle tileRectangle;
             outRectangle = new Rectangle(0, 0, 0, 0);
@@ -171,7 +172,7 @@ namespace PixelPerfect
                 {
                     outRectangle = tileMapa[index].boundingBox;
                     if (tileMapa[index] is CrushyTile)
-                        ((CrushyTile)tileMapa[index]).StandOn();
+                        ((CrushyTile)tileMapa[index]).StandOn(standingType);
 
                     if (tileMapa[index] is MovingTile)
                         movingModifier = ((MovingTile)tileMapa[index]).movingSpeed;
@@ -354,7 +355,7 @@ namespace PixelPerfect
                                 {
                                     try
                                     {
-                                        mapa[i] = Int32.Parse(dataStrings[i]);
+                                        mapa[i] = Int32.Parse(dataStrings[i], CultureInfo.InvariantCulture);
                                     }
                                     catch (Exception ex)
                                     {
@@ -400,31 +401,31 @@ namespace PixelPerfect
                                         switch (name)
                                         {
                                             case "_type":
-                                                type = int.Parse(value);
+                                                type = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
 
                                             case "speed":
-                                                speed = float.Parse(value);
+                                                speed = float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
 
                                             case "speedx":
-                                                speedx = float.Parse(value);
+                                                speedx = float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
 
                                             case "speedy":
-                                                speedy = float.Parse(value);
+                                                speedy = float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
 
                                             case "size":
-                                                sizex = sizey = int.Parse(value);
+                                                sizex = sizey = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
 
                                             case "sizex":
-                                                sizex = int.Parse(value);
+                                                sizex = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
 
                                             case "sizey":
-                                                sizey = int.Parse(value);
+                                                sizey = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
 
                                             case "texture":
@@ -432,11 +433,11 @@ namespace PixelPerfect
                                                 break;
 
                                             case "delay":
-                                                delay = int.Parse(value);
+                                                delay = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
 
                                             case "offset":
-                                                offset = int.Parse(value);
+                                                offset = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
                                         } 
                                     }
@@ -454,21 +455,22 @@ namespace PixelPerfect
                                         string name = "";
                                         int triggerORtextureType, x, y, width, height;
                                         triggerORtextureType = x = y = width = height = 0;
+                                        bool reverse = true;
 
                                         while (xmlreader.MoveToNextAttribute())
                                         {
                                             if (xmlreader.Name == "name")
                                                 name = xmlreader.Value;
                                             else if (xmlreader.Name == "x")
-                                                x = int.Parse(xmlreader.Value);
+                                                x = (int)float.Parse(xmlreader.Value, CultureInfo.InvariantCulture);
                                             else if (xmlreader.Name == "y")
-                                                y = int.Parse(xmlreader.Value);
+                                                y = (int)float.Parse(xmlreader.Value, CultureInfo.InvariantCulture);
                                             else if (xmlreader.Name == "width")
-                                                width = int.Parse(xmlreader.Value);
+                                                width = (int)float.Parse(xmlreader.Value, CultureInfo.InvariantCulture);
                                             else if (xmlreader.Name == "height")
-                                                height = int.Parse(xmlreader.Value);
+                                                height = (int)float.Parse(xmlreader.Value, CultureInfo.InvariantCulture);
                                             else if (xmlreader.Name == "type")
-                                                triggerORtextureType = int.Parse(xmlreader.Value);
+                                                triggerORtextureType = (int)float.Parse(xmlreader.Value, CultureInfo.InvariantCulture);
                                         }
                                         if (type == Config.LayerType.TRIGGER)
                                         {
@@ -482,71 +484,112 @@ namespace PixelPerfect
                                         }
 
                                         xmlreader.MoveToContent();
-                                        if (xmlreader.ReadToDescendant("polyline"))
+                                        while (xmlreader.Read())
                                         {
-                                            if (xmlreader.MoveToNextAttribute() && xmlreader.Name == "points")
+                                            if (xmlreader.NodeType == XmlNodeType.Element &&
+                                                xmlreader.Name == "properties")
                                             {
-                                                string[] points = xmlreader.Value.Split(' ')[1].Split(',');
-                                                int moveX = int.Parse(points[0]);
-                                                int moveY = int.Parse(points[1]);
-
-                                                switch (type)
+                                                while (xmlreader.ReadToDescendant("property"))
                                                 {
-                                                    case Config.LayerType.ENEMY:
-                                                        y -= sizey / 2;
-                                                        if (Math.Abs(moveX) >= sizex)
-                                                        {
-                                                            if (moveX < 0)
+                                                    xmlreader.MoveToNextAttribute();
+                                                    string property_name = "";
+                                                    if (xmlreader.Name == "name")
+                                                        property_name = xmlreader.Value;
+
+                                                    xmlreader.MoveToNextAttribute();
+                                                    string value = "";
+                                                    if (xmlreader.Name == "value")
+                                                        value = xmlreader.Value;
+
+                                                    switch (property_name)
+                                                    {
+                                                        case "reverse":
+                                                            reverse = (int.Parse(value) == 1) ? true : false;
+                                                            break;
+                                                    }
+                                                }
+                                            }
+                                            else if (xmlreader.NodeType == XmlNodeType.Element &&
+                                                xmlreader.Name == "polyline") 
+                                            {
+                                                if (xmlreader.MoveToNextAttribute() && xmlreader.Name == "points")
+                                                {
+                                                    string[] points = xmlreader.Value.Split(' ');
+                                                    string[] coords;
+                                                    int moveX, moveY;
+                                                    var pivotShift = new Vector2(sizex / 2, sizey / 2);
+                                                    var startPosition = new Vector2(x, y);
+
+                                                    switch (type)
+                                                    {
+                                                        case Config.LayerType.ENEMY:
+                                                            coords = points[0].Split(',');
+                                                            moveX = (int)float.Parse(coords[0], CultureInfo.InvariantCulture);
+                                                            moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
+
+                                                            if (Config.CENTER_PIVOT)
+                                                                startPosition -= pivotShift;
+
+                                                            enemiesList.Add(new Enemy(content.Load<Texture2D>(directory + "\\" + texture),
+                                                                            new Vector2(speedx, speedy),
+                                                                            new Vector2(sizex, sizey),
+                                                                            triggerORtextureType,
+                                                                            startPosition + new Vector2(moveX, moveY),
+                                                                            reverse));
+                                                            for (int i = 1; i < points.Length; i++)
                                                             {
-                                                                x -= sizex;
-                                                                moveX += sizex;
+                                                                coords = points[i].Split(',');
+                                                                moveX = (int)float.Parse(coords[0], CultureInfo.InvariantCulture);
+                                                                moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
+
+                                                                var movePoint = startPosition + new Vector2(moveX, moveY);
+                                                                enemiesList[enemiesList.Count - 1].AddMovepoint(movePoint);
+                                                            }
+                                                            //              ,
+                                                            //new Vector2(x + moveX, y + moveY),
+                                                            break;
+
+                                                        case Config.LayerType.EMITER:                                                                                                                        
+                                                            MovementDirection direction;
+                                                            uint distance = 0;
+                                                            coords = points[1].Split(',');
+                                                            moveX = (int)float.Parse(coords[0], CultureInfo.InvariantCulture);
+                                                            moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
+
+                                                            if (moveX > 0)
+                                                            {
+                                                                direction = MovementDirection.Right;
+                                                                distance = (uint)moveX;
+                                                            }
+                                                            else if (moveX < 0)
+                                                            {
+                                                                direction = MovementDirection.Left;
+                                                                distance = (uint)Math.Abs(moveX);
+                                                            }
+                                                            else if (moveY > 0)
+                                                            {
+                                                                direction = MovementDirection.Down;
+                                                                distance = (uint)moveY;
                                                             }
                                                             else
                                                             {
-                                                                moveX -= sizex;
+                                                                direction = MovementDirection.Up;
+                                                                distance = (uint)Math.Abs(moveY);
                                                             }
-                                                        }
-                                                        enemiesList.Add(new Enemy(content.Load<Texture2D>(directory + "\\" + texture),
-                                                                        new Vector2(x, y),
-                                                                        new Vector2(x + moveX, y + moveY),
-                                                                        new Vector2(speedx, speedy),
-                                                                        new Vector2(sizex, sizey),
-                                                                        triggerORtextureType));
-                                                        break;
 
-                                                    case Config.LayerType.EMITER:
-                                                        MovementDirection direction;
-                                                        uint distance = 0;
+                                                            //if (Config.CENTER_PIVOT)
+                                                              //  startPosition -= pivotShift;
 
-                                                        if (moveX > 0)
-                                                        {
-                                                            direction = MovementDirection.Right;
-                                                            distance = (uint)moveX;
-                                                        }
-                                                        else if (moveX < 0)
-                                                        {
-                                                            direction = MovementDirection.Left;
-                                                            distance = (uint)Math.Abs(moveX);
-                                                        }
-                                                        else if (moveY > 0)
-                                                        {
-                                                            direction = MovementDirection.Down;
-                                                            distance = (uint)moveY;
-                                                        }
-                                                        else
-                                                        {
-                                                            direction = MovementDirection.Up;
-                                                            distance = (uint)Math.Abs(moveY);
-                                                        }
-
-                                                        emiterList.Add(new Emiter(content.Load<Texture2D>(directory + "\\" + texture),
-                                                                       new Vector2(x, y),
-                                                                       distance, speed, direction,
-                                                                       new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
-                                                                       delay, offset,
-                                                                       Color.White));
-                                                        break;                                                  
+                                                            emiterList.Add(new Emiter(content.Load<Texture2D>(directory + "\\" + texture),
+                                                                           startPosition,
+                                                                           distance, speed, direction,
+                                                                           new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
+                                                                           delay, offset,
+                                                                           Color.White));
+                                                            break;
+                                                    }
                                                 }
+                                                break;
                                             }
                                         }
                                     }

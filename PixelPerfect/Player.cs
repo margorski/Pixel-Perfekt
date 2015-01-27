@@ -263,11 +263,6 @@ namespace PixelPerfect
 
         public void HitTheGround(Rectangle tileBox)
         {
-            SetState(Player.State.stoppedTemp, false);
-            SetState(Player.State.jumping, false);
-            SetState(Player.State.falling, false);
-            SetState(Player.State.jumpStopped, false);
-
             if (GetState(Player.State.falling))
             {
                 if ((boundingBox.Y - jumpY) > Config.Player.MAX_FALL_DISTANCE)
@@ -283,6 +278,11 @@ namespace PixelPerfect
                 Jump();
                 SetState(Player.State.tryJump, false);
             }
+
+            SetState(Player.State.stoppedTemp, false);
+            SetState(Player.State.jumping, false);
+            SetState(Player.State.falling, false);
+            SetState(Player.State.jumpStopped, false);
         }
 
         public void HitTheWall(Rectangle tileBox)

@@ -27,6 +27,8 @@ namespace PixelPerfect
         bool gravityAffect;
         bool scaled;
         
+        public CrushyTile.StandingType standingType = CrushyTile.StandingType.Pixel;
+
         public Vector2 enviroSpeed;
         float scale
         {            
@@ -51,7 +53,7 @@ namespace PixelPerfect
             }
         }
 
-        public Map map { private set; get; }
+        public Map map;
 
         public PixelParticle(Texture2D texture, Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, bool scaled, Map map = null)
         {
@@ -72,9 +74,12 @@ namespace PixelPerfect
 
         public bool Update(GameTime gameTime)
         {
-            currentLifeMs += gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (currentLifeMs > maxLifeMs && maxLifeMs != 0.0)
-                return true;
+            if (maxLifeMs > 0.0)
+            {
+                currentLifeMs += gameTime.ElapsedGameTime.TotalMilliseconds;
+                if (currentLifeMs > maxLifeMs && maxLifeMs != 0.0)
+                    return true;
+            }
 
             if (gravityAffect)
             {
@@ -103,7 +108,7 @@ namespace PixelPerfect
             {
                 
                 if (map.CheckCollisions(BoundingBox, Tile.Attributes.Solid, out tempRectangle) ||    // solid block hit (from top or bottom)
-                    (speedY > 0.0f && map.CheckPlatformCollisions(BoundingBox, out tempRectangle, out movingModifier)))  // platform hit, collision only when going down
+                    (speedY > 0.0f && map.CheckPlatformCollisions(BoundingBox, out tempRectangle, out movingModifier, standingType)))  // platform hit, collision only when going down
                 {
                     accX = Config.PixelParticle.HTORQUE * (-speedX);
                     if (Math.Abs(accX) < Config.PixelParticle.HBRAKE)

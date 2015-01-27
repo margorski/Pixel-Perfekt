@@ -39,7 +39,7 @@ namespace PixelPerfect
         private GamePadState prevGPState;
         private GamePadState currGPState;
 
-        private int i = 0;
+        //private int i = 0;
         private string levelFile = "";
         private string directory = "";
 
@@ -307,7 +307,13 @@ namespace PixelPerfect
             Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud, scale);            
             hud.Init(map.levelName, map.collectiblesCount);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics, content.Load<Texture2D>("pixel"));
-        }
+            
+            foreach (PixelParticle pixelParticle in pixelParticles)
+            {
+                pixelParticle.map = Globals.CurrentMap;
+                pixelParticle.standingType = CrushyTile.StandingType.NoImpact;
+            }
+        }        
 
         private void ResetInput()
         {

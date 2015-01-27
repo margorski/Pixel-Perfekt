@@ -24,6 +24,7 @@ namespace PixelPerfect
         public const int ANIMATION_SPEED_FACTOR = 135;
         public const int DRAW_OFFSET_X = 4;
         public const int DRAW_OFFSET_Y = 0;
+        public const bool CENTER_PIVOT = true;
 
         public struct States
         {
@@ -44,6 +45,7 @@ namespace PixelPerfect
         {
             public const int SIZE = 6;
             public const float CRUSH_SPEED = 6.0f;
+            public const float CRUSH_PIXEL_COUNT = 45.0f;
             public const float MOVINGPLATFORM_SPEED = 25.0f;
         }
 
@@ -67,7 +69,7 @@ namespace PixelPerfect
             public const float JUMP_SPEED = -65.0f;
             public const float GRAVITY = 140.0f;
             public const float MAX_FALL_SPEED = 30.0f;
-            public const float MAX_FALL_DISTANCE = 25.0f;
+            public const float MAX_FALL_DISTANCE = 24.0f;
             public const float MOVE_SPEED = 30.0f;
             public const int ANIMATION_DELAY = 70;
         }
