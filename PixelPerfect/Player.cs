@@ -121,9 +121,11 @@ namespace PixelPerfect
             speed.Y += Config.Player.GRAVITY * timeFactor;
             speed.Y = MathHelper.Clamp(speed.Y, Config.Player.JUMP_SPEED, Config.Player.MAX_FALL_SPEED);
 
-            if ((GetState(State.stopped) && !GetState(State.jumping)) || 
+            if ((GetState(State.stopped) && !GetState(State.jumping)) ||
                 (GetState(State.jumping) && GetState(State.jumpStopped)))
                 speed.X = 0.0f + enviroSpeed.X;
+            //else if (GetState(State.jumping))
+            //    speed.X += timeFactor * Config.Player.HTORQUE_INAIR * -Math.Sign(speed.X);
             else
                 speed.X = (GetState(State.directionLeft) ? -1 : 1) * baseSpeed.X + enviroSpeed.X;
         }
@@ -304,10 +306,10 @@ namespace PixelPerfect
             {
                 if (textureColors[i].A == 255)
                 {
-                    Vector2 boomCenter = position + new Vector2(texture.Width / 2, texture.Height);
+                    Vector2 boomCenter = position + new Vector2(texture.Width / 2, texture.Height / 2);
                     Vector2 pixPos = position + new Vector2(i % texture.Width, i / texture.Width);
-                    Vector2 pixSpeed = (pixPos - boomCenter) * 10;
-                    Vector2 acc = new Vector2(rnd.Next(-100,100), rnd.Next(-100, 100));
+                    Vector2 pixSpeed = (pixPos - boomCenter) * rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
+                    Vector2 acc = Vector2.Zero;// new Vector2(rnd.Next(-100, 100), rnd.Next(-100, 100));
 
                     Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixel, pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,

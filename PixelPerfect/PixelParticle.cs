@@ -98,12 +98,16 @@ namespace PixelPerfect
                 if (map.CheckCollisions(BoundingBox, Tile.Attributes.Solid, out tempRectangle) ||    // solid block hit (from top or bottom)
                     (speedY > 0.0f && map.CheckPlatformCollisions(BoundingBox, out tempRectangle, out movingModifier, standingType)))  // platform hit, collision only when going down
                 {
-                    accX = Config.PixelParticle.HTORQUE * (-speedX);
+                    accX = Config.PixelParticle.HTORQUE_GROUND * (-speedX);
                     if (Math.Abs(accX) < Config.PixelParticle.HBRAKE)
                         accX = speedX = 0.0f;
 
                     alignVerticalToTile(tempRectangle);
                     accY = speedY = 0.0f;
+                }
+                else
+                {
+                    accX = Config.PixelParticle.HTORQUE_INAIR * (-speedX);
                 }
             }
             enviroSpeed.X = movingModifier;
