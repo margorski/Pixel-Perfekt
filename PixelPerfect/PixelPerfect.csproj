@@ -137,6 +137,7 @@
     <Content Include="..\Assets\Levels\worlds.xml">
       <Link>Levels\worlds.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\leveltile.xnb">
       <Link>Content\leveltile.xnb</Link>
@@ -268,6 +269,18 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\tileset.xnb">
       <Link>Content\spaceinvaders\tileset.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\pacman_big\level1.tmx">
+      <Link>Levels\pacman_big\level1.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pacman_big\player.xnb">
+      <Link>Content\pacman_big\player.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pacman_big\tileset.xnb">
+      <Link>Content\pacman_big\tileset.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

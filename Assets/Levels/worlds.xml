@@ -23,4 +23,7 @@
 	  <level name="level4" />
 	  <level name="level5" />
   </world>
+  <world name="Pacman Big" icon="" directory="pacman_big">
+    <level name="level1" />
+  </world>
 </worlds>

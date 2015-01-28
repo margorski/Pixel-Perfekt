@@ -134,7 +134,16 @@
     </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="..\Content\Content\bin\PSM\Content\pacman_big\player.xnb">
+      <Link>Content\pacman_big\player.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pacman_big\tileset.xnb">
+      <Link>Content\pacman_big\tileset.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="..\content\content\bin\psm\content\bonus\enemies_12x12.xnb">
       <Link>Content\bonus\enemies_12x12.xnb</Link>
@@ -330,6 +339,12 @@
   <ItemGroup>
     <Content Include="..\assets\levels\spaceinvaders\level5.tmx">
       <Link>Levels\spaceinvaders\level5.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="..\Assets\Levels\pacman_big\level1.tmx">
+      <Link>Levels\pacman_big\level1.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
