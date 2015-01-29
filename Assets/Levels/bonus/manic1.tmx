@@ -46,7 +46,7 @@
   <properties>
    <property name="_type" value="3"/>
   </properties>
-  <object id="2" name="tutorial1" type="1" x="168.25" y="107.25" width="11" height="11"/>
+  <object id="2" name="tutorial1" type="1" x="69.5" y="108.75" width="11" height="11"/>
   <object id="3" name="tutorial2" type="1" x="207" y="106.75" width="11" height="11"/>
   <object id="4" name="tutorial3" type="1" x="150" y="17" width="2" height="2"/>
   <object id="5" name="tutorial4" type="1" x="14.75" y="10.75" width="37" height="25"/>

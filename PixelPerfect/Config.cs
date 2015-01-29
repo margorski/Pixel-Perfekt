@@ -73,7 +73,7 @@ namespace PixelPerfect
             public const float GRAVITY = 140.0f;
             public const float MAX_FALL_SPEED = 30.0f;
             public const float MAX_FALL_DISTANCE = Tile.SIZE * 5;
-            public const float MOVE_SPEED = 32.0f;
+            public const float MOVE_SPEED = 30.0f;
             public const int ANIMATION_DELAY = 70;
         }
 
@@ -124,7 +124,9 @@ namespace PixelPerfect
 
         public struct Hud
         {
-            public const int TEXT_POSITION_Y = Config.SCREEN_HEIGHT_SCALED - 21;
+            public const int AVATAR_POSITION_Y = Config.SCREEN_HEIGHT_SCALED - 3 * Tile.SIZE;
+            public const int AVATAR_POSITION_X = 20;
+            public const int TEXT_POSITION_Y = AVATAR_POSITION_Y + 4;            
             public const int COLLECTIBLES_X = Config.SCREEN_WIDTH_SCALED;
             public const int COLLECTIBLES_Y = TEXT_POSITION_Y + 10;
             public const int COLLECTIBLES_SPACE = 10;

@@ -17,6 +17,18 @@ namespace PixelPerfect
 {
     class TextState : GameState
     {
+        private class TextLine
+        {
+            public string text = "";
+            public Texture2D avatar = null;
+
+            public TextLine(string text = "", Texture2D avatar = null)
+            {
+                this.text = text;
+                this.avatar = avatar;
+            }
+        }
+
         ContentManager content;
         GraphicsDeviceManager graphics;
         GameStateManager gameStateManager;
@@ -33,7 +45,7 @@ namespace PixelPerfect
 
         int currentText = 0;
         Hud hud;
-        private List<String> textStrings = new List<string>();
+        private List<TextLine> textLines = new List<TextLine>();
 
         private bool texted = false;
         private int drawLetterCount = 0;
@@ -95,7 +107,7 @@ namespace PixelPerfect
                 {
                     if (!texted)
                     {
-                        drawLetterCount = textStrings[currentText].Length;
+                        drawLetterCount = textLines[currentText].text.Length;
                         texted = true;
                     }
                     else
@@ -113,7 +125,7 @@ namespace PixelPerfect
             {
                 if (!texted)
                 {
-                    drawLetterCount = textStrings[currentText].Length;
+                    drawLetterCount = textLines[currentText].text.Length;
                     texted = true;
                 }
                 else
@@ -125,7 +137,7 @@ namespace PixelPerfect
             }
             prevMouseState = currMouseState;
 #endif
-            if (currentText >= textStrings.Count)
+            if (currentText >= textLines.Count)
             {
                 gameStateManager.PopState();
                 return;
@@ -138,7 +150,7 @@ namespace PixelPerfect
                 {
                     letterTime = TimeSpan.Zero;
                     drawLetterCount++;
-                    if (drawLetterCount >= textStrings[currentText].Length)
+                    if (drawLetterCount >= textLines[currentText].text.Length)
                         texted = true;
                 }
             }            
@@ -146,28 +158,47 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended)
         {
-            spriteBatch.DrawString(menuFont, textStrings[currentText].Substring(0, drawLetterCount), new Vector2(Config.Hud.TEXTSTATE_POSITION_X, Config.Hud.TEXTSTATE_POSITION_Y), Color.White);
+            int marginX = 0;
+
+            if (textLines[currentText].avatar != null)
+            {
+                spriteBatch.Draw(textLines[currentText].avatar, new Vector2(Config.Hud.AVATAR_POSITION_X, Config.Hud.AVATAR_POSITION_Y), Color.White);
+                marginX += textLines[currentText].avatar.Width + Config.Hud.AVATAR_POSITION_X;
+            }
+            spriteBatch.DrawString(menuFont, textLines[currentText].text.Substring(0, drawLetterCount), new Vector2(Config.Hud.TEXTSTATE_POSITION_X + marginX, Config.Hud.TEXTSTATE_POSITION_Y), Color.White);
         }
 
-        private void AddString(string text)
+        private void AddTextLine(string text, Texture2D avatar = null)
         {
             if (text == "")
                 return;
 
-            textStrings.Add(text);
+            textLines.Add(new TextLine(text, avatar));
         }
 
-        public void LoadStrings(string filescript)
+        public void LoadTextLines(string directory, string filescript)
         {
             string line;
 
             try
             {
-                using (StreamReader streamReader = new StreamReader(TitleContainer.OpenStream(@"Levels\" + filescript + ".txt")))
+                using (StreamReader streamReader = new StreamReader(TitleContainer.OpenStream(@"Levels\" + directory + "\\" + filescript + ".txt")))
                 {
                     while ((line = streamReader.ReadLine()) != null)
                     {
-                        AddString(line);
+                        string[] lineAvatarPair = line.Split('|');
+
+                        if (lineAvatarPair.Length <= 1)
+                            AddTextLine(line);
+                        else
+                        {
+                            Texture2D avatar = null;
+                            if (lineAvatarPair[0] != "")
+                            {
+                                avatar = content.Load<Texture2D>(directory + "\\" + lineAvatarPair[0]);
+                            }
+                            AddTextLine(lineAvatarPair[1], avatar);
+                        }
                     }
                 }
             }

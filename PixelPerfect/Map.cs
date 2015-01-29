@@ -478,9 +478,10 @@ namespace PixelPerfect
                                             triggerList[triggerCount].SetStateID(Config.States.TEXT + triggerCount);
                                             TextState textState = new TextState(graphics, content, gameStateManager, hud);
                                             textState.scale = scale;
-                                            textState.LoadStrings(directory + "\\" + name);
+                                            textState.LoadTextLines(directory, name);
                                             gameStateManager.RegisterState(Config.States.TEXT + triggerCount, textState);
                                             triggerCount++;
+                                            continue;
                                         }
 
                                         xmlreader.MoveToContent();
