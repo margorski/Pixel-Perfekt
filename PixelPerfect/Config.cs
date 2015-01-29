@@ -36,7 +36,7 @@ namespace PixelPerfect
 
         public struct Map
         {
-            public const int WIDTH = 33;
+            public const int WIDTH = 34;
             public const int HEIGHT = 17;
             public const int BLINK_MS = 200;
         }
@@ -126,11 +126,11 @@ namespace PixelPerfect
         {
             public const int AVATAR_POSITION_Y = Config.SCREEN_HEIGHT_SCALED - 3 * Tile.SIZE;
             public const int AVATAR_POSITION_X = 20;
-            public const int TEXT_POSITION_Y = AVATAR_POSITION_Y + 4;            
+            public const int TEXT_POSITION_Y = AVATAR_POSITION_Y;            
             public const int COLLECTIBLES_X = Config.SCREEN_WIDTH_SCALED;
-            public const int COLLECTIBLES_Y = TEXT_POSITION_Y + 10;
+            public const int COLLECTIBLES_Y = TEXT_POSITION_Y + 12;
             public const int COLLECTIBLES_SPACE = 10;
-            public const int TEXTSTATE_POSITION_X = 10;
+            public const int TEXTSTATE_POSITION_X = 4;
             public const int TEXTSTATE_POSITION_Y = TEXT_POSITION_Y;
             public const int TEXTSTATE_LETTERTIME_MS = 50;
         }

@@ -123,11 +123,17 @@ namespace PixelPerfect
             int endRow = (boundingBox.Bottom - 1) / Config.Tile.SIZE;
             int startColumn = boundingBox.Left / Config.Tile.SIZE;
             int endColumn = (boundingBox.Right - 1) / Config.Tile.SIZE;
-
+            
             for (int i = startRow; i <= endRow; i++)
             {
+                if (i < 0 || i >= Config.Map.HEIGHT)
+                    continue;
+                
                 for (int j = startColumn; j <= endColumn; j++)
                 {
+                    if (j < 0 || j >= Config.Map.WIDTH)
+                        continue;
+
                     int index = i * Config.Map.WIDTH + j;
                     if (index > tileMapa.Length - 1 || index < 0)
                         continue;

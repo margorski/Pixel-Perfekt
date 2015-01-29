@@ -112,7 +112,12 @@ namespace PixelPerfect
             }
             enviroSpeed.X = movingModifier;
 
-            if (position.X < 0 || position.X >= Config.SCREEN_WIDTH_SCALED || position.Y > Config.SCREEN_HEIGHT_SCALED) // remove on out of screen
+            if ((position.X) > (Globals.graphics.GraphicsDevice.PresentationParameters.BackBufferWidth / Config.SCALE_FACTOR) - 1)
+                position.X = 0 - texture.Width;
+            else if (position.X < -texture.Width)
+                position.X = Globals.graphics.GraphicsDevice.PresentationParameters.BackBufferWidth / Config.SCALE_FACTOR - 2;
+
+            if (position.Y > Config.SCREEN_HEIGHT_SCALED) // remove on out of screen
                 return true;
 
             return false;

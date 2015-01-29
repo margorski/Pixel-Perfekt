@@ -135,8 +135,16 @@ namespace PixelPerfect
             if (GetState(Player.State.dead))
                 return;
 
-            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height),
-                            sourceRectangle, boomColors[boomColorIndex], 0.0f, Vector2.Zero, 
+            int heightDrawModifier = 0;
+
+            if (boundingBox.Y + boundingBox.Height > Config.Map.HEIGHT * Config.Tile.SIZE)
+                heightDrawModifier = boundingBox.Y + boundingBox.Height - Config.Map.HEIGHT * Config.Tile.SIZE;
+
+            var sourceModifiedRectangle = sourceRectangle;
+            sourceModifiedRectangle.Height -= heightDrawModifier;
+
+            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height - heightDrawModifier),
+                            sourceModifiedRectangle, boomColors[boomColorIndex], 0.0f, Vector2.Zero, 
 							(GetState(State.directionLeft) ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
         }
 
@@ -156,6 +164,11 @@ namespace PixelPerfect
 
             float timeFactor = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             position.X += speed.X * timeFactor;
+
+            if ((position.X) > (Config.Map.WIDTH * Config.Tile.SIZE) - 1)
+                position.X = 0 - Config.Player.WIDTH;
+            else if (position.X < -Config.Player.WIDTH)
+                position.X = (Config.Map.WIDTH * Config.Tile.SIZE) - 2;
         }
 
         public void MoveVertically(GameTime gameTime)
@@ -166,11 +179,13 @@ namespace PixelPerfect
             float timeFactor = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             position.Y += speed.Y * timeFactor;
 
-            if (position.Y > Config.SCREEN_HEIGHT_SCALED)
-                SetState(Player.State.dead, true);
-
             if (GetState(State.jumping) && position.Y > jumpY)
                 SetState(State.falling, true);
+
+            if ((position.Y) > (Config.Map.HEIGHT * Config.Tile.SIZE) - 1)
+                position.Y = 0 - Config.Player.HEIGHT;
+            else if (position.Y < -Config.Player.HEIGHT)
+                position.Y = (Config.Map.HEIGHT * Config.Tile.SIZE) - 2;
         }
 
         public void SetHorizontalPositionOnTile(Rectangle tileBox)

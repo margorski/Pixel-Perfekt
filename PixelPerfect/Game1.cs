@@ -29,6 +29,7 @@ namespace PixelPerfect
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
+            Globals.graphics = graphics;
             //graphics.PreferredBackBufferHeight = Config.SCREEN_HEIGHT;
             //graphics.PreferredBackBufferWidth = Config.SCREEN_WIDTH;
 

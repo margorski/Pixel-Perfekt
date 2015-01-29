@@ -158,12 +158,12 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended)
         {
-            int marginX = 0;
+            int marginX = Config.Hud.AVATAR_POSITION_X;
 
             if (textLines[currentText].avatar != null)
             {
                 spriteBatch.Draw(textLines[currentText].avatar, new Vector2(Config.Hud.AVATAR_POSITION_X, Config.Hud.AVATAR_POSITION_Y), Color.White);
-                marginX += textLines[currentText].avatar.Width + Config.Hud.AVATAR_POSITION_X;
+                marginX += textLines[currentText].avatar.Width;
             }
             spriteBatch.DrawString(menuFont, textLines[currentText].text.Substring(0, drawLetterCount), new Vector2(Config.Hud.TEXTSTATE_POSITION_X + marginX, Config.Hud.TEXTSTATE_POSITION_Y), Color.White);
         }
