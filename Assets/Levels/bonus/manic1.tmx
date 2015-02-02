@@ -2,6 +2,7 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="12">
  <properties>
   <property name="name" value="Manic miner level 1"/>
+  <property name="upsidedown" value="1"/>
  </properties>
  <tileset firstgid="1" name="Tileset" tilewidth="6" tileheight="6">
   <image source="tileset.png" width="160" height="48"/>
@@ -43,9 +44,9 @@
   </properties>
   <object id="1" x="70.25" y="67.5">
    <properties>
-    <property name="blink" value="1"/>
+    <property name="blink" value="0"/>
     <property name="blinktime" value="2000"/>
-    <property name="guardian" value="1"/>
+    <property name="guardian" value="0"/>
    </properties>
    <polyline points="0,0 56,0"/>
   </object>

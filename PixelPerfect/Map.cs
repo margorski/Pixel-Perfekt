@@ -27,6 +27,7 @@ namespace PixelPerfect
         private List<Enemy> enemiesList = new List<Enemy>();
         private List<Emiter> emiterList = new List<Emiter>();
         private List<Trigger> triggerList = new List<Trigger>();
+        public bool upsidedown { get; private set; }
 
         // Public
         public Vector2 startPosition { private set; get; }
@@ -34,13 +35,14 @@ namespace PixelPerfect
         public string levelName { private set; get; }
 
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName)
+        public Map(Texture2D tileset, Texture2D pixel, int[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, bool upsidedown = false)
         {
             this.mapa = mapa;
             this.enemiesList = enemiesList;
             this.emiterList = emiterList;
             this.triggerList = triggerList;
             this.levelName = levelName;
+            this.upsidedown = upsidedown;
 
             tileMapa = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
             this.tileset = tileset;
@@ -328,6 +330,7 @@ namespace PixelPerfect
             List<Trigger> triggerList = new List<Trigger>();
             int[] mapa = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
             string levelName = "";
+            bool upsidedown = false;
             int triggerCount = 0;
 
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile)))
@@ -340,13 +343,36 @@ namespace PixelPerfect
                         {
                             case "map":
                                 xmlreader.ReadToFollowing("property");
-                                xmlreader.MoveToNextAttribute();
-                                if (xmlreader.Name == "name" && xmlreader.Value == "name")
+                                do
                                 {
+                                    //xmlreader.MoveToNextAttribute();
+                                    //if (xmlreader.Name == "name" && xmlreader.Value == "name")
+                                    //{
+                                    //    xmlreader.MoveToNextAttribute();
+                                    //    if (xmlreader.Name == "value")
+                                    //        levelName = xmlreader.Value;
+                                    //}
+
                                     xmlreader.MoveToNextAttribute();
+                                    string property_name = "";
+                                    if (xmlreader.Name == "name")
+                                        property_name = xmlreader.Value;
+
+                                    xmlreader.MoveToNextAttribute();
+                                    string value = "";
                                     if (xmlreader.Name == "value")
-                                        levelName = xmlreader.Value;
-                                }
+                                        value = xmlreader.Value;
+
+                                    switch (property_name)
+                                    {
+                                        case "name":
+                                            levelName = value;
+                                            break;
+                                        case "upsidedown":
+                                            upsidedown = (int.Parse(value) == 1 ? true : false);
+                                            break;
+                                    }
+                                } while (xmlreader.ReadToNextSibling("property"));
                                 break;
 
                             // Tilelayer
@@ -530,106 +556,106 @@ namespace PixelPerfect
                                                         case "guardian":
                                                             guardian = (int.Parse(value) == 1) ? true : false;
                                                             break;
-                                                    }
-                                                } while (xmlreader.ReadToNextSibling("property"));
-                                            }
-                                            else if (xmlreader.NodeType == XmlNodeType.Element &&
-                                                xmlreader.Name == "polyline") 
-                                            {
-                                                if (xmlreader.MoveToNextAttribute() && xmlreader.Name == "points")
+                                                        }
+                                                    } while (xmlreader.ReadToNextSibling("property"));
+                                                }
+                                                else if (xmlreader.NodeType == XmlNodeType.Element &&
+                                                    xmlreader.Name == "polyline") 
                                                 {
-                                                    string[] points = xmlreader.Value.Split(' ');
-                                                    string[] coords;
-                                                    int moveX, moveY;
-                                                    var pivotShift = new Vector2(sizex / 2, sizey / 2);
-                                                    var startPosition = new Vector2(x, y);
-
-                                                    switch (type)
+                                                    if (xmlreader.MoveToNextAttribute() && xmlreader.Name == "points")
                                                     {
-                                                        case Config.LayerType.ENEMY:
-                                                            coords = points[0].Split(',');
-                                                            moveX = (int)float.Parse(coords[0], CultureInfo.InvariantCulture);
-                                                            moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
+                                                        string[] points = xmlreader.Value.Split(' ');
+                                                        string[] coords;
+                                                        int moveX, moveY;
+                                                        var pivotShift = new Vector2(sizex / 2, sizey / 2);
+                                                        var startPosition = new Vector2(x, y);
 
-                                                            if (Config.CENTER_PIVOT)
-                                                                startPosition -= pivotShift;
-
-                                                            enemiesList.Add(new Enemy(content.Load<Texture2D>(directory + "\\" + texture),
-                                                                            new Vector2(speedx, speedy),
-                                                                            new Vector2(sizex, sizey),
-                                                                            triggerORtextureType,
-                                                                            startPosition + new Vector2(moveX, moveY),
-                                                                            reverse, blink, guardian));
-                                                            enemiesList.Last().SetBlinkTime(blinkTime);
-                                                            for (int i = 1; i < points.Length; i++)
-                                                            {
-                                                                coords = points[i].Split(',');
+                                                        switch (type)
+                                                        {
+                                                            case Config.LayerType.ENEMY:
+                                                                coords = points[0].Split(',');
                                                                 moveX = (int)float.Parse(coords[0], CultureInfo.InvariantCulture);
                                                                 moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
 
-                                                                var movePoint = startPosition + new Vector2(moveX, moveY);
-                                                                enemiesList.Last().AddMovepoint(movePoint);
-                                                            }
-                                                            enemiesList.Last().PrepareGuardian();
-                                                            //              ,
-                                                            //new Vector2(x + moveX, y + moveY),
-                                                            break;
+                                                                if (Config.CENTER_PIVOT)
+                                                                    startPosition -= pivotShift;
 
-                                                        case Config.LayerType.EMITER:                                                                                                                        
-                                                            MovementDirection direction;
-                                                            uint distance = 0;
-                                                            coords = points[1].Split(',');
-                                                            moveX = (int)float.Parse(coords[0], CultureInfo.InvariantCulture);
-                                                            moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
+                                                                enemiesList.Add(new Enemy(content.Load<Texture2D>(directory + "\\" + texture),
+                                                                                new Vector2(speedx, speedy),
+                                                                                new Vector2(sizex, sizey),
+                                                                                triggerORtextureType,
+                                                                                startPosition + new Vector2(moveX, moveY),
+                                                                                reverse, blink, guardian));
+                                                                enemiesList.Last().SetBlinkTime(blinkTime);
+                                                                for (int i = 1; i < points.Length; i++)
+                                                                {
+                                                                    coords = points[i].Split(',');
+                                                                    moveX = (int)float.Parse(coords[0], CultureInfo.InvariantCulture);
+                                                                    moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
 
-                                                            if (moveX > 0)
-                                                            {
-                                                                direction = MovementDirection.Right;
-                                                                distance = (uint)moveX;
-                                                            }
-                                                            else if (moveX < 0)
-                                                            {
-                                                                direction = MovementDirection.Left;
-                                                                distance = (uint)Math.Abs(moveX);
-                                                            }
-                                                            else if (moveY > 0)
-                                                            {
-                                                                direction = MovementDirection.Down;
-                                                                distance = (uint)moveY;
-                                                            }
-                                                            else
-                                                            {
-                                                                direction = MovementDirection.Up;
-                                                                distance = (uint)Math.Abs(moveY);
-                                                            }
+                                                                    var movePoint = startPosition + new Vector2(moveX, moveY);
+                                                                    enemiesList.Last().AddMovepoint(movePoint);
+                                                                }
+                                                                enemiesList.Last().PrepareGuardian();
+                                                                //              ,
+                                                                //new Vector2(x + moveX, y + moveY),
+                                                                break;
 
-                                                            //if (Config.CENTER_PIVOT)
-                                                              //  startPosition -= pivotShift;
+                                                            case Config.LayerType.EMITER:                                                                                                                        
+                                                                MovementDirection direction;
+                                                                uint distance = 0;
+                                                                coords = points[1].Split(',');
+                                                                moveX = (int)float.Parse(coords[0], CultureInfo.InvariantCulture);
+                                                                moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
 
-                                                            emiterList.Add(new Emiter(content.Load<Texture2D>(directory + "\\" + texture),
-                                                                           startPosition,
-                                                                           distance, speed, direction,
-                                                                           new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
-                                                                           delay, offset,
-                                                                           Color.White));
-                                                            break;
+                                                                if (moveX > 0)
+                                                                {
+                                                                    direction = MovementDirection.Right;
+                                                                    distance = (uint)moveX;
+                                                                }
+                                                                else if (moveX < 0)
+                                                                {
+                                                                    direction = MovementDirection.Left;
+                                                                    distance = (uint)Math.Abs(moveX);
+                                                                }
+                                                                else if (moveY > 0)
+                                                                {
+                                                                    direction = MovementDirection.Down;
+                                                                    distance = (uint)moveY;
+                                                                }
+                                                                else
+                                                                {
+                                                                    direction = MovementDirection.Up;
+                                                                    distance = (uint)Math.Abs(moveY);
+                                                                }
+
+                                                                //if (Config.CENTER_PIVOT)
+                                                                  //  startPosition -= pivotShift;
+
+                                                                emiterList.Add(new Emiter(content.Load<Texture2D>(directory + "\\" + texture),
+                                                                               startPosition,
+                                                                               distance, speed, direction,
+                                                                               new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
+                                                                               delay, offset,
+                                                                               Color.White));
+                                                                break;
+                                                        }
                                                     }
-                                                }
                                                 break;
+                                                }
                                             }
                                         }
                                     }
-                                }
-                                break;
+                                    break;
+                            }
                         }
                     }
                 }
-            }
 
             if (tileset == null)
                 return null;
 
-            return new Map(tileset, pixel, mapa, enemiesList, emiterList, triggerList, levelName);
+            return new Map(tileset, pixel, mapa, enemiesList, emiterList, triggerList, levelName, upsidedown);
         }
     }
 }

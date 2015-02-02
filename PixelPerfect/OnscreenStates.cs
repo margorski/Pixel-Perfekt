@@ -90,8 +90,11 @@ namespace PixelPerfect
 #endif
         }
 
-        public override void Draw(SpriteBatch spriteBatch, bool suspended)
+        public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
+            if (!upsidedownBatch && Globals.upsideDown)
+                return;
+
             if (suspended)
                 spriteBatch.DrawString(menuFont, "PAUSE", new Vector2(120, 60), Color.White);
             else

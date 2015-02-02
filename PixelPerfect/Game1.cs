@@ -21,6 +21,7 @@ namespace PixelPerfect
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteBatch specialBatch;
         GameStateManager gameStateManager;
 
         private float scale = 1.0f;
@@ -100,6 +101,7 @@ namespace PixelPerfect
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            specialBatch = new SpriteBatch(GraphicsDevice);
         }
 
         protected override void UnloadContent()
@@ -125,9 +127,27 @@ namespace PixelPerfect
         {
             GraphicsDevice.Clear(Color.Black);
             //spriteBatch.Begin();
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateScale(scale));
+
+            Matrix matrix = Matrix.Identity;
+            if (Globals.upsideDown)
+            {
+                matrix *= Matrix.CreateScale(-1);
+                matrix *= Matrix.CreateTranslation(new Vector3(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, 0));
+            }
+            matrix *= Matrix.CreateScale(scale);
+
+            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, matrix);//Matrix.CreateScale(scale));
+            if (Globals.upsideDown)
+                specialBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateScale(scale));
+
             gameStateManager.Draw(spriteBatch);
+            if (Globals.upsideDown)
+                gameStateManager.Draw(specialBatch, true);
+            
             spriteBatch.End();
+            if (Globals.upsideDown)
+                specialBatch.End();
+
             base.Draw(gameTime);
         }
     }

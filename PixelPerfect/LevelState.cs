@@ -64,11 +64,15 @@ namespace PixelPerfect
             Globals.CurrentLevelState = this;
             InitLevel();
             ResetInput();
+
+            if (map.upsidedown)
+                Globals.upsideDown = true;
         }
 
         public override void Exit(int nextStateId)
         {
             Globals.CurrentLevelState = null;
+            Globals.upsideDown = false;
         }
 
         public override void Resume(int poppedStateId)
@@ -291,15 +295,22 @@ namespace PixelPerfect
         }
 #endif
 
-        public override void Draw(SpriteBatch spriteBatch, bool suspended)
+        public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            map.Draw(spriteBatch);
-            
-            foreach (PixelParticle pixelParticle in pixelParticles)
-                pixelParticle.Draw(spriteBatch);
+            if (!upsidedownBatch)
+            {
+                map.Draw(spriteBatch);
 
-            player.Draw(spriteBatch);
-            hud.Draw(spriteBatch);
+                foreach (PixelParticle pixelParticle in pixelParticles)
+                    pixelParticle.Draw(spriteBatch);
+
+                player.Draw(spriteBatch);
+            }
+
+            if (!upsidedownBatch && Globals.upsideDown)
+                return;
+            
+            hud.Draw(spriteBatch);            
         }
 
         private void InitLevel()

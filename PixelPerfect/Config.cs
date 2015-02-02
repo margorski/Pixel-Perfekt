@@ -129,7 +129,8 @@ namespace PixelPerfect
 
         public struct Hud
         {
-            public const int AVATAR_POSITION_Y = Config.SCREEN_HEIGHT_SCALED - 3 * Tile.SIZE;
+            public const int HUD_HEIGHT = 3 * Tile.SIZE;
+            public const int AVATAR_POSITION_Y = Config.SCREEN_HEIGHT_SCALED - HUD_HEIGHT;
             public const int AVATAR_POSITION_X = 20;
             public const int TEXT_POSITION_Y = AVATAR_POSITION_Y;            
             public const int COLLECTIBLES_X = Config.SCREEN_WIDTH_SCALED;

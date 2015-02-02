@@ -19,7 +19,7 @@ namespace GameStateMachine
         public abstract void Exit(int nextStateId);
         public abstract void Suspend(int pushedStateId);
         public abstract void Resume(int poppedStateId);
-        public abstract void Draw(SpriteBatch spriteBatch, bool suspended);
+        public abstract void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false);
         public abstract void Update(GameTime gameTime, bool suspended);
     }
 }

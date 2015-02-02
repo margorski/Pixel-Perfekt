@@ -126,14 +126,14 @@ namespace GameStateMachine
                     stateStack.ElementAt(i).Value.Update(gameTime, true);
             }      
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, bool upsideDown = false)
         {
             for (int i = 0; i < stateStack.Count; i++)
             {
                 if (i == stateStack.Count - 1)
-                    stateStack.ElementAt(i).Value.Draw(spriteBatch, false);
+                    stateStack.ElementAt(i).Value.Draw(spriteBatch, false, upsideDown);
                 else
-                    stateStack.ElementAt(i).Value.Draw(spriteBatch, true);
+                    stateStack.ElementAt(i).Value.Draw(spriteBatch, true, upsideDown);
             }
         }
     }

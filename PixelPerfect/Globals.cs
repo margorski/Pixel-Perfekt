@@ -11,5 +11,6 @@ namespace PixelPerfect
         public static Map CurrentMap;
         public static LevelState CurrentLevelState;
         public static GraphicsDeviceManager graphics;
+        public static bool upsideDown = false;
     }
 }
