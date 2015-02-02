@@ -77,6 +77,11 @@ namespace PixelPerfect
             public const int ANIMATION_DELAY = 70;
         }
 
+        public struct Enemy
+        {
+            public const int DEFAULT_BLINK_TIME_MS = 500;
+        }
+
         public enum StandingType
         {
             NoImpact = 0,

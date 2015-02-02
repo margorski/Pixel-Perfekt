@@ -266,7 +266,11 @@ namespace PixelPerfect
                         if (player.boundingBox.Intersects(bbox)) 
                         {
                             if (--collectiblesCount == 0)
-                               OpenDoor();
+                            {
+                                OpenDoor();
+                                foreach (Enemy enemy in enemiesList)
+                                    enemy.TriggerGuardian();
+                            }
                             tileMapa[index].SetAttributes(Tile.Attributes.NoDraw);
                             return true;
                         }
@@ -462,6 +466,9 @@ namespace PixelPerfect
                                         int triggerORtextureType, x, y, width, height;
                                         triggerORtextureType = x = y = width = height = 0;
                                         bool reverse = true;
+                                        bool blink = false;
+                                        bool guardian = false;
+                                        int blinkTime = Config.Enemy.DEFAULT_BLINK_TIME_MS;
 
                                         while (xmlreader.MoveToNextAttribute())
                                         {
@@ -496,7 +503,8 @@ namespace PixelPerfect
                                             if (xmlreader.NodeType == XmlNodeType.Element &&
                                                 xmlreader.Name == "properties")
                                             {
-                                                while (xmlreader.ReadToDescendant("property"))
+                                                xmlreader.ReadToDescendant("property");
+                                                do
                                                 {
                                                     xmlreader.MoveToNextAttribute();
                                                     string property_name = "";
@@ -513,8 +521,17 @@ namespace PixelPerfect
                                                         case "reverse":
                                                             reverse = (int.Parse(value) == 1) ? true : false;
                                                             break;
+                                                        case "blink":
+                                                            blink = (int.Parse(value) == 1) ? true : false;
+                                                            break;
+                                                        case "blinktime":
+                                                            blinkTime = (int.Parse(value, CultureInfo.InvariantCulture));
+                                                            break;
+                                                        case "guardian":
+                                                            guardian = (int.Parse(value) == 1) ? true : false;
+                                                            break;
                                                     }
-                                                }
+                                                } while (xmlreader.ReadToNextSibling("property"));
                                             }
                                             else if (xmlreader.NodeType == XmlNodeType.Element &&
                                                 xmlreader.Name == "polyline") 
@@ -542,7 +559,8 @@ namespace PixelPerfect
                                                                             new Vector2(sizex, sizey),
                                                                             triggerORtextureType,
                                                                             startPosition + new Vector2(moveX, moveY),
-                                                                            reverse));
+                                                                            reverse, blink, guardian));
+                                                            enemiesList.Last().SetBlinkTime(blinkTime);
                                                             for (int i = 1; i < points.Length; i++)
                                                             {
                                                                 coords = points[i].Split(',');
@@ -550,8 +568,9 @@ namespace PixelPerfect
                                                                 moveY = (int)float.Parse(coords[1], CultureInfo.InvariantCulture);
 
                                                                 var movePoint = startPosition + new Vector2(moveX, moveY);
-                                                                enemiesList[enemiesList.Count - 1].AddMovepoint(movePoint);
+                                                                enemiesList.Last().AddMovepoint(movePoint);
                                                             }
+                                                            enemiesList.Last().PrepareGuardian();
                                                             //              ,
                                                             //new Vector2(x + moveX, y + moveY),
                                                             break;

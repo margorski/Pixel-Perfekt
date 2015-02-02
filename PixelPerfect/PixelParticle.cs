@@ -112,10 +112,10 @@ namespace PixelPerfect
             }
             enviroSpeed.X = movingModifier;
 
-            if ((position.X) > (Globals.graphics.GraphicsDevice.PresentationParameters.BackBufferWidth / Config.SCALE_FACTOR) - 1)
-                position.X = 0 - texture.Width;
-            else if (position.X < -texture.Width)
-                position.X = Globals.graphics.GraphicsDevice.PresentationParameters.BackBufferWidth / Config.SCALE_FACTOR - 2;
+            if ((position.X) > Config.Map.WIDTH * Config.Tile.SIZE - 1)
+                position.X = -1;
+            else if (position.X < -1)
+                position.X = Config.Map.WIDTH * Config.Tile.SIZE - 2;
 
             if (position.Y > Config.SCREEN_HEIGHT_SCALED) // remove on out of screen
                 return true;
@@ -141,7 +141,7 @@ namespace PixelPerfect
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, new Vector2(position.X + Config.DRAW_OFFSET_X, position.Y + Config.DRAW_OFFSET_Y), null, color, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0);
+            spriteBatch.Draw(texture, new Vector2(position.X + Config.DRAW_OFFSET_X, position.Y + Config.DRAW_OFFSET_Y), null, color, 0.0f, Vector2.Zero, 1, SpriteEffects.None, 0);            
             //spriteBatch.Draw(texture, new Vector2(position.X + Config.DRAW_OFFSET_X, position.Y + Config.DRAW_OFFSET_Y), color,);
         }
     }
