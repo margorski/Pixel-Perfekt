@@ -57,10 +57,12 @@ namespace PixelPerfect
                     break;
 
                 case (int)Config.TileType.SOLID:
+                case (int)Config.TileType.BLINKING_SOLID:
                     attributes |= (UInt32)Tile.Attributes.Solid;
                     break;
 
                 case (int)Config.TileType.PLATFORM:
+                case (int)Config.TileType.BLINKING_PLATFORM:
                 case (int)Config.TileType.CRUSHY:
                     attributes |= (UInt32)Tile.Attributes.Platform;
                     break;
@@ -117,6 +119,8 @@ namespace PixelPerfect
                 return new MovingTile(position, tileTexture, attributes, sourceRectangle, color, -Config.Tile.MOVINGPLATFORM_SPEED);
             else if (type == (int)Config.TileType.MOVING_RIGHT)
                 return new MovingTile(position, tileTexture, attributes, sourceRectangle, color, Config.Tile.MOVINGPLATFORM_SPEED);
+            else if (type == (int)Config.TileType.BLINKING_PLATFORM || type == (int)Config.TileType.BLINKING_SOLID)
+                return new BlinkingTile(position, tileTexture, attributes, sourceRectangle, color);
             else
                 return new Tile(position, tileTexture, attributes, sourceRectangle, color);
         }

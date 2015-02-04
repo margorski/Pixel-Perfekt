@@ -47,6 +47,7 @@ namespace PixelPerfect
             public const float CRUSH_SPEED = 3.0f;
             public const float CRUSH_PIXEL_COUNT = 45.0f;
             public const float MOVINGPLATFORM_SPEED = 25.0f;
+            public const int DEFAULT_BLINK_TIME = 1500;
         }
 
         public struct PixelParticle
@@ -109,7 +110,9 @@ namespace PixelPerfect
             DOOR_RM,
             DOOR_LD,
             DOOR_MD,
-            DOOR_RD
+            DOOR_RD,
+            BLINKING_SOLID,
+            BLINKING_PLATFORM
         }
 
         public enum TriggerType

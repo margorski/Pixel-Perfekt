@@ -101,6 +101,72 @@ namespace PixelPerfect
         }
     }
 
+    class BlinkingTile : Tile
+    {
+        private int blinkTime = 0;
+        private double currentBlinkTime = 0;
+        private bool hidden = false;
+        private bool solid = false;
+        private bool platform = false;
+        public override Rectangle boundingBox
+        {
+            get
+            {
+                if (hidden)
+                    return new Rectangle(0, 0, 0, 0);
+                else
+                    return new Rectangle((int)position.X, (int)position.Y, Config.Tile.SIZE, Config.Tile.SIZE);
+            }
+        }
+
+        public BlinkingTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color, int blinkTime = Config.Tile.DEFAULT_BLINK_TIME, int offsetTime = 0) : base(position, texture, attributes, sourceRect, color)
+        {
+            this.blinkTime = blinkTime;
+            currentBlinkTime = offsetTime % blinkTime;
+            hidden = (((offsetTime / blinkTime) % 2) > 0 ? true : false);
+            solid = (attributes & Attributes.Solid) != 0 ? true : false;
+            platform = (attributes & Attributes.Platform) != 0 ? true : false;
+            SetHidden(hidden);
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            currentBlinkTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+            if (currentBlinkTime >= blinkTime)
+            {
+                hidden = !hidden;
+                SetHidden(hidden);
+                currentBlinkTime = 0;
+            }
+
+            base.Update(gameTime);
+        }
+
+        private void SetHidden(bool value)
+        {
+            if (value)
+            {
+                attributes |= Attributes.NoDraw;
+                if (solid)
+                    attributes &= ~Attributes.Solid;
+                if (platform)
+                    attributes &= ~Attributes.Platform;
+            }
+            else
+            {
+                attributes &= ~Attributes.NoDraw;                
+                attributes |= Attributes.Platform;
+                attributes |= Attributes.Solid;
+            }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            base.Draw(spriteBatch);
+        }
+    }
+
+
     class CrushyTile : Tile
     {
 
