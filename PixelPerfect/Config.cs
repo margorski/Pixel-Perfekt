@@ -31,6 +31,8 @@ namespace PixelPerfect
         {
             public const int MENU = 100;
             public const int LEVEL = 200;
+            public const int LEVELMIN = LEVEL;
+            public const int LEVELMAX = 300;
             public const int PAUSE = 300;
             public const int TEXT = 400;
         }

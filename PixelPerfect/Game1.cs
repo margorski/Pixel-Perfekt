@@ -128,7 +128,7 @@ namespace PixelPerfect
             GraphicsDevice.Clear(Color.Black);
             //spriteBatch.Begin();
 
-            Matrix matrix = Matrix.Identity;
+            Matrix matrix = Matrix.Identity;            
             if (Globals.upsideDown)
             {
                 matrix *= Matrix.CreateScale(-1);
