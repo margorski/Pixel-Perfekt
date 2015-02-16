@@ -74,7 +74,7 @@ namespace PixelPerfect
             public const float HTORQUE_INAIR = 5.5f; 
             public const float GRAVITY = 140.0f;
             public const float MAX_FALL_SPEED = 30.0f;
-            public const float MAX_FALL_DISTANCE = Tile.SIZE * 5;
+            public const float MAX_FALL_DISTANCE = Tile.SIZE * 5 - 1;
             public const float MOVE_SPEED = 25.0f;
             public const int ANIMATION_DELAY = 70;
         }
