@@ -49,9 +49,9 @@
   <object id="29" name="right" type="2" x="204" y="120">
    <properties>
     <property name="guardian" value="1"/>
-    <property name="offset" value="50"/>
+    <property name="offset" value="80"/>
    </properties>
-   <polyline points="0,-48 0,-88 0,-24"/>
+   <polyline points="0,-48 0,-96 0,-24"/>
   </object>
  </objectgroup>
 </map>
