@@ -21,7 +21,8 @@ namespace PixelPerfect
         public const int SCREEN_WIDTH_SCALED = 264; //SCREEN_WIDTH / 2;
         public const int SCREEN_HEIGHT_SCALED = 160; //SCREEN_HEIGHT / 2;
         public const int SCALE_FACTOR = 3;
-        public const int ANIMATION_SPEED_FACTOR = 135;
+        public const int ANIMATION_SPEED_BASE = 1000;
+        public const int ANIMATION_SPEED_FACTOR = 7;
         public const int DRAW_OFFSET_X = 0;
         public const int DRAW_OFFSET_Y = 0;
         public const bool CENTER_PIVOT = true;

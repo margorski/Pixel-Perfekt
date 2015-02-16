@@ -407,12 +407,12 @@ namespace PixelPerfect
                                 float speedx = 0.0f;
                                 float speedy = 0.0f;
                                 float speed = 0.0f;
-                                string texture = "";
                                 int sizex = 0;
                                 int sizey = 0;
                                 int delay = 0;
                                 int offset = 0;
-                                
+                                Texture2D texture = null;
+
                                 xmlreader.ReadToFollowing("properties");
 
                                 while (xmlreader.Read())
@@ -465,7 +465,7 @@ namespace PixelPerfect
                                                 break;
 
                                             case "texture":
-                                                texture = value;
+                                                texture = content.Load<Texture2D>(directory + "\\" + value);
                                                 break;
 
                                             case "delay":
@@ -498,7 +498,8 @@ namespace PixelPerfect
                                         float localspeedx, localspeedy, localspeed;
                                         localspeedx = localspeedy = localspeed = 0.0f;
                                         int localoffset, localdelay;
-                                        localoffset = localdelay = 0;
+                                        localoffset = -1;
+                                        localdelay = 0;
 
                                         while (xmlreader.MoveToNextAttribute())
                                         {
@@ -608,10 +609,10 @@ namespace PixelPerfect
                                                                     speedVector.X = localspeedx;
                                                                 if (localspeedy != 0.0f)
                                                                     speedVector.Y = localspeedy;
-                                                                if (localoffset <= 100 && localoffset > 0)
+                                                                if (localoffset <= 100 && localoffset >= 0)
                                                                     offset = localoffset;
 
-                                                                enemiesList.Add(new Enemy(content.Load<Texture2D>(directory + "\\" + texture),
+                                                                enemiesList.Add(new Enemy(texture,
                                                                                 speedVector,
                                                                                 new Vector2(sizex, sizey),
                                                                                 triggerORtextureType,
@@ -674,7 +675,7 @@ namespace PixelPerfect
                                                                 if (localoffset != 0)
                                                                     emiterOffset = localoffset;
 
-                                                                emiterList.Add(new Emiter(content.Load<Texture2D>(directory + "\\" + texture),
+                                                                emiterList.Add(new Emiter(texture,
                                                                                startPosition,
                                                                                distance, emiterSpeed, direction,
                                                                                new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),

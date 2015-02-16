@@ -75,7 +75,7 @@ namespace PixelPerfect
             this.blink = blink;
             this.guardian = guardian;
             this.offset = offset;
-            animation = new Animation(4, (int)(5000 - speed.Length() * Config.ANIMATION_SPEED_FACTOR) / 2, false);
+            animation = new Animation(4, (int)(Config.ANIMATION_SPEED_BASE - speed.Length() * Config.ANIMATION_SPEED_FACTOR), false);
  
             AdjustSpeed();
         }
@@ -108,7 +108,7 @@ namespace PixelPerfect
 
         public void Init()
         {
-            TriggerGuardian();
+            PrepareGuardian();
             SetOffset();
             NextPath();
         }
