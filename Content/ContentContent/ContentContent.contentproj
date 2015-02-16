@@ -203,6 +203,54 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\pp\enemies_12x12.png">
+      <Link>pp\enemies_12x12.png</Link>
+      <Name>enemies_12x12</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\pp\enemies_16x16.png">
+      <Link>pp\enemies_16x16.png</Link>
+      <Name>enemies_16x16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\pp\enemies_5x5.png">
+      <Link>pp\enemies_5x5.png</Link>
+      <Name>enemies_5x5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\pp\player.png">
+      <Link>pp\player.png</Link>
+      <Name>player</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\pp\tileset.png">
+      <Link>pp\tileset.png</Link>
+      <Name>tileset</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\spaceinvaders\enemies_24x16.png">
+      <Link>spaceinvaders\enemies_24x16.png</Link>
+      <Name>enemies_24x16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\spaceinvaders\emiter_6x10.png">
+      <Link>spaceinvaders\emiter_6x10.png</Link>
+      <Name>emiter_6x10</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 

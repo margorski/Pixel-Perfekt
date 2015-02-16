@@ -69,12 +69,12 @@ namespace PixelPerfect
             public const int STOPTIME_REVERSE_MS = 300;
             public const int WIDTH = 8;
             public const int HEIGHT = 16;
-            public const float JUMP_SPEED = -75.0f;
+            public const float JUMP_SPEED = -80.0f;
             public const float HTORQUE_INAIR = 5.5f; 
             public const float GRAVITY = 140.0f;
             public const float MAX_FALL_SPEED = 30.0f;
             public const float MAX_FALL_DISTANCE = Tile.SIZE * 5;
-            public const float MOVE_SPEED = 30.0f;
+            public const float MOVE_SPEED = 25.0f;
             public const int ANIMATION_DELAY = 70;
         }
 
@@ -143,5 +143,16 @@ namespace PixelPerfect
             public const int TEXTSTATE_POSITION_Y = TEXT_POSITION_Y;
             public const int TEXTSTATE_LETTERTIME_MS = 50;
         }
+
+        public struct Menu
+        {
+            public const int OFFSET_X = 10;
+            public const int OFFSET_Y = 30;
+            public const int HORIZONTAL_SPACE = 25;
+            public const int VERTICAL_SPACE = 20;
+            public const int TEXT_SPACE = 5;
+            public const int NUM_IN_ROW = 5;
+        }
     }
 }
+

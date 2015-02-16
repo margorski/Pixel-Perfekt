@@ -202,6 +202,7 @@
     <Content Include="..\Assets\Levels\spaceinvaders\level1.tmx">
       <Link>Levels\spaceinvaders\level1.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </Content>
     <Content Include="..\Assets\Levels\spaceinvaders\level2.tmx">
       <Link>Levels\spaceinvaders\level2.tmx</Link>
@@ -289,6 +290,57 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\bonus\avatar2.xnb">
       <Link>Content\bonus\avatar2.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pp\enemies_12x12.xnb">
+      <Link>Content\pp\enemies_12x12.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pp\enemies_16x16.xnb">
+      <Link>Content\pp\enemies_16x16.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pp\enemies_5x5.xnb">
+      <Link>Content\pp\enemies_5x5.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pp\player.xnb">
+      <Link>Content\pp\player.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pp\tileset.xnb">
+      <Link>Content\pp\tileset.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\pp\level1.tmx">
+      <Link>Levels\pp\level1.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\spaceinvaders\level10.tmx">
+      <Link>Levels\spaceinvaders\level10.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\spaceinvaders\level6.tmx">
+      <Link>Levels\spaceinvaders\level6.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\spaceinvaders\level7.tmx">
+      <Link>Levels\spaceinvaders\level7.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\spaceinvaders\level8.tmx">
+      <Link>Levels\spaceinvaders\level8.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\spaceinvaders\level9.tmx">
+      <Link>Levels\spaceinvaders\level9.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\enemies_24x16.xnb">
+      <Link>Content\spaceinvaders\enemies_24x16.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\spaceinvaders\emiter_6x10.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

@@ -110,6 +110,8 @@ namespace PixelPerfect
             int typex = ((type - 1) % 20) + 1;
             int typey = ((type - 1) / 20);
 
+            type = NormalizeType(type);
+                 
             Rectangle sourceRectangle = new Rectangle(((int)typex - 1) * Config.Tile.SIZE, (int)typey * Config.Tile.SIZE, Config.Tile.SIZE, Config.Tile.SIZE);
             if (type == (int)Config.TileType.CRUSHY)
                 return new CrushyTile(position, tileTexture, pixelTexture, attributes, sourceRectangle, color);

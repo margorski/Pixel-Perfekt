@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <worlds>
-  <world name="Bonus Manic Miner" icon="" directory="bonus">
+  <world name="PPERFECT" icon ="" directory="pp">
+    <level name="level1" />
+  </world>
+  <world name="MMINER" icon="" directory="bonus">
 	  <level name="manic1" />
 	  <level name="manic2" />
 	  <level name="manic3" />
@@ -9,14 +12,19 @@
 	  <level name="manic6" />
 	  <level name="manic7" />
   </world>
-  <world name="Space Invader" icon="" directory="spaceinvaders">
-  	  <level name="level1" />
+  <world name="AINTRUDERS" icon="" directory="spaceinvaders">
+  	<level name="level1" />
 	  <level name="level2" />
 	  <level name="level3" />
 	  <level name="level4" />
 	  <level name="level5" />
+    <level name="level6" />
+    <level name="level7" />
+    <level name="level8" />
+    <level name="level9" />
+    <level name="level10" />
   </world>
-  <world name="Pacman" icon="" directory="pacman">
+  <!--<world name="Pacman" icon="" directory="pacman">
   	  <level name="level1" />
 	  <level name="level2" />
 	  <level name="level3" />
@@ -25,5 +33,5 @@
   </world>
   <world name="Pacman Big" icon="" directory="pacman_big">
     <level name="level1" />
-  </world>
+  </world>-->
 </worlds>

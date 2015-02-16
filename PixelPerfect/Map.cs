@@ -495,6 +495,10 @@ namespace PixelPerfect
                                         bool blink = false;
                                         bool guardian = false;
                                         int blinkTime = Config.Enemy.DEFAULT_BLINK_TIME_MS;
+                                        float localspeedx, localspeedy, localspeed;
+                                        localspeedx = localspeedy = localspeed = 0.0f;
+                                        int localoffset, localdelay;
+                                        localoffset = localdelay = 0;
 
                                         while (xmlreader.MoveToNextAttribute())
                                         {
@@ -556,6 +560,25 @@ namespace PixelPerfect
                                                         case "guardian":
                                                             guardian = (int.Parse(value) == 1) ? true : false;
                                                             break;
+                                                        case "speed":
+                                                            localspeed = float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
+
+                                                        case "speedx":
+                                                            localspeedx = float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
+
+                                                        case "speedy":
+                                                            localspeedy = float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
+
+                                                        case "delay":
+                                                            localdelay = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
+
+                                                        case "offset":
+                                                            localoffset = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
                                                         }
                                                     } while (xmlreader.ReadToNextSibling("property"));
                                                 }
@@ -580,13 +603,22 @@ namespace PixelPerfect
                                                                 if (Config.CENTER_PIVOT)
                                                                     startPosition -= pivotShift;
 
+                                                                Vector2 speedVector = new Vector2(speedx, speedy);                                                                
+                                                                if (localspeedx != 0.0f)
+                                                                    speedVector.X = localspeedx;
+                                                                if (localspeedy != 0.0f)
+                                                                    speedVector.Y = localspeedy;
+                                                                if (localoffset <= 100 && localoffset > 0)
+                                                                    offset = localoffset;
+
                                                                 enemiesList.Add(new Enemy(content.Load<Texture2D>(directory + "\\" + texture),
-                                                                                new Vector2(speedx, speedy),
+                                                                                speedVector,
                                                                                 new Vector2(sizex, sizey),
                                                                                 triggerORtextureType,
                                                                                 startPosition + new Vector2(moveX, moveY),
-                                                                                reverse, blink, guardian));
+                                                                                reverse, blink, guardian, offset));
                                                                 enemiesList.Last().SetBlinkTime(blinkTime);
+                                                                
                                                                 for (int i = 1; i < points.Length; i++)
                                                                 {
                                                                     coords = points[i].Split(',');
@@ -596,7 +628,7 @@ namespace PixelPerfect
                                                                     var movePoint = startPosition + new Vector2(moveX, moveY);
                                                                     enemiesList.Last().AddMovepoint(movePoint);
                                                                 }
-                                                                enemiesList.Last().PrepareGuardian();
+                                                                enemiesList.Last().Init();                                                                
                                                                 //              ,
                                                                 //new Vector2(x + moveX, y + moveY),
                                                                 break;
@@ -632,11 +664,21 @@ namespace PixelPerfect
                                                                 //if (Config.CENTER_PIVOT)
                                                                   //  startPosition -= pivotShift;
 
+                                                                float emiterSpeed = speed;
+                                                                int emiterDelay = delay;
+                                                                int emiterOffset = offset;
+                                                                if (localspeed != 0.0f)
+                                                                    emiterSpeed = localspeed;
+                                                                if (localdelay != 0)
+                                                                    emiterDelay = localdelay;
+                                                                if (localoffset != 0)
+                                                                    emiterOffset = localoffset;
+
                                                                 emiterList.Add(new Emiter(content.Load<Texture2D>(directory + "\\" + texture),
                                                                                startPosition,
-                                                                               distance, speed, direction,
+                                                                               distance, emiterSpeed, direction,
                                                                                new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
-                                                                               delay, offset,
+                                                                               emiterDelay, emiterOffset,
                                                                                Color.White));
                                                                 break;
                                                         }

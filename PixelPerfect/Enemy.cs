@@ -33,6 +33,7 @@ namespace PixelPerfect
         bool goingBack = false;
         bool onGuard = false;
         int blinkTime = Config.Enemy.DEFAULT_BLINK_TIME_MS;
+        int offset = 0;
         double currentBlinkTime = 0.0;
 
         // debug
@@ -62,7 +63,7 @@ namespace PixelPerfect
             }
         }
 
-        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, bool reverse = true, bool blink = false, bool guardian = false)
+        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0)
         {
             this.texture = texture;
             this.speed = speed;
@@ -73,6 +74,7 @@ namespace PixelPerfect
             this.reverse = reverse;
             this.blink = blink;
             this.guardian = guardian;
+            this.offset = offset;
             animation = new Animation(4, (int)(5000 - speed.Length() * Config.ANIMATION_SPEED_FACTOR) / 2, false);
  
             AdjustSpeed();
@@ -84,13 +86,31 @@ namespace PixelPerfect
                 this.blinkTime = blinkTime;
         }
 
-        public void PrepareGuardian()
+        private void SetOffset()
         {
+            if (movepointsList.Count < 2)
+                return;
+
+            if (offset < 0 || offset > 100)
+                return;
+
+            this.currentPosition += (movepointsList[1] - currentPosition) * (offset / 100.0f);
+        }
+
+        private void PrepareGuardian()
+        {            
             if (!guardian)
                 return;
 
             guardPosition = movepointsList.Last();
             movepointsList.RemoveAt(movepointsList.Count - 1);
+        }
+
+        public void Init()
+        {
+            TriggerGuardian();
+            SetOffset();
+            NextPath();
         }
 
         public void TriggerGuardian()

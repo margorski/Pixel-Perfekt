@@ -121,6 +121,14 @@ namespace PixelPerfect
                 {
                     player.HitTheWall(tempRectangle);
                 }
+                else if (!player.GetState(Player.State.jumping) && !player.GetState(Player.State.falling))
+                {
+                    // hack for curshy platforms to go up one pixel
+                    var playerBoxMovedUp = player.boundingBox;
+                    playerBoxMovedUp.Y -= 1;
+                    if (map.CheckPlatformCollisions(playerBoxMovedUp, out tempRectangle, out movingModifier)) // crushy platform 1 pixel crushed
+                        player.HitTheGround(tempRectangle);
+                }
                 player.ResetMovingPlatformState();
 
                 player.MoveVertically(gameTime);
@@ -145,9 +153,15 @@ namespace PixelPerfect
                         if (!map.CheckCollisions(playerBoxMovedDown, Tile.Attributes.Solid, out tempRectangle) &&  // check if there is not collision from bottom
                             !map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle, out movingModifier))
                         {
-                            player.SetState(Player.State.jumping, true);
-                            player.SetState(Player.State.falling, true);
-                            player.jumpY = player.boundingBox.Y;
+                            playerBoxMovedDown.Y += 1; // for crushy platforms hack
+                            if (map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle, out movingModifier)) // crushy platform 1 pixel crushed
+                                player.HitTheGround(tempRectangle);
+                            else // falling
+                            {
+                                player.SetState(Player.State.jumping, true);
+                                player.SetState(Player.State.falling, true);
+                                player.jumpY = player.boundingBox.Y;
+                            }
                         }
                     }
                 }

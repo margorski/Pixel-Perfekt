@@ -262,11 +262,13 @@ namespace PixelPerfect
 
             for (int i = 0; i < worlds.Count; i++)
             {
-                x = (i % 5) * 40;
-                y = 25 + (i / 5) * 45;
+                x = Config.Menu.OFFSET_X + (i % Config.Menu.NUM_IN_ROW) * (levelTile.Width + Config.Menu.HORIZONTAL_SPACE);
+                y = Config.Menu.OFFSET_Y + (i / Config.Menu.NUM_IN_ROW) * (levelTile.Height + Config.Menu.VERTICAL_SPACE);
 
-                spriteBatch.Draw(levelTile, new Vector2(5 + x, y), Color.White);
-                spriteBatch.DrawString(menuFont, worlds[i].name, new Vector2(x, y + 32), Color.White);
+                spriteBatch.Draw(levelTile, new Vector2(x, y), Color.White);
+
+                var textOffset = menuFont.MeasureString(worlds[i].name) / 2;
+                spriteBatch.DrawString(menuFont, worlds[i].name, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), Color.White);
             }
         }
 
@@ -278,11 +280,13 @@ namespace PixelPerfect
 
             for (int i = 0; i < worlds[selectedWorld].levelNames.Count; i++)
             {
-                x = (i % 5) * 40;
-                y = 25 + (i / 5) * 45;
+                x = Config.Menu.OFFSET_X + (i % Config.Menu.NUM_IN_ROW) * (levelTile.Width + Config.Menu.HORIZONTAL_SPACE);
+                y = Config.Menu.OFFSET_Y + (i / Config.Menu.NUM_IN_ROW) * (levelTile.Height + Config.Menu.VERTICAL_SPACE);
 
-                spriteBatch.Draw(levelTile, new Vector2(5 + x, y), Color.White);
-                spriteBatch.DrawString(menuFont, worlds[selectedWorld].levelNames[i], new Vector2(x, y + 32), Color.White);
+                spriteBatch.Draw(levelTile, new Vector2(x, y), Color.White);
+
+                var textOffset = menuFont.MeasureString(worlds[selectedWorld].levelNames[i]) / 2;
+                spriteBatch.DrawString(menuFont, worlds[selectedWorld].levelNames[i], new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), Color.White);
             }
         }
 
@@ -291,13 +295,13 @@ namespace PixelPerfect
             X /= (int)scale;
             Y /= (int)scale;
 
-            if ((Y) < 30 || (Y) > 110)
+            if ((Y) < Config.Menu.OFFSET_Y || (Y) > Config.SCREEN_HEIGHT_SCALED)
                 return -1;
 
-            int x = (X) / 40; 
-            int y = (Y - 25) / 45;
+            int x = (X - Config.Menu.OFFSET_X) / (levelTile.Width + Config.Menu.HORIZONTAL_SPACE); 
+            int y = (Y - Config.Menu.OFFSET_Y) / (levelTile.Height + Config.Menu.VERTICAL_SPACE);
 
-            return x + y * 5;
+            return x + y * Config.Menu.NUM_IN_ROW;
         }
     }
 }
