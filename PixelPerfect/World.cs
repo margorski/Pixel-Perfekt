@@ -21,12 +21,14 @@ namespace PixelPerfect
         public List<string> levelNames = new List<string>();
         private string icon = "";
         public string directory = "";
+        public bool active { private set; get; }
 
         public World(string name, string icon, string directory)
         {
             this.name = name;
             this.icon = icon;
             this.directory = directory;
+            active = false;
         }
 
         public string GetLevelFile(int id)
@@ -40,6 +42,42 @@ namespace PixelPerfect
         public void AddLevel(string levelName)
         {
             levelNames.Add(levelName);
+        }
+
+        public bool LevelActivated(int id)
+        {
+            if (id < 0 || id > levelNames.Count - 1)
+                return false;
+            
+            if (id == 0) // 0 level always activated
+                return true;
+          
+            return LevelCompleted(id - 1); // if previous level is completed this is activated
+        }
+
+        public bool LevelCompleted(int id)
+        {
+            Levelsave levelsave;
+
+            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levelNames[id], out levelsave))
+                return false;
+
+            return levelsave.completed;
+        }
+
+        public bool Completed()
+        {
+            Levelsave levelSave;
+
+            foreach (string level in levelNames)
+            {
+                if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + level, out levelSave))
+                    return false;
+
+                if (!levelSave.completed)
+                    return false;
+            }
+            return true;
         }
 
         public static List<World> LoadWorlds(string worldFile)
@@ -95,7 +133,18 @@ namespace PixelPerfect
 
         public static List<World> LoadWorlds()
         {
-            return LoadWorlds("worlds.xml");
+            var worlds = LoadWorlds("worlds.xml");
+
+            worlds[0].active = true;
+
+            for (int i = 1; i < worlds.Count; i++)                
+            {
+                if (!worlds[i - 1].Completed())
+                    break;
+                worlds[i].active = true;
+            }
+
+            return worlds;
         }
     }
 }

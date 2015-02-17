@@ -83,6 +83,9 @@
     <Compile Include="..\PixelPerfect\Player.cs">
       <Link>Player.cs</Link>
     </Compile>
+    <Compile Include="..\PixelPerfect\Savestate.cs">
+      <Link>Savestate.cs</Link>
+    </Compile>
     <Compile Include="..\PixelPerfect\TextState.cs">
       <Link>TextState.cs</Link>
     </Compile>
@@ -107,6 +110,9 @@
   <ItemGroup>
     <Reference Include="MonoGame.Framework">
       <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -428,6 +434,9 @@
     <Content Include="Content\spaceinvaders\emiter_6x10.xnb">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

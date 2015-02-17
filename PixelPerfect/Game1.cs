@@ -89,6 +89,7 @@ namespace PixelPerfect
         {
             // TODO: Add your initialization logic here
             base.Initialize();
+            Savestate.Init();
             gameStateManager = new GameStateManager();
             var menuState = new MenuState(graphics, Content, gameStateManager);            
             var pauseState = new PauseState(Content, gameStateManager); 
@@ -149,6 +150,24 @@ namespace PixelPerfect
                 specialBatch.End();
 
             base.Draw(gameTime);
+        }
+
+        protected override void OnDeactivated(object sender, EventArgs args)
+        {
+            Savestate.Instance.Save();
+            base.OnDeactivated(sender, args);
+        }
+
+        protected override void OnExiting(object sender, EventArgs args)
+        {
+            Savestate.Instance.Save();
+            base.OnExiting(sender, args);
+        }
+
+        protected override void OnActivated(object sender, EventArgs args)
+        {
+            //Savestate.Instance.Reload();
+            base.OnActivated(sender, args);
         }
     }
 }

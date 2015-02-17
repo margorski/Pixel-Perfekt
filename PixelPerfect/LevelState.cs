@@ -40,8 +40,11 @@ namespace PixelPerfect
         private GamePadState currGPState;
 
         //private int i = 0;
-        private string levelFile = "";
+
+        public string levelFile { private set; get; }
         private string directory = "";
+
+        public TimeSpan levelTime { private set; get; }
 
         public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile, GameStateManager gameStateManager)
         {
@@ -73,6 +76,7 @@ namespace PixelPerfect
         {
             Globals.CurrentLevelState = null;
             Globals.upsideDown = false;
+            Savestate.Instance.Save();
         }
 
         public override void Resume(int poppedStateId)
@@ -114,6 +118,7 @@ namespace PixelPerfect
             player.Update(gameTime);
             if (!player.GetState(Player.State.dead) && !player.GetState(Player.State.dying))
             {
+                levelTime += gameTime.ElapsedGameTime;
                 float movingModifier = 0.0f;
                 Rectangle tempRectangle;
                 player.MoveHorizontally(gameTime);
@@ -174,12 +179,26 @@ namespace PixelPerfect
                     hud.Collect();
 
                 if (map.KillThisBastard(player, graphics))
+                {
                     player.SetState(Player.State.dying, true);
+                    if (!Savestate.Instance.levelSaves[LevelId()].completed)
+                        Savestate.Instance.levelSaves[LevelId()].deathCount++;
+                }
 
                 if (map.EnteredDoors(player.boundingBox))
                 {
-                    if (!gameStateManager.ChangeState(gameStateManager.CurrentState() + 1))
-                        gameStateManager.EmptyStack();
+                    if (!Savestate.Instance.levelSaves[LevelId()].completed)
+                    {
+                        Savestate.Instance.levelSaves[LevelId()].completed = true;
+                        Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime.TotalSeconds;
+                    }
+                    else if (Savestate.Instance.levelSaves[LevelId()].bestTime > levelTime.TotalSeconds)
+                    {
+                        Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime.TotalSeconds;
+                    }
+                    if (!gameStateManager.ChangeState(Config.States.MENU))
+                        gameStateManager.EmptyStack();                        
+                    return;
                 }
             }
             map.Update(gameTime);
@@ -332,12 +351,16 @@ namespace PixelPerfect
             Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud, scale);            
             hud.Init(map.levelName, map.collectiblesCount);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics, content.Load<Texture2D>("pixel"));
-            
+            levelTime = TimeSpan.Zero;
+
             foreach (PixelParticle pixelParticle in pixelParticles)
             {
                 pixelParticle.map = Globals.CurrentMap;
                 pixelParticle.standingType = Config.StandingType.NoImpact;
             }
+
+            if (!Savestate.Instance.levelSaves.ContainsKey(LevelId()))
+                Savestate.Instance.levelSaves.Add(LevelId(), new Levelsave());
         }        
 
         private void ResetInput()
@@ -354,6 +377,11 @@ namespace PixelPerfect
         public void AddPixelParticle(PixelParticle pixelParticle)
         {
             pixelParticles.Add(pixelParticle);
+        }
+
+        public string LevelId()
+        {
+            return levelFile;
         }
     }
 }

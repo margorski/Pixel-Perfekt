@@ -3,7 +3,7 @@
   <world name="PPERFECT" icon ="" directory="pp">
     <level name="level1" />
   </world>
-  <world name="MMINER" icon="" directory="bonus">
+  <!--<world name="MMINER" icon="" directory="bonus">
 	  <level name="manic1" />
 	  <level name="manic2" />
 	  <level name="manic3" />
@@ -11,7 +11,7 @@
 	  <level name="manic5" />
 	  <level name="manic6" />
 	  <level name="manic7" />
-  </world>
+  </world>-->
   <world name="AINTRUDERS" icon="" directory="spaceinvaders">
   	<level name="level1" />
 	  <level name="level2" />

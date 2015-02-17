@@ -33,6 +33,8 @@ namespace PixelPerfect
 #else
         MouseState prevMouseState;
         MouseState currMouseState;
+        KeyboardState prevKeyboardState;
+        KeyboardState currKeyboardState;
 #endif
         GamePadState prevGPState;
         GamePadState currGPState;
@@ -136,7 +138,10 @@ namespace PixelPerfect
         public void Update_HandleBack()
         {
             currGPState = GamePad.GetState(PlayerIndex.One);
-            if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
+            currKeyboardState = Keyboard.GetState();
+
+            if ((currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released) ||
+                (currKeyboardState.IsKeyDown(Keys.Escape) && prevKeyboardState.IsKeyUp(Keys.Escape)))
             {
                 switch (menuPhase)
                 {
@@ -154,6 +159,7 @@ namespace PixelPerfect
                 }
             }
             prevGPState = currGPState;
+            prevKeyboardState = currKeyboardState;
         }
 
         public void Update_WorldSelect()
@@ -181,7 +187,16 @@ namespace PixelPerfect
                 if (clickedSquare < 0 || clickedSquare > worlds.Count - 1)
                     return;
 
+                if (!worlds[clickedSquare].active)
+                    return;
+
                 selectedWorld = clickedSquare;
+                for (int i = 0; i < worlds[selectedWorld].levelNames.Count; i++) // initialize levelstates
+                {
+                    var levelState = new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i), gameStateManager);
+                    levelState.scale = scale;
+                    gameStateManager.RegisterState(Config.States.LEVEL + i, levelState);
+                }
                 menuPhase = MenuPhase.LEVELSELECT;
             }
 #endif
@@ -217,12 +232,9 @@ namespace PixelPerfect
                 if (clickedSquare < 0)
                     return;
 
-                for (int i = 0; i < worlds[selectedWorld].levelNames.Count; i++)
-                {
-                    var levelState = new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i), gameStateManager);
-                    levelState.scale = scale;
-                    gameStateManager.RegisterState(Config.States.LEVEL + i, levelState);
-                }
+                if (!worlds[selectedWorld].LevelActivated(clickedSquare))
+                    return;
+
                 gameStateManager.ChangeState(Config.States.LEVEL + clickedSquare);
             }
 #endif 
@@ -257,18 +269,19 @@ namespace PixelPerfect
         public void Draw_WorldSelect(SpriteBatch spriteBatch)
         {
             spriteBatch.DrawString(menuFont, "WORLD SELECT", new Vector2(100, 7), Color.White);
-            
             int x, y;
+            Color color = Color.White;
 
             for (int i = 0; i < worlds.Count; i++)
             {
                 x = Config.Menu.OFFSET_X + (i % Config.Menu.NUM_IN_ROW) * (levelTile.Width + Config.Menu.HORIZONTAL_SPACE);
                 y = Config.Menu.OFFSET_Y + (i / Config.Menu.NUM_IN_ROW) * (levelTile.Height + Config.Menu.VERTICAL_SPACE);
 
-                spriteBatch.Draw(levelTile, new Vector2(x, y), Color.White);
+                color = worlds[i].active ? Color.White : Color.Gray;
+                spriteBatch.Draw(levelTile, new Vector2(x, y), color);
 
                 var textOffset = menuFont.MeasureString(worlds[i].name) / 2;
-                spriteBatch.DrawString(menuFont, worlds[i].name, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), Color.White);
+                spriteBatch.DrawString(menuFont, worlds[i].name, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
             }
         }
 
@@ -277,16 +290,18 @@ namespace PixelPerfect
             spriteBatch.DrawString(menuFont, "LEVEL SELECT", new Vector2(100, 7), Color.White);
 
             int x, y;
+            Color color = Color.White;
 
             for (int i = 0; i < worlds[selectedWorld].levelNames.Count; i++)
             {
                 x = Config.Menu.OFFSET_X + (i % Config.Menu.NUM_IN_ROW) * (levelTile.Width + Config.Menu.HORIZONTAL_SPACE);
                 y = Config.Menu.OFFSET_Y + (i / Config.Menu.NUM_IN_ROW) * (levelTile.Height + Config.Menu.VERTICAL_SPACE);
 
-                spriteBatch.Draw(levelTile, new Vector2(x, y), Color.White);
+                color = worlds[selectedWorld].LevelCompleted(i) ? Color.Gold : worlds[selectedWorld].LevelActivated(i) ? Color.White : Color.Gray;
+                spriteBatch.Draw(levelTile, new Vector2(x, y), color);
 
                 var textOffset = menuFont.MeasureString(worlds[selectedWorld].levelNames[i]) / 2;
-                spriteBatch.DrawString(menuFont, worlds[selectedWorld].levelNames[i], new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), Color.White);
+                spriteBatch.DrawString(menuFont, worlds[selectedWorld].levelNames[i], new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
             }
         }
 

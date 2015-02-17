@@ -148,7 +148,7 @@ namespace PixelPerfect
                     break;
 
                 case Align.Right:
-                    position.X = alignArea.X + alignArea.Width - margin.X;
+                    position.X = alignArea.X + alignArea.Width - margin.X - spriteFont.MeasureString(text).X;
                     break;
             }
 
