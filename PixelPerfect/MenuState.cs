@@ -97,17 +97,29 @@ namespace PixelPerfect
                 return;
 
             Update_HandleBack();
-            
+           
 #if WINDOWS
             currMouseState = Mouse.GetState();
+#else
+            touchState = TouchPanel.GetState();
+#endif
 
             switch (menuPhase)
             {
-                case MenuPhase.MAIN:                    
+                case MenuPhase.MAIN:        
+#if WINDOWS            
                     if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                         menuPhase = MenuPhase.WORLDSELECT;
+#else                
+                    foreach (TouchLocation touch in touchState)
+                    {
+                        if (touch.State == TouchLocationState.Pressed)
+                        {
+                            menuPhase = MenuPhase.WORLDSELECT;
+                        }
+                    }
+#endif
                     break;
-
                 case MenuPhase.WORLDSELECT:
                     Update_WorldSelect();
                     break;
@@ -121,32 +133,9 @@ namespace PixelPerfect
                     break;
             }
 
+#if WINDOWS
             prevMouseState = currMouseState;
-#else
-            touchState = TouchPanel.GetState();
-            
-
-            switch (menuPhase)
-            {
-                case MenuPhase.MAIN:
-                    foreach (TouchLocation touch in touchState)
-                    {
-                        if (touch.State == TouchLocationState.Pressed)
-                        {
-                            menuPhase = MenuPhase.WORLDSELECT;
-                        }
-                    }
-                    break;
-
-                case MenuPhase.WORLDSELECT:
-                    Update_WorldSelect();
-                    break;
-
-                case MenuPhase.LEVELSELECT:
-                    Update_LevelSelect();
-                    break;
-            }
-#endif
+#endif       
         }
 
         private void Update_LevelDetails()
