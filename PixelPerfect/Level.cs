@@ -13,13 +13,15 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PixelPerfect
 {
-    static class Globals
+    class Level
     {
-        public static Map CurrentMap;
-        public static LevelState CurrentLevelState;
-        public static GraphicsDeviceManager graphics;
-        public static ContentManager content;
-        public static bool upsideDown = false;
-        public static Texture2D pixelTexture = null;
+        public Texture2D thumbnail = null;
+        public String levelName;
+
+        public Level(String levelName,Texture2D thumbnail)
+        {
+            this.levelName = levelName;
+            this.thumbnail = thumbnail;
+        }
     }
 }

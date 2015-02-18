@@ -18,7 +18,7 @@ namespace PixelPerfect
     class World
     {
         public string name = "";
-        public List<string> levelNames = new List<string>();
+        public List<Level> levels = new List<Level>();
         private string icon = "";
         public string directory = "";
         public bool active { private set; get; }
@@ -33,45 +33,68 @@ namespace PixelPerfect
 
         public string GetLevelFile(int id)
         {
-            if (id < 0 || id > levelNames.Count - 1)
+            if (id < 0 || id > levels.Count - 1)
                 return "";
 
-            return directory + "\\" + levelNames[id];
+            return directory + "\\" + levels[id].levelName;
         }
 
         public void AddLevel(string levelName)
         {
-            levelNames.Add(levelName);
+            Texture2D thumbnail = null;
+            try
+            {
+                thumbnail = Globals.content.Load<Texture2D>(directory + "\\" + levelName);
+            }
+            catch (Exception ex)
+            {
+                // do nothing if file exists
+            }
+
+            levels.Add(new Level(levelName, thumbnail));
         }
 
         public bool LevelActivated(int id)
         {
-            if (id < 0 || id > levelNames.Count - 1)
+            if (Config.CHEAT_MODE)
+                return true;
+
+            if (id < 0 || id > levels.Count - 1)
                 return false;
             
             if (id == 0) // 0 level always activated
                 return true;
           
-            return LevelCompleted(id - 1); // if previous level is completed this is activated
+            return (LevelCompleted(id - 1) || LevelSkipped(id - 1)); // if previous level is completed this is activated
         }
 
         public bool LevelCompleted(int id)
         {
             Levelsave levelsave;
 
-            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levelNames[id], out levelsave))
+            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levels[id].levelName, out levelsave))
                 return false;
 
             return levelsave.completed;
+        }
+
+        public bool LevelSkipped(int id)
+        {
+            Levelsave levelsave;
+
+            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levels[id].levelName, out levelsave))
+                return false;
+
+            return levelsave.skipped;
         }
 
         public bool Completed()
         {
             Levelsave levelSave;
 
-            foreach (string level in levelNames)
+            foreach (Level level in levels)
             {
-                if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + level, out levelSave))
+                if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + level.levelName, out levelSave))
                     return false;
 
                 if (!levelSave.completed)
@@ -131,20 +154,55 @@ namespace PixelPerfect
             return worlds;
         }
 
+        public void PrepareSavestate()
+        {
+            for (int i = 0; i < levels.Count; i++)
+            {
+                if (!Savestate.Instance.levelSaves.ContainsKey(GetLevelFile(i)))
+                    Savestate.Instance.levelSaves.Add(GetLevelFile(i), new Levelsave());
+            }
+        }
+
         public static List<World> LoadWorlds()
         {
             var worlds = LoadWorlds("worlds.xml");
 
             worlds[0].active = true;
-
+            
             for (int i = 1; i < worlds.Count; i++)                
-            {
-                if (!worlds[i - 1].Completed())
+            {                
+                if (!Config.CHEAT_MODE && !worlds[i - 1].Completed())
                     break;
                 worlds[i].active = true;
             }
 
+            foreach (World world in worlds)
+                world.PrepareSavestate();
+
             return worlds;
+        }
+
+
+
+        internal bool Skip(int selectedLevel)
+        {
+            if (selectedLevel >= levels.Count - 1)
+                return false; // cannot skip last level
+
+            if (Savestate.Instance.Skipped()) // skip used
+                return false;
+
+            Levelsave levelsave;
+            Savestate.Instance.levelSaves.TryGetValue(GetLevelFile(selectedLevel), out levelsave);
+
+            if (levelsave.skipped)// level already skipped  
+                return false;
+
+            if (levelsave.completed) // cannot skip completed levels
+                return false;
+            
+            levelsave.skipped = true;
+            return true;
         }
     }
 }

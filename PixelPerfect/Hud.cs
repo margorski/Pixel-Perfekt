@@ -56,16 +56,15 @@ namespace PixelPerfect
                 return;
 
             Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), spriteFont, Color.White,
-                        new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
-                        new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Left);
+                        new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
+                        new Vector2(4, Config.Hud.TEXT_POSITION_Y), Util.Align.Left);
              
             Util.DrawStringAligned(spriteBatch, levelName, spriteFont, Color.White,
-                                   new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
+                                   new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                                    new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Center);
 
-            Util.DrawStringAligned(spriteBatch, "Death count: " + Savestate.Instance.levelSaves[Globals.CurrentLevelState.LevelId()].deathCount, spriteFont, 
-                        Savestate.Instance.levelSaves[Globals.CurrentLevelState.LevelId()].completed ? Color.Red : Color.White,
-                        new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
+            Util.DrawStringAligned(spriteBatch, "DEATHS: " + Savestate.Instance.levelSaves[Globals.CurrentLevelState.LevelId()].deathCount, spriteFont, Color.White,
+                        new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                         new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Right);
              
             foreach (Tile tile in collectibleTiles)

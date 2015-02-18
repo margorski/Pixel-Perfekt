@@ -31,6 +31,7 @@ namespace PixelPerfect
         {
             graphics = new GraphicsDeviceManager(this);
             Globals.graphics = graphics;
+            Globals.content = Content;
             //graphics.PreferredBackBufferHeight = Config.SCREEN_HEIGHT;
             //graphics.PreferredBackBufferWidth = Config.SCREEN_WIDTH;
 

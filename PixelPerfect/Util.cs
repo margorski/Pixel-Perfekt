@@ -135,20 +135,20 @@ namespace PixelPerfect
 
         public static void DrawStringAligned(SpriteBatch spriteBatch, String text, SpriteFont spriteFont, Color color, Rectangle alignArea, Vector2 margin, Align align)
         {
-            Vector2 position = margin;
+            Vector2 position = new Vector2(alignArea.X, alignArea.Y);                        
 
             switch (align)
             {
                 case Align.Center:
-                    position.X = alignArea.X + alignArea.Width / 2 - spriteFont.MeasureString(text).X / 2;
+                    position.X += alignArea.Width / 2 - spriteFont.MeasureString(text).X / 2;
                     break;
 
                 case Align.Left:
-                    position.X = alignArea.X + margin.X; 
+                    position.X += margin.X; 
                     break;
 
                 case Align.Right:
-                    position.X = alignArea.X + alignArea.Width - margin.X - spriteFont.MeasureString(text).X;
+                    position.X += alignArea.Width - margin.X - spriteFont.MeasureString(text).X;
                     break;
             }
 

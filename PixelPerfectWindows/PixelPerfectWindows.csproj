@@ -38,6 +38,9 @@
     <Compile Include="..\PixelPerfect\Animation.cs">
       <Link>Animation.cs</Link>
     </Compile>
+    <Compile Include="..\PixelPerfect\Button.cs">
+      <Link>Button.cs</Link>
+    </Compile>
     <Compile Include="..\PixelPerfect\Config.cs">
       <Link>Config.cs</Link>
     </Compile>
@@ -64,6 +67,9 @@
     </Compile>
     <Compile Include="..\PixelPerfect\Hud.cs">
       <Link>Hud.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Level.cs">
+      <Link>Level.cs</Link>
     </Compile>
     <Compile Include="..\PixelPerfect\LevelState.cs">
       <Link>LevelState.cs</Link>
@@ -436,6 +442,50 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level1.xnb">
+      <Link>Content\spaceinvaders\level1.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level2.xnb">
+      <Link>Content\spaceinvaders\level2.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level3.xnb">
+      <Link>Content\spaceinvaders\level3.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\pp\level1.xnb">
+      <Link>Content\pp\level1.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level10.xnb">
+      <Link>Content\spaceinvaders\level10.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level4.xnb">
+      <Link>Content\spaceinvaders\level4.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level5.xnb">
+      <Link>Content\spaceinvaders\level5.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level6.xnb">
+      <Link>Content\spaceinvaders\level6.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level7.xnb">
+      <Link>Content\spaceinvaders\level7.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level8.xnb">
+      <Link>Content\spaceinvaders\level8.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level9.xnb">
+      <Link>Content\spaceinvaders\level9.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

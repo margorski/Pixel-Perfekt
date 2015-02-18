@@ -10,27 +10,30 @@ namespace PixelPerfect
 {
     [ProtoContract]
     public class Levelsave
-    {   
+    {
         [ProtoMember(1)]
-        public int version = 1;
-        [ProtoMember(2)]
         public bool completed = false;
-        [ProtoMember(3)]
+        [ProtoMember(2)]
         public int deathCount = 0;
+        [ProtoMember(3)]
+        public TimeSpan bestTime = TimeSpan.Zero;
         [ProtoMember(4)]
-        public double bestTime = 0.0;
-        [ProtoMember(5)]
         public bool active = false;
-        [ProtoMember(6)]
+        [ProtoMember(5)]
         public bool skipped = false;
     }
 
     [ProtoContract]
     public sealed class Savestate
     {
+        public const int CURRENT_VERSION = 2;
+
+        [ProtoMember(1)]
+        public int version = CURRENT_VERSION;
+
         public static Savestate Instance { get; private set; } 
         
-        [ProtoMember(1)]
+        [ProtoMember(2)]
         public Dictionary<String, Levelsave> levelSaves;
 
         private Savestate() 
@@ -49,18 +52,18 @@ namespace PixelPerfect
                     {
                         var savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.Open);
                         Instance = Serializer.Deserialize<Savestate>(savefile);
+                        if (Instance.version != CURRENT_VERSION)
+                            CreateSavestate();
                     }
                     else
                     {
-                        Instance = new Savestate();
-                        Instance.Save();
+                        CreateSavestate();
                     }
                 }
             }
             catch
             {
-                Instance = null;
-                return false;
+                CreateSavestate();
             }
 #else
             Instance = new Savestate();
@@ -68,6 +71,12 @@ namespace PixelPerfect
             return true;   
         }
         
+        private static void CreateSavestate()
+        {
+            Instance = new Savestate();
+            Instance.Save();
+        }
+
         public bool Reload()
         {
 #if !WINDOWS
@@ -105,5 +114,16 @@ namespace PixelPerfect
 #endif
             return true;
         }
+
+        public bool Skipped()
+        {
+            foreach (Levelsave levelsave in levelSaves.Values)
+            {
+                if (levelsave.skipped)
+                    return true;
+            }
+            return false;
+        }
+
     }
 }

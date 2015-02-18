@@ -38,7 +38,7 @@ namespace PixelPerfect
 #endif
         private GamePadState prevGPState;
         private GamePadState currGPState;
-
+        private int deathCount = 0;
         //private int i = 0;
 
         public string levelFile { private set; get; }
@@ -76,6 +76,7 @@ namespace PixelPerfect
         {
             Globals.CurrentLevelState = null;
             Globals.upsideDown = false;
+            Savestate.Instance.levelSaves[LevelId()].deathCount += deathCount;
             Savestate.Instance.Save();
         }
 
@@ -181,8 +182,7 @@ namespace PixelPerfect
                 if (map.KillThisBastard(player, graphics))
                 {
                     player.SetState(Player.State.dying, true);
-                    if (!Savestate.Instance.levelSaves[LevelId()].completed)
-                        Savestate.Instance.levelSaves[LevelId()].deathCount++;
+                    deathCount++;
                 }
 
                 if (map.EnteredDoors(player.boundingBox))
@@ -190,11 +190,12 @@ namespace PixelPerfect
                     if (!Savestate.Instance.levelSaves[LevelId()].completed)
                     {
                         Savestate.Instance.levelSaves[LevelId()].completed = true;
-                        Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime.TotalSeconds;
+                        Savestate.Instance.levelSaves[LevelId()].skipped = false;
+                        Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
                     }
-                    else if (Savestate.Instance.levelSaves[LevelId()].bestTime > levelTime.TotalSeconds)
+                    else if (Savestate.Instance.levelSaves[LevelId()].bestTime > levelTime)
                     {
-                        Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime.TotalSeconds;
+                        Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
                     }
                     if (!gameStateManager.ChangeState(Config.States.MENU))
                         gameStateManager.EmptyStack();                        

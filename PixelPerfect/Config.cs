@@ -15,6 +15,7 @@ namespace PixelPerfect
 {
     static class Config
     {
+        public const bool CHEAT_MODE = false;
         /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
          */
@@ -141,7 +142,7 @@ namespace PixelPerfect
             public const int AVATAR_POSITION_X = 20;
             public const int TEXT_POSITION_Y = AVATAR_POSITION_Y;            
             public const int COLLECTIBLES_X = Config.SCREEN_WIDTH_SCALED;
-            public const int COLLECTIBLES_Y = TEXT_POSITION_Y + 12;
+            public const int COLLECTIBLES_Y = TEXT_POSITION_Y + 13;
             public const int COLLECTIBLES_SPACE = 10;
             public const int TEXTSTATE_POSITION_X = 4;
             public const int TEXTSTATE_POSITION_Y = TEXT_POSITION_Y;
