@@ -58,14 +58,14 @@ namespace PixelPerfect
                 lastEmit = TimeSpan.Zero;
                 EmitPart();
             }
-            UpdateParts(deltaTimeSeconds);
+            UpdateParts(gameTime);
         }
 
-        public void UpdateParts(double deltaTimeSeconds)
+        public void UpdateParts(GameTime gameTime)
         {
             for (int i = 0; i < emitedParts.Count; i++)
             {
-                if (emitedParts[i].Update(deltaTimeSeconds))
+                if (emitedParts[i].Update(gameTime))
                 {
                     emitedParts.RemoveAt(i);
                     i--; continue;

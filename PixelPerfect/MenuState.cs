@@ -12,6 +12,10 @@ using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using GameStateMachine;
 
+#if !WINDOWS
+using Microsoft.Phone.Tasks;
+#endif
+
 namespace PixelPerfect
 {
     class MenuState : GameState
@@ -43,40 +47,55 @@ namespace PixelPerfect
         MenuPhase menuPhase = MenuPhase.MAIN;
         List<World> worlds = new List<World>();
         Texture2D levelTile;
-        int selectedWorld = 0;
-        int selectedLevel = 0;
+        int selectedWorld = -1;
+        int selectedLevel = -1;
 
         Button skipButton;
         Button playButton;
         Button backButton;
+        Button sendButton;
+        Button resetButton;
 
         public MenuState(GraphicsDeviceManager graphics, ContentManager content, GameStateManager gameStateManager) 
         {
             this.gameStateManager = gameStateManager;
             this.content = content;
             this.graphics = graphics;
+
+            menuFont = content.Load<SpriteFont>("Silkscreen");
+            levelTile = content.Load<Texture2D>("leveltile");
+
+            worlds = World.LoadWorlds();
+
+            skipButton = new Button("SKIP", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+            playButton = new Button("PLAY", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+            backButton = new Button("BACK", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+            sendButton = new Button("SEND", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+            resetButton = new Button("RESET", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
         }
 
         public override void Enter(int previousStateId)
         {
-            menuFont = content.Load<SpriteFont>("Silkscreen");
-            levelTile = content.Load<Texture2D>("leveltile");
+            
 #if !WINDOWS
             touchState = TouchPanel.GetState();
 #else
             prevMouseState = currMouseState = Mouse.GetState();
 #endif
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
-            worlds = World.LoadWorlds();
-            menuPhase = MenuPhase.WORLDSELECT;
+            
+            if (selectedWorld != -1)
+                menuPhase = MenuPhase.LEVELSELECT;
+            else
+                menuPhase = MenuPhase.WORLDSELECT;
+            
             int levelId = Config.States.LEVEL;
             int textstateId = Config.States.TEXT;
+            
             while (gameStateManager.UnregisterState(levelId++)) ;
             while (gameStateManager.UnregisterState(textstateId++)) ;
 
-            skipButton = new Button("SKIP", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
-            playButton = new Button("PLAY", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
-            backButton = new Button("BACK", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+            
         }
 
         public override void Exit(int nextStateId)
@@ -239,32 +258,77 @@ namespace PixelPerfect
             foreach (TouchLocation touch in touchState)
             {
                 if (touch.State == TouchLocationState.Pressed)
-                {                    
-                    int clickedSquare = ClickedSquare((int)touch.Position.X, (int)touch.Position.Y);
+                {
+                    if (sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    {
+                        SendDataEmail();
+                        break;
+                    }
+                    else if (resetButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    {
+                        ResetSave();
+                        break;
+                    }
+                    else
+                    {
+                        int clickedSquare = ClickedSquare((int)touch.Position.X, (int)touch.Position.Y);
 
-                    if (clickedSquare < 0 || clickedSquare > worlds.Count - 1)
-                        return;
+                        if (clickedSquare < 0 || clickedSquare > worlds.Count - 1)
+                            return;
                     
-                    if (!worlds[clickedSquare].active)
-                       return;
+                        if (!worlds[clickedSquare].active)
+                           return;
 
-                    SelectWorld(clickedSquare);
-                    break;
+                        SelectWorld(clickedSquare);
+                        break;
+                    }
                 }
             }
 #else
             if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
-                int clickedSquare = ClickedSquare(currMouseState.X, currMouseState.Y);
+                if (sendButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                {
+                    SendDataEmail();
+                }
+                else
+                {
+                    int clickedSquare = ClickedSquare(currMouseState.X, currMouseState.Y);
 
-                if (clickedSquare < 0 || clickedSquare > worlds.Count - 1)
-                    return;
+                    if (clickedSquare < 0 || clickedSquare > worlds.Count - 1)
+                        return;
 
-                if (!worlds[clickedSquare].active)
-                    return;
+                    if (!worlds[clickedSquare].active)
+                        return;
 
-                SelectWorld(clickedSquare);
+                    SelectWorld(clickedSquare);
+                }
             }
+#endif
+        }
+
+        private void ResetSave()
+        {
+            Savestate.Reset();
+            Savestate.Instance.Save();
+        }
+
+        private void SendDataEmail()
+        {
+#if WINDOWS
+            return;
+#else
+            EmailComposeTask emailComposeTask = new EmailComposeTask();
+
+            emailComposeTask.Subject = "[PIXEL PERFECT] Stats from " + Convert.ToBase64String((byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId"));
+            emailComposeTask.To = "takashivip@gmail.com";           
+            emailComposeTask.Body = "Level key\tTime\t Deaths\n";
+            foreach (KeyValuePair<string, Levelsave> levelsave in Savestate.Instance.levelSaves)
+            {
+                if (levelsave.Value.completed)
+                    emailComposeTask.Body += levelsave.Key + "\t" + levelsave.Value.bestTime.ToString() + "\t" + levelsave.Value.deathCount + "\n";
+            }
+            emailComposeTask.Show();
 #endif
         }
 
@@ -352,7 +416,7 @@ namespace PixelPerfect
             Levelsave levelsave;
             bool exist = Savestate.Instance.levelSaves.TryGetValue(worlds[selectedWorld].GetLevelFile(selectedLevel), out levelsave);
 
-            Color nameColor = (worlds[selectedWorld].LevelCompleted(selectedLevel) ? Color.Gold : worlds[selectedWorld].LevelSkipped(selectedLevel) ? Color.Green : Color.White);
+            Color nameColor = (worlds[selectedWorld].LevelCompleted(selectedLevel) ? Color.Green : worlds[selectedWorld].LevelSkipped(selectedLevel) ? Color.Gold : Color.White);
             Color deathColor = Color.White;
             Color timeColor = Color.White;
 
@@ -403,6 +467,8 @@ namespace PixelPerfect
                 var textOffset = menuFont.MeasureString(worlds[i].name) / 2;
                 spriteBatch.DrawString(menuFont, worlds[i].name, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
             }
+            sendButton.Draw(spriteBatch);
+            resetButton.Draw(spriteBatch);
         }
 
         public void Draw_LevelSelect(SpriteBatch spriteBatch)
@@ -417,8 +483,8 @@ namespace PixelPerfect
                 x = Config.Menu.OFFSET_X + (i % Config.Menu.NUM_IN_ROW) * (levelTile.Width + Config.Menu.HORIZONTAL_SPACE);
                 y = Config.Menu.OFFSET_Y + (i / Config.Menu.NUM_IN_ROW) * (levelTile.Height + Config.Menu.VERTICAL_SPACE);
 
-                color = worlds[selectedWorld].LevelCompleted(i) ? Color.Gold  : 
-                        worlds[selectedWorld].LevelSkipped(i)   ? Color.Green : 
+                color = worlds[selectedWorld].LevelCompleted(i) ? Color.Green : 
+                        worlds[selectedWorld].LevelSkipped(i)   ? Color.Gold : 
                         worlds[selectedWorld].LevelActivated(i) ? Color.White : Color.Gray;
 
                 spriteBatch.Draw(levelTile, new Vector2(x, y), color);

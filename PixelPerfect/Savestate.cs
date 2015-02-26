@@ -41,6 +41,11 @@ namespace PixelPerfect
             levelSaves = new Dictionary<string, Levelsave>();            
         }
 
+        public static void Reset()
+        {
+            Instance = new Savestate();            
+        }
+
         public static bool Init() // Savestate class first need to be initialized, if file exists loaded, if not new created and saved
         {
 #if !WINDOWS

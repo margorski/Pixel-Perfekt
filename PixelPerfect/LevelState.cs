@@ -38,7 +38,7 @@ namespace PixelPerfect
 #endif
         private GamePadState prevGPState;
         private GamePadState currGPState;
-        private int deathCount = 0;
+        public int deathCount { private set; get; }
         //private int i = 0;
 
         public string levelFile { private set; get; }
@@ -76,8 +76,11 @@ namespace PixelPerfect
         {
             Globals.CurrentLevelState = null;
             Globals.upsideDown = false;
-            Savestate.Instance.levelSaves[LevelId()].deathCount += deathCount;
-            Savestate.Instance.Save();
+            if (!Savestate.Instance.levelSaves[LevelId()].completed)
+            {
+                Savestate.Instance.levelSaves[LevelId()].deathCount += deathCount;
+                Savestate.Instance.Save();
+            }
         }
 
         public override void Resume(int poppedStateId)
@@ -192,10 +195,12 @@ namespace PixelPerfect
                         Savestate.Instance.levelSaves[LevelId()].completed = true;
                         Savestate.Instance.levelSaves[LevelId()].skipped = false;
                         Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
+                        Savestate.Instance.Save();
                     }
                     else if (Savestate.Instance.levelSaves[LevelId()].bestTime > levelTime)
                     {
                         Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
+                        Savestate.Instance.Save();
                     }
                     if (!gameStateManager.ChangeState(Config.States.MENU))
                         gameStateManager.EmptyStack();                        
@@ -361,7 +366,10 @@ namespace PixelPerfect
             }
 
             if (!Savestate.Instance.levelSaves.ContainsKey(LevelId()))
+            {
                 Savestate.Instance.levelSaves.Add(LevelId(), new Levelsave());
+                Savestate.Instance.Save();
+            }
         }        
 
         private void ResetInput()

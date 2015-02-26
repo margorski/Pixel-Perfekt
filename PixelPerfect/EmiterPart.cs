@@ -22,6 +22,7 @@ namespace PixelPerfect
             EndSquizz
         }
 
+        Animation animation;
         Color color;
         Vector2 position;
         Vector2 endPosition;
@@ -29,8 +30,7 @@ namespace PixelPerfect
         Vector2 size;
         int maxWidth;
         int maxHeight;
-        Rectangle textureRectangle;
-        Rectangle sourceRectangle;
+        Rectangle textureRectangle;        
         Texture2D texture;
         MovementDirection movementDirection;
         MovePhase movePhase;
@@ -42,38 +42,51 @@ namespace PixelPerfect
             }
         }
 
+        private Rectangle sourceRectangle
+        {
+            get
+            {
+                var rectangle = AdjustTextureRectangle();
+                rectangle.Y += animation.GetCurrentFrame() * textureRectangle.Height;
+                return rectangle;                
+            }
+        }
+
         public EmiterPart() { }
 
         public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Rectangle textureRectangle, Color color)
         {
             this.position = position;
             this.texture = texture;
-            this.textureRectangle = sourceRectangle = textureRectangle;
+            this.textureRectangle = textureRectangle;
             this.movementDirection = movementDirection;
             maxWidth = textureRectangle.Width;
             maxHeight = textureRectangle.Height;
             movePhase = MovePhase.StartStretch;
             this.color = color;
-            
+
+            animation = new Animation(4, (int)(Config.EMITER_ANIMATION_SPEED_BASE - speed * Config.EMITER_ANIMATION_SPEED_FACTOR), false);
             InitializeSize();
             InitializeSpeed(speed);
             InitializeEndPosition(distance);
         }
 
-        public bool Update(double deltaSeconds)
+        public bool Update(GameTime gameTime)
         {
+            animation.Update(gameTime);
+
             switch (movePhase)
             {
                 case MovePhase.StartStretch:
-                    StretchPart(deltaSeconds);
+                    StretchPart(gameTime.ElapsedGameTime.TotalSeconds);
                     break;
 
                 case MovePhase.Move:
-                    MovePart(deltaSeconds);
+                    MovePart(gameTime.ElapsedGameTime.TotalSeconds);
                     break;
 
                 case MovePhase.EndSquizz:
-                    if (SquezePart(deltaSeconds))
+                    if (SquezePart(gameTime.ElapsedGameTime.TotalSeconds))
                         return true;
                     break;
             }
@@ -207,79 +220,79 @@ namespace PixelPerfect
             return false;
         }
 
-        public void AdjustTextureRectangle()
+        private Rectangle AdjustTextureRectangle()
         {
             
             switch (movePhase)
             {
                 case MovePhase.Move:
-                    sourceRectangle = textureRectangle;
-                    break;
+                    return textureRectangle;
 
                 case MovePhase.StartStretch:
-                    AdjustTextureRectangleStretch();
-                    break;
+                    return AdjustTextureRectangleStretch();
 
                 case MovePhase.EndSquizz:
-                    AdjustTextureRectangleSquizz();
-                    break;
+                    return AdjustTextureRectangleSquizz();
             }
+
+            return Rectangle.Empty;
         }
 
-        public void AdjustTextureRectangleStretch()
+        private Rectangle AdjustTextureRectangleStretch()
         {
             switch (movementDirection)
             {
                 case MovementDirection.Left:
-                    sourceRectangle = new Rectangle(textureRectangle.X, textureRectangle.Y,
+                    return new Rectangle(textureRectangle.X, textureRectangle.Y,
                                                     (int)size.X, textureRectangle.Height);
-                    break;
+
                 case MovementDirection.Right:
-                    sourceRectangle = new Rectangle(textureRectangle.X + textureRectangle.Width - (int)size.X,
+                    return new Rectangle(textureRectangle.X + textureRectangle.Width - (int)size.X,
                                                     textureRectangle.Y, 
                                                     (int)size.X, 
                                                     textureRectangle.Height);
-                    break;
 
                 case MovementDirection.Down:
-                    sourceRectangle = new Rectangle(textureRectangle.X,
+                    return new Rectangle(textureRectangle.X,
                                                     textureRectangle.Y + textureRectangle.Height - (int)size.Y,
                                                     textureRectangle.Width,
                                                     (int)size.Y);
-                    break;
+
                 case MovementDirection.Up:
-                    sourceRectangle = new Rectangle(textureRectangle.X, textureRectangle.Y,
+                    return new Rectangle(textureRectangle.X, textureRectangle.Y,
                                                     textureRectangle.Width, (int)size.Y);
-                    break;
             }
+
+            return Rectangle.Empty;
         }
 
-        public void AdjustTextureRectangleSquizz()
+        private Rectangle AdjustTextureRectangleSquizz()
         {
             switch (movementDirection)
             {
                 case MovementDirection.Right:
-                    sourceRectangle = new Rectangle(textureRectangle.X, textureRectangle.Y,
+                    return new Rectangle(textureRectangle.X, textureRectangle.Y,
                                                     (int)size.X, textureRectangle.Height);
-                    break;
+
                 case MovementDirection.Left:
-                    sourceRectangle = new Rectangle(textureRectangle.X + textureRectangle.Width - (int)size.X,
+                    return new Rectangle(textureRectangle.X + textureRectangle.Width - (int)size.X,
                                                     textureRectangle.Y,
                                                     (int)size.X,
                                                     textureRectangle.Height);
-                    break;
 
                 case MovementDirection.Up:
-                    sourceRectangle = new Rectangle(textureRectangle.X,
+                    return new Rectangle(textureRectangle.X,
                                                     textureRectangle.Y + textureRectangle.Height - (int)size.Y,
                                                     textureRectangle.Width,
                                                     (int)size.Y);
-                    break;
+
                 case MovementDirection.Down:
-                    sourceRectangle = new Rectangle(textureRectangle.X, textureRectangle.Y,
+                    return new Rectangle(textureRectangle.X, textureRectangle.Y,
                                                     textureRectangle.Width, (int)size.Y);
-                    break;
+
             }
+
+            return Rectangle.Empty;
         }
 
         public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)

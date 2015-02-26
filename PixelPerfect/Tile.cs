@@ -154,9 +154,11 @@ namespace PixelPerfect
             }
             else
             {
-                attributes &= ~Attributes.NoDraw;                
-                attributes |= Attributes.Platform;
-                attributes |= Attributes.Solid;
+                attributes &= ~Attributes.NoDraw;        
+                if (platform)
+                    attributes |= Attributes.Platform;
+                if (solid)
+                    attributes |= Attributes.Solid;
             }
         }
 

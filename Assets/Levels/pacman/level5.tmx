@@ -1,84 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" width="32" height="16" tilewidth="6" tileheight="6">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="10">
  <properties>
-  <property name="name" value="Mess invaders"/>
+  <property name="name" value="pacman"/>
  </properties>
- <tileset firstgid="1" name="tileset" tilewidth="6" tileheight="6">
-  <image source="../../../../Assets/world1/tileset.png" width="120" height="60"/>
+ <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
+  <image source="tileset.png" width="160" height="200"/>
  </tileset>
- <layer name="Tile Layer 1" width="32" height="16">
+ <layer name="Tile Layer 1" width="34" height="17">
   <properties>
    <property name="texture" value="tileset"/>
   </properties>
   <data encoding="csv">
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,6,0,0,0,0,0,0,0,0,0,0,0,0,0,9,10,11,0,0,0,0,0,0,0,0,0,0,0,0,6,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,12,13,14,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,2,2,2,22,22,22,15,16,17,22,22,22,2,2,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,1,
-1,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,
-1,0,0,0,0,0,0,0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,1,
-1,0,0,7,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,7,7,0,0,1,
-1,2,2,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,2,2,2,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,6,0,0,0,0,0,0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,6,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,20,0,0,0,0,0,0,0,0,0,0,2,2,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-1,2,2,2,2,2,2,0,0,0,2,2,2,2,2,2,2,2,2,2,2,2,0,0,0,2,2,2,2,2,2,1
+0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,42,42,0,0,0,0,0,0,0,0,0,0,0,0,0,82,82,82,0,0,19,19,0,0,0,0,0,
+0,0,0,19,19,0,0,0,0,0,0,0,0,0,0,0,19,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,161,21,41,0,0,0,1,21,181,0,0,0,0,0,0,19,19,0,0,0,0,
+82,82,0,0,0,0,0,0,0,0,0,0,0,81,0,0,0,0,0,0,6,81,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,121,0,0,0,0,0,0,0,0,0,22,22,22,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,13,0,0,0,0,0,0,0,0,19,19,19,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,19,19,101,0,0,82,82,82,0,0,101,42,42,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,7,0,0,0,0,0,0,0,0,81,6,0,0,0,0,0,47,81,0,0,0,0,0,0,0,0,0,0,0,0,
+0,19,19,19,19,19,19,0,0,82,82,0,0,201,21,41,0,0,0,1,21,221,6,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,
+82,82,82,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,42,42,42,42,42,0,0,82,82,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup name="enemy" width="32" height="16">
+ <objectgroup name="enemies">
   <properties>
    <property name="_type" value="1"/>
-   <property name="sizex" value="12"/>
-   <property name="sizey" value="8"/>
-   <property name="speedx" value="20"/>
-   <property name="speedy" value="20"/>
-   <property name="texture" value="enemies_12x8"/>
+   <property name="sizex" value="14"/>
+   <property name="sizey" value="14"/>
+   <property name="speedx" value="25"/>
+   <property name="speedy" value="15"/>
+   <property name="texture" value="enemies_14x14"/>
   </properties>
-  <object type="2" x="62" y="60">
-   <polyline points="-18,0 68,0"/>
+  <object id="6" type="1" x="140" y="20">
+   <polyline points="0,0 48,0 48,96 -48,96 -48,0 0,0"/>
   </object>
-  <object type="0" x="66" y="36">
-   <polyline points="-16,0 60,0"/>
+  <object id="7" type="2" x="188" y="68">
+   <polyline points="0,0 0,48 -96,48 -96,-48 0,-48 0,0"/>
   </object>
-  <object type="1" x="80" y="12">
-   <polyline points="-12,0 38,0"/>
+  <object id="8" type="3" x="140" y="116">
+   <polyline points="0,0 -48,0 -48,-96 48,-96 48,0 0,0"/>
   </object>
- </objectgroup>
- <objectgroup name="enemy_stop" width="32" height="16">
-  <properties>
-   <property name="_type" value="1"/>
-   <property name="sizex" value="12"/>
-   <property name="sizey" value="8"/>
-   <property name="speedx" value="0"/>
-   <property name="speedy" value="0"/>
-   <property name="texture" value="enemies_12x8"/>
-  </properties>
-  <object type="3" x="46" y="92">
-   <polyline points="0,0 0,0"/>
-  </object>
-  <object type="3" x="136" y="92">
-   <polyline points="0,0 0,0"/>
-  </object>
- </objectgroup>
- <objectgroup name="emmiters" width="32" height="16">
-  <properties>
-   <property name="_type" value="2"/>
-   <property name="delay" value="1200"/>
-   <property name="offset" value="600"/>
-   <property name="sizex" value="3"/>
-   <property name="sizey" value="5"/>
-   <property name="speed" value="30"/>
-   <property name="texture" value="emiter_3x5"/>
-  </properties>
-  <object x="50" y="90">
-   <polyline points="0,0 0,-100"/>
-  </object>
-  <object x="140" y="90">
-   <polyline points="0,0 0,-100"/>
+  <object id="9" type="4" x="92" y="68">
+   <polyline points="0,0 0,-48 96,-48 96,48 0,48 0,0"/>
   </object>
  </objectgroup>
 </map>

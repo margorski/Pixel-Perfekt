@@ -75,7 +75,7 @@ namespace PixelPerfect
             this.blink = blink;
             this.guardian = guardian;
             this.offset = offset;
-            animation = new Animation(4, (int)(Config.ANIMATION_SPEED_BASE - speed.Length() * Config.ANIMATION_SPEED_FACTOR), false);
+            animation = new Animation(4, (int)(Config.ENEMY_ANIMATION_SPEED_BASE - speed.Length() * Config.ENEMY_ANIMATION_SPEED_FACTOR), false);
  
             AdjustSpeed();
         }

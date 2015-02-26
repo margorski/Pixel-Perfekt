@@ -63,7 +63,7 @@ namespace PixelPerfect
                                    new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                                    new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Center);
 
-            Util.DrawStringAligned(spriteBatch, "DEATHS: " + Savestate.Instance.levelSaves[Globals.CurrentLevelState.LevelId()].deathCount, spriteFont, Color.White,
+            Util.DrawStringAligned(spriteBatch, "DEATHS: " + Globals.CurrentLevelState.deathCount, spriteFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                         new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Right);
              

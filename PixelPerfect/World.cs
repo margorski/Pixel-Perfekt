@@ -178,6 +178,7 @@ namespace PixelPerfect
 
             foreach (World world in worlds)
                 world.PrepareSavestate();
+            Savestate.Instance.Save();
 
             return worlds;
         }
