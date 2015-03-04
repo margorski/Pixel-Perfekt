@@ -338,10 +338,10 @@ namespace PixelPerfect
         {
             if (!upsidedownBatch)
             {
-                map.Draw(spriteBatch);
-
                 foreach (PixelParticle pixelParticle in pixelParticles)
                     pixelParticle.Draw(spriteBatch);
+
+                map.Draw(spriteBatch);
 
                 player.Draw(spriteBatch);
             }

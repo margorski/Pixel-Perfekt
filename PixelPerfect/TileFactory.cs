@@ -116,7 +116,7 @@ namespace PixelPerfect
             if (type == (int)Config.TileType.CRUSHY)
                 return new CrushyTile(position, tileTexture, pixelTexture, attributes, sourceRectangle, color);
             else if (type == (int)Config.TileType.KEY)
-                return new CollectibleTile(position, tileTexture, attributes, sourceRectangle, color);
+                return new CollectibleTile(position, tileTexture, pixelTexture, attributes, sourceRectangle, color);
             else if (type == (int)Config.TileType.MOVING_LEFT)
                 return new MovingTile(position, tileTexture, attributes, sourceRectangle, color, -Config.Tile.MOVINGPLATFORM_SPEED);
             else if (type == (int)Config.TileType.MOVING_RIGHT)

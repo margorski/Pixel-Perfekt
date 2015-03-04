@@ -26,6 +26,8 @@ namespace PixelPerfect
         Color color;
         bool gravityAffect;
 
+        public bool enviroAffect;
+
         public Config.StandingType standingType = Config.StandingType.Pixel;
 
         public Vector2 enviroSpeed;
@@ -44,7 +46,7 @@ namespace PixelPerfect
 
         public Map map;
 
-        public PixelParticle(Texture2D texture, Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null)
+        public PixelParticle(Texture2D texture, Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null, bool enviroAffect = true, Config.StandingType standingType = Config.StandingType.Pixel)
         {
             enviroSpeed = Vector2.Zero;
             this.texture = texture;
@@ -58,6 +60,8 @@ namespace PixelPerfect
             this.color = color;
             this.gravityAffect = gravityAffect;
             this.map = map;
+            this.enviroAffect = enviroAffect;
+            this.standingType = standingType;
         }
 
         public bool Update(GameTime gameTime)
@@ -82,7 +86,7 @@ namespace PixelPerfect
             float movingModifier = 0.0f;
 
             position.X += (float)(speedX * gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0); // move horizontally
-            if (map != null)
+            if (map != null && enviroAffect)
             {
                 if (map.CheckCollisions(BoundingBox, Tile.Attributes.Solid, out tempRectangle))
                 {
@@ -92,7 +96,7 @@ namespace PixelPerfect
             }
                         
             position.Y += (float)(speedY * gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0); // move vertically
-            if (map != null)
+            if (map != null && enviroAffect)
             {
                 
                 if (map.CheckCollisions(BoundingBox, Tile.Attributes.Solid, out tempRectangle) ||    // solid block hit (from top or bottom)

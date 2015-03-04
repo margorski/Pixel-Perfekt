@@ -88,7 +88,9 @@ namespace PixelPerfect
                 menuPhase = MenuPhase.LEVELSELECT;
             else
                 menuPhase = MenuPhase.WORLDSELECT;
-            
+
+            World.RefreshWorldStatus(worlds);
+
             int levelId = Config.States.LEVEL;
             int textstateId = Config.States.TEXT;
             

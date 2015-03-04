@@ -167,14 +167,7 @@ namespace PixelPerfect
         {
             var worlds = LoadWorlds("worlds.xml");
 
-            worlds[0].active = true;
-            
-            for (int i = 1; i < worlds.Count; i++)                
-            {                
-                if (!Config.CHEAT_MODE && !worlds[i - 1].Completed())
-                    break;
-                worlds[i].active = true;
-            }
+            RefreshWorldStatus(worlds);
 
             foreach (World world in worlds)
                 world.PrepareSavestate();
@@ -183,6 +176,17 @@ namespace PixelPerfect
             return worlds;
         }
 
+        public static void RefreshWorldStatus(List<World> worlds)
+        {
+            worlds[0].active = true;
+
+            for (int i = 1; i < worlds.Count; i++)
+            {
+                if (!Config.CHEAT_MODE && !worlds[i - 1].Completed())
+                    break;
+                worlds[i].active = true;
+            }
+        }
 
 
         internal bool Skip(int selectedLevel)

@@ -28,6 +28,7 @@ namespace PixelPerfect
             public const UInt32 onMovingPlatform = 1 << 7;
             public const UInt32 dying = 1 << 8;            
             public const UInt32 jumpStopped = 1 << 9;  // wtf hack for jumping from stopped position
+            public const UInt32 fallThroughScreen = 1 << 10;
         }
         // Public
         public Rectangle boundingBox
@@ -183,9 +184,14 @@ namespace PixelPerfect
                 SetState(State.falling, true);
 
             if ((position.Y) > (Config.Map.HEIGHT * Config.Tile.SIZE) - 1)
+            {
                 position.Y = 0 - Config.Player.HEIGHT;
+                SetState(State.fallThroughScreen, true);
+            }
             else if (position.Y < -Config.Player.HEIGHT)
+            {
                 position.Y = (Config.Map.HEIGHT * Config.Tile.SIZE) - 2;
+            }
         }
 
         public void SetHorizontalPositionOnTile(Rectangle tileBox)
@@ -280,9 +286,16 @@ namespace PixelPerfect
 
         public void HitTheGround(Rectangle tileBox)
         {
-            if (GetState(Player.State.falling))
+            if (GetState(State.falling))
             {
-                if ((boundingBox.Y - jumpY) > Config.Player.MAX_FALL_DISTANCE)
+                float fallDistance = boundingBox.Y - jumpY;
+                
+                if (GetState(State.fallThroughScreen))
+                {
+                    fallDistance += (Config.Map.HEIGHT) * Config.Tile.SIZE; 
+                }
+
+                if (fallDistance > Config.Player.MAX_FALL_DISTANCE)
                 {
                     SetState(State.dying, true);
                     return;
@@ -296,10 +309,11 @@ namespace PixelPerfect
                 SetState(Player.State.tryJump, false);
             }
 
-            SetState(Player.State.stoppedTemp, false);
-            SetState(Player.State.jumping, false);
-            SetState(Player.State.falling, false);
-            SetState(Player.State.jumpStopped, false);
+            SetState(State.stoppedTemp, false);
+            SetState(State.jumping, false);
+            SetState(State.falling, false);
+            SetState(State.jumpStopped, false);
+            SetState(State.fallThroughScreen, false);
         }
 
         public void HitTheWall(Rectangle tileBox)

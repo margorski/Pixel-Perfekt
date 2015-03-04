@@ -260,11 +260,21 @@ namespace PixelPerfect
     {
         private const int blinkMs = 200;
         private bool active = true;
+        private bool emmiting = false;
+
+        private int pixelCount = 0;
+        private TimeSpan pixelEmitTime = TimeSpan.Zero;
+        private Random rnd = new Random();
+        private Texture2D pixelTexture;
 
         private TimeSpan blinkTime = TimeSpan.Zero;
         private Color[] blinkColors = { Color.Red, Color.Violet, Color.Green, Color.Blue, Color.Yellow };
-
-        public CollectibleTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color) : base(position, texture, attributes, sourceRect, color) { }
+        
+        public CollectibleTile(Vector2 position, Texture2D texture, Texture2D pixelTexture, UInt32 attributes, Rectangle sourceRect, Color color, bool emmiting = false) : base(position, texture, attributes, sourceRect, color)
+        { 
+            this.pixelTexture = pixelTexture;
+            this.emmiting = emmiting;
+        }
  
         public override void Update(GameTime gameTime)
         {
@@ -272,11 +282,24 @@ namespace PixelPerfect
 
             if (!active)
                 return;
-         
+
+            if ((attributes & Attributes.NoDraw) > 0)
+                return;
+
             blinkTime += gameTime.ElapsedGameTime;
             if (blinkTime.TotalMilliseconds >= (blinkMs * blinkColors.Length))
                 blinkTime = TimeSpan.Zero;
             color = blinkColors[(int)(blinkTime.TotalMilliseconds / blinkMs)];
+
+            if (!emmiting)
+                return;
+
+            pixelEmitTime += gameTime.ElapsedGameTime;
+            if (pixelEmitTime.TotalMilliseconds > Config.PixelParticle.COLLECTIBLE_EMITTIME)
+            {
+                pixelEmitTime = TimeSpan.Zero;
+                EmitPixel();
+            }
         }
 
         public void Activate()
@@ -288,6 +311,17 @@ namespace PixelPerfect
         {
             active = false;
             color = Color.Gray;
+        }
+        public void EmitPixel()
+        {
+            int x = rnd.Next(Config.Tile.SIZE - 4);
+            float accy = 15.0f + (float)rnd.NextDouble() * 2.0f;
+
+            Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixelTexture,
+                               new Vector2(boundingBox.Left + 2 + x, boundingBox.Bottom - 2),
+                               rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
+                               new Vector2(0.0f, 0.0f),
+                               new Vector2(0.0f, accy), color, false, Globals.CurrentMap, false, Config.StandingType.NoImpact));
         }
     }
 }

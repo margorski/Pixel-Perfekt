@@ -15,7 +15,7 @@ namespace PixelPerfect
 {
     static class Config
     {
-        public const bool CHEAT_MODE = false;
+        public const bool CHEAT_MODE = true;
         /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
          */
@@ -61,11 +61,14 @@ namespace PixelPerfect
         {
             public const float SPEED = 10.0f;
             public const float EMITTIME = 50.0f;
+            public const float COLLECTIBLE_EMITTIME = 100.0f;
             public const float HTORQUE_GROUND = 2.0f;
             public const float HTORQUE_INAIR = 0.3f;
             public const float HBRAKE = 0.5f;
             public const float MAX_FALL_SPEED = 70.0f;
             public const float MAX_FLY_SPEED = -150.0f;
+            public const int PIXELPARTICLE_LIFETIME_MIN = 400;
+            public const int PIXELPARTICLE_LIFETIME_MAX = 1200;
             public const int MAX_EXPLOSION_MAGNITUDE = 70;
         }
 
