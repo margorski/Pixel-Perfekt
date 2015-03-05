@@ -27,15 +27,16 @@ namespace PixelPerfect
         private List<Enemy> enemiesList = new List<Enemy>();
         private List<Emiter> emiterList = new List<Emiter>();
         private List<Trigger> triggerList = new List<Trigger>();
+        private Vector2 mapOffset = Vector2.Zero;
         public bool upsidedown { get; private set; }
-
+        public bool moving { get; private set; }
         // Public
         public Vector2 startPosition { private set; get; }
         public byte collectiblesCount { private set;  get; }
         public string levelName { private set; get; }
-
+        
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, bool upsidedown = false)
+        public Map(Texture2D tileset, Texture2D pixel, int[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, bool upsidedown = false, bool moving = false)
         {
             this.mapa = mapa;
             this.enemiesList = enemiesList;
@@ -43,6 +44,7 @@ namespace PixelPerfect
             this.triggerList = triggerList;
             this.levelName = levelName;
             this.upsidedown = upsidedown;
+            this.moving = moving;
 
             tileMapa = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
             this.tileset = tileset;
@@ -65,6 +67,14 @@ namespace PixelPerfect
 
         public void Update(GameTime gameTime)
         {
+            if (moving)
+            {
+                mapOffset.X -= (float)(gameTime.ElapsedGameTime.TotalSeconds * 25.0);
+                if (mapOffset.X <= -Config.Tile.SIZE * Config.Map.WIDTH)
+                    mapOffset.X = 0.0f;
+            }
+
+
             foreach (Tile tile in tileMapa)
                 tile.Update(gameTime);
             foreach (Enemy enemy in enemiesList)
@@ -78,11 +88,18 @@ namespace PixelPerfect
         public void Draw(SpriteBatch spriteBatch)
         {
             foreach (Tile tile in tileMapa)
-                tile.Draw(spriteBatch);
+            {
+                tile.Draw(spriteBatch, mapOffset);
+                if (moving) // draw 2x tiles for moving map
+                {
+                    var secondMapOffset = mapOffset + new Vector2(Config.Tile.SIZE * Config.Map.WIDTH, 0.0f);
+                    tile.Draw(spriteBatch, secondMapOffset);
+                }
+            }
             foreach (Enemy enemy in enemiesList)
-                enemy.Draw(spriteBatch);
+                enemy.Draw(spriteBatch, Vector2.Zero);
             foreach (Emiter emiter in emiterList)
-                emiter.Draw(spriteBatch);
+                emiter.Draw(spriteBatch, Vector2.Zero);
         }
 
         public void CheckTriggers(Rectangle playerRect)
@@ -95,6 +112,9 @@ namespace PixelPerfect
 
         public bool CheckCollisions(Rectangle boundingBox, UInt32 attributes)
         {
+            boundingBox.X += (int)mapOffset.X;
+            boundingBox.Y += (int)mapOffset.Y;
+
             int startRow = boundingBox.Top / Config.Tile.SIZE;
             int endRow = (boundingBox.Bottom - 1) / Config.Tile.SIZE;
             int startColumn = boundingBox.Left / Config.Tile.SIZE;
@@ -119,6 +139,9 @@ namespace PixelPerfect
 
         public bool CheckCollisions(Rectangle boundingBox, UInt32 attributes, out Rectangle outRectangle, Config.StandingType standingType = Config.StandingType.Player)
         {
+            boundingBox.X -= (int)mapOffset.X;
+            boundingBox.Y -= (int)mapOffset.Y;
+
             outRectangle = new Rectangle(0,0,0,0);
 
             int startRow = boundingBox.Top / Config.Tile.SIZE;
@@ -154,38 +177,50 @@ namespace PixelPerfect
 
         public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle, out float movingModifier, Config.StandingType standingType = Config.StandingType.Player)
         {
+            List<Rectangle> boundingBoxes = new List<Rectangle>();            
+            boundingBoxes.Add(new Rectangle(boundingBox.X - (int)mapOffset.X, boundingBox.Y - (int)mapOffset.Y,
+                                            boundingBox.Width, boundingBox.Height));
+            if (moving)
+                boundingBoxes.Add(new Rectangle(boundingBox.X - (int)(mapOffset.X + Config.Tile.SIZE * Config.Map.WIDTH), boundingBox.Y - (int)mapOffset.Y,
+                                            boundingBox.Width, boundingBox.Height));
+
             Rectangle tileRectangle;
             outRectangle = new Rectangle(0, 0, 0, 0);
             movingModifier = 0.0f;
-            boundingBox.Y += (boundingBox.Height - 1);
-            boundingBox.Height = 1;
 
-            int row = boundingBox.Top / Config.Tile.SIZE;    
-            int endRow = (boundingBox.Bottom - 1) / Config.Tile.SIZE;
-            int startColumn = boundingBox.Left / Config.Tile.SIZE;
-            int endColumn = (boundingBox.Right - 1) / Config.Tile.SIZE;
-
-
-            for (int j = startColumn; j <= endColumn; j++)
+            foreach (Rectangle bbox in boundingBoxes)
             {
-                int index = row * Config.Map.WIDTH + j;
-                if (index > tileMapa.Length - 1 || index < 0)
-                    continue;
+                var tempBoundingBox = bbox;
+                tempBoundingBox.Y += (tempBoundingBox.Height - 1);
+                tempBoundingBox.Height = 1;
 
-                tileRectangle = tileMapa[index].boundingBox;
-                tileRectangle.Height = 1;
+                int row = tempBoundingBox.Top / Config.Tile.SIZE;
+                int endRow = (tempBoundingBox.Bottom - 1) / Config.Tile.SIZE;
+                int startColumn = tempBoundingBox.Left / Config.Tile.SIZE;
+                int endColumn = (tempBoundingBox.Right - 1) / Config.Tile.SIZE;
 
-                if (((tileMapa[index].attributes & Tile.Attributes.Platform) > 0) &&
-                    boundingBox.Intersects(tileRectangle))
+
+                for (int j = startColumn; j <= endColumn; j++)
                 {
-                    outRectangle = tileMapa[index].boundingBox;
-                    if (tileMapa[index] is CrushyTile)
-                        ((CrushyTile)tileMapa[index]).StandOn(standingType);
+                    int index = row * Config.Map.WIDTH + j;
+                    if (index > tileMapa.Length - 1 || index < 0)
+                        continue;
 
-                    if (tileMapa[index] is MovingTile)
-                        movingModifier = ((MovingTile)tileMapa[index]).movingSpeed;
+                    tileRectangle = tileMapa[index].boundingBox;
+                    tileRectangle.Height = 1;
 
-                    return true;
+                    if (((tileMapa[index].attributes & Tile.Attributes.Platform) > 0) &&
+                        tempBoundingBox.Intersects(tileRectangle))
+                    {
+                        outRectangle = tileMapa[index].boundingBox;
+                        if (tileMapa[index] is CrushyTile)
+                            ((CrushyTile)tileMapa[index]).StandOn(standingType);
+
+                        if (tileMapa[index] is MovingTile)
+                            movingModifier = ((MovingTile)tileMapa[index]).movingSpeed;
+
+                        return true;
+                    }
                 }
             }
             return false;
@@ -331,6 +366,7 @@ namespace PixelPerfect
             int[] mapa = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
             string levelName = "";
             bool upsidedown = false;
+            bool moving = false;
             int triggerCount = 0;
 
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile)))
@@ -371,6 +407,10 @@ namespace PixelPerfect
                                         case "upsidedown":
                                             upsidedown = (int.Parse(value) == 1 ? true : false);
                                             break;
+                                        case "moving":
+                                            moving = (int.Parse(value) == 1 ? true : false);
+                                            break;
+                                            
                                     }
                                 } while (xmlreader.ReadToNextSibling("property"));
                                 break;
@@ -698,7 +738,7 @@ namespace PixelPerfect
             if (tileset == null)
                 return null;
 
-            return new Map(tileset, pixel, mapa, enemiesList, emiterList, triggerList, levelName, upsidedown);
+            return new Map(tileset, pixel, mapa, enemiesList, emiterList, triggerList, levelName, upsidedown, moving);
         }
     }
 }

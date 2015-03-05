@@ -78,11 +78,11 @@ namespace PixelPerfect
             emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, textureRectangle, color));
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
             foreach (EmiterPart emitedPart in emitedParts)
             {
-                emitedPart.Draw(spriteBatch);
+                emitedPart.Draw(spriteBatch, offset);
             }
         }
 

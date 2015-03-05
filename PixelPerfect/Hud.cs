@@ -68,10 +68,10 @@ namespace PixelPerfect
                         new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Right);
              
             foreach (Tile tile in collectibleTiles)
-                tile.Draw(spriteBatch);
+                tile.Draw(spriteBatch, Vector2.Zero);
 
             foreach (Tile tile in collectedTiles)
-                tile.Draw(spriteBatch);
+                tile.Draw(spriteBatch, Vector2.Zero);
         }
 
         public void Collect()

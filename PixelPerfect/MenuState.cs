@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
+using PixelPerfect.Bosses.Capman;
 using GameStateMachine;
 
 #if !WINDOWS
@@ -55,7 +56,7 @@ namespace PixelPerfect
         Button backButton;
         Button sendButton;
         Button resetButton;
-
+        Button pacmanButton; // temp
         public MenuState(GraphicsDeviceManager graphics, ContentManager content, GameStateManager gameStateManager) 
         {
             this.gameStateManager = gameStateManager;
@@ -70,8 +71,10 @@ namespace PixelPerfect
             skipButton = new Button("SKIP", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
             playButton = new Button("PLAY", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
             backButton = new Button("BACK", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+
             sendButton = new Button("SEND", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
             resetButton = new Button("RESET", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+            pacmanButton = new Button("PACMAN", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
         }
 
         public override void Enter(int previousStateId)
@@ -211,6 +214,14 @@ namespace PixelPerfect
             gameStateManager.ChangeState(Config.States.LEVEL + selectedLevel);
         }
 
+        private void StartPacmanLevel()
+        {
+            var levelState = new PacmanLevelState(graphics, content, gameStateManager);
+            levelState.scale = scale;
+            gameStateManager.RegisterState(Config.States.LEVEL + 99, levelState);
+            gameStateManager.ChangeState(Config.States.LEVEL + 99);
+        }
+
         public void Update_HandleBack()
         {
             currGPState = GamePad.GetState(PlayerIndex.One);
@@ -271,7 +282,12 @@ namespace PixelPerfect
                         ResetSave();
                         break;
                     }
-                    else
+                    else if (pacmanButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    {
+                        StartPacmanLevel();
+                        break;
+                    }
+                    else 
                     {
                         int clickedSquare = ClickedSquare((int)touch.Position.X, (int)touch.Position.Y);
 
@@ -292,6 +308,10 @@ namespace PixelPerfect
                 if (sendButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
                 {
                     SendDataEmail();
+                }
+                else if (pacmanButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                {
+                    StartPacmanLevel();
                 }
                 else
                 {
@@ -471,6 +491,7 @@ namespace PixelPerfect
             }
             sendButton.Draw(spriteBatch);
             resetButton.Draw(spriteBatch);
+            pacmanButton.Draw(spriteBatch);
         }
 
         public void Draw_LevelSelect(SpriteBatch spriteBatch)

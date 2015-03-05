@@ -16,25 +16,26 @@ namespace PixelPerfect
     class Enemy
     {
         public Texture2D texture { get; private set; }
-        Animation animation;
-        Vector2 currentPosition;
-        Vector2 targetPosition;
-        Vector2 speed;
-        Vector2 guardPosition;
+        
+        protected Animation animation;
+        protected Vector2 currentPosition;
+        protected Vector2 targetPosition;
+        protected Vector2 speed;
+        protected Vector2 guardPosition;
         //Vector2 startPosition;
         //Vector2 endPosition;
-        Vector2 textureSize;
-        List<Vector2> movepointsList = new List<Vector2>();
-        int currentPath = 0;
-        int textureColumn;
-        bool reverse;
-        bool blink;
-        bool guardian;
-        bool goingBack = false;
-        bool onGuard = false;
-        int blinkTime = Config.Enemy.DEFAULT_BLINK_TIME_MS;
-        int offset = 0;
-        double currentBlinkTime = 0.0;
+        protected Vector2 textureSize;
+        protected List<Vector2> movepointsList = new List<Vector2>();
+        protected int currentPath = 0;
+        protected int textureColumn;
+        protected bool reverse;
+        protected bool blink;
+        protected bool guardian;
+        protected bool goingBack = false;
+        protected bool onGuard = false;
+        protected int blinkTime = Config.Enemy.DEFAULT_BLINK_TIME_MS;
+        protected int offset = 0;
+        protected double currentBlinkTime = 0.0;
 
         // debug
         public float x_move = 0;
@@ -55,7 +56,7 @@ namespace PixelPerfect
             }
         }
 
-        private Rectangle sourceRectangle
+        protected Rectangle sourceRectangle
         {
             get
             {
@@ -86,7 +87,7 @@ namespace PixelPerfect
                 this.blinkTime = blinkTime;
         }
 
-        private void SetOffset()
+        protected void SetOffset()
         {
             if (movepointsList.Count < 2)
                 return;
@@ -97,7 +98,7 @@ namespace PixelPerfect
             this.currentPosition += (movepointsList[1] - currentPosition) * (offset / 100.0f);
         }
 
-        private void PrepareGuardian()
+        protected void PrepareGuardian()
         {            
             if (!guardian)
                 return;
@@ -123,7 +124,7 @@ namespace PixelPerfect
             AdjustSpeed();
         }
 
-        private void AdjustSpeed()
+        protected void AdjustSpeed()
         {
             Vector2 tempSpeed = new Vector2(Math.Abs(speed.X), Math.Abs(speed.Y));
 
@@ -144,7 +145,7 @@ namespace PixelPerfect
                 UpdateNormal(gameTime);
         }
 
-        private void UpdateNormal(GameTime gameTime)
+        protected void UpdateNormal(GameTime gameTime)
         {
             if (currentPosition.Y == targetPosition.Y && currentPosition.X == targetPosition.X && !onGuard)
             {
@@ -179,7 +180,7 @@ namespace PixelPerfect
             }
         }
 
-        private void UpdateBlink(GameTime gameTime)
+        protected void UpdateBlink(GameTime gameTime)
         {
             currentBlinkTime += gameTime.ElapsedGameTime.TotalMilliseconds;
 
@@ -191,7 +192,7 @@ namespace PixelPerfect
             }
         }
 
-        private void NextPath()
+        protected void NextPath()
         {
             if (onGuard)
                 return;
@@ -224,7 +225,7 @@ namespace PixelPerfect
             AdjustSpeed();
         }
 
-        private void SetTarget()
+        protected void SetTarget()
         {
             if (currentPath > movepointsList.Count - 1 || currentPath < 0)
                 return;
@@ -232,9 +233,9 @@ namespace PixelPerfect
             targetPosition = movepointsList[currentPath];
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
-            spriteBatch.Draw(texture, new Vector2(currentPosition.X + Config.DRAW_OFFSET_X, currentPosition.Y + Config.DRAW_OFFSET_Y), 
+            spriteBatch.Draw(texture, new Vector2(currentPosition.X + Config.DRAW_OFFSET_X + offset.X, currentPosition.Y + Config.DRAW_OFFSET_Y + offset.Y), 
 												sourceRectangle, Color.White, 0.0f, Vector2.Zero,
 												1.0f, (leftDirection ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
         }

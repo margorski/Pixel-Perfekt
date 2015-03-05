@@ -54,12 +54,12 @@ namespace PixelPerfect
             this.color = color;
         }
         public virtual void Update(GameTime gameTime) { }
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public virtual void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
             if ((attributes & Attributes.NoDraw) > 0)
                 return;
 
-            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
+            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
         }
 
         public void SetColor(Color color)
@@ -94,10 +94,10 @@ namespace PixelPerfect
             animation.Update(gameTime);
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
             sourceRect.Y = animation.GetCurrentFrame() * Config.Tile.SIZE;
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch, offset);
         }
     }
 
@@ -162,9 +162,9 @@ namespace PixelPerfect
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch, offset);
         }
     }
 
@@ -221,12 +221,12 @@ namespace PixelPerfect
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
             if ((attributes & Attributes.NoDraw) > 0)
                 return;
 
-            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
+            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
         }
 
         public void StandOn(Config.StandingType standingType = Config.StandingType.Player)

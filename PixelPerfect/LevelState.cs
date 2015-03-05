@@ -23,7 +23,7 @@ namespace PixelPerfect
 
         private SpriteFont silkscreenFont;
         
-        private Map map;
+        private Map map;        
         private Player player;
         private Hud hud;
         private List<PixelParticle> pixelParticles = new List<PixelParticle>();
@@ -120,12 +120,14 @@ namespace PixelPerfect
             }
 
             player.Update(gameTime);
+            
             if (!player.GetState(Player.State.dead) && !player.GetState(Player.State.dying))
             {
                 levelTime += gameTime.ElapsedGameTime;
                 float movingModifier = 0.0f;
                 Rectangle tempRectangle;
                 player.MoveHorizontally(gameTime);
+
                 if (map.CheckCollisions(player.boundingBox, Tile.Attributes.Solid, out tempRectangle))
                 {
                     player.HitTheWall(tempRectangle);
