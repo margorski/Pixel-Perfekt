@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-using PixelPerfect.Bosses.Capman;
 using GameStateMachine;
 
 #if !WINDOWS
@@ -216,10 +215,7 @@ namespace PixelPerfect
 
         private void StartPacmanLevel()
         {
-            var levelState = new PacmanLevelState(graphics, content, gameStateManager);
-            levelState.scale = scale;
-            gameStateManager.RegisterState(Config.States.LEVEL + 99, levelState);
-            gameStateManager.ChangeState(Config.States.LEVEL + 99);
+          
         }
 
         public void Update_HandleBack()
@@ -400,6 +396,9 @@ namespace PixelPerfect
 
         public void SelectLevel(int level)
         {
+            if (level >= worlds[selectedWorld].levels.Count)
+                return;
+
             selectedLevel = level;
             if (Savestate.Instance.Skipped() || worlds[selectedWorld].LevelSkipped(level) || level >= worlds[selectedWorld].levels.Count - 1)
                 skipButton.active = false;

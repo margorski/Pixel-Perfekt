@@ -46,10 +46,10 @@ namespace PixelPerfect
 
         public Map map;
 
-        public PixelParticle(Texture2D texture, Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null, bool enviroAffect = true, Config.StandingType standingType = Config.StandingType.Pixel)
+        public PixelParticle(Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null, bool enviroAffect = true, Config.StandingType standingType = Config.StandingType.Pixel)
         {
             enviroSpeed = Vector2.Zero;
-            this.texture = texture;
+            this.texture = Globals.pixelTexture;
             this.position = position;
             this.maxLifeMs = maxLifeMs;
             this.speedY = speed.Y;
@@ -116,11 +116,11 @@ namespace PixelPerfect
             }
             enviroSpeed.X = movingModifier;
 
-            if ((position.X) > Config.Map.WIDTH * Config.Tile.SIZE - 1)
+            /*if ((position.X) > Config.Map.WIDTH * Config.Tile.SIZE - 1)
                 position.X = -1;
             else if (position.X < -1)
                 position.X = Config.Map.WIDTH * Config.Tile.SIZE - 2;
-
+            */
             if (position.Y > Config.SCREEN_HEIGHT_SCALED) // remove on out of screen
                 return true;
 

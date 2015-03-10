@@ -37,6 +37,9 @@ namespace PixelPerfect
         protected int offset = 0;
         protected double currentBlinkTime = 0.0;
 
+        private TimeSpan waitTimer = TimeSpan.Zero;
+        private int waitTime = 0;
+        private bool waiting = false;
         // debug
         public float x_move = 0;
 
@@ -64,7 +67,7 @@ namespace PixelPerfect
             }
         }
 
-        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0)
+        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0)
         {
             this.texture = texture;
             this.speed = speed;
@@ -76,6 +79,7 @@ namespace PixelPerfect
             this.blink = blink;
             this.guardian = guardian;
             this.offset = offset;
+            this.waitTime = waitTime;
             animation = new Animation(4, (int)(Config.ENEMY_ANIMATION_SPEED_BASE - speed.Length() * Config.ENEMY_ANIMATION_SPEED_FACTOR), false);
  
             AdjustSpeed();
@@ -147,36 +151,49 @@ namespace PixelPerfect
 
         protected void UpdateNormal(GameTime gameTime)
         {
-            if (currentPosition.Y == targetPosition.Y && currentPosition.X == targetPosition.X && !onGuard)
+            if (waiting)
             {
-                NextPath();
-            }
-
-            currentPosition.X += (float)(gameTime.ElapsedGameTime.TotalSeconds * speed.X);
-            currentPosition.Y += (float)(gameTime.ElapsedGameTime.TotalSeconds * speed.Y);
-
-            animation.Update(gameTime);
-
-            if (speed.X > 0)
-            {
-                if (currentPosition.X > targetPosition.X)
-                    currentPosition.X = targetPosition.X;
+                waitTimer += gameTime.ElapsedGameTime;
+                if (waitTimer.TotalMilliseconds >= waitTime)
+                {
+                    waiting = false;
+                    waitTimer = TimeSpan.Zero;
+                }
             }
             else
             {
-                if (currentPosition.X < targetPosition.X)
-                    currentPosition.X = targetPosition.X;
-            }
+                if (currentPosition.Y == targetPosition.Y && currentPosition.X == targetPosition.X && !onGuard)
+                {
+                    NextPath();
+                    waiting = true;
+                }
 
-            if (speed.Y > 0)
-            {
-                if (currentPosition.Y > targetPosition.Y)
-                    currentPosition.Y = targetPosition.Y;
-            }
-            else
-            {
-                if (currentPosition.Y < targetPosition.Y)
-                    currentPosition.Y = targetPosition.Y;
+                currentPosition.X += (float)(gameTime.ElapsedGameTime.TotalSeconds * speed.X);
+                currentPosition.Y += (float)(gameTime.ElapsedGameTime.TotalSeconds * speed.Y);
+
+                animation.Update(gameTime);
+
+                if (speed.X > 0)
+                {
+                    if (currentPosition.X > targetPosition.X)
+                        currentPosition.X = targetPosition.X;
+                }
+                else
+                {
+                    if (currentPosition.X < targetPosition.X)
+                        currentPosition.X = targetPosition.X;
+                }
+
+                if (speed.Y > 0)
+                {
+                    if (currentPosition.Y > targetPosition.Y)
+                        currentPosition.Y = targetPosition.Y;
+                }
+                else
+                {
+                    if (currentPosition.Y < targetPosition.Y)
+                        currentPosition.Y = targetPosition.Y;
+                }
             }
         }
 

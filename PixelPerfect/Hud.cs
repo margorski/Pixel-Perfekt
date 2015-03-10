@@ -19,7 +19,7 @@ namespace PixelPerfect
         String levelName = "";
         List<Tile> collectibleTiles = new List<Tile>();
         List<Tile> collectedTiles = new List<Tile>();
-        
+
         public bool enabled = true;
 
         public Hud(SpriteFont spriteFont) 

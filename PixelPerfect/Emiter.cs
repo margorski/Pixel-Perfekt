@@ -29,36 +29,66 @@ namespace PixelPerfect
         Vector2 startPosition;
         uint distance;
         int emitsDelayMs;
+        int emitsDelayMsParts;
+        int partsNum;
         float speed;
         Rectangle textureRectangle;
         Color color;
+        TimeSpan phaseTimer;
         TimeSpan lastEmit;
         MovementDirection movementDirection;
+        bool explode = false;
 
-        public Emiter(Texture2D texture, Vector2 startPosition, uint distance, float speed, MovementDirection movementDirection, Rectangle textureRectangle, int emitsDelayMs, int delayOffsetMs, Color color)
+        bool emmitingPhase = false;
+        int emitCounter = 0;
+
+        public Emiter(Texture2D texture, Vector2 startPosition, uint distance, float speed, MovementDirection movementDirection, Rectangle textureRectangle, int emitsDelayMs, int delayOffsetMs, Color color, bool explode = false, int emitsDelayMsParts = 0, int partsNum = 1)
         {
             this.texture = texture;
             this.startPosition = startPosition;
             this.distance = distance;
             this.textureRectangle = textureRectangle;
             this.emitsDelayMs = emitsDelayMs;
+            this.emitsDelayMsParts = emitsDelayMsParts;
+            this.partsNum = partsNum;
             this.color = color;
             this.movementDirection = movementDirection;
             this.speed = speed;
-            lastEmit = TimeSpan.FromMilliseconds(delayOffsetMs);
+            this.explode = explode;
+
+            phaseTimer = TimeSpan.FromMilliseconds(delayOffsetMs);            
         }
 
         public void Update(GameTime gameTime)
         {
-            double deltaTimeSeconds = gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0;
-
-            lastEmit += gameTime.ElapsedGameTime;
-            if (lastEmit.TotalMilliseconds > emitsDelayMs)
+            if (!emmitingPhase)
+            {                
+                phaseTimer += gameTime.ElapsedGameTime;
+                if (phaseTimer.TotalMilliseconds > emitsDelayMs)
+                {
+                    phaseTimer = TimeSpan.Zero;
+                    emmitingPhase = true;
+                }
+            }
+            else
             {
-                lastEmit = TimeSpan.Zero;
-                EmitPart();
+                lastEmit += gameTime.ElapsedGameTime;
+                if (lastEmit.TotalMilliseconds > emitsDelayMsParts)
+                {
+                    lastEmit = TimeSpan.Zero;
+                    EmitPart();
+                    emitCounter++;
+
+                    if (emitCounter >= partsNum)
+                    {
+                        emitCounter = 0;
+                        emmitingPhase = false;
+                    }
+                }
+                
             }
             UpdateParts(gameTime);
+
         }
 
         public void UpdateParts(GameTime gameTime)
@@ -75,7 +105,7 @@ namespace PixelPerfect
 
         public void EmitPart()
         {
-            emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, textureRectangle, color));
+            emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, textureRectangle, color, explode));
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)

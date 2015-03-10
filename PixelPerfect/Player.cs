@@ -29,6 +29,7 @@ namespace PixelPerfect
             public const UInt32 dying = 1 << 8;            
             public const UInt32 jumpStopped = 1 << 9;  // wtf hack for jumping from stopped position
             public const UInt32 fallThroughScreen = 1 << 10;
+            public const UInt32 onMovingMap = 1 << 11;
         }
         // Public
         public Rectangle boundingBox
@@ -66,12 +67,11 @@ namespace PixelPerfect
             }
         }
         private GraphicsDeviceManager graphics;
-        private Texture2D pixel;
 
         private int boomColorIndex = 0;
         private TimeSpan boomColorTime = TimeSpan.Zero;
 
-        public Player(Vector2 position, Texture2D texture, GraphicsDeviceManager graphics, Texture2D pixel)
+        public Player(Vector2 position, Texture2D texture, GraphicsDeviceManager graphics)
         {
             speed = baseSpeed = new Vector2(Config.Player.MOVE_SPEED, 0.0f);
             acc = new Vector2(0.0f, Config.Player.GRAVITY);
@@ -79,7 +79,6 @@ namespace PixelPerfect
             this.texture = texture;
             animation = new Animation(4, Config.Player.ANIMATION_DELAY, false);
             this.graphics = graphics;
-            this.pixel = pixel;
             state = 0x0;
             boomColorIndex = 0;
         }
@@ -154,9 +153,11 @@ namespace PixelPerfect
             if (GetState(Player.State.dead))
                 return;
 
+            // return when fully stopped (stopped and not jumping, and not on moving plaform, and not on moving map)
             if (((GetState(State.stopped) || GetState(State.stoppedTemp)) && 
                                                  !GetState(State.jumping) && 
-                                                 !GetState(State.onMovingPlatform))) 
+                                                 !GetState(State.onMovingPlatform) &&
+                                                 !GetState(State.onMovingMap))) 
                 //|| (GetState(State.stoppedTemp) && !GetState(State.onMovingPlatform)))
                 return;
 
@@ -292,7 +293,7 @@ namespace PixelPerfect
                 
                 if (GetState(State.fallThroughScreen))
                 {
-                    fallDistance += (Config.Map.HEIGHT) * Config.Tile.SIZE; 
+                    fallDistance += (Config.Map.HEIGHT - 1) * Config.Tile.SIZE; 
                 }
 
                 if (fallDistance > Config.Player.MAX_FALL_DISTANCE)
@@ -340,7 +341,7 @@ namespace PixelPerfect
                     Vector2 pixSpeed = (pixPos - boomCenter) * rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
                     Vector2 acc = Vector2.Zero;// new Vector2(rnd.Next(-100, 100), rnd.Next(-100, 100));
 
-                    Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixel, pixPos,
+                    Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
                                     pixSpeed, acc, boomColors[rnd.Next(boomColors.Length)], true, Globals.CurrentMap));
                 }
@@ -357,11 +358,24 @@ namespace PixelPerfect
             enviroSpeed.X = modifyValue;
             SetState(State.onMovingPlatform, true);
         }
-
+        
         public void ResetMovingPlatformState()
         {
-            enviroSpeed.X = 0.0f;
             SetState(State.onMovingPlatform, false);
+
+            if (GetState(State.onMovingMap))
+                return;
+
+            enviroSpeed.X = 0.0f;            
+        }
+
+        public void SetMovingMapState(float modifyValue)
+        {
+            if (modifyValue == 0.0f)
+                return;
+
+            enviroSpeed.X = modifyValue;
+            SetState(State.onMovingMap, true);
         }
 
         public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)

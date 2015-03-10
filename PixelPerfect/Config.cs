@@ -46,6 +46,7 @@ namespace PixelPerfect
             public const int WIDTH = 34;
             public const int HEIGHT = 17;
             public const int BLINK_MS = 200;
+            public const float MOVING_MAP_SPEED = -50.0f;
         }
 
         public struct Tile
@@ -70,6 +71,7 @@ namespace PixelPerfect
             public const int PIXELPARTICLE_LIFETIME_MIN = 400;
             public const int PIXELPARTICLE_LIFETIME_MAX = 1200;
             public const int MAX_EXPLOSION_MAGNITUDE = 70;
+            public const int MAX_PARTICLES = 1000;
         }
 
         public struct Player

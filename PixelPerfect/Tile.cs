@@ -178,7 +178,6 @@ namespace PixelPerfect
         private int pixelCount = 0;
         private TimeSpan pixelEmitTime = TimeSpan.Zero;
         private Random rnd = new Random();
-        private Texture2D pixelTexture;
 
         // Public
         public override Rectangle boundingBox
@@ -190,8 +189,8 @@ namespace PixelPerfect
         }
         
         // Methods
-        public CrushyTile(Vector2 position, Texture2D texture, Texture2D pixelTexture, UInt32 attributes, Rectangle sourceRect, Color color) : base(position, texture, attributes, sourceRect, color)
-        { this.pixelTexture = pixelTexture; }
+        public CrushyTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color) : base(position, texture, attributes, sourceRect, color)
+        { }
 
         public override void Update(GameTime gameTime)
         {
@@ -248,7 +247,7 @@ namespace PixelPerfect
         public void EmitPixel()
         {
             int x = rnd.Next(Config.Tile.SIZE);
-            Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixelTexture, 
+            Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(
                                new Vector2(boundingBox.Left + x, boundingBox.Bottom),
                                0.0f,//rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
                                new Vector2(0.0f, Config.PixelParticle.SPEED),
@@ -262,7 +261,6 @@ namespace PixelPerfect
         private bool active = true;
         private bool emmiting = false;
 
-        private int pixelCount = 0;
         private TimeSpan pixelEmitTime = TimeSpan.Zero;
         private Random rnd = new Random();
         private Texture2D pixelTexture;
@@ -317,7 +315,7 @@ namespace PixelPerfect
             int x = rnd.Next(Config.Tile.SIZE - 4);
             float accy = 15.0f + (float)rnd.NextDouble() * 2.0f;
 
-            Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixelTexture,
+            Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(
                                new Vector2(boundingBox.Left + 2 + x, boundingBox.Bottom - 2),
                                rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
                                new Vector2(0.0f, 0.0f),

@@ -69,7 +69,7 @@ namespace PixelPerfect
         {
             if (moving)
             {
-                mapOffset.X -= (float)(gameTime.ElapsedGameTime.TotalSeconds * 25.0);
+                mapOffset.X += (float)(gameTime.ElapsedGameTime.TotalSeconds * Config.Map.MOVING_MAP_SPEED);
                 if (mapOffset.X <= -Config.Tile.SIZE * Config.Map.WIDTH)
                     mapOffset.X = 0.0f;
             }
@@ -112,25 +112,32 @@ namespace PixelPerfect
 
         public bool CheckCollisions(Rectangle boundingBox, UInt32 attributes)
         {
-            boundingBox.X += (int)mapOffset.X;
-            boundingBox.Y += (int)mapOffset.Y;
+             List<Rectangle> boundingBoxes = new List<Rectangle>();          
+            boundingBoxes.Add(new Rectangle(boundingBox.X - (int)mapOffset.X, boundingBox.Y - (int)mapOffset.Y,
+                                            boundingBox.Width, boundingBox.Height));
+            if (moving)
+                boundingBoxes.Add(new Rectangle(boundingBox.X - (int)(mapOffset.X + Config.Tile.SIZE * Config.Map.WIDTH), boundingBox.Y - (int)mapOffset.Y,
+                                            boundingBox.Width, boundingBox.Height));
 
-            int startRow = boundingBox.Top / Config.Tile.SIZE;
-            int endRow = (boundingBox.Bottom - 1) / Config.Tile.SIZE;
-            int startColumn = boundingBox.Left / Config.Tile.SIZE;
-            int endColumn = (boundingBox.Right - 1) / Config.Tile.SIZE;
-
-            for (int i = startRow; i <= endRow; i++)
+            foreach (Rectangle playerbbox in boundingBoxes)
             {
-                for (int j = startColumn; j <= endColumn; j++)
-                {
-                    int index = i * Config.Map.WIDTH + j;
-                    if (index > tileMapa.Length - 1 || index < 0)
-                        continue;
+                int startRow = playerbbox.Top / Config.Tile.SIZE;
+                int endRow = (playerbbox.Bottom - 1) / Config.Tile.SIZE;
+                int startColumn = playerbbox.Left / Config.Tile.SIZE;
+                int endColumn = (playerbbox.Right - 1) / Config.Tile.SIZE;
 
-                    if ((tileMapa[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
+                for (int i = startRow; i <= endRow; i++)
+                {
+                    for (int j = startColumn; j <= endColumn; j++)
                     {
-                        return true;
+                        int index = i * Config.Map.WIDTH + j;
+                        if (index > tileMapa.Length - 1 || index < 0)
+                            continue;
+
+                        if ((tileMapa[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
+                        {
+                            return true;
+                        }
                     }
                 }
             }
@@ -281,35 +288,45 @@ namespace PixelPerfect
 
         public bool GrabCollectibles(Player player, GraphicsDeviceManager graphic)
         {
-            int startRow = player.boundingBox.Top / Config.Tile.SIZE;
-            int endRow = (player.boundingBox.Bottom - 1) / Config.Tile.SIZE;
-            int startColumn = player.boundingBox.Left / Config.Tile.SIZE;
-            int endColumn = (player.boundingBox.Right - 1) / Config.Tile.SIZE;
+            List<Rectangle> boundingBoxes = new List<Rectangle>();          
+            boundingBoxes.Add(new Rectangle(player.boundingBox.X - (int)mapOffset.X, player.boundingBox.Y - (int)mapOffset.Y,
+                                            player.boundingBox.Width, player.boundingBox.Height));
+            if (moving)
+                boundingBoxes.Add(new Rectangle(player.boundingBox.X - (int)(mapOffset.X + Config.Tile.SIZE * Config.Map.WIDTH), player.boundingBox.Y - (int)mapOffset.Y,
+                                            player.boundingBox.Width, player.boundingBox.Height));
 
-            for (int i = startRow; i <= endRow; i++)
+             foreach (Rectangle playerbbox in boundingBoxes)
             {
-                for (int j = startColumn; j <= endColumn; j++)
-                {
-                    int index = i * Config.Map.WIDTH + j;
-                    if (index > tileMapa.Length - 1 || index < 0)
-                        continue;
+                int startRow = playerbbox.Top / Config.Tile.SIZE;
+                int endRow = (playerbbox.Bottom - 1) / Config.Tile.SIZE;
+                int startColumn = playerbbox.Left / Config.Tile.SIZE;
+                int endColumn = (playerbbox.Right - 1) / Config.Tile.SIZE;
 
-                    if ((tileMapa[index].attributes & Tile.Attributes.Collectible) > 0)
+                for (int i = startRow; i <= endRow; i++)
+                {
+                    for (int j = startColumn; j <= endColumn; j++)
                     {
-                        // optimize bounding box
-                        Rectangle bbox = tileMapa[index].boundingBox;
-                        bbox.X += 1;
-                        bbox.Width -= 2;                                                
-                        if (player.boundingBox.Intersects(bbox)) 
+                        int index = i * Config.Map.WIDTH + j;
+                        if (index > tileMapa.Length - 1 || index < 0)
+                            continue;
+
+                        if ((tileMapa[index].attributes & Tile.Attributes.Collectible) > 0)
                         {
-                            if (--collectiblesCount == 0)
+                            // optimize bounding box
+                            Rectangle bbox = tileMapa[index].boundingBox;
+                            bbox.X += 1;
+                            bbox.Width -= 2;
+                            if (playerbbox.Intersects(bbox))
                             {
-                                OpenDoor();
-                                foreach (Enemy enemy in enemiesList)
-                                    enemy.TriggerGuardian();
+                                if (--collectiblesCount == 0)
+                                {
+                                    OpenDoor();
+                                    foreach (Enemy enemy in enemiesList)
+                                        enemy.TriggerGuardian();
+                                }
+                                tileMapa[index].SetAttributes(Tile.Attributes.NoDraw);
+                                return true;
                             }
-                            tileMapa[index].SetAttributes(Tile.Attributes.NoDraw);
-                            return true;
                         }
                     }
                 }
@@ -534,13 +551,16 @@ namespace PixelPerfect
                                         bool reverse = true;
                                         bool blink = false;
                                         bool guardian = false;
+                                        bool explode = false;
                                         int blinkTime = Config.Enemy.DEFAULT_BLINK_TIME_MS;
                                         float localspeedx, localspeedy, localspeed;
                                         localspeedx = localspeedy = localspeed = 0.0f;
                                         int localoffset, localdelay;
                                         localoffset = -1;
                                         localdelay = 0;
-
+                                        int delay2 = 0;
+                                        int numofparts = 1;
+                                        int wait = 0;
                                         while (xmlreader.MoveToNextAttribute())
                                         {
                                             if (xmlreader.Name == "name")
@@ -601,6 +621,10 @@ namespace PixelPerfect
                                                         case "guardian":
                                                             guardian = (int.Parse(value) == 1) ? true : false;
                                                             break;
+
+                                                        case "explode":
+                                                            explode = (int.Parse(value) == 1) ? true : false;
+                                                            break;
                                                         case "speed":
                                                             localspeed = float.Parse(value, CultureInfo.InvariantCulture);
                                                             break;
@@ -619,6 +643,18 @@ namespace PixelPerfect
 
                                                         case "offset":
                                                             localoffset = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
+
+                                                        case "delay2":
+                                                            delay2 = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
+
+                                                        case "num":
+                                                            numofparts = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
+
+                                                        case "wait":
+                                                            wait = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                             break;
                                                         }
                                                     } while (xmlreader.ReadToNextSibling("property"));
@@ -657,7 +693,7 @@ namespace PixelPerfect
                                                                                 new Vector2(sizex, sizey),
                                                                                 triggerORtextureType,
                                                                                 startPosition + new Vector2(moveX, moveY),
-                                                                                reverse, blink, guardian, offset));
+                                                                                reverse, blink, guardian, offset, wait));
                                                                 enemiesList.Last().SetBlinkTime(blinkTime);
                                                                 
                                                                 for (int i = 1; i < points.Length; i++)
@@ -720,7 +756,7 @@ namespace PixelPerfect
                                                                                distance, emiterSpeed, direction,
                                                                                new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
                                                                                emiterDelay, emiterOffset,
-                                                                               Color.White));
+                                                                               Color.White, explode, delay2, numofparts));
                                                                 break;
                                                         }
                                                     }

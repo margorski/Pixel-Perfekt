@@ -23,6 +23,7 @@
     <level name="level8" />
     <level name="level9" />
     <level name="level10" />
+    <level name="boss" />
   </world>
   <world name="Pacman" icon="" directory="pacman">
   	<level name="level1" />

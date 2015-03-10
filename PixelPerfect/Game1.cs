@@ -42,7 +42,7 @@ namespace PixelPerfect
             // Extend battery life under lock.
             InactiveSleepTime = TimeSpan.FromSeconds(1);
 #else
-            this.IsMouseVisible = true;
+            this.IsMouseVisible = true;                   
 #endif
             ScaleScreen();
             Content.RootDirectory = "Content";
@@ -104,6 +104,7 @@ namespace PixelPerfect
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             specialBatch = new SpriteBatch(GraphicsDevice);
+            Globals.pixelTexture = Content.Load<Texture2D>("pixel");
         }
 
         protected override void UnloadContent()

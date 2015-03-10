@@ -31,7 +31,7 @@ namespace PixelPerfect
             this.texture = texture;
             this.font = font;
         }
-
+        
         public bool Clicked(int x, int y)
         {
             if (!active)
@@ -50,7 +50,7 @@ namespace PixelPerfect
 
         public void Draw (SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, rectangle, (active ? activeColor : notactiveColor));
+            spriteBatch.Draw(texture, rectangle, (active ? Color.White : notactiveColor));
             
             var dimensions = font.MeasureString(text);
             Vector2 centerVector = new Vector2(rectangle.Center.X, rectangle.Center.Y);            

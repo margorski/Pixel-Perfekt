@@ -38,12 +38,6 @@
     <Compile Include="..\PixelPerfect\Animation.cs">
       <Link>Animation.cs</Link>
     </Compile>
-    <Compile Include="..\PixelPerfect\Bosses\Capman\PacmanBoss.cs">
-      <Link>Bosses\Capman\PacmanBoss.cs</Link>
-    </Compile>
-    <Compile Include="..\PixelPerfect\Bosses\Capman\PacmanLevelState.cs">
-      <Link>Bosses\Capman\PacmanLevelState.cs</Link>
-    </Compile>
     <Compile Include="..\PixelPerfect\Button.cs">
       <Link>Button.cs</Link>
     </Compile>
@@ -496,6 +490,14 @@
       <Link>Content\pacman\pacman_130x130.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Assets\Levels\spaceinvaders\boss.tmx">
+      <Link>Levels\spaceinvaders\boss.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\laser_4x1.xnb">
+      <Link>Content\spaceinvaders\laser_4x1.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level10.xnb">
       <Link>Content\spaceinvaders\level10.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -522,6 +524,10 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level9.xnb">
       <Link>Content\spaceinvaders\level9.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\ufo_32x16.xnb">
+      <Link>Content\spaceinvaders\ufo_32x16.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

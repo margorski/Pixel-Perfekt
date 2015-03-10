@@ -74,8 +74,6 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Bosses\Capman\PacmanBoss.cs" />
-    <Compile Include="Bosses\Capman\PacmanLevelState.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Emiter.cs" />
@@ -422,6 +420,18 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\pacman\pacman_130x130.xnb">
       <Link>Content\pacman\pacman_130x130.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\spaceinvaders\boss.tmx">
+      <Link>Levels\spaceinvaders\boss.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\laser_4x1.xnb">
+      <Link>Content\spaceinvaders\laser_4x1.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\spaceinvaders\ufo_32x16.xnb">
+      <Link>Content\spaceinvaders\ufo_32x16.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

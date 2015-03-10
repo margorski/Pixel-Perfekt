@@ -114,7 +114,7 @@ namespace PixelPerfect
                  
             Rectangle sourceRectangle = new Rectangle(((int)typex - 1) * Config.Tile.SIZE, (int)typey * Config.Tile.SIZE, Config.Tile.SIZE, Config.Tile.SIZE);
             if (type == (int)Config.TileType.CRUSHY)
-                return new CrushyTile(position, tileTexture, pixelTexture, attributes, sourceRectangle, color);
+                return new CrushyTile(position, tileTexture, attributes, sourceRectangle, color);
             else if (type == (int)Config.TileType.KEY)
                 return new CollectibleTile(position, tileTexture, pixelTexture, attributes, sourceRectangle, color);
             else if (type == (int)Config.TileType.MOVING_LEFT)

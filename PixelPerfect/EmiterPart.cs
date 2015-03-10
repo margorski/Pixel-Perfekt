@@ -34,6 +34,7 @@ namespace PixelPerfect
         Texture2D texture;
         MovementDirection movementDirection;
         MovePhase movePhase;
+        bool explode = false;
         public Rectangle boundingBox
         {
             get
@@ -54,7 +55,7 @@ namespace PixelPerfect
 
         public EmiterPart() { }
 
-        public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Rectangle textureRectangle, Color color)
+        public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Rectangle textureRectangle, Color color, bool explode = false)
         {
             this.position = position;
             this.texture = texture;
@@ -64,6 +65,7 @@ namespace PixelPerfect
             maxHeight = textureRectangle.Height;
             movePhase = MovePhase.StartStretch;
             this.color = color;
+            this.explode = explode;
 
             animation = new Animation(4, (int)(Config.EMITER_ANIMATION_SPEED_BASE - speed * Config.EMITER_ANIMATION_SPEED_FACTOR), false);
             InitializeSize();
@@ -82,7 +84,8 @@ namespace PixelPerfect
                     break;
 
                 case MovePhase.Move:
-                    MovePart(gameTime.ElapsedGameTime.TotalSeconds);
+                    if (MovePart(gameTime.ElapsedGameTime.TotalSeconds))
+                        return true;
                     break;
 
                 case MovePhase.EndSquizz:
@@ -148,29 +151,41 @@ namespace PixelPerfect
             this.speed = new Vector2(x, y);   
         }
 
-        public void MovePart(double deltaSeconds)
+        public bool MovePart(double deltaSeconds)
         {
             position += speed * new Vector2((float)deltaSeconds, (float)deltaSeconds);
 
+            bool phaseEnd = false;
             switch (movementDirection)
             {
                 case MovementDirection.Left:
                     if (boundingBox.Left <= endPosition.X)
-                        movePhase = MovePhase.EndSquizz;
+                        phaseEnd = true;
                     break;
                 case MovementDirection.Right:
                     if (boundingBox.Right >= endPosition.X)
-                        movePhase = MovePhase.EndSquizz;
+                        phaseEnd = true;
                     break;
                 case MovementDirection.Up:
                     if (boundingBox.Top <= endPosition.Y)
-                        movePhase = MovePhase.EndSquizz;
+                        phaseEnd = true;
                     break;
                 case MovementDirection.Down:
                     if (boundingBox.Bottom >= endPosition.Y)
-                        movePhase = MovePhase.EndSquizz;
+                        phaseEnd = true;
                     break;
             }
+
+            if (phaseEnd)
+            {
+                movePhase = MovePhase.EndSquizz;
+                if (explode)
+                {
+                    PixelExplosion();
+                    return true;
+                }
+            }
+            return false;
         }
 
         public void StretchPart(double deltaSeconds)
@@ -293,6 +308,31 @@ namespace PixelPerfect
             }
 
             return Rectangle.Empty;
+        }
+
+        public void PixelExplosion()
+        {
+            Texture2D texture = GetCurrentFrameTexture(Globals.graphics);
+            Random rnd = new Random();
+
+            Color[] textureColors = new Color[texture.Width * texture.Height];
+            texture.GetData<Color>(textureColors);
+
+            for (int i = 0; i < textureColors.Length; i++)
+            {
+                if (textureColors[i].A == 255)
+                {
+                    Vector2 boomCenter = position + new Vector2(texture.Width / 2, texture.Height / 2);
+                    Vector2 pixPos = position + new Vector2(i % texture.Width, i / texture.Width);
+                    pixPos.Y-=4;
+                    Vector2 pixSpeed = (pixPos - boomCenter) * rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);                   
+                    Vector2 acc = new Vector2(rnd.Next(-1000, 1000), rnd.Next(-1000, 1000));
+
+                    Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
+                                    0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
+                                    pixSpeed, acc, textureColors[i], true, Globals.CurrentMap));
+                }
+            }
         }
 
         public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)
