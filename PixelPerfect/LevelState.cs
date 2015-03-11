@@ -79,12 +79,7 @@ namespace PixelPerfect
         public override void Exit(int nextStateId)
         {
             Globals.CurrentLevelState = null;
-            Globals.upsideDown = false;
-            if (!Savestate.Instance.levelSaves[LevelId()].completed)
-            {
-                Savestate.Instance.levelSaves[LevelId()].deathCount += deathCount;
-                Savestate.Instance.Save();
-            }
+            Globals.upsideDown = false;            
         }
 
         public override void Resume(int poppedStateId)
@@ -192,6 +187,13 @@ namespace PixelPerfect
                 {
                     player.SetState(Player.State.dying, true);
                     deathCount++;
+                    
+                    if (!Savestate.Instance.levelSaves[LevelId()].completed)
+                    {
+                        Savestate.Instance.levelSaves[LevelId()].completeDeathCount++;                        
+                    }
+                    Savestate.Instance.levelSaves[LevelId()].deathCount++;
+                    Savestate.Instance.Save();
                 }
 
                 if (map.EnteredDoors(player.boundingBox))

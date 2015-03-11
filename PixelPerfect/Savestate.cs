@@ -21,12 +21,14 @@ namespace PixelPerfect
         public bool active = false;
         [ProtoMember(5)]
         public bool skipped = false;
+        [ProtoMember(6)]
+        public int completeDeathCount = 0;
     }
 
     [ProtoContract]
     public sealed class Savestate
     {
-        public const int CURRENT_VERSION = 2;
+        public const int CURRENT_VERSION = 3;
 
         [ProtoMember(1)]
         public int version = CURRENT_VERSION;
@@ -55,8 +57,8 @@ namespace PixelPerfect
                 {
                     if (storage.FileExists(Config.SAVEFILE_NAME)) // deserialize
                     {
-                        var savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.Open);
-                        Instance = Serializer.Deserialize<Savestate>(savefile);
+                        using (IsolatedStorageFileStream savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.Open))    
+                            Instance = Serializer.Deserialize<Savestate>(savefile);
                         if (Instance.version != CURRENT_VERSION)
                             CreateSavestate();
                     }
@@ -89,8 +91,8 @@ namespace PixelPerfect
             {
                 using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    var savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.Open);
-                    Instance = Serializer.Deserialize<Savestate>(savefile);
+                    using (IsolatedStorageFileStream savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.Open))    
+                        Instance = Serializer.Deserialize<Savestate>(savefile);
                 }
             }
             catch 
@@ -108,8 +110,8 @@ namespace PixelPerfect
             {
                 using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    var savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.OpenOrCreate);
-                    Serializer.Serialize<Savestate>(savefile, Instance);
+                    using (IsolatedStorageFileStream savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.OpenOrCreate))                    
+                        Serializer.Serialize<Savestate>(savefile, Instance);
                 }
             }
             catch 
