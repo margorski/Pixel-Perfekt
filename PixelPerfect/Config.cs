@@ -15,7 +15,7 @@ namespace PixelPerfect
 {
     static class Config
     {
-        public const bool CHEAT_MODE = false;
+        public const bool CHEAT_MODE = true;
         /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
          */

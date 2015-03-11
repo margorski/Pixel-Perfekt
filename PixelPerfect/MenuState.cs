@@ -340,11 +340,11 @@ namespace PixelPerfect
 
             emailComposeTask.Subject = "[PIXEL PERFECT] Stats from " + Convert.ToBase64String((byte[])Microsoft.Phone.Info.DeviceExtendedProperties.GetValue("DeviceUniqueId"));
             emailComposeTask.To = "takashivip@gmail.com";           
-            emailComposeTask.Body = "Level key\tTime\t Deaths\n";
+            emailComposeTask.Body = "Level key\tTime\t Deaths\t Deaths till completed\n";
             foreach (KeyValuePair<string, Levelsave> levelsave in Savestate.Instance.levelSaves)
             {
                 if (levelsave.Value.completed)
-                    emailComposeTask.Body += levelsave.Key + "\t" + levelsave.Value.bestTime.ToString() + "\t" + levelsave.Value.deathCount + "\n";
+                    emailComposeTask.Body += levelsave.Key + "\t" + levelsave.Value.bestTime.ToString() + "\t" + levelsave.Value.deathCount + "\t" + levelsave.Value.completeDeathCount + "\n";
             }
             emailComposeTask.Show();
 #endif
