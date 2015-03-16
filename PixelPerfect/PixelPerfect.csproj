@@ -434,6 +434,66 @@
       <Link>Content\spaceinvaders\ufo_32x16.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\bubblebobble\enemies.xnb">
+      <Link>Content\bubblebobble\enemies.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\bubblebobble\player.xnb">
+      <Link>Content\bubblebobble\player.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\bubblebobble\tileset.xnb">
+      <Link>Content\bubblebobble\tileset.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level1.tmx">
+      <Link>Levels\bubblebobble\level1.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level2.tmx">
+      <Link>Levels\bubblebobble\level2.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level3.tmx">
+      <Link>Levels\bubblebobble\level3.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\boss.tmx">
+      <Link>Levels\bubblebobble\boss.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level10.tmx">
+      <Link>Levels\bubblebobble\level10.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level4.tmx">
+      <Link>Levels\bubblebobble\level4.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level5.tmx">
+      <Link>Levels\bubblebobble\level5.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level6.tmx">
+      <Link>Levels\bubblebobble\level6.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level7.tmx">
+      <Link>Levels\bubblebobble\level7.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level8.tmx">
+      <Link>Levels\bubblebobble\level8.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\bubblebobble\level9.tmx">
+      <Link>Levels\bubblebobble\level9.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\bubblebobble\enemiesbig.xnb">
+      <Link>Content\bubblebobble\enemiesbig.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">

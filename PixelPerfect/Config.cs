@@ -46,7 +46,7 @@ namespace PixelPerfect
             public const int WIDTH = 34;
             public const int HEIGHT = 17;
             public const int BLINK_MS = 200;
-            public const float MOVING_MAP_SPEED = -50.0f;
+            public const float MOVING_MAP_SPEED = -55.0f;
         }
 
         public struct Tile

@@ -371,7 +371,7 @@ namespace PixelPerfect
             hud.Init(map.levelName, map.collectiblesCount);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics);
             if (map.moving)
-                player.SetMovingMapState(-29.0f);
+                player.SetMovingMapState(-28.0f);
             levelTime = TimeSpan.Zero;
 
             foreach (PixelParticle pixelParticle in pixelParticles)
