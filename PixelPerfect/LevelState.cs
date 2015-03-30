@@ -124,6 +124,7 @@ namespace PixelPerfect
             {
                 levelTime += gameTime.ElapsedGameTime;
                 float movingModifier = 0.0f;
+                bool springy = false;
                 Rectangle tempRectangle;
                 player.MoveHorizontally(gameTime);
 
@@ -136,7 +137,7 @@ namespace PixelPerfect
                     // hack for curshy platforms to go up one pixel
                     var playerBoxMovedUp = player.boundingBox;
                     playerBoxMovedUp.Y -= 1;
-                    if (map.CheckPlatformCollisions(playerBoxMovedUp, out tempRectangle, out movingModifier)) // crushy platform 1 pixel crushed
+                    if (map.CheckPlatformCollisions(playerBoxMovedUp, out tempRectangle, out movingModifier, out springy)) // crushy platform 1 pixel crushed
                         player.HitTheGround(tempRectangle);
                 }
                 player.ResetMovingPlatformState();
@@ -149,9 +150,11 @@ namespace PixelPerfect
                     else
                         player.HitTheCeiling(tempRectangle);
                 }
-                else if (player.speed.Y > 0.0f && map.CheckPlatformCollisions(player.boundingBox, out tempRectangle, out movingModifier))
+                else if (player.speed.Y > 0.0f && map.CheckPlatformCollisions(player.boundingBox, out tempRectangle, out movingModifier, out springy))
                 {
                     player.HitTheGround(tempRectangle);
+                    if (springy)
+                        player.Jump(true);
                 }
                 else
                 {
@@ -160,11 +163,11 @@ namespace PixelPerfect
                         var playerBoxMovedDown = player.boundingBox;
                         playerBoxMovedDown.Y += 1;
 
-                        if (!map.CheckCollisions(playerBoxMovedDown, Tile.Attributes.Solid, out tempRectangle) &&  // check if there is not collision from bottom
-                            !map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle, out movingModifier))
+                        if (!map.CheckCollisions(playerBoxMovedDown, Tile.Attributes.Solid, out tempRectangle) &&  // check if there is no collision from bottom
+                            !map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle, out movingModifier, out springy))
                         {
                             playerBoxMovedDown.Y += 1; // for crushy platforms hack
-                            if (map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle, out movingModifier)) // crushy platform 1 pixel crushed
+                            if (map.CheckPlatformCollisions(playerBoxMovedDown, out tempRectangle, out movingModifier, out springy)) // crushy platform 1 pixel crushed
                                 player.HitTheGround(tempRectangle);
                             else // falling
                             {

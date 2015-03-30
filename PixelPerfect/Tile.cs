@@ -71,16 +71,16 @@ namespace PixelPerfect
             this.attributes = attributes;
         }
 
-        public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)
+        public Texture2D GetCurrentFrameTexture()
         {
-            return Util.BlitTexture(graphic, texture, sourceRect, false);
+            return Util.BlitTexture(Globals.graphics, texture, sourceRect, false);
         }
     }
 
     class MovingTile : Tile
     {
         // Private
-        private Animation animation = new Animation(6, 30, false);
+        private Animation animation = new Animation(8, 30, false);
 
         public float movingSpeed { private set; get; }
 
@@ -96,8 +96,13 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
-            sourceRect.Y = animation.GetCurrentFrame() * Config.Tile.SIZE;
-            base.Draw(spriteBatch, offset);
+            if ((attributes & Attributes.NoDraw) > 0)
+                return;
+
+            Rectangle animSourceRect = sourceRect;
+            animSourceRect.Y += animation.GetCurrentFrame() * Config.Tile.SIZE;
+
+            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), animSourceRect, color);
         }
     }
 
@@ -252,6 +257,50 @@ namespace PixelPerfect
                                0.0f,//rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
                                new Vector2(0.0f, Config.PixelParticle.SPEED),
                                new Vector2(0.0f, 0.0f), color, true, Globals.CurrentMap));
+        }
+    }
+
+    class SpringTile : Tile
+    {
+        private bool springy = true;
+        private Rectangle sourceRectInactive;
+
+        public override Rectangle boundingBox
+        {
+            get
+            {
+                if (!springy)
+                    return new Rectangle((int)position.X, (int)position.Y, Config.Tile.SIZE, Config.Tile.SIZE);
+                else
+                    return new Rectangle((int)position.X, (int)position.Y + 3, Config.Tile.SIZE, 5);
+            }
+        }
+
+        public SpringTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color) : base(position, texture, attributes, sourceRect, color)
+        {
+            sourceRectInactive = new Rectangle(sourceRect.X, sourceRect.Y + Config.Tile.SIZE, Config.Tile.SIZE, Config.Tile.SIZE);
+        }
+
+        public bool StandOn()
+        {
+            if (springy)
+            {
+                springy = false;
+                return true;
+            }
+
+            return false;
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Vector2 offset)
+        {
+            if ((attributes & Attributes.NoDraw) > 0)
+                return;
+            
+            if (!springy)
+                spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRectInactive, color);
+            else
+                spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
         }
     }
 

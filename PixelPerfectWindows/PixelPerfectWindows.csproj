@@ -558,6 +558,70 @@
       <Link>Content\bubblebobble\enemiesbig.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\content\content\bin\psm\content\dkong\enemies_10x10.xnb">
+      <Link>Content\dkong\enemies_10x10.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\dkong\enemies_14x12.xnb">
+      <Link>Content\dkong\enemies_14x12.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\dkong\enemies_18x18.xnb">
+      <Link>Content\dkong\enemies_18x18.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\dkong\player.xnb">
+      <Link>Content\dkong\player.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\dkong\tileset.xnb">
+      <Link>Content\dkong\tileset.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\boss.tmx">
+      <Link>Levels\dkong\boss.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level1.tmx">
+      <Link>Levels\dkong\level1.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level10.tmx">
+      <Link>Levels\dkong\level10.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level2.tmx">
+      <Link>Levels\dkong\level2.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level3.tmx">
+      <Link>Levels\dkong\level3.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level4.tmx">
+      <Link>Levels\dkong\level4.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level5.tmx">
+      <Link>Levels\dkong\level5.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level6.tmx">
+      <Link>Levels\dkong\level6.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level7.tmx">
+      <Link>Levels\dkong\level7.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level8.tmx">
+      <Link>Levels\dkong\level8.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\dkong\level9.tmx">
+      <Link>Levels\dkong\level9.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level10.xnb">
       <Link>Content\spaceinvaders\level10.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

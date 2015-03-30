@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="19">
+ <properties>
+  <property name="moving" value="1"/>
+  <property name="name" value="pacman"/>
+ </properties>
+ <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
+  <image source="tileset.png" width="160" height="200"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="34" height="17">
+  <properties>
+   <property name="texture" value="tileset"/>
+  </properties>
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+22,22,22,22,0,0,6,0,0,0,0,0,0,0,0,0,22,22,22,22,22,22,0,6,0,0,0,0,0,0,0,0,0,22,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,6,0,0,0,0,0,0,22,22,22,22,0,0,6,0,0,20,0,0,13,0,0,0,0,22,22,22,22,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+22,22,22,22,0,0,6,0,0,0,0,0,0,0,0,0,22,22,22,22,22,22,0,6,0,0,0,0,0,0,0,0,0,22,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+6,0,0,0,0,0,0,0,22,22,22,22,0,0,0,0,0,0,0,6,0,0,0,0,0,22,22,22,22,0,0,6,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,22,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup name="pacman">
+  <properties>
+   <property name="_type" value="1"/>
+   <property name="sizex" value="117"/>
+   <property name="sizey" value="117"/>
+   <property name="speedx" value="100"/>
+   <property name="speedy" value="100"/>
+   <property name="texture" value="pacman_130x130"/>
+  </properties>
+  <object id="10" name="pacman" type="0" x="80" y="56">
+   <polyline points="-56,8 -56,8"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="emiter">
+  <properties>
+   <property name="_type" value="2"/>
+   <property name="delay" value="6000"/>
+   <property name="explode" value="1"/>
+   <property name="offset" value="6000"/>
+   <property name="sizex" value="14"/>
+   <property name="sizey" value="14"/>
+   <property name="speed" value="70"/>
+   <property name="texture" value="enemies_14x14"/>
+  </properties>
+  <object id="16" type="0" x="272" y="48">
+   <properties>
+    <property name="explode" value="1"/>
+    <property name="offset" value="5000"/>
+   </properties>
+   <polyline points="0,0 -240,0"/>
+  </object>
+  <object id="17" type="0" x="272" y="16">
+   <properties>
+    <property name="explode" value="1"/>
+    <property name="offset" value="3000"/>
+   </properties>
+   <polyline points="0,0 -200,0"/>
+  </object>
+  <object id="18" type="0" x="272" y="80">
+   <properties>
+    <property name="explode" value="1"/>
+    <property name="offset" value="1000"/>
+   </properties>
+   <polyline points="0,0 -200,0"/>
+  </object>
+ </objectgroup>
+</map>

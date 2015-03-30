@@ -51,6 +51,19 @@
     <level name="level10" />
     <level name="boss" />
   </world>
+  <world name="DKong" icon="" directory="dkong">
+  	<level name="level1" />
+    <level name="level2" />
+    <level name="level3" />
+    <level name="level4" />
+    <level name="level5" />
+    <level name="level6" />
+    <level name="level7" />
+    <level name="level8" />
+    <level name="level9" />
+    <level name="level10" />
+    <level name="boss" />
+  </world>
   <!--
   <world name="Pacman Big" icon="" directory="pacman_big">
     <level name="level1" />

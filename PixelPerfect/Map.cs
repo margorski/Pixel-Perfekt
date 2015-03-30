@@ -169,12 +169,13 @@ namespace PixelPerfect
                     int index = i * Config.Map.WIDTH + j;
                     if (index > tileMapa.Length - 1 || index < 0)
                         continue;
-
+                    
                     if ((tileMapa[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
                     {
                         outRectangle = tileMapa[i * Config.Map.WIDTH + j].boundingBox;
                         if (tileMapa[index] is CrushyTile)
                             ((CrushyTile)tileMapa[index]).StandOn(standingType);
+                        
                         return true;
                     }
                 }
@@ -182,7 +183,7 @@ namespace PixelPerfect
             return false;
         }
 
-        public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle, out float movingModifier, Config.StandingType standingType = Config.StandingType.Player)
+        public bool CheckPlatformCollisions(Rectangle boundingBox, out Rectangle outRectangle, out float movingModifier, out bool springy, Config.StandingType standingType = Config.StandingType.Player)
         {
             List<Rectangle> boundingBoxes = new List<Rectangle>();            
             boundingBoxes.Add(new Rectangle(boundingBox.X - (int)mapOffset.X, boundingBox.Y - (int)mapOffset.Y,
@@ -194,6 +195,7 @@ namespace PixelPerfect
             Rectangle tileRectangle;
             outRectangle = new Rectangle(0, 0, 0, 0);
             movingModifier = 0.0f;
+            springy = false;
 
             foreach (Rectangle bbox in boundingBoxes)
             {
@@ -223,9 +225,12 @@ namespace PixelPerfect
                         if (tileMapa[index] is CrushyTile)
                             ((CrushyTile)tileMapa[index]).StandOn(standingType);
 
-                        if (tileMapa[index] is MovingTile)
+                        else if (tileMapa[index] is MovingTile)
                             movingModifier = ((MovingTile)tileMapa[index]).movingSpeed;
 
+                        else if (tileMapa[index] is SpringTile && standingType == Config.StandingType.Player)                        
+                            springy = ((SpringTile)tileMapa[index]).StandOn();
+                        
                         return true;
                     }
                 }
@@ -233,7 +238,7 @@ namespace PixelPerfect
             return false;
         }
 
-        public bool CheckCollisionsPixelPerfect(Player player, UInt32 attributes, GraphicsDeviceManager graphic)
+        public bool CheckCollisionsPixelPerfectPlayer(Player player, UInt32 attributes)
         {
             int startRow = player.boundingBox.Top / Config.Tile.SIZE;
             int endRow = (player.boundingBox.Bottom - 1) / Config.Tile.SIZE;
@@ -251,12 +256,17 @@ namespace PixelPerfect
                     if ((tileMapa[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
                     {
                         if (CheckCollisionPixelPerfect(player.boundingBox, tileMapa[i * Config.Map.WIDTH + j].boundingBox, 
-                                                       player.GetCurrentFrameTexture(graphic), tileMapa[i * Config.Map.WIDTH + j].GetCurrentFrameTexture(graphic)))
+                                                       player.GetCurrentFrameTexture(), tileMapa[i * Config.Map.WIDTH + j].GetCurrentFrameTexture()))
                             return true;
                     }
                 }
             }
             return false;
+        }
+
+        public bool CheckCollisionsPixelPerfectPixel(Rectangle boundingBox, UInt32 attributes)
+        {
+            return true;
         }
 
         public bool CheckCollisionPixelPerfect(Rectangle rect1, Rectangle rect2, Texture2D texture1, Texture2D texture2)
@@ -344,7 +354,7 @@ namespace PixelPerfect
             {
                 if (enemy.boundingBox.Intersects(player.boundingBox))
                 {
-                    return CheckCollisionPixelPerfect(player.boundingBox, enemy.boundingBox, player.GetCurrentFrameTexture(graphic), enemy.GetCurrentFrameTexture(graphic));
+                    return CheckCollisionPixelPerfect(player.boundingBox, enemy.boundingBox, player.GetCurrentFrameTexture(), enemy.GetCurrentFrameTexture(graphic));
                 }
             }
 
@@ -353,10 +363,10 @@ namespace PixelPerfect
             {
                 if (emiter.CheckCollision(player.boundingBox, out emiterPartRectangle))
                 {
-                    return CheckCollisionPixelPerfect(player.boundingBox, emiterPartRectangle.boundingBox, player.GetCurrentFrameTexture(graphic), emiterPartRectangle.GetCurrentFrameTexture(graphic));
+                    return CheckCollisionPixelPerfect(player.boundingBox, emiterPartRectangle.boundingBox, player.GetCurrentFrameTexture(), emiterPartRectangle.GetCurrentFrameTexture(graphic));
                 }
             }
-            return (CheckCollisionsPixelPerfect(player, Tile.Attributes.Killing, graphic));
+            return (CheckCollisionsPixelPerfectPlayer(player, Tile.Attributes.Killing));
         }
 
         public void OpenDoor()

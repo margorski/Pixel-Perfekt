@@ -84,6 +84,7 @@ namespace PixelPerfect
 
             var tempRectangle = new Rectangle();
             float movingModifier = 0.0f;
+            bool springy = false;
 
             position.X += (float)(speedX * gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0); // move horizontally
             if (map != null && enviroAffect)
@@ -100,7 +101,7 @@ namespace PixelPerfect
             {
                 
                 if (map.CheckCollisions(BoundingBox, Tile.Attributes.Solid, out tempRectangle) ||    // solid block hit (from top or bottom)
-                    (speedY > 0.0f && map.CheckPlatformCollisions(BoundingBox, out tempRectangle, out movingModifier, standingType)))  // platform hit, collision only when going down
+                    (speedY > 0.0f && map.CheckPlatformCollisions(BoundingBox, out tempRectangle, out movingModifier, out springy, standingType)))  // platform hit, collision only when going down
                 {
                     accX = Config.PixelParticle.HTORQUE_GROUND * (-speedX);
                     if (Math.Abs(accX) < Config.PixelParticle.HBRAKE)

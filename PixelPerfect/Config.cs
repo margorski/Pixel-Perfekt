@@ -122,7 +122,7 @@ namespace PixelPerfect
             DOOR_RM,
             DOOR_LD,
             DOOR_MD,
-            DOOR_RD,
+            SPRING,
             BLINKING_SOLID,
             BLINKING_PLATFORM
         }

@@ -119,7 +119,7 @@ namespace PixelPerfect
 
             float timeFactor = gameTime.ElapsedGameTime.Milliseconds / 1000.0f;
             speed.Y += Config.Player.GRAVITY * timeFactor;
-            speed.Y = MathHelper.Clamp(speed.Y, Config.Player.JUMP_SPEED, Config.Player.MAX_FALL_SPEED);
+            speed.Y = MathHelper.Clamp(speed.Y, Config.Player.JUMP_SPEED * 10.0f, Config.Player.MAX_FALL_SPEED);
 
             if ((GetState(State.stopped) && !GetState(State.jumping)) ||
                 (GetState(State.jumping) && GetState(State.jumpStopped)))
@@ -237,8 +237,10 @@ namespace PixelPerfect
                 speed.X = Config.Player.MOVE_SPEED;
         }
 
-        public void Jump()
+        public void Jump(bool springy = false)
         {
+            var jumpSpeed = (springy ? Config.Player.JUMP_SPEED * 1.3f : Config.Player.JUMP_SPEED);
+
             if (GetState(State.jumping))
             {
                 SetState(State.tryJump, true);
@@ -251,7 +253,7 @@ namespace PixelPerfect
                 SetState(State.jumpStopped, true);
             }
             SetState(State.jumping, true);
-            SetSpeedY(Config.Player.JUMP_SPEED);
+            SetSpeedY(jumpSpeed);
             jumpY = position.Y;
         }
 
@@ -326,7 +328,7 @@ namespace PixelPerfect
 
         public void PixelExplosion()
         {
-            Texture2D texture = GetCurrentFrameTexture(graphics);
+            Texture2D texture = GetCurrentFrameTexture();
             Random rnd = new Random();
 
             Color[] textureColors = new Color[texture.Width * texture.Height];
@@ -378,9 +380,9 @@ namespace PixelPerfect
             SetState(State.onMovingMap, true);
         }
 
-        public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)
+        public Texture2D GetCurrentFrameTexture()
         {
-            return Util.BlitTexture(graphic, texture, sourceRectangle, GetState(State.directionLeft));
+            return Util.BlitTexture(Globals.graphics, texture, sourceRectangle, GetState(State.directionLeft));
         }
     }
 }

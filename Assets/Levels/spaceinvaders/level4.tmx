@@ -83,13 +83,13 @@
    <properties>
     <property name="offset" value="900"/>
    </properties>
-   <polyline points="0,0 0,-72"/>
+   <polyline points="0,0 0,-66"/>
   </object>
   <object id="5" x="162" y="117">
    <properties>
     <property name="offset" value="700"/>
    </properties>
-   <polyline points="0,0 0,-72"/>
+   <polyline points="0,0 0,-66"/>
   </object>
  </objectgroup>
 </map>
