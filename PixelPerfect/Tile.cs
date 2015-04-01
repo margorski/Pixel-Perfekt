@@ -298,9 +298,9 @@ namespace PixelPerfect
                 return;
             
             if (!springy)
-                spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRectInactive, color);
+                spriteBatch.Draw(texture, new Rectangle((int)position.X + Config.DRAW_OFFSET_X + (int)offset.X, (int)position.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRectInactive, color);
             else
-                spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
+                spriteBatch.Draw(texture, new Rectangle((int)position.X + Config.DRAW_OFFSET_X + (int)offset.X, (int)position.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, Config.Tile.SIZE, Config.Tile.SIZE), sourceRect, color);
         }
     }
 

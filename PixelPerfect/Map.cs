@@ -34,9 +34,9 @@ namespace PixelPerfect
         public Vector2 startPosition { private set; get; }
         public byte collectiblesCount { private set;  get; }
         public string levelName { private set; get; }
-        
+        public Color color { private set; get; }
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, bool upsidedown = false, bool moving = false)
+        public Map(Texture2D tileset, Texture2D pixel, int[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false)
         {
             this.mapa = mapa;
             this.enemiesList = enemiesList;
@@ -45,6 +45,7 @@ namespace PixelPerfect
             this.levelName = levelName;
             this.upsidedown = upsidedown;
             this.moving = moving;
+            this.color = color;
 
             tileMapa = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
             this.tileset = tileset;
@@ -395,6 +396,7 @@ namespace PixelPerfect
             bool upsidedown = false;
             bool moving = false;
             int triggerCount = 0;
+            Color color = Color.Black;
 
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile)))
             {
@@ -436,6 +438,9 @@ namespace PixelPerfect
                                             break;
                                         case "moving":
                                             moving = (int.Parse(value) == 1 ? true : false);
+                                            break;
+                                        case "color":
+                                            color = Util.GetColorFromName(value);
                                             break;
                                             
                                     }
@@ -562,6 +567,7 @@ namespace PixelPerfect
                                         bool blink = false;
                                         bool guardian = false;
                                         bool explode = false;
+                                        bool teleport = false;
                                         int blinkTime = Config.Enemy.DEFAULT_BLINK_TIME_MS;
                                         float localspeedx, localspeedy, localspeed;
                                         localspeedx = localspeedy = localspeed = 0.0f;
@@ -631,7 +637,9 @@ namespace PixelPerfect
                                                         case "guardian":
                                                             guardian = (int.Parse(value) == 1) ? true : false;
                                                             break;
-
+                                                        case "teleport":
+                                                            teleport = (int.Parse(value) == 1) ? true : false;
+                                                            break;
                                                         case "explode":
                                                             explode = (int.Parse(value) == 1) ? true : false;
                                                             break;
@@ -703,9 +711,11 @@ namespace PixelPerfect
                                                                                 new Vector2(sizex, sizey),
                                                                                 triggerORtextureType,
                                                                                 startPosition + new Vector2(moveX, moveY),
-                                                                                reverse, blink, guardian, offset, wait));
-                                                                enemiesList.Last().SetBlinkTime(blinkTime);
-                                                                
+                                                                                reverse, blink, guardian, offset, wait, teleport));
+                                                                if (blink || teleport) // same time used for teleport delay and blink delay, teleport work only on normal move
+                                                                    enemiesList.Last().SetBlinkTeleportTime(blinkTime);
+                                                                enemiesList.Last().SetDelayTime(localdelay);
+
                                                                 for (int i = 1; i < points.Length; i++)
                                                                 {
                                                                     coords = points[i].Split(',');
@@ -715,7 +725,7 @@ namespace PixelPerfect
                                                                     var movePoint = startPosition + new Vector2(moveX, moveY);
                                                                     enemiesList.Last().AddMovepoint(movePoint);
                                                                 }
-                                                                enemiesList.Last().Init();                                                                
+                                                                //enemiesList.Last().Init();                                                                
                                                                 //              ,
                                                                 //new Vector2(x + moveX, y + moveY),
                                                                 break;
@@ -784,7 +794,7 @@ namespace PixelPerfect
             if (tileset == null)
                 return null;
 
-            return new Map(tileset, pixel, mapa, enemiesList, emiterList, triggerList, levelName, upsidedown, moving);
+            return new Map(tileset, pixel, mapa, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving);
         }
     }
 }

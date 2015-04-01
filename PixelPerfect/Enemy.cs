@@ -33,13 +33,19 @@ namespace PixelPerfect
         protected bool guardian;
         protected bool goingBack = false;
         protected bool onGuard = false;
+        protected bool teleport = false;
         protected int blinkTime = Config.Enemy.DEFAULT_BLINK_TIME_MS;
+        protected int delayTime = 0;
         protected int offset = 0;
         protected double currentBlinkTime = 0.0;
+        protected double currentDelayTime = 0.0;
 
         private TimeSpan waitTimer = TimeSpan.Zero;
+        private TimeSpan delayTimer = TimeSpan.Zero;
         private int waitTime = 0;
         private bool waiting = false;
+        private bool started = false;
+
         // debug
         public float x_move = 0;
 
@@ -67,7 +73,7 @@ namespace PixelPerfect
             }
         }
 
-        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0)
+        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0, bool teleport = false)
         {
             this.texture = texture;
             this.speed = speed;
@@ -80,15 +86,26 @@ namespace PixelPerfect
             this.guardian = guardian;
             this.offset = offset;
             this.waitTime = waitTime;
+            this.teleport = teleport;
+
+            if (teleport)
+                reverse = false;
+
             animation = new Animation(4, (int)(Config.ENEMY_ANIMATION_SPEED_BASE - speed.Length() * Config.ENEMY_ANIMATION_SPEED_FACTOR), false);
  
             AdjustSpeed();
         }
 
-        public void SetBlinkTime(int blinkTime)
+        public void SetBlinkTeleportTime(int blinkTime)
         {
-            if (blinkTime > 0)
+            if (blinkTime >= 0)
                 this.blinkTime = blinkTime;
+        }
+
+        public void SetDelayTime(int delayTime)
+        {
+            if (delayTime >= 0)
+                this.delayTime = delayTime;
         }
 
         protected void SetOffset()
@@ -115,7 +132,7 @@ namespace PixelPerfect
         {
             PrepareGuardian();
             SetOffset();
-            NextPath();
+            NextPath(new GameTime());
         }
 
         public void TriggerGuardian()
@@ -143,6 +160,17 @@ namespace PixelPerfect
 
         public void Update(GameTime gameTime)
         {
+            if (!started)
+            {
+                currentDelayTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+                if ((int)currentDelayTime >= delayTime)
+                {
+                    started = true;
+                    Init();                    
+                }
+                return;
+            }
+
             if (blink)
                 UpdateBlink(gameTime);
             else
@@ -164,7 +192,7 @@ namespace PixelPerfect
             {
                 if (currentPosition.Y == targetPosition.Y && currentPosition.X == targetPosition.X && !onGuard)
                 {
-                    NextPath();
+                    NextPath(gameTime);
                     waiting = true;
                 }
 
@@ -203,13 +231,13 @@ namespace PixelPerfect
 
             if (currentBlinkTime >= blinkTime)
             {                
-                NextPath();
+                NextPath(gameTime);
                 currentBlinkTime = 0.0;
                 currentPosition = targetPosition;
             }
         }
 
-        protected void NextPath()
+        protected void NextPath(GameTime gameTime)
         {
             if (onGuard)
                 return;
@@ -236,7 +264,21 @@ namespace PixelPerfect
             else
             {
                 if (++currentPath >= movepointsList.Count)
-                    currentPath = 0;
+                {
+                    if (!teleport)
+                        currentPath = 0;
+                    else
+                    {
+                        currentPath--;
+                        currentBlinkTime += gameTime.ElapsedGameTime.TotalMilliseconds;
+                        if (currentBlinkTime >= blinkTime)
+                        {
+                            currentBlinkTime = 0.0;
+                            currentPosition = movepointsList[0];
+                            currentPath = 1;
+                        }
+                    }
+                }
             }
             SetTarget();
             AdjustSpeed();
@@ -252,6 +294,9 @@ namespace PixelPerfect
 
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
+            if (!started)
+                return;
+
             spriteBatch.Draw(texture, new Vector2(currentPosition.X + Config.DRAW_OFFSET_X + offset.X, currentPosition.Y + Config.DRAW_OFFSET_Y + offset.Y), 
 												sourceRectangle, Color.White, 0.0f, Vector2.Zero,
 												1.0f, (leftDirection ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);

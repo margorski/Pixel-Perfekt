@@ -21,5 +21,6 @@ namespace PixelPerfect
         public static ContentManager content;
         public static bool upsideDown = false;
         public static Texture2D pixelTexture = null;
+        public static Color backgroundColor = Color.Black;
     }
 }

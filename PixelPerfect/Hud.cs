@@ -55,6 +55,8 @@ namespace PixelPerfect
             if (!enabled)
                 return;
 
+            spriteBatch.Draw(Globals.pixelTexture, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), Color.Black);
+
             Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), spriteFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                         new Vector2(4, Config.Hud.TEXT_POSITION_Y), Util.Align.Left);

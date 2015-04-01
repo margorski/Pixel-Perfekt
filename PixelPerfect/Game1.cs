@@ -128,7 +128,7 @@ namespace PixelPerfect
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.MidnightBlue);
+            GraphicsDevice.Clear(Globals.backgroundColor);
             //spriteBatch.Begin();
 
             Matrix matrix = Matrix.Identity;            

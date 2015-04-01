@@ -73,13 +73,14 @@ namespace PixelPerfect
             ResetInput();
 
             if (map.upsidedown)
-                Globals.upsideDown = true;
+                Globals.upsideDown = true;            
         }
 
         public override void Exit(int nextStateId)
         {
             Globals.CurrentLevelState = null;
-            Globals.upsideDown = false;            
+            Globals.upsideDown = false;
+            Globals.backgroundColor = Color.Black;
         }
 
         public override void Resume(int poppedStateId)
@@ -370,7 +371,8 @@ namespace PixelPerfect
 
         private void InitLevel()
         {
-            Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud, scale);            
+            Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud, scale);
+            Globals.backgroundColor = map.color;
             hud.Init(map.levelName, map.collectiblesCount);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics);
             if (map.moving)

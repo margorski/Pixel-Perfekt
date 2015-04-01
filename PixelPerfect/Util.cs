@@ -20,7 +20,16 @@ namespace PixelPerfect
             Left,
             Right,
             Center
-        }        
+        }
+
+        public static Color GetColorFromName(String name)
+        {
+            var color_props = typeof(Color).GetProperties();
+            foreach (var c in color_props)
+                if (name.Equals(c.Name, StringComparison.OrdinalIgnoreCase))
+                    return (Color)c.GetValue(new Color(), null);
+            return Color.Black;
+        }
 
         public static Rectangle GetSharedRectangle(Rectangle rect1, Rectangle rect2)
         {
