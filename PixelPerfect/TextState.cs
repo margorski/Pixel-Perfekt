@@ -31,7 +31,6 @@ namespace PixelPerfect
 
         ContentManager content;
         GraphicsDeviceManager graphics;
-        GameStateManager gameStateManager;
         SpriteFont menuFont;
 
 #if WINDOWS
@@ -51,9 +50,8 @@ namespace PixelPerfect
         private int drawLetterCount = 0;
         private TimeSpan letterTime = TimeSpan.Zero;
 
-        public TextState(GraphicsDeviceManager graphics, ContentManager content, GameStateManager gameStateManager, Hud hud)
+        public TextState(GraphicsDeviceManager graphics, ContentManager content, Hud hud)
         {
-            this.gameStateManager = gameStateManager;
             this.graphics = graphics;
             this.content = content;
             this.hud = hud;
@@ -95,7 +93,7 @@ namespace PixelPerfect
             currGPState = GamePad.GetState(PlayerIndex.One);
             if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
             {
-                gameStateManager.PushState(Config.States.PAUSE);
+                Globals.gameStateManager.PushState(Config.States.PAUSE);
             }
             prevGPState = currGPState;
 
@@ -139,7 +137,7 @@ namespace PixelPerfect
 #endif
             if (currentText >= textLines.Count)
             {
-                gameStateManager.PopState();
+                Globals.gameStateManager.PopState();
                 return;
             }
 

@@ -32,6 +32,8 @@ namespace PixelPerfect
 
         public Vector2 enviroSpeed;
 
+        public SoundEffectInstance hitSoundInstance;
+
         public Rectangle BoundingBox
         {
             get
@@ -62,6 +64,9 @@ namespace PixelPerfect
             this.map = map;
             this.enviroAffect = enviroAffect;
             this.standingType = standingType;
+
+            if (Globals.hitSoundInstance != null)
+                hitSoundInstance = Globals.hitSoundInstance;
         }
 
         public bool Update(GameTime gameTime)

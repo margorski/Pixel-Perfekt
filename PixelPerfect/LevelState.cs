@@ -19,7 +19,6 @@ namespace PixelPerfect
     {
         private GraphicsDeviceManager graphics;
         private ContentManager content;
-        private GameStateManager gameStateManager;
 
         private SpriteFont silkscreenFont;
         
@@ -29,7 +28,7 @@ namespace PixelPerfect
         private List<PixelParticle> pixelParticles = new List<PixelParticle>();
 #if !WINDOWS
         private TouchCollection touchCollection;
-        private int touchId = 0;
+        private int touchId = 0; 
 #else
         private MouseState previousMouseState;
         private MouseState currentMouseState;
@@ -46,11 +45,15 @@ namespace PixelPerfect
 
         public TimeSpan levelTime { private set; get; }
 
-        Button resetButton;
+        //Button resetButton;
 
-        public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile, GameStateManager gameStateManager)
+        SoundEffectInstance coinSoundInstance;
+        SoundEffectInstance jumpSoundInstance;
+        SoundEffectInstance explosionSoundInstance;
+        SoundEffectInstance randomizeSoundInstance;
+
+        public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile)
         {
-            this.gameStateManager = gameStateManager;
             this.graphics = graphics;
             this.content = content;
             this.levelFile = levelFile;
@@ -61,12 +64,17 @@ namespace PixelPerfect
                     levelFile += ".tmx";
             }
             silkscreenFont = content.Load<SpriteFont>("Silkscreen");
-            resetButton = new Button("RESET", new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 12, 60, 12), Globals.pixelTexture, silkscreenFont);
-            resetButton.activeColor = Color.Black;
+            //resetButton = new Button("RESET", new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 12, 60, 12), Globals.pixelTexture, silkscreenFont, false);
+            //resetButton.activeColor = Color.Black;
         }
 
         public override void Enter(int previousStateId)
         {
+            coinSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Pickup_Coin8").CreateInstance();
+            jumpSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Jump4").CreateInstance();
+            explosionSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Explosion9").CreateInstance();
+            randomizeSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Randomize3").CreateInstance();
+            Globals.hitSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance();
             hud = new Hud(silkscreenFont);
             Globals.CurrentLevelState = this;
             InitLevel();
@@ -100,7 +108,7 @@ namespace PixelPerfect
             currGPState = GamePad.GetState(PlayerIndex.One);
             if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
             {
-                gameStateManager.PushState(Config.States.PAUSE);
+                Globals.gameStateManager.PushState(Config.States.PAUSE);
             }
             prevGPState = currGPState;
 
@@ -155,7 +163,10 @@ namespace PixelPerfect
                 {
                     player.HitTheGround(tempRectangle);
                     if (springy)
-                        player.Jump(true);
+                    {
+                        if (player.Jump(true) && Globals.playSounds)
+                            jumpSoundInstance.Play();                        
+                    }
                 }
                 else
                 {
@@ -185,11 +196,17 @@ namespace PixelPerfect
                 map.CheckTriggers(player.boundingBox);
 
                 if (map.GrabCollectibles(player, graphics))
+                {
                     hud.Collect();
+                    if (Globals.playSounds)
+                        coinSoundInstance.Play();
+                }
 
                 if (map.KillThisBastard(player, graphics))
                 {
                     player.SetState(Player.State.dying, true);
+                    if (Globals.playSounds)
+                        randomizeSoundInstance.Play();
                     deathCount++;
                     
                     if (!Savestate.Instance.levelSaves[LevelId()].completed)
@@ -214,8 +231,8 @@ namespace PixelPerfect
                         Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
                         Savestate.Instance.Save();
                     }
-                    if (!gameStateManager.ChangeState(Config.States.MENU))
-                        gameStateManager.EmptyStack();                        
+                    if (!Globals.gameStateManager.ChangeState(Config.States.MENU))
+                        Globals.gameStateManager.EmptyStack();                        
                     return;
                 }
             }
@@ -256,12 +273,16 @@ namespace PixelPerfect
                                                         (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale));
                     var mousePosition = new Point((int)currentMouseState.X, (int)currentMouseState.Y);
 
-                    if (resetButton.Clicked(mousePosition.X, mousePosition.Y, scale))                    
-                        InitLevel();
-                    else if (leftScreenHalf.Contains(mousePosition))
+                    //if (resetButton.Clicked(mousePosition.X, mousePosition.Y, scale))                    
+                      //  InitLevel();
+                    //else 
+                    if (leftScreenHalf.Contains(mousePosition))
                         player.Stop(gameTime);
                     else if (rightScreenHalf.Contains(mousePosition))
-                        player.Jump();
+                    {
+                        if (player.Jump() && Globals.playSounds)
+                            jumpSoundInstance.Play();
+                    }
                 }
             }
             previousMouseState = currentMouseState;
@@ -297,7 +318,8 @@ namespace PixelPerfect
 
                 if (currentKeyboardState.IsKeyDown(Keys.RightShift) && previousKeyboardState.IsKeyUp(Keys.RightShift)) // right shift
                 {
-                    player.Jump();
+                    if (player.Jump() && Globals.playSounds)
+                        jumpSoundInstance.Play();
                 }
             }
             previousKeyboardState = currentKeyboardState;
@@ -329,12 +351,16 @@ namespace PixelPerfect
                         player.EndOfStop(gameTime);
                     }
 
-                    if (resetButton.Clicked((int)tl.Position.X, (int)tl.Position.Y, scale))
-                        InitLevel();                    
-                    else if (new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0,
+                    //if (resetButton.Clicked((int)tl.Position.X, (int)tl.Position.Y, scale))
+                    //    InitLevel();
+                    //else 
+                    if (new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0,
                                       (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y))
                         && tl.State == TouchLocationState.Pressed)
-                        player.Jump();
+                    {
+                        if (player.Jump() && Globals.playSounds)
+                            jumpSoundInstance.Play();
+                    }
 
                     else if (new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2),
                                                  (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y)))
@@ -366,15 +392,17 @@ namespace PixelPerfect
                 return;
             
             hud.Draw(spriteBatch);
-            resetButton.Draw(spriteBatch);
+            //resetButton.Draw(spriteBatch);
         }
 
         private void InitLevel()
         {
-            Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, gameStateManager, hud, scale);
+            Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, hud, scale);
             Globals.backgroundColor = map.color;
             hud.Init(map.levelName, map.collectiblesCount);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics);
+            player.explosionSoundInstance = explosionSoundInstance;
+            player.randomizeSoundInstance = randomizeSoundInstance;
             if (map.moving)
                 player.SetMovingMapState(-28.0f);
             levelTime = TimeSpan.Zero;

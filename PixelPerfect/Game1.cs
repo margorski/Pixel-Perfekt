@@ -48,7 +48,8 @@ namespace PixelPerfect
             Content.RootDirectory = "Content";
 
             // Frame rate is 30 fps by default for Windows Phone.
-            TargetElapsedTime = TimeSpan.FromTicks(333333);
+            TargetElapsedTime = TimeSpan.FromTicks(111111);
+            
         }
 
 
@@ -92,12 +93,36 @@ namespace PixelPerfect
             base.Initialize();
             Savestate.Init();
             gameStateManager = new GameStateManager();
+            Globals.gameStateManager = gameStateManager;
             var menuState = new MenuState(graphics, Content, gameStateManager);            
             var pauseState = new PauseState(Content, gameStateManager); 
             menuState.scale = pauseState.scale = scale;
+
+            var cstate = Cutscene.Serializer.Deserialize("test.xml");
+            //var cstate = new Cutscene.CutsceneState();
+            //Cutscene.Scene scene = new Cutscene.Scene();
+            //var texttime = (new TimeSpan(0,0,20)).ToString();
+            //scene.duration = texttime;
+            //var item = new Cutscene.Item();
+            //item.textureFile = "bubblebobble\\enemiesbig";
+            //var keyframeStart = new Cutscene.Keyframe();
+            //var keyframeEnd = new Cutscene.Keyframe();
+            //keyframeEnd.time = scene.duration;
+            //keyframeEnd.color = Color.Red;
+            //keyframeEnd.scale = 3.0f;
+            //keyframeEnd.rotation = 3.0f;
+            //keyframeEnd.position = new Vector2(200, 200);
+            //item.keyframeList.Add(keyframeStart);
+            //item.keyframeList.Add(keyframeEnd);
+            //scene.itemList.Add(item);
+            //cstate.scenes.Add(scene);
+            //Cutscene.Serializer.Serialize(cstate, "test.xml");
+
+            gameStateManager.RegisterState(Config.States.CUTSCENE, cstate);
             gameStateManager.RegisterState(Config.States.MENU, menuState);
             gameStateManager.RegisterState(Config.States.PAUSE, pauseState);
-            gameStateManager.ChangeState(Config.States.MENU);
+            gameStateManager.ChangeState(Config.States.MENU);            
+            gameStateManager.PushState(Config.States.CUTSCENE);
         }
 
         protected override void LoadContent()
@@ -113,7 +138,8 @@ namespace PixelPerfect
 
         protected override void Update(GameTime gameTime)
         {
-            gameStateManager.Update(gameTime);
+            var modifiedGameTime = new GameTime(gameTime.TotalGameTime, new TimeSpan(0, 0, 0, 0, (int)(gameTime.ElapsedGameTime.TotalMilliseconds * Globals.SpeedModificator)));
+            gameStateManager.Update(modifiedGameTime);
             if (gameStateManager.CurrentState() == 0)
                 this.Exit();
 

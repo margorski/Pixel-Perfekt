@@ -112,7 +112,7 @@ namespace PixelPerfect
         {
             foreach (EmiterPart emitedPart in emitedParts)
             {
-                emitedPart.Draw(spriteBatch, offset);
+                emitedPart.Draw(spriteBatch, offset);                
             }
         }
 

@@ -55,7 +55,7 @@ namespace PixelPerfect
         Button backButton;
         Button sendButton;
         Button resetButton;
-        Button pacmanButton; // temp
+        Button soundButton; // temp
         public MenuState(GraphicsDeviceManager graphics, ContentManager content, GameStateManager gameStateManager) 
         {
             this.gameStateManager = gameStateManager;
@@ -67,13 +67,14 @@ namespace PixelPerfect
 
             worlds = World.LoadWorlds();
 
-            skipButton = new Button("SKIP", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
-            playButton = new Button("PLAY", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
-            backButton = new Button("BACK", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+            skipButton = new Button("SKIP", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
+            playButton = new Button("PLAY", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
+            backButton = new Button("BACK", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
 
-            sendButton = new Button("SEND", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
-            resetButton = new Button("RESET", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
-            pacmanButton = new Button("PACMAN", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont);
+            sendButton = new Button("SEND", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
+            resetButton = new Button("RESET", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
+            soundButton = new Button("SOUND", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, true);
+            soundButton.value = Globals.playSounds;
         }
 
         public override void Enter(int previousStateId)
@@ -206,7 +207,7 @@ namespace PixelPerfect
         {
             for (int i = 0; i < worlds[selectedWorld].levels.Count; i++) // initialize levelstates
             {
-                var levelState = new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i), gameStateManager);
+                var levelState = new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i));
                 levelState.scale = scale;
                 gameStateManager.RegisterState(Config.States.LEVEL + i, levelState);
             }
@@ -278,9 +279,9 @@ namespace PixelPerfect
                         ResetSave();
                         break;
                     }
-                    else if (pacmanButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    else if (soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
                     {
-                        StartPacmanLevel();
+                        Globals.playSounds = soundButton.value;
                         break;
                     }
                     else 
@@ -305,9 +306,9 @@ namespace PixelPerfect
                 {
                     SendDataEmail();
                 }
-                else if (pacmanButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                else if (soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
                 {
-                    StartPacmanLevel();
+                    Globals.playSounds = soundButton.value;
                 }
                 else
                 {
@@ -490,7 +491,7 @@ namespace PixelPerfect
             }
             sendButton.Draw(spriteBatch);
             resetButton.Draw(spriteBatch);
-            pacmanButton.Draw(spriteBatch);
+            soundButton.Draw(spriteBatch);
         }
 
         public void Draw_LevelSelect(SpriteBatch spriteBatch)

@@ -74,7 +74,7 @@
  <objectgroup name="emiters">
   <properties>
    <property name="_type" value="2"/>
-   <property name="delay" value="11750"/>
+   <property name="delay" value="11950"/>
    <property name="sizex" value="3"/>
    <property name="sizey" value="5"/>
    <property name="speed" value="50"/>
@@ -82,13 +82,13 @@
   </properties>
   <object id="8" name="lewy1" x="183" y="115">
    <properties>
-    <property name="offset" value="10600"/>
+    <property name="offset" value="10800"/>
    </properties>
    <polyline points="0,2 0,-128"/>
   </object>
   <object id="9" name="prawy1" x="223" y="115">
    <properties>
-    <property name="offset" value="7900"/>
+    <property name="offset" value="8000"/>
    </properties>
    <polyline points="0,2 0,-130"/>
   </object>
@@ -100,7 +100,7 @@
   </object>
   <object id="12" name="lewy2" x="183" y="115">
    <properties>
-    <property name="offset" value="9300"/>
+    <property name="offset" value="9500"/>
    </properties>
    <polyline points="0,2 0,-128"/>
   </object>

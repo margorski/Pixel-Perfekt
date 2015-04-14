@@ -124,7 +124,7 @@
  <objectgroup name="shoots">
   <properties>
    <property name="_type" value="2"/>
-   <property name="delay" value="10350"/>
+   <property name="delay" value="10250"/>
    <property name="offset" value="1000"/>
    <property name="sizex" value="3"/>
    <property name="sizey" value="5"/>
@@ -147,14 +147,14 @@
    </properties>
    <polyline points="0,0 0,-64"/>
   </object>
-    <object id="63" type="0" x="111" y="116">
+  <object id="63" type="0" x="111" y="116">
    <properties>
     <property name="delay2" value="100"/>
     <property name="num" value="3"/>
     <property name="offset" value="6400"/>
    </properties>
    <polyline points="0,0 0,-64"/>
-  </object>    
+  </object>
   <object id="64" type="0" x="203" y="116">
    <properties>
     <property name="delay2" value="100"/>
@@ -163,7 +163,7 @@
    </properties>
    <polyline points="0,0 0,-64"/>
   </object>
-    <object id="65" type="0" x="249" y="116">
+  <object id="65" type="0" x="249" y="116">
    <properties>
     <property name="delay2" value="100"/>
     <property name="num" value="3"/>
@@ -179,14 +179,14 @@
    </properties>
    <polyline points="0,0 0,-64"/>
   </object>
-      <object id="67" type="0" x="111" y="116">
+  <object id="67" type="0" x="111" y="116">
    <properties>
     <property name="delay2" value="100"/>
     <property name="num" value="3"/>
     <property name="offset" value="200"/>
    </properties>
    <polyline points="0,0 0,-64"/>
-  </object>    
+  </object>
  </objectgroup>
  <objectgroup name="enemy1">
   <properties>

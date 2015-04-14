@@ -22,5 +22,9 @@ namespace PixelPerfect
         public static bool upsideDown = false;
         public static Texture2D pixelTexture = null;
         public static Color backgroundColor = Color.Black;
+        public static double SpeedModificator = 1.2;
+        public static bool playSounds = false;
+        public static SoundEffectInstance hitSoundInstance;
+        public static GameStateMachine.GameStateManager gameStateManager;
     }
 }

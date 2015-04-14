@@ -60,8 +60,8 @@
     <level name="level6" />
     <level name="level7" />
     <level name="level8" />
-    <level name="level9" />
-    <level name="level10" />
+    <!--<level name="level9" />
+    <level name="level10" />-->
     <level name="boss" />
   </world>
   <!--

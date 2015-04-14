@@ -39,11 +39,5 @@
    <property name="speedy" value="50"/>
    <property name="texture" value="enemies_14x14"/>
   </properties>
-  <object id="5" type="0" x="136" y="68">
-   <properties>
-    <property name="reverse" value="0"/>
-   </properties>
-   <polyline points="0,0 0,-28 72,-28 72,-52 120,-52 120,0 96,0 96,-28 48,-28 48,28 -96,28 -96,4 -120,4 -120,52 -72,52 -72,28 -48,28 -48,52 48,52 48,28 96,28 96,0 120,0 120,52 72,52 72,28 -96,28 -96,-28 -72,-28 -72,-52 -120,-52 -120,-4 -96,-4 -96,-28 -48,-28 -48,-52 48,-52 48,-28 0,-28 0,0"/>
-  </object>
  </objectgroup>
 </map>

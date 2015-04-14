@@ -414,6 +414,46 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Sounds\Pickup_Coin8.wav">
+      <Link>Sounds\Pickup_Coin8.wav</Link>
+      <Name>Pickup_Coin8</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Sounds\Jump4.wav">
+      <Link>Sounds\Jump4.wav</Link>
+      <Name>Jump4</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Sounds\Explosion9.wav">
+      <Link>Sounds\Explosion9.wav</Link>
+      <Name>Explosion9</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Sounds\Randomize3.wav">
+      <Link>Sounds\Randomize3.wav</Link>
+      <Name>Randomize3</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Sounds\Hit_Hurt2.wav">
+      <Link>Sounds\Hit_Hurt2.wav</Link>
+      <Name>Hit_Hurt2</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 

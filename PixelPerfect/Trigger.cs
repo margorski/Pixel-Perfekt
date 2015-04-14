@@ -20,15 +20,13 @@ namespace PixelPerfect
         private int useCount;
         private bool isIn = false;
         private Config.TriggerType triggerType;
-        private GameStateManager gameStateManager;
         private int stateId = -1;
 
-        public Trigger(Rectangle area, int useCount, Config.TriggerType triggerType, GameStateManager gameStateManager)
+        public Trigger(Rectangle area, int useCount, Config.TriggerType triggerType)
         {
             this.area = area;
             this.useCount = useCount;
             this.triggerType = triggerType;
-            this.gameStateManager = gameStateManager;
         }
 
         public void SetStateID(int stateId) { this.stateId = stateId; }
@@ -63,15 +61,15 @@ namespace PixelPerfect
                     break;
                     
                 case Config.TriggerType.PUSHSTATE:
-                    gameStateManager.PushState(stateId);
+                    Globals.gameStateManager.PushState(stateId);
                     break;
 
                 case Config.TriggerType.POPSTATE:
-                    gameStateManager.PopState();
+                    Globals.gameStateManager.PopState();
                     break;
 
                 case Config.TriggerType.CHANGESTATE:
-                    gameStateManager.ChangeState(stateId);
+                    Globals.gameStateManager.ChangeState(stateId);
                     break;
 
             }

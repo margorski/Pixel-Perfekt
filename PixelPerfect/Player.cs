@@ -59,6 +59,9 @@ namespace PixelPerfect
         private TimeSpan tryJumpTime = TimeSpan.Zero;
         private TimeSpan stopTimeForReverse = TimeSpan.Zero;
 
+        public SoundEffectInstance explosionSoundInstance;
+        public SoundEffectInstance randomizeSoundInstance;
+
         private Rectangle sourceRectangle
         {
             get
@@ -237,14 +240,14 @@ namespace PixelPerfect
                 speed.X = Config.Player.MOVE_SPEED;
         }
 
-        public void Jump(bool springy = false)
+        public bool Jump(bool springy = false)
         {
             var jumpSpeed = (springy ? Config.Player.JUMP_SPEED * 1.3f : Config.Player.JUMP_SPEED);
 
             if (GetState(State.jumping))
             {
                 SetState(State.tryJump, true);
-                return;
+                return false;
             }
 
             if (GetState(State.stopped))
@@ -255,6 +258,7 @@ namespace PixelPerfect
             SetState(State.jumping, true);
             SetSpeedY(jumpSpeed);
             jumpY = position.Y;
+            return true;
         }
 
         public void Stop(GameTime gameTime)
@@ -301,6 +305,8 @@ namespace PixelPerfect
                 if (fallDistance > Config.Player.MAX_FALL_DISTANCE)
                 {
                     SetState(State.dying, true);
+                    if (Globals.playSounds)
+                        randomizeSoundInstance.Play();
                     return;
                 }
             }
@@ -348,6 +354,8 @@ namespace PixelPerfect
                                     pixSpeed, acc, boomColors[rnd.Next(boomColors.Length)], true, Globals.CurrentMap));
                 }
             }
+            if (Globals.playSounds)
+                explosionSoundInstance.Play();
         }
 
 

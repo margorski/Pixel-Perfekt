@@ -384,7 +384,7 @@ namespace PixelPerfect
             return (CheckCollisions(boundingBox, Tile.Attributes.DoorsMain) && collectiblesCount == 0);
         }
 
-        public static Map LoadMap(string directory, string xmlFile, GraphicsDeviceManager graphics, ContentManager content, GameStateManager gameStateManager, Hud hud, float scale = 1.0f)
+        public static Map LoadMap(string directory, string xmlFile, GraphicsDeviceManager graphics, ContentManager content, Hud hud, float scale = 1.0f)
         {
             Texture2D pixel = content.Load<Texture2D>("pixel");
             Texture2D tileset = null;
@@ -594,12 +594,12 @@ namespace PixelPerfect
                                         }
                                         if (type == Config.LayerType.TRIGGER)
                                         {
-                                            triggerList.Add(new Trigger(new Rectangle(x, y, width, height), 1, (Config.TriggerType)triggerORtextureType, gameStateManager));
+                                            triggerList.Add(new Trigger(new Rectangle(x, y, width, height), 1, (Config.TriggerType)triggerORtextureType));
                                             triggerList[triggerCount].SetStateID(Config.States.TEXT + triggerCount);
-                                            TextState textState = new TextState(graphics, content, gameStateManager, hud);
+                                            TextState textState = new TextState(graphics, content, hud);
                                             textState.scale = scale;
                                             textState.LoadTextLines(directory, name);
-                                            gameStateManager.RegisterState(Config.States.TEXT + triggerCount, textState);
+                                            Globals.gameStateManager.RegisterState(Config.States.TEXT + triggerCount, textState);
                                             triggerCount++;
                                             continue;
                                         }
