@@ -10,7 +10,8 @@ namespace PixelPerfect.Cutscene
 {
     public class Scene
     {
-        public List<Item> itemList = new List<Item>();
+        public List<Image> images = new List<Image>();
+        public List<Text> texts = new List<Text>();
         public string duration
         {
             get { return _duration.ToString(); }
@@ -20,20 +21,29 @@ namespace PixelPerfect.Cutscene
 
         public void Init()
         {
-            foreach (Item item in itemList)
-                item.Init();
+            foreach (Image image in images)
+                image.Init();
+
+            foreach (Text text in texts)
+                text.Init();
         }
 
         public void Update(GameTime gameTime)
         {
-            foreach (Item item in itemList)
-                item.Update(gameTime);
+            foreach (Image image in images)
+                image.Update(gameTime);
+
+            foreach (Text text in texts)
+                text.Update(gameTime);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Item item in itemList)
-                item.Draw(spriteBatch);
+            foreach (Image image in images)
+                image.Draw(spriteBatch);
+
+            foreach (Text text in texts)
+                text.Draw(spriteBatch);
         }
     }
 }

@@ -31,7 +31,6 @@ namespace PixelPerfect
 
         ContentManager content;
         GraphicsDeviceManager graphics;
-        SpriteFont menuFont;
 
 #if WINDOWS
         MouseState prevMouseState;
@@ -65,7 +64,6 @@ namespace PixelPerfect
 
         public override void Enter(int previousStateId)
         {
-            menuFont = content.Load<SpriteFont>("Silkscreen");
             currentText = 0;
             hud.enabled = false;
         }
@@ -166,7 +164,7 @@ namespace PixelPerfect
                 spriteBatch.Draw(textLines[currentText].avatar, new Vector2(Config.Hud.AVATAR_POSITION_X, Config.Hud.AVATAR_POSITION_Y), Color.White);
                 marginX += textLines[currentText].avatar.Width;
             }
-            spriteBatch.DrawString(menuFont, textLines[currentText].text.Substring(0, drawLetterCount), new Vector2(Config.Hud.TEXTSTATE_POSITION_X + marginX, Config.Hud.TEXTSTATE_POSITION_Y), Color.White);
+            spriteBatch.DrawString(Globals.silkscreenFont, textLines[currentText].text.Substring(0, drawLetterCount), new Vector2(Config.Hud.TEXTSTATE_POSITION_X + marginX, Config.Hud.TEXTSTATE_POSITION_Y), Color.White);
         }
 
         private void AddTextLine(string text, Texture2D avatar = null)

@@ -27,6 +27,7 @@ namespace PixelPerfect.Cutscene
             using (Stream stream = File.Open(xmlfile, FileMode.Create))
             {
                 XmlSerializer xmlSerializer = new XmlSerializer(typeof(CutsceneState));
+
                 xmlSerializer.Serialize(stream, cutscene);
             }
         }

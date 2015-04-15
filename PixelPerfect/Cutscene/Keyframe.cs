@@ -22,11 +22,6 @@ namespace PixelPerfect.Cutscene
         public float scale = 1.0f;
         public float rotation = 0.0f;
         public Color color = Color.White;
+        public int printedLetters;
     }
-
-    public class TextKeyframe : Keyframe
-    {
-        public uint printedLetters;
-    }
-
 }

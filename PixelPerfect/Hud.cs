@@ -15,17 +15,13 @@ namespace PixelPerfect
 {
     class Hud
     {
-        SpriteFont spriteFont;
         String levelName = "";
         List<Tile> collectibleTiles = new List<Tile>();
         List<Tile> collectedTiles = new List<Tile>();
 
         public bool enabled = true;
 
-        public Hud(SpriteFont spriteFont) 
-        {
-            this.spriteFont = spriteFont;
-        }
+        public Hud() {}
 
         public void Init(string levelName, int collectiblesCount)
         {
@@ -57,15 +53,15 @@ namespace PixelPerfect
 
             spriteBatch.Draw(Globals.pixelTexture, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), Color.Black);
 
-            Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), spriteFont, Color.White,
+            Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                         new Vector2(4, Config.Hud.TEXT_POSITION_Y), Util.Align.Left);
              
-            Util.DrawStringAligned(spriteBatch, levelName, spriteFont, Color.White,
+            Util.DrawStringAligned(spriteBatch, levelName, Globals.silkscreenFont, Color.White,
                                    new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                                    new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Center);
 
-            Util.DrawStringAligned(spriteBatch, "DEATHS: " + Globals.CurrentLevelState.deathCount, spriteFont, Color.White,
+            Util.DrawStringAligned(spriteBatch, "DEATHS: " + Globals.CurrentLevelState.deathCount, Globals.silkscreenFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                         new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Right);
              

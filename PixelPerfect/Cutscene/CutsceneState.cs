@@ -48,6 +48,7 @@ namespace PixelPerfect.Cutscene
             if (currentDuration >= CurrentScene()._duration)
             {
                 currentScene++;
+                currentDuration = TimeSpan.Zero;
                 if (currentScene >= scenes.Count)
                 {
                     Globals.gameStateManager.PopState();

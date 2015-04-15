@@ -26,5 +26,6 @@ namespace PixelPerfect
         public static bool playSounds = false;
         public static SoundEffectInstance hitSoundInstance;
         public static GameStateMachine.GameStateManager gameStateManager;
+        public static SpriteFont silkscreenFont;
     }
 }

@@ -19,8 +19,6 @@ namespace PixelPerfect
     {
         private GraphicsDeviceManager graphics;
         private ContentManager content;
-
-        private SpriteFont silkscreenFont;
         
         private Map map;        
         private Player player;
@@ -63,7 +61,6 @@ namespace PixelPerfect
                 if (!levelFile.Substring(levelFile.Length - 4, 4).ToLower().Equals(".tmx"))
                     levelFile += ".tmx";
             }
-            silkscreenFont = content.Load<SpriteFont>("Silkscreen");
             //resetButton = new Button("RESET", new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 12, 60, 12), Globals.pixelTexture, silkscreenFont, false);
             //resetButton.activeColor = Color.Black;
         }
@@ -75,7 +72,7 @@ namespace PixelPerfect
             explosionSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Explosion9").CreateInstance();
             randomizeSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Randomize3").CreateInstance();
             Globals.hitSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance();
-            hud = new Hud(silkscreenFont);
+            hud = new Hud();
             Globals.CurrentLevelState = this;
             InitLevel();
             ResetInput();

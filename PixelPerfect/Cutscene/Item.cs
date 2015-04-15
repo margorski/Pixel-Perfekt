@@ -9,22 +9,34 @@ using System.Xml.Serialization;
 
 namespace PixelPerfect.Cutscene
 {
-    public class Item
+    public abstract class Item
     {
         public List<Keyframe> keyframeList = new List<Keyframe>();
-        public string textureFile;        
 
-        private Texture2D texture;
-        private int currentKeyframe = 0;
-        private TimeSpan currentTime = TimeSpan.Zero;
-
-        public void Init()
+        protected int currentKeyframe = 0;
+        protected TimeSpan currentTime = TimeSpan.Zero;
+        protected virtual float progress
         {
-            texture = Globals.content.Load<Texture2D>(textureFile);
+            get
+            {
+                if (keyframeList.Count <= 1)
+                    return 0.0f;
+                var _progress =  (float)((currentTime - keyframeList[currentKeyframe]._time).TotalMilliseconds / (keyframeList[currentKeyframe + 1]._time - keyframeList[currentKeyframe]._time).TotalMilliseconds);
+
+                if (_progress > 1.0f)
+                    _progress = 1.0f;
+
+                return _progress;
+            }
+            private set {}
+        }
+
+        public virtual void Init()
+        {            
             keyframeList.Sort((kf1, kf2) => kf1._time.CompareTo(kf2._time));
         }
 
-        public void Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {
             currentTime += gameTime.ElapsedGameTime;
 
@@ -35,27 +47,66 @@ namespace PixelPerfect.Cutscene
                 currentKeyframe++;
         }
 
-        public void Draw(SpriteBatch spriteBatch)
+        protected virtual Keyframe TransitionKeyframe()
         {
+            Keyframe transitionKeyframe = new Keyframe();
+
             if (keyframeList.Count <= 1)
+                return transitionKeyframe;
+
+            transitionKeyframe.position = keyframeList[currentKeyframe].position + (keyframeList[currentKeyframe + 1].position - keyframeList[currentKeyframe].position) * progress;
+            transitionKeyframe.color = Color.Lerp(keyframeList[currentKeyframe].color, keyframeList[currentKeyframe + 1].color, progress);
+            transitionKeyframe.rotation = keyframeList[currentKeyframe].rotation + (keyframeList[currentKeyframe + 1].rotation - keyframeList[currentKeyframe].rotation) * progress;
+            transitionKeyframe.origin = keyframeList[currentKeyframe].origin + (keyframeList[currentKeyframe + 1].origin - keyframeList[currentKeyframe].origin) * progress;
+            transitionKeyframe.scale = keyframeList[currentKeyframe].scale + (keyframeList[currentKeyframe + 1].scale - keyframeList[currentKeyframe].scale) * progress;
+            transitionKeyframe.printedLetters = (int)(keyframeList[currentKeyframe].printedLetters + (keyframeList[currentKeyframe + 1].printedLetters - keyframeList[currentKeyframe].printedLetters) * progress);
+
+            return transitionKeyframe;
+        }
+
+        public abstract void Draw(SpriteBatch spriteBatch);
+    
+    }
+    
+    public class Image : Item
+    {
+        public string textureFile;
+
+        protected Texture2D texture;
+
+        public override void Init()
+        {
+            texture = Globals.content.Load<Texture2D>(textureFile);
+            base.Init();
+        }
+
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (keyframeList.Count <= 1 || currentKeyframe == keyframeList.Count-1)
             {
-                spriteBatch.Draw(texture, keyframeList[0].position, null,  keyframeList[0].color,  keyframeList[0].rotation,  keyframeList[0].origin,  keyframeList[0].scale, SpriteEffects.None, 0.0f);
+                spriteBatch.Draw(texture, keyframeList[currentKeyframe].position, null, keyframeList[currentKeyframe].color, keyframeList[currentKeyframe].rotation, keyframeList[currentKeyframe].origin, keyframeList[currentKeyframe].scale, SpriteEffects.None, 0.0f);
                 return;
             }
 
-            var startTime = keyframeList[currentKeyframe]._time;
-            var endTime = keyframeList[currentKeyframe + 1]._time;
+            var transitionKeyframe = TransitionKeyframe();
+            spriteBatch.Draw(texture, transitionKeyframe.position, null, transitionKeyframe.color, transitionKeyframe.rotation, transitionKeyframe.origin, transitionKeyframe.scale, SpriteEffects.None, 0.0f);            
+        }        
+    }
 
-            float keyframeProgress = (float)((currentTime - startTime).TotalMilliseconds / (endTime - startTime).TotalMilliseconds);
+    public class Text : Item
+    {
+        public string text = "";
 
-            var position = keyframeList[currentKeyframe].position + (keyframeList[currentKeyframe + 1].position - keyframeList[currentKeyframe].position) * keyframeProgress;
-            var color = Color.Lerp(keyframeList[currentKeyframe].color, keyframeList[currentKeyframe + 1].color, keyframeProgress);
-            var rotation = keyframeList[currentKeyframe].rotation + (keyframeList[currentKeyframe + 1].rotation - keyframeList[currentKeyframe].rotation) * keyframeProgress;
-            var origin = keyframeList[currentKeyframe].origin + (keyframeList[currentKeyframe + 1].origin - keyframeList[currentKeyframe].origin) * keyframeProgress;
-            var scale = keyframeList[currentKeyframe].scale + (keyframeList[currentKeyframe + 1].scale - keyframeList[currentKeyframe].scale) * keyframeProgress;
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            if (keyframeList.Count <= 1 || currentKeyframe == keyframeList.Count - 1)
+            {
+                spriteBatch.DrawString(Globals.silkscreenFont, text.Substring(0, keyframeList[currentKeyframe].printedLetters), keyframeList[currentKeyframe].position, keyframeList[currentKeyframe].color, keyframeList[currentKeyframe].rotation, keyframeList[currentKeyframe].origin, keyframeList[currentKeyframe].scale, SpriteEffects.None, 0.0f);
+                return;
+            }
 
-            spriteBatch.Draw(texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 0.0f);
+            var transitionKeyframe = TransitionKeyframe();
+            spriteBatch.DrawString(Globals.silkscreenFont, text.Substring(0, transitionKeyframe.printedLetters), transitionKeyframe.position, transitionKeyframe.color, transitionKeyframe.rotation, transitionKeyframe.origin, transitionKeyframe.scale, SpriteEffects.None, 0.0f);
         }
-
     }
 }

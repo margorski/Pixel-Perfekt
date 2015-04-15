@@ -98,25 +98,34 @@ namespace PixelPerfect
             var pauseState = new PauseState(Content, gameStateManager); 
             menuState.scale = pauseState.scale = scale;
 
-            var cstate = Cutscene.Serializer.Deserialize("test.xml");
-            //var cstate = new Cutscene.CutsceneState();
-            //Cutscene.Scene scene = new Cutscene.Scene();
-            //var texttime = (new TimeSpan(0,0,20)).ToString();
-            //scene.duration = texttime;
-            //var item = new Cutscene.Item();
-            //item.textureFile = "bubblebobble\\enemiesbig";
-            //var keyframeStart = new Cutscene.Keyframe();
-            //var keyframeEnd = new Cutscene.Keyframe();
-            //keyframeEnd.time = scene.duration;
-            //keyframeEnd.color = Color.Red;
-            //keyframeEnd.scale = 3.0f;
-            //keyframeEnd.rotation = 3.0f;
-            //keyframeEnd.position = new Vector2(200, 200);
-            //item.keyframeList.Add(keyframeStart);
-            //item.keyframeList.Add(keyframeEnd);
-            //scene.itemList.Add(item);
-            //cstate.scenes.Add(scene);
-            //Cutscene.Serializer.Serialize(cstate, "test.xml");
+            //var cstate = Cutscene.Serializer.Deserialize("test.xml");
+            var cstate = new Cutscene.CutsceneState();
+            Cutscene.Scene scene = new Cutscene.Scene();
+            var texttime = (new TimeSpan(0, 0, 20)).ToString();
+            scene.duration = (new TimeSpan(0, 0, 30)).ToString(); ;
+            var textItem = new Cutscene.Text();
+            textItem.text = "HELLO\nMY NAME IS JOHN PERFECT.\nI AM... I WAS ARCADE GAME STAR.\n\nOH THOSE WERE THE DAYS...";
+            var textkeyframestart = new Cutscene.Keyframe();
+            var textkeyframeend = new Cutscene.Keyframe();
+            textkeyframeend.printedLetters = textItem.text.Length;
+            textkeyframeend.time = texttime;
+            textItem.keyframeList.Add(textkeyframestart);
+            textItem.keyframeList.Add(textkeyframeend);
+            scene.texts.Add(textItem);
+            var item = new Cutscene.Image();
+            item.textureFile = "bubblebobble\\enemiesbig";
+            var keyframeStart = new Cutscene.Keyframe();
+            var keyframeEnd = new Cutscene.Keyframe();
+            keyframeEnd.time = texttime;
+            keyframeEnd.color = Color.Red;
+            keyframeEnd.scale = 3.0f;
+            keyframeEnd.rotation = 3.0f;
+            keyframeEnd.position = new Vector2(200, 200);
+            item.keyframeList.Add(keyframeStart);
+            item.keyframeList.Add(keyframeEnd);
+            scene.images.Add(item);
+            cstate.scenes.Add(scene);
+            Cutscene.Serializer.Serialize(cstate, "test2.xml");
 
             gameStateManager.RegisterState(Config.States.CUTSCENE, cstate);
             gameStateManager.RegisterState(Config.States.MENU, menuState);
@@ -130,6 +139,7 @@ namespace PixelPerfect
             spriteBatch = new SpriteBatch(GraphicsDevice);
             specialBatch = new SpriteBatch(GraphicsDevice);
             Globals.pixelTexture = Content.Load<Texture2D>("pixel");
+            Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
         }
 
         protected override void UnloadContent()

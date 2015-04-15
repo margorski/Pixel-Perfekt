@@ -31,7 +31,6 @@ namespace PixelPerfect
         ContentManager content;
         GraphicsDeviceManager graphics;
         GameStateManager gameStateManager;
-        SpriteFont menuFont;
 
 #if !WINDOWS
         TouchCollection touchState;
@@ -62,18 +61,17 @@ namespace PixelPerfect
             this.content = content;
             this.graphics = graphics;
 
-            menuFont = content.Load<SpriteFont>("Silkscreen");
             levelTile = content.Load<Texture2D>("leveltile");
 
             worlds = World.LoadWorlds();
 
-            skipButton = new Button("SKIP", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
-            playButton = new Button("PLAY", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
-            backButton = new Button("BACK", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
+            skipButton = new Button("SKIP", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
+            playButton = new Button("PLAY", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
+            backButton = new Button("BACK", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
 
-            sendButton = new Button("SEND", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
-            resetButton = new Button("RESET", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, false);
-            soundButton = new Button("SOUND", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, menuFont, true);
+            sendButton = new Button("SEND", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
+            resetButton = new Button("RESET", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
+            soundButton = new Button("SOUND", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, true);
             soundButton.value = Globals.playSounds;
         }
 
@@ -457,10 +455,10 @@ namespace PixelPerfect
 
             if (worlds[selectedWorld].levels[selectedLevel].thumbnail != null)
                 spriteBatch.Draw(worlds[selectedWorld].levels[selectedLevel].thumbnail, new Vector2(50, 25), Color.White);
-            
-            Util.DrawStringAligned(spriteBatch, worlds[selectedWorld].levels[selectedLevel].levelName, menuFont, nameColor, new Rectangle(0, 10, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Center);            
-            Util.DrawStringAligned(spriteBatch, deathsString, menuFont, timeColor, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 40, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Left);            
-            Util.DrawStringAligned(spriteBatch, timeString, menuFont, deathColor, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 40, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Right);
+
+            Util.DrawStringAligned(spriteBatch, worlds[selectedWorld].levels[selectedLevel].levelName, Globals.silkscreenFont, nameColor, new Rectangle(0, 10, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Center);
+            Util.DrawStringAligned(spriteBatch, deathsString, Globals.silkscreenFont, timeColor, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 40, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Left);
+            Util.DrawStringAligned(spriteBatch, timeString, Globals.silkscreenFont, deathColor, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 40, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Right);
 
             backButton.Draw(spriteBatch);
             skipButton.Draw(spriteBatch);
@@ -469,12 +467,12 @@ namespace PixelPerfect
 
         public void Draw_Main(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(menuFont, "PIXEL PERFECT", new Vector2(100, 7), Color.White);
+            spriteBatch.DrawString(Globals.silkscreenFont, "PIXEL PERFECT", new Vector2(100, 7), Color.White);
         }
 
         public void Draw_WorldSelect(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(menuFont, "WORLD SELECT", new Vector2(100, 7), Color.White);
+            spriteBatch.DrawString(Globals.silkscreenFont, "WORLD SELECT", new Vector2(100, 7), Color.White);
             int x, y;
             Color color = Color.White;
 
@@ -486,8 +484,8 @@ namespace PixelPerfect
                 color = worlds[i].active ? Color.White : Color.Gray;
                 spriteBatch.Draw(levelTile, new Vector2(x, y), color);
 
-                var textOffset = menuFont.MeasureString(worlds[i].name) / 2;
-                spriteBatch.DrawString(menuFont, worlds[i].name, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
+                var textOffset = Globals.silkscreenFont.MeasureString(worlds[i].name) / 2;
+                spriteBatch.DrawString(Globals.silkscreenFont, worlds[i].name, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
             }
             sendButton.Draw(spriteBatch);
             resetButton.Draw(spriteBatch);
@@ -496,7 +494,7 @@ namespace PixelPerfect
 
         public void Draw_LevelSelect(SpriteBatch spriteBatch)
         {
-            spriteBatch.DrawString(menuFont, "LEVEL SELECT", new Vector2(100, 7), Color.White);
+            spriteBatch.DrawString(Globals.silkscreenFont, "LEVEL SELECT", new Vector2(100, 7), Color.White);
 
             int x, y;
             Color color = Color.White;
@@ -512,8 +510,8 @@ namespace PixelPerfect
 
                 spriteBatch.Draw(levelTile, new Vector2(x, y), color);
 
-                var textOffset = menuFont.MeasureString(worlds[selectedWorld].levels[i].levelName) / 2;
-                spriteBatch.DrawString(menuFont, worlds[selectedWorld].levels[i].levelName, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
+                var textOffset = Globals.silkscreenFont.MeasureString(worlds[selectedWorld].levels[i].levelName) / 2;
+                spriteBatch.DrawString(Globals.silkscreenFont, worlds[selectedWorld].levels[i].levelName, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
             }
         }
 
