@@ -454,6 +454,20 @@
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Cutscenes\arcade-cabinet_final2.png">
+      <Link>cutscenes\arcade-cabinet_final2.png</Link>
+      <Name>arcade-cabinet_final2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Cutscenes\arcade-inside_final.png">
+      <Link>cutscenes\arcade-inside_final.png</Link>
+      <Name>arcade-inside_final</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 

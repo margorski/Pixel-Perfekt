@@ -98,40 +98,54 @@ namespace PixelPerfect
             var pauseState = new PauseState(Content, gameStateManager); 
             menuState.scale = pauseState.scale = scale;
 
-            //var cstate = Cutscene.Serializer.Deserialize("test.xml");
-            var cstate = new Cutscene.CutsceneState();
-            Cutscene.Scene scene = new Cutscene.Scene();
-            var texttime = (new TimeSpan(0, 0, 20)).ToString();
-            scene.duration = (new TimeSpan(0, 0, 30)).ToString(); ;
-            var textItem = new Cutscene.Text();
-            textItem.text = "HELLO\nMY NAME IS JOHN PERFECT.\nI AM... I WAS ARCADE GAME STAR.\n\nOH THOSE WERE THE DAYS...";
-            var textkeyframestart = new Cutscene.Keyframe();
-            var textkeyframeend = new Cutscene.Keyframe();
-            textkeyframeend.printedLetters = textItem.text.Length;
-            textkeyframeend.time = texttime;
-            textItem.keyframeList.Add(textkeyframestart);
-            textItem.keyframeList.Add(textkeyframeend);
-            scene.texts.Add(textItem);
-            var item = new Cutscene.Image();
-            item.textureFile = "bubblebobble\\enemiesbig";
-            var keyframeStart = new Cutscene.Keyframe();
-            var keyframeEnd = new Cutscene.Keyframe();
-            keyframeEnd.time = texttime;
-            keyframeEnd.color = Color.Red;
-            keyframeEnd.scale = 3.0f;
-            keyframeEnd.rotation = 3.0f;
-            keyframeEnd.position = new Vector2(200, 200);
-            item.keyframeList.Add(keyframeStart);
-            item.keyframeList.Add(keyframeEnd);
-            scene.images.Add(item);
-            cstate.scenes.Add(scene);
-            Cutscene.Serializer.Serialize(cstate, "test2.xml");
+            
+            //var cstate = new Cutscene.CutsceneState();
+            //Cutscene.Scene scene = new Cutscene.Scene();            
+            //scene.duration = (new TimeSpan(0, 0, 28)).ToString();
+            //scene.backgroundColor = Color.Black;
 
-            gameStateManager.RegisterState(Config.States.CUTSCENE, cstate);
+            //var textItem = new Cutscene.Text();
+            //textItem.text = "HELLO\nMY NAME IS JOHN PERFECT.\nI AM\r\r\r\rI WAS ARCADE GAME STAR.\n\nOH THOSE WERE THE DAYS...";
+            //var textkeyframestart = new Cutscene.Keyframe();
+            //var textkeyframeend = new Cutscene.Keyframe();
+            //var textkeyframeStill = new Cutscene.Keyframe();
+            //textkeyframestart.position = textkeyframeend.position = textkeyframeStill.position = new Vector2(100, 30);
+            //textkeyframeend.printedLetters = textItem.text.Length;
+            //textkeyframeend.time = (new TimeSpan(0, 0, 15)).ToString();
+            //textkeyframeStill.printedLetters = textItem.text.Length;
+            //textkeyframeStill.time = (new TimeSpan(0, 0, 18)).ToString();
+            //textItem.keyframeList.Add(textkeyframestart);
+            //textItem.keyframeList.Add(textkeyframeend);
+            //scene.texts.Add(textItem);
+
+            //var item = new Cutscene.Image();
+            //item.textureFile = "cutscenes\\arcade-inside_final";
+            //var keyframeStart = new Cutscene.Keyframe();
+            //var keyframeEnd = new Cutscene.Keyframe();
+            //keyframeStart.time = (new TimeSpan(0, 0, 18)).ToString();
+            //keyframeEnd.time = (new TimeSpan(0, 0, 23)).ToString();            
+            //item.keyframeList.Add(keyframeStart);
+            //item.keyframeList.Add(keyframeEnd);
+            //scene.images.Add(item);
+
+            //var item2 = new Cutscene.Image();
+            //item2.textureFile = "cutscenes\\arcade-cabinet_final2";
+            //var keyframeStart2 = new Cutscene.Keyframe();
+            //var keyframeEnd2 = new Cutscene.Keyframe();
+            //keyframeStart2.time = (new TimeSpan(0, 0, 23)).ToString();
+            //keyframeEnd2.time = (new TimeSpan(0, 0, 28)).ToString();
+            //item2.keyframeList.Add(keyframeStart2);
+            //item2.keyframeList.Add(keyframeEnd2);
+            //scene.images.Add(item2);
+
+            //cstate.scenes.Add(scene);
+            
+            //gameStateManager.RegisterState(Config.States.CUTSCENE, cstate);
             gameStateManager.RegisterState(Config.States.MENU, menuState);
             gameStateManager.RegisterState(Config.States.PAUSE, pauseState);
-            gameStateManager.ChangeState(Config.States.MENU);            
-            gameStateManager.PushState(Config.States.CUTSCENE);
+            gameStateManager.ChangeState(Config.States.MENU);
+            
+            //gameStateManager.PushState(Config.States.CUTSCENE);
         }
 
         protected override void LoadContent()

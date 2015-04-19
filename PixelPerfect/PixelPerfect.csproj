@@ -74,10 +74,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Background.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Cutscene\Serializer.cs" />
     <Compile Include="Cutscene\CutsceneState.cs" />
+    <Compile Include="Cutscene\Sound.cs" />
     <Compile Include="Emiter.cs" />
     <Compile Include="EmiterPart.cs" />
     <Compile Include="Enemy.cs" />
@@ -590,6 +592,14 @@
     <Content Include="icon.png" />
     <Content Include="iconic_medium.png" />
     <Content Include="iconic_small.png" />
+    <Content Include="..\Content\Content\bin\PSM\Content\cutscenes\arcade-cabinet_final2.xnb">
+      <Link>Content\cutscenes\arcade-cabinet_final2.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\cutscenes\arcade-inside_final.xnb">
+      <Link>Content\cutscenes\arcade-inside_final.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">

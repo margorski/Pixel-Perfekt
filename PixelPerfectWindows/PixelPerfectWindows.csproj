@@ -59,6 +59,9 @@
     <Compile Include="..\PixelPerfect\Cutscene\Serializer.cs">
       <Link>Cutscene\Serializer.cs</Link>
     </Compile>
+    <Compile Include="..\PixelPerfect\Cutscene\Sound.cs">
+      <Link>Cutscene\Sound.cs</Link>
+    </Compile>
     <Compile Include="..\PixelPerfect\Emiter.cs">
       <Link>Emiter.cs</Link>
     </Compile>
@@ -659,6 +662,14 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\Sounds\Randomize3.xnb">
       <Link>Content\Sounds\Randomize3.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\cutscenes\arcade-cabinet_final2.xnb">
+      <Link>Content\cutscenes\arcade-cabinet_final2.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\cutscenes\arcade-inside_final.xnb">
+      <Link>Content\cutscenes\arcade-inside_final.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="..\Content\Content\bin\PSM\Content\spaceinvaders\level10.xnb">

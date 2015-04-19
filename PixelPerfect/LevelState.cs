@@ -50,6 +50,8 @@ namespace PixelPerfect
         SoundEffectInstance explosionSoundInstance;
         SoundEffectInstance randomizeSoundInstance;
 
+        private IBackground background;
+
         public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile)
         {
             this.graphics = graphics;
@@ -375,6 +377,9 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
+            if (background != null)
+                background.Draw(spriteBatch);
+
             if (!upsidedownBatch)
             {
                 foreach (PixelParticle pixelParticle in pixelParticles)

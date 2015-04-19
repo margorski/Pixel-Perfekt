@@ -15,7 +15,7 @@ namespace PixelPerfect
 {
     static class Config
     {
-        public const bool CHEAT_MODE = false;
+        public const bool CHEAT_MODE = true;
         /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
          */        
@@ -53,7 +53,7 @@ namespace PixelPerfect
         public struct Tile
         {
             public const int SIZE = 8;
-            public const float CRUSH_SPEED = 3.0f;
+            public const float CRUSH_SPEED = 2.5f;
             public const float CRUSH_PIXEL_COUNT = 45.0f;
             public const float MOVINGPLATFORM_SPEED = 25.0f;
             public const int DEFAULT_BLINK_TIME = 1500;
@@ -82,7 +82,7 @@ namespace PixelPerfect
             public const int STOPTIME_REVERSE_MS = 300;
             public const int WIDTH = 8;
             public const int HEIGHT = 16;
-            public const float JUMP_SPEED = -80.0f;
+            public const float JUMP_SPEED = -78.0f;
             public const float HTORQUE_INAIR = 5.5f; 
             public const float GRAVITY = 140.0f;
             public const float MAX_FALL_SPEED = 30.0f;

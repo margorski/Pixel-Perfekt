@@ -189,7 +189,8 @@ namespace PixelPerfect
         {
             get
             {
-                return new Rectangle((int)position.X, (int)position.Y + (Config.Tile.SIZE - (int)tileHeight), Config.Tile.SIZE, (int)tileHeight);
+                var height = (int)Math.Round(tileHeight);
+                return new Rectangle((int)position.X, (int)position.Y + (Config.Tile.SIZE - height), Config.Tile.SIZE, height);
             }
         }
         

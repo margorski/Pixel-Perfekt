@@ -23,9 +23,8 @@ namespace PixelPerfect.Cutscene
                     return 0.0f;
                 var _progress =  (float)((currentTime - keyframeList[currentKeyframe]._time).TotalMilliseconds / (keyframeList[currentKeyframe + 1]._time - keyframeList[currentKeyframe]._time).TotalMilliseconds);
 
-                if (_progress > 1.0f)
-                    _progress = 1.0f;
-
+                _progress = MathHelper.Clamp(_progress, 0.0f, 1.0f);
+                
                 return _progress;
             }
             private set {}
@@ -36,15 +35,20 @@ namespace PixelPerfect.Cutscene
             keyframeList.Sort((kf1, kf2) => kf1._time.CompareTo(kf2._time));
         }
 
-        public virtual void Update(GameTime gameTime)
+        public virtual bool Update(GameTime gameTime)
         {
             currentTime += gameTime.ElapsedGameTime;
 
+            if (currentTime >= keyframeList[keyframeList.Count - 1]._time)
+                return false;
+
             if (keyframeList.Count <= 1 || currentKeyframe >= keyframeList.Count - 1)
-                return;
+                return true;
 
             if (currentTime >= keyframeList[currentKeyframe+1]._time)
                 currentKeyframe++;
+
+            return true;
         }
 
         protected virtual Keyframe TransitionKeyframe()
@@ -82,6 +86,9 @@ namespace PixelPerfect.Cutscene
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (progress == 0.0f)
+                return;
+
             if (keyframeList.Count <= 1 || currentKeyframe == keyframeList.Count-1)
             {
                 spriteBatch.Draw(texture, keyframeList[currentKeyframe].position, null, keyframeList[currentKeyframe].color, keyframeList[currentKeyframe].rotation, keyframeList[currentKeyframe].origin, keyframeList[currentKeyframe].scale, SpriteEffects.None, 0.0f);
@@ -99,13 +106,16 @@ namespace PixelPerfect.Cutscene
 
         public override void Draw(SpriteBatch spriteBatch)
         {
+            if (progress == 0.0f)
+                return;
+
             if (keyframeList.Count <= 1 || currentKeyframe == keyframeList.Count - 1)
             {
                 spriteBatch.DrawString(Globals.silkscreenFont, text.Substring(0, keyframeList[currentKeyframe].printedLetters), keyframeList[currentKeyframe].position, keyframeList[currentKeyframe].color, keyframeList[currentKeyframe].rotation, keyframeList[currentKeyframe].origin, keyframeList[currentKeyframe].scale, SpriteEffects.None, 0.0f);
                 return;
             }
 
-            var transitionKeyframe = TransitionKeyframe();
+            var transitionKeyframe = TransitionKeyframe();            
             spriteBatch.DrawString(Globals.silkscreenFont, text.Substring(0, transitionKeyframe.printedLetters), transitionKeyframe.position, transitionKeyframe.color, transitionKeyframe.rotation, transitionKeyframe.origin, transitionKeyframe.scale, SpriteEffects.None, 0.0f);
         }
     }
