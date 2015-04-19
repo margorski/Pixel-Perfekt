@@ -21,6 +21,7 @@ namespace PixelPerfect
 
         public bool enabled = true;
 
+        private Texture2D background = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.Hud.HUD_HEIGHT, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
         public Hud() {}
 
         public void Init(string levelName, int collectiblesCount)
@@ -51,7 +52,10 @@ namespace PixelPerfect
             if (!enabled)
                 return;
 
-            spriteBatch.Draw(Globals.pixelTexture, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), Color.Black);
+            if (background != null)
+                spriteBatch.Draw(background, new Vector2(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT), Color.White);
+
+            //spriteBatch.Draw(Globals.pixelTexture, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), Color.Black);
 
             Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),

@@ -364,7 +364,7 @@ namespace PixelPerfect
             {
                 if (emiter.CheckCollision(player.boundingBox, out emiterPartRectangle))
                 {
-                    return CheckCollisionPixelPerfect(player.boundingBox, emiterPartRectangle.boundingBox, player.GetCurrentFrameTexture(), emiterPartRectangle.GetCurrentFrameTexture(graphic));
+                    return CheckCollisionPixelPerfect(player.boundingBox, emiterPartRectangle.boundingBox, player.GetCurrentFrameTexture(), emiterPartRectangle.GetCurrentFrameTexture());
                 }
             }
             return (CheckCollisionsPixelPerfectPlayer(player, Tile.Attributes.Killing));

@@ -390,7 +390,7 @@ namespace PixelPerfect
 
         public Texture2D GetCurrentFrameTexture()
         {
-            return Util.BlitTexture(Globals.graphics, texture, sourceRectangle, GetState(State.directionLeft));
+            return Util.BlitTexture(texture, sourceRectangle, GetState(State.directionLeft));
         }
     }
 }

@@ -50,7 +50,7 @@ namespace PixelPerfect
         SoundEffectInstance explosionSoundInstance;
         SoundEffectInstance randomizeSoundInstance;
 
-        private IBackground background;
+        private Texture2D backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
 
         public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile)
         {
@@ -117,6 +117,7 @@ namespace PixelPerfect
             MouseInput(gameTime);
             KeyboardInput(gameTime);
 #endif
+
             for (int i = 0; i < pixelParticles.Count; i++)
             {
                 if (pixelParticles[i].Update(gameTime))
@@ -377,8 +378,8 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            if (background != null)
-                background.Draw(spriteBatch);
+            if (backgroundTexture != null)
+                spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
 
             if (!upsidedownBatch)
             {

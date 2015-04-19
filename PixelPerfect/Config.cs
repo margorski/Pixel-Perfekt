@@ -19,7 +19,7 @@ namespace PixelPerfect
         /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
          */        
-        public const int SCREEN_WIDTH_SCALED = 264; //SCREEN_WIDTH / 2;
+        public const int SCREEN_WIDTH_SCALED = 268; //SCREEN_WIDTH / 2;
         public const int SCREEN_HEIGHT_SCALED = 160; //SCREEN_HEIGHT / 2;
         public const int SCALE_FACTOR = 3;
         public const int ENEMY_ANIMATION_SPEED_BASE = 1000;

@@ -22,6 +22,12 @@ namespace PixelPerfect
             Center
         }
 
+        public enum GradientType
+        {
+            Horizontal,
+            Vertical
+        }
+
         public static Color GetColorFromName(String name)
         {
             var color_props = typeof(Color).GetProperties();
@@ -87,9 +93,9 @@ namespace PixelPerfect
                                  sourceRect.Width, sourceRect.Height);
         }
 
-        public static Texture2D BlitTexture(GraphicsDeviceManager graphic, Texture2D texture, Rectangle blitRect, bool horizontalFlip)
+        public static Texture2D BlitTexture(Texture2D texture, Rectangle blitRect, bool horizontalFlip)
         {
-            Texture2D newTexture = new Texture2D(graphic.GraphicsDevice, blitRect.Width, blitRect.Height);
+            Texture2D newTexture = new Texture2D(Globals.graphics.GraphicsDevice, blitRect.Width, blitRect.Height);
             Color[] newTextureColors = new Color[blitRect.Width * blitRect.Height];
 
             Color[] textureColors = new Color[texture.Width * texture.Height];
@@ -124,6 +130,35 @@ namespace PixelPerfect
 
             newTexture.SetData<Color>(newTextureColors);
             return newTexture;
+        }
+        
+        public static Texture2D GetGradientTexture(int width, int height, Color color1, Color color2, GradientType gradientType)
+        {
+            Texture2D gradientTexture = new Texture2D(Globals.graphics.GraphicsDevice, width, height);
+            Color[] gradientTextureColors = new Color[width * height];
+
+            switch (gradientType)
+            {
+                case GradientType.Horizontal:
+                    for (int i = 0; i < height; i++)
+                    {
+                        Color gradientColor = Color.Lerp(color1, color2, i / (float)height);
+                        for (int j = 0; j < width; j++)
+                            gradientTextureColors[i * width + j] = gradientColor;
+                    }
+                    break;
+
+                case GradientType.Vertical:
+                    for (int i = 0; i < width; i++)
+                    {
+                        Color gradientColor = Color.Lerp(color1, color2, i / (float)width);
+                        for (int j = 0; j < height; j++)
+                            gradientTextureColors[j * width + i] = gradientColor;
+                    }
+                    break;
+            }
+            gradientTexture.SetData<Color>(gradientTextureColors);
+            return gradientTexture;
         }
 
         public static int PixelCount(Texture2D texture)

@@ -10,8 +10,8 @@ namespace PixelPerfect
 {
     interface IBackground
     {
-        public virtual void Update(GameTime gameTime);
-        public virtual void Draw(SpriteBatch spritebatch);
+        void Update(GameTime gameTime);
+        void Draw(SpriteBatch spritebatch);
     }
 
     class SolidBackground : IBackground

@@ -73,7 +73,7 @@ namespace PixelPerfect
 
         public Texture2D GetCurrentFrameTexture()
         {
-            return Util.BlitTexture(Globals.graphics, texture, sourceRect, false);
+            return Util.BlitTexture(texture, sourceRect, false);
         }
     }
 
@@ -317,11 +317,15 @@ namespace PixelPerfect
 
         private TimeSpan blinkTime = TimeSpan.Zero;
         private Color[] blinkColors = { Color.Red, Color.Violet, Color.Green, Color.Blue, Color.Yellow };
-        
+
+        private float currentScale = 1.0f;
+        private float currentRotation = 0.0f;
+        private TimeSpan scaleTimer = TimeSpan.Zero;
+
         public CollectibleTile(Vector2 position, Texture2D texture, Texture2D pixelTexture, UInt32 attributes, Rectangle sourceRect, Color color, bool emmiting = false) : base(position, texture, attributes, sourceRect, color)
         { 
             this.pixelTexture = pixelTexture;
-            this.emmiting = emmiting;
+            this.emmiting = true;//emmiting;
         }
  
         public override void Update(GameTime gameTime)
@@ -333,6 +337,12 @@ namespace PixelPerfect
 
             if ((attributes & Attributes.NoDraw) > 0)
                 return;
+
+            scaleTimer += gameTime.ElapsedGameTime;
+            if (scaleTimer.TotalMilliseconds >= 2000.0)
+                scaleTimer = TimeSpan.Zero;
+            currentScale = (float)Math.Sin((scaleTimer.TotalMilliseconds / 1000.0) * Math.PI * 2) / 6.0f + 1.0f;
+            currentRotation = (float)(Math.Sin((scaleTimer.TotalMilliseconds / 2000.0) * Math.PI * 2) * Math.PI / 4);
 
             blinkTime += gameTime.ElapsedGameTime;
             if (blinkTime.TotalMilliseconds >= (blinkMs * blinkColors.Length))
@@ -348,6 +358,14 @@ namespace PixelPerfect
                 pixelEmitTime = TimeSpan.Zero;
                 EmitPixel();
             }
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Vector2 offset)
+        {
+            if ((attributes & Attributes.NoDraw) > 0)
+                return;
+
+            spriteBatch.Draw(texture, new Vector2(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X + boundingBox.Width / 2, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y + boundingBox.Height / 2), sourceRect, color, currentRotation, new Vector2(boundingBox.Width / 2, boundingBox.Height / 2), currentScale, SpriteEffects.None, 0.0f);
         }
 
         public void Activate()

@@ -312,7 +312,7 @@ namespace PixelPerfect
 
         public void PixelExplosion()
         {
-            Texture2D texture = GetCurrentFrameTexture(Globals.graphics);
+            Texture2D texture = GetCurrentFrameTexture();
             Random rnd = new Random();
 
             Color[] textureColors = new Color[texture.Width * texture.Height];
@@ -335,9 +335,9 @@ namespace PixelPerfect
             }
         }
 
-        public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)
+        public Texture2D GetCurrentFrameTexture()
         {
-            return Util.BlitTexture(graphic, texture, sourceRectangle, false);
+            return Util.BlitTexture(texture, sourceRectangle, false);
         }
     }
 

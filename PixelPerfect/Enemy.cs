@@ -304,7 +304,7 @@ namespace PixelPerfect
 
         public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)
         {
-            return Util.BlitTexture(graphic, texture, sourceRectangle, leftDirection);
+            return Util.BlitTexture(texture, sourceRectangle, leftDirection);
         }
 
         public void AddMovepoint(Vector2 movePoint)
