@@ -37,6 +37,24 @@ namespace PixelPerfect
             return Color.Black;
         }
 
+        public static Color MultiplyColor(Color color, float value)
+        {
+            var r = (int)(color.R * value);
+            var g = (int)(color.G * value);
+            var b = (int)(color.B * value);          
+
+            return new Color(r, g, b); 
+        }
+
+        public static List<Color> GetColorList()
+        {
+            var colorProperties = typeof(Color).GetProperties();
+            List<Color> colorList = new List<Color>();
+            for (int i = 4; i < 146; i++)
+                colorList.Add((Color)colorProperties[i].GetValue(new Color(), null));
+            return colorList;
+        }
+
         public static Rectangle GetSharedRectangle(Rectangle rect1, Rectangle rect2)
         {
             if (!rect1.Intersects(rect2))

@@ -53,7 +53,9 @@ namespace PixelPerfect
             this.sourceRect = sourceRect;
             this.color = color;
         }
-        public virtual void Update(GameTime gameTime) { }
+        public virtual void Update(GameTime gameTime) 
+        { 
+        }
         public virtual void Draw(SpriteBatch spriteBatch, Vector2 offset)
         {
             if ((attributes & Attributes.NoDraw) > 0)
@@ -75,6 +77,54 @@ namespace PixelPerfect
         {
             return Util.BlitTexture(texture, sourceRect, false);
         }
+    }
+
+    class DiscoTile : Tile
+    {
+        public bool disco = false;
+
+        private TimeSpan blinkTime = TimeSpan.Zero;
+        private Color[] blinkColors = { Color.Red, Color.Violet, Color.Green, Color.Blue, Color.Yellow };
+
+        private const int blinkMs = 200;
+        private float currentScale = 1.0f;
+        private float currentRotation = 0.0f;
+        private TimeSpan scaleTimer = TimeSpan.Zero;
+
+        public DiscoTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color)
+            : base(position, texture, attributes, sourceRect, color)
+        {
+            
+        }
+
+        public override void Update(GameTime gameTime)
+        {
+            if ((attributes & Attributes.NoDraw) > 0)
+                return;
+
+            if (disco)
+            {
+                scaleTimer += gameTime.ElapsedGameTime;
+                if (scaleTimer.TotalMilliseconds >= 2000.0)
+                    scaleTimer = TimeSpan.Zero;
+                currentScale = (float)Math.Sin((scaleTimer.TotalMilliseconds / 1000.0) * Math.PI * 2) / 2 + 1.5f;
+                //currentRotation = (float)(Math.Sin((scaleTimer.TotalMilliseconds / 2000.0) * Math.PI * 2) * Math.PI / 5);
+
+                blinkTime += gameTime.ElapsedGameTime;
+                if (blinkTime.TotalMilliseconds >= (blinkMs * blinkColors.Length))
+                    blinkTime = TimeSpan.Zero;
+                color = blinkColors[(int)(blinkTime.TotalMilliseconds / blinkMs)];
+
+            }            
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, Vector2 offset)
+        {
+            if ((attributes & Attributes.NoDraw) > 0)
+                return;
+
+            spriteBatch.Draw(texture, new Vector2(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X + boundingBox.Width / 2, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y + boundingBox.Height / 2), sourceRect, color, currentRotation, new Vector2(boundingBox.Width / 2, boundingBox.Height / 2), currentScale, SpriteEffects.None, 0.0f);
+        }        
     }
 
     class MovingTile : Tile
@@ -322,10 +372,10 @@ namespace PixelPerfect
         private float currentRotation = 0.0f;
         private TimeSpan scaleTimer = TimeSpan.Zero;
 
-        public CollectibleTile(Vector2 position, Texture2D texture, Texture2D pixelTexture, UInt32 attributes, Rectangle sourceRect, Color color, bool emmiting = false) : base(position, texture, attributes, sourceRect, color)
+        public CollectibleTile(Vector2 position, Texture2D texture, Texture2D pixelTexture, UInt32 attributes, Rectangle sourceRect, Color color, bool emmiting) : base(position, texture, attributes, sourceRect, color)
         { 
             this.pixelTexture = pixelTexture;
-            this.emmiting = true;//emmiting;
+            this.emmiting = emmiting;
         }
  
         public override void Update(GameTime gameTime)

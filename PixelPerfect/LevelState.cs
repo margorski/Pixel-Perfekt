@@ -52,6 +52,68 @@ namespace PixelPerfect
 
         private Texture2D backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
 
+        // DEBUG PART PURPOSES
+        private int color1 = 0;
+        private int color2 = 1;
+        private int hudcolor = 0;
+
+        private void PreviousColor1()
+        {
+            if (--color1 < 0)
+                color1 = Globals.colorList.Count - 1;
+            ReloadGradientTexture();
+        }
+        private void NextColor1()
+        {
+            if (++color1 > Globals.colorList.Count - 1)
+                color1 = 0;
+            ReloadGradientTexture();            
+        }
+
+        private void NextColor2()
+        {
+            if (++color2 > Globals.colorList.Count - 1)
+                color2 = 0;
+            ReloadGradientTexture();
+        }
+        private void PreviousColor2()
+        {
+            if (--color2 < 0)
+                color2 = Globals.colorList.Count - 1;
+            ReloadGradientTexture();
+        }
+
+        private void ReloadGradientTexture()
+        {
+            if (color1 < 0 || color1 > Globals.colorList.Count - 1 || color2 < 0 || color2 > Globals.colorList.Count - 1)
+                return;
+
+            backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[color1], Globals.colorList[color2], Util.GradientType.Horizontal);
+        }
+
+        private void SwapColors()
+        {
+            var temp = color1;
+            color1 = color2;
+            color2 = temp;
+            ReloadGradientTexture();
+        }
+
+        private void NextHudColor()
+        {
+            if (++hudcolor > Globals.colorList.Count - 1)
+                hudcolor = 0;
+            hud.SetColor(Globals.colorList[hudcolor]);
+        }
+        private void PreviousHudColor()
+        {
+            if (--hudcolor < 0)
+                hudcolor = Globals.colorList.Count - 1;
+            hud.SetColor(Globals.colorList[hudcolor]);
+        }
+
+        // END DEBUG PART
+
         public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile)
         {
             this.graphics = graphics;
@@ -292,6 +354,23 @@ namespace PixelPerfect
         {
             currentKeyboardState = Keyboard.GetState();
 
+            // DEBUGGGGG
+            if (currentKeyboardState.IsKeyDown(Keys.Q) && previousKeyboardState.IsKeyUp(Keys.Q))            
+                PreviousColor1();
+            if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
+                NextColor1();
+            if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A))
+                PreviousColor2();
+            if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S))
+                NextColor2();
+            if (currentKeyboardState.IsKeyDown(Keys.E) && previousKeyboardState.IsKeyUp(Keys.E))
+                SwapColors();
+            if (currentKeyboardState.IsKeyDown(Keys.Z) && previousKeyboardState.IsKeyUp(Keys.Z))
+                PreviousHudColor();
+            if (currentKeyboardState.IsKeyDown(Keys.X) && previousKeyboardState.IsKeyUp(Keys.X))
+                NextHudColor();
+            // END DEBUGG
+
             if (player.GetState(Player.State.dead))
             {
                 if (currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
@@ -402,7 +481,11 @@ namespace PixelPerfect
         {
             Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, hud, scale);
             Globals.backgroundColor = map.color;
-            hud.Init(map.levelName, map.collectiblesCount);
+            color1 = map.color1;
+            color2 = map.color2;
+            ReloadGradientTexture();
+            var hudColor = (color2 >= 0 ? Util.MultiplyColor(Globals.colorList[color2], 0.5f) : Color.Black);
+            hud.Init(map.levelName, map.collectiblesCount, hudColor);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics);
             player.explosionSoundInstance = explosionSoundInstance;
             player.randomizeSoundInstance = randomizeSoundInstance;

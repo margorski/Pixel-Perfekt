@@ -189,9 +189,9 @@ namespace PixelPerfect
             }
             matrix *= Matrix.CreateScale(scale);
 
-            spriteBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, matrix);//Matrix.CreateScale(scale));
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);//Matrix.CreateScale(scale));
             if (Globals.upsideDown)
-                specialBatch.Begin(SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Matrix.CreateScale(scale));
+                specialBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, Matrix.CreateScale(scale));
 
             gameStateManager.Draw(spriteBatch);
             if (Globals.upsideDown)

@@ -20,9 +20,9 @@ namespace PixelPerfect
     class Map
     {
         // Privates
-        private Rectangle tileRect = new Rectangle(0, 0, Config.Tile.SIZE, Config.Tile.SIZE);
-        private int[] mapa;
-        private Tile[] tileMapa;
+        private Rectangle tileRect = new Rectangle(0, 0, Config.Tile.SIZE, Config.Tile.SIZE);        
+        private Tile[] tileMap;
+        private Tile[] tileBackground;
         private Texture2D tileset;
         private List<Enemy> enemiesList = new List<Enemy>();
         private List<Emiter> emiterList = new List<Emiter>();
@@ -35,10 +35,11 @@ namespace PixelPerfect
         public byte collectiblesCount { private set;  get; }
         public string levelName { private set; get; }
         public Color color { private set; get; }
+        public int color1 { private set; get; }
+        public int color2 { private set; get; }
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] mapa, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false)
-        {
-            this.mapa = mapa;
+        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, int color1 = -1, int color2 = -1, bool upsidedown = false, bool moving = false)
+        {            
             this.enemiesList = enemiesList;
             this.emiterList = emiterList;
             this.triggerList = triggerList;
@@ -46,22 +47,26 @@ namespace PixelPerfect
             this.upsidedown = upsidedown;
             this.moving = moving;
             this.color = color;
+            this.color1 = color1;
+            this.color2 = color2;
 
-            tileMapa = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
+            this.tileMap = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
+            this.tileBackground = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
             this.tileset = tileset;
 
             Vector2 tilePosition = Vector2.Zero;
             TileFactory.Init(tileset, pixel);
-            for (int i = 0; i < mapa.Length; i++)
+            for (int i = 0; i < tileMap.Length; i++)
             {
                 tilePosition.X = (float)((i % Config.Map.WIDTH) * Config.Tile.SIZE);
                 tilePosition.Y = (float)((i / Config.Map.WIDTH) * Config.Tile.SIZE);
    
-                tileMapa[i] = TileFactory.CreateTile(mapa[i], tilePosition);
+                this.tileMap[i] = TileFactory.CreateTile(tileMap[i], tilePosition);
+                this.tileBackground[i] = TileFactory.CreateTile(backgroundtile[i], tilePosition, true);
 
-                if (mapa[i] == (byte)Config.TileType.KEY)
+                if (tileMap[i] == (byte)Config.TileType.KEY)
                     collectiblesCount++;
-                else if (mapa[i] == (byte)Config.TileType.START_POSITION)
+                else if (tileMap[i] == (byte)Config.TileType.START_POSITION)
                     startPosition = tilePosition;
             }
         }
@@ -76,7 +81,7 @@ namespace PixelPerfect
             }
 
 
-            foreach (Tile tile in tileMapa)
+            foreach (Tile tile in tileMap)
                 tile.Update(gameTime);
             foreach (Enemy enemy in enemiesList)
             {
@@ -88,7 +93,12 @@ namespace PixelPerfect
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            foreach (Tile tile in tileMapa)
+            foreach (Tile tile in tileBackground)
+            {
+                tile.Draw(spriteBatch, Vector2.Zero);
+            }
+
+            foreach (Tile tile in tileMap)
             {
                 tile.Draw(spriteBatch, mapOffset);
                 if (moving) // draw 2x tiles for moving map
@@ -132,10 +142,10 @@ namespace PixelPerfect
                     for (int j = startColumn; j <= endColumn; j++)
                     {
                         int index = i * Config.Map.WIDTH + j;
-                        if (index > tileMapa.Length - 1 || index < 0)
+                        if (index > tileMap.Length - 1 || index < 0)
                             continue;
 
-                        if ((tileMapa[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
+                        if ((tileMap[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
                         {
                             return true;
                         }
@@ -168,14 +178,14 @@ namespace PixelPerfect
                         continue;
 
                     int index = i * Config.Map.WIDTH + j;
-                    if (index > tileMapa.Length - 1 || index < 0)
+                    if (index > tileMap.Length - 1 || index < 0)
                         continue;
                     
-                    if ((tileMapa[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
+                    if ((tileMap[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
                     {
-                        outRectangle = tileMapa[i * Config.Map.WIDTH + j].boundingBox;
-                        if (tileMapa[index] is CrushyTile)
-                            ((CrushyTile)tileMapa[index]).StandOn(standingType);
+                        outRectangle = tileMap[i * Config.Map.WIDTH + j].boundingBox;
+                        if (tileMap[index] is CrushyTile)
+                            ((CrushyTile)tileMap[index]).StandOn(standingType);
                         
                         return true;
                     }
@@ -213,24 +223,24 @@ namespace PixelPerfect
                 for (int j = startColumn; j <= endColumn; j++)
                 {
                     int index = row * Config.Map.WIDTH + j;
-                    if (index > tileMapa.Length - 1 || index < 0)
+                    if (index > tileMap.Length - 1 || index < 0)
                         continue;
 
-                    tileRectangle = tileMapa[index].boundingBox;
+                    tileRectangle = tileMap[index].boundingBox;
                     tileRectangle.Height = 1;
 
-                    if (((tileMapa[index].attributes & Tile.Attributes.Platform) > 0) &&
+                    if (((tileMap[index].attributes & Tile.Attributes.Platform) > 0) &&
                         tempBoundingBox.Intersects(tileRectangle))
                     {
-                        outRectangle = tileMapa[index].boundingBox;
-                        if (tileMapa[index] is CrushyTile)
-                            ((CrushyTile)tileMapa[index]).StandOn(standingType);
+                        outRectangle = tileMap[index].boundingBox;
+                        if (tileMap[index] is CrushyTile)
+                            ((CrushyTile)tileMap[index]).StandOn(standingType);
 
-                        else if (tileMapa[index] is MovingTile)
-                            movingModifier = ((MovingTile)tileMapa[index]).movingSpeed;
+                        else if (tileMap[index] is MovingTile)
+                            movingModifier = ((MovingTile)tileMap[index]).movingSpeed;
 
-                        else if (tileMapa[index] is SpringTile && standingType == Config.StandingType.Player)                        
-                            springy = ((SpringTile)tileMapa[index]).StandOn();
+                        else if (tileMap[index] is SpringTile && standingType == Config.StandingType.Player)                        
+                            springy = ((SpringTile)tileMap[index]).StandOn();
                         
                         return true;
                     }
@@ -251,13 +261,13 @@ namespace PixelPerfect
                 for (int j = startColumn; j <= endColumn; j++)
                 {
                     int index = i * Config.Map.WIDTH + j;
-                    if (index > tileMapa.Length - 1 || index < 0)
+                    if (index > tileMap.Length - 1 || index < 0)
                         continue;
 
-                    if ((tileMapa[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
+                    if ((tileMap[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
                     {
-                        if (CheckCollisionPixelPerfect(player.boundingBox, tileMapa[i * Config.Map.WIDTH + j].boundingBox, 
-                                                       player.GetCurrentFrameTexture(), tileMapa[i * Config.Map.WIDTH + j].GetCurrentFrameTexture()))
+                        if (CheckCollisionPixelPerfect(player.boundingBox, tileMap[i * Config.Map.WIDTH + j].boundingBox, 
+                                                       player.GetCurrentFrameTexture(), tileMap[i * Config.Map.WIDTH + j].GetCurrentFrameTexture()))
                             return true;
                     }
                 }
@@ -318,13 +328,13 @@ namespace PixelPerfect
                     for (int j = startColumn; j <= endColumn; j++)
                     {
                         int index = i * Config.Map.WIDTH + j;
-                        if (index > tileMapa.Length - 1 || index < 0)
+                        if (index > tileMap.Length - 1 || index < 0)
                             continue;
 
-                        if ((tileMapa[index].attributes & Tile.Attributes.Collectible) > 0)
+                        if ((tileMap[index].attributes & Tile.Attributes.Collectible) > 0)
                         {
                             // optimize bounding box
-                            Rectangle bbox = tileMapa[index].boundingBox;
+                            Rectangle bbox = tileMap[index].boundingBox;
                             bbox.X += 1;
                             bbox.Width -= 2;
                             if (playerbbox.Intersects(bbox))
@@ -335,7 +345,7 @@ namespace PixelPerfect
                                     foreach (Enemy enemy in enemiesList)
                                         enemy.TriggerGuardian();
                                 }
-                                tileMapa[index].SetAttributes(Tile.Attributes.NoDraw);
+                                tileMap[index].SetAttributes(Tile.Attributes.NoDraw);
                                 return true;
                             }
                         }
@@ -372,10 +382,10 @@ namespace PixelPerfect
 
         public void OpenDoor()
         {
-            foreach (Tile tile in tileMapa)
+            foreach (Tile tile in tileMap)
             {
                 if ((tile.attributes & Tile.Attributes.Doors) > 0)
-                    tile.SetColor(Color.Red);
+                    ((DiscoTile)tile).disco = true;
             }
         }
 
@@ -391,12 +401,16 @@ namespace PixelPerfect
             List<Enemy> enemiesList = new List<Enemy>();
             List<Emiter> emiterList = new List<Emiter>();
             List<Trigger> triggerList = new List<Trigger>();
-            int[] mapa = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
+            int[] tileMap = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
+            int[] tileBackground = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
             string levelName = "";
             bool upsidedown = false;
             bool moving = false;
             int triggerCount = 0;
             Color color = Color.Black;
+            int color1 = -1;
+            int color2 = -1;
+            string layername = "";
 
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile)))
             {
@@ -442,6 +456,12 @@ namespace PixelPerfect
                                         case "color":
                                             color = Util.GetColorFromName(value);
                                             break;
+                                        case "color1":
+                                            color1 = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            break;
+                                        case "color2":
+                                            color2 = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            break;
                                             
                                     }
                                 } while (xmlreader.ReadToNextSibling("property"));
@@ -449,6 +469,9 @@ namespace PixelPerfect
 
                             // Tilelayer
                             case "layer":
+                                xmlreader.MoveToAttribute("name");
+                                layername = xmlreader.Value;
+
                                 xmlreader.ReadToFollowing("property");
                                 xmlreader.MoveToNextAttribute();
                                 if (xmlreader.Name == "name" && xmlreader.Value == "texture")
@@ -463,7 +486,10 @@ namespace PixelPerfect
                                 {
                                     try
                                     {
-                                        mapa[i] = Int32.Parse(dataStrings[i], CultureInfo.InvariantCulture);
+                                        if (layername == "background")
+                                            tileBackground[i] = Int32.Parse(dataStrings[i], CultureInfo.InvariantCulture);
+                                        else
+                                            tileMap[i] = Int32.Parse(dataStrings[i], CultureInfo.InvariantCulture);
                                     }
                                     catch (Exception ex)
                                     {
@@ -794,7 +820,7 @@ namespace PixelPerfect
             if (tileset == null)
                 return null;
 
-            return new Map(tileset, pixel, mapa, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving);
+            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, color1, color2, upsidedown, moving);
         }
     }
 }

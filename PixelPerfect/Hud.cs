@@ -21,21 +21,27 @@ namespace PixelPerfect
 
         public bool enabled = true;
 
-        private Texture2D background = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.Hud.HUD_HEIGHT, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
+        //private Texture2D hudTexture;
+        private Color color = Color.Black;
         public Hud() {}
 
-        public void Init(string levelName, int collectiblesCount)
+        public void Init(string levelName, int collectiblesCount, Color color)
         {
             this.levelName = levelName;
 
             collectibleTiles.Clear();
             collectedTiles.Clear();
-
+            this.color = color;
             for (int i = 0; i < collectiblesCount; i++)
             {
                 collectibleTiles.Add(TileFactory.CreateTile((int)Config.TileType.KEY, new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + Config.Hud.COLLECTIBLES_SPACE + i * Config.Hud.COLLECTIBLES_SPACE, Config.Hud.COLLECTIBLES_Y)));
                 ((CollectibleTile)collectibleTiles[i]).Deactivate();
             }
+        }
+
+        public void SetColor(Color color)
+        {
+            this.color = color;
         }
 
         public void Update(GameTime gameTime)
@@ -46,16 +52,16 @@ namespace PixelPerfect
             foreach (Tile tile in collectedTiles)
                 tile.Update(gameTime);
         }
-
+        
         public void Draw(SpriteBatch spriteBatch)
         {
             if (!enabled)
                 return;
 
-            if (background != null)
-                spriteBatch.Draw(background, new Vector2(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT), Color.White);
+            //if (hudTexture != null)
+            //    spriteBatch.Draw(hudTexture, new Vector2(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT), Color.White);
 
-            //spriteBatch.Draw(Globals.pixelTexture, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), Color.Black);
+            spriteBatch.Draw(Globals.pixelTexture, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), color);
 
             Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),

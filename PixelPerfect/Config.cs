@@ -23,7 +23,7 @@ namespace PixelPerfect
         public const int SCREEN_HEIGHT_SCALED = 160; //SCREEN_HEIGHT / 2;
         public const int SCALE_FACTOR = 3;
         public const int ENEMY_ANIMATION_SPEED_BASE = 1000;
-        public const int ENEMY_ANIMATION_SPEED_FACTOR = 7;
+        public const int ENEMY_ANIMATION_SPEED_FACTOR = 25;
         public const int EMITER_ANIMATION_SPEED_BASE = 300;
         public const int EMITER_ANIMATION_SPEED_FACTOR = 7;
         public const int DRAW_OFFSET_X = 0;
