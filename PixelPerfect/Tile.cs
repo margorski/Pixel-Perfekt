@@ -61,6 +61,11 @@ namespace PixelPerfect
             if ((attributes & Attributes.NoDraw) > 0)
                 return;
 
+            if ((attributes & (UInt32)Tile.Attributes.Killing) > 0)
+                this.color = Globals.enemiesColor;
+            else
+               this.color = Globals.tilesColor;
+
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
         }
 
@@ -123,7 +128,7 @@ namespace PixelPerfect
             if ((attributes & Attributes.NoDraw) > 0)
                 return;
 
-            spriteBatch.Draw(texture, new Vector2(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X + boundingBox.Width / 2, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y + boundingBox.Height / 2), sourceRect, color, currentRotation, new Vector2(boundingBox.Width / 2, boundingBox.Height / 2), currentScale, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(texture, new Vector2(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X + boundingBox.Width / 2, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y + boundingBox.Height / 2), sourceRect, (disco ? color : Globals.tilesColor), currentRotation, new Vector2(boundingBox.Width / 2, boundingBox.Height / 2), currentScale, SpriteEffects.None, 0.0f);
         }        
     }
 
@@ -152,7 +157,7 @@ namespace PixelPerfect
             Rectangle animSourceRect = sourceRect;
             animSourceRect.Y += animation.GetCurrentFrame() * Config.Tile.SIZE;
 
-            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), animSourceRect, color);
+            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), animSourceRect, Globals.tilesColor);
         }
     }
 
@@ -281,7 +286,7 @@ namespace PixelPerfect
             if ((attributes & Attributes.NoDraw) > 0)
                 return;
 
-            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
+            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, Globals.tilesColor);
         }
 
         public void StandOn(Config.StandingType standingType = Config.StandingType.Player)
@@ -307,7 +312,7 @@ namespace PixelPerfect
                                new Vector2(boundingBox.Left + x, boundingBox.Bottom),
                                0.0f,//rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
                                new Vector2(0.0f, Config.PixelParticle.SPEED),
-                               new Vector2(0.0f, 0.0f), color, true, Globals.CurrentMap));
+                               new Vector2(0.0f, 0.0f), Globals.tilesColor, true, Globals.CurrentMap));
         }
     }
 
@@ -349,9 +354,9 @@ namespace PixelPerfect
                 return;
             
             if (!springy)
-                spriteBatch.Draw(texture, new Rectangle((int)position.X + Config.DRAW_OFFSET_X + (int)offset.X, (int)position.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRectInactive, color);
+                spriteBatch.Draw(texture, new Rectangle((int)position.X + Config.DRAW_OFFSET_X + (int)offset.X, (int)position.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRectInactive, Globals.tilesColor);
             else
-                spriteBatch.Draw(texture, new Rectangle((int)position.X + Config.DRAW_OFFSET_X + (int)offset.X, (int)position.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, Config.Tile.SIZE, Config.Tile.SIZE), sourceRect, color);
+                spriteBatch.Draw(texture, new Rectangle((int)position.X + Config.DRAW_OFFSET_X + (int)offset.X, (int)position.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, Config.Tile.SIZE, Config.Tile.SIZE), sourceRect, Globals.tilesColor);
         }
     }
 

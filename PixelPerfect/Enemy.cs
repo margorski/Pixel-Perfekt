@@ -297,8 +297,8 @@ namespace PixelPerfect
             if (!started)
                 return;
 
-            spriteBatch.Draw(texture, new Vector2(currentPosition.X + Config.DRAW_OFFSET_X + offset.X, currentPosition.Y + Config.DRAW_OFFSET_Y + offset.Y), 
-												sourceRectangle, Color.White, 0.0f, Vector2.Zero,
+            spriteBatch.Draw(texture, new Vector2(currentPosition.X + Config.DRAW_OFFSET_X + offset.X, currentPosition.Y + Config.DRAW_OFFSET_Y + offset.Y),
+                                                sourceRectangle, Globals.enemiesColor, 0.0f, Vector2.Zero,
 												1.0f, (leftDirection ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
         }
 

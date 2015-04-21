@@ -56,6 +56,10 @@ namespace PixelPerfect
         private int color1 = 0;
         private int color2 = 1;
         private int hudcolor = 0;
+        private int enemiesColor = 0;
+        private int tileColor = 0;
+        private int emiterColor = 0;
+        private bool colors = false;
 
         private void PreviousColor1()
         {
@@ -91,14 +95,40 @@ namespace PixelPerfect
             backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[color1], Globals.colorList[color2], Util.GradientType.Horizontal);
         }
 
-        private void SwapColors()
+        private void SwapGradientColors()
         {
             var temp = color1;
             color1 = color2;
             color2 = temp;
             ReloadGradientTexture();
         }
+        
+        private void SwapEnemiesEmitersColor()
+        {
+            var temp = emiterColor;
+            emiterColor = enemiesColor;
+            enemiesColor = temp;
+            RefreshColors();
+        }
 
+        private void EmiterasEnemies()
+        {
+            emiterColor = enemiesColor;
+            RefreshColors();
+        }
+
+        private void EmiterEnemiesAsTiles()
+        {
+            emiterColor = enemiesColor = tileColor;
+            RefreshColors();
+        }
+
+        private void HudAsTiles()
+        {
+            hudcolor = tileColor;
+            RefreshColors();
+        }
+        
         private void NextHudColor()
         {
             if (++hudcolor > Globals.colorList.Count - 1)
@@ -112,6 +142,51 @@ namespace PixelPerfect
             hud.SetColor(Globals.colorList[hudcolor]);
         }
 
+        private void NextEnemyColor()
+        {
+            if (++enemiesColor > Globals.colorList.Count - 1)
+                enemiesColor = 0;
+            Globals.enemiesColor = Globals.colorList[enemiesColor];
+        }
+        private void PreviousEnemyColor()
+        {
+            if (--enemiesColor < 0)
+                enemiesColor = Globals.colorList.Count - 1;
+            Globals.enemiesColor = Globals.colorList[enemiesColor];
+        }
+        private void NextEmitersColor()
+        {
+            if (++emiterColor > Globals.colorList.Count - 1)
+                emiterColor = 0;
+            Globals.emitersColor = Globals.colorList[emiterColor];
+        }
+        private void PreviousEmitersColor()
+        {
+            if (--emiterColor < 0)
+                emiterColor = Globals.colorList.Count - 1;
+            Globals.emitersColor = Globals.colorList[emiterColor];
+        }
+        private void NextTilesColor()
+        {
+            if (++tileColor > Globals.colorList.Count - 1)
+                tileColor = 0;
+            Globals.tilesColor = Globals.colorList[tileColor];
+        }
+        private void PreviousTilesColor()
+        {
+            if (--tileColor < 0)
+                tileColor = Globals.colorList.Count - 1;
+            Globals.tilesColor = Globals.colorList[tileColor];
+        }
+
+        private void RefreshColors()
+        {
+            Globals.tilesColor = Globals.colorList[tileColor];
+            Globals.emitersColor = Globals.colorList[emiterColor];
+            Globals.enemiesColor = Globals.colorList[enemiesColor];
+            hud.SetColor(Globals.colorList[hudcolor]);
+            ReloadGradientTexture();
+        }
         // END DEBUG PART
 
         public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile)
@@ -355,20 +430,50 @@ namespace PixelPerfect
             currentKeyboardState = Keyboard.GetState();
 
             // DEBUGGGGG
-            if (currentKeyboardState.IsKeyDown(Keys.Q) && previousKeyboardState.IsKeyUp(Keys.Q))            
+            // color1
+            if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A))            
                 PreviousColor1();
-            if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
+            if (currentKeyboardState.IsKeyDown(Keys.Q) && previousKeyboardState.IsKeyUp(Keys.Q))
                 NextColor1();
-            if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A))
-                PreviousColor2();
+            // color2
             if (currentKeyboardState.IsKeyDown(Keys.S) && previousKeyboardState.IsKeyUp(Keys.S))
+                PreviousColor2();
+            if (currentKeyboardState.IsKeyDown(Keys.W) && previousKeyboardState.IsKeyUp(Keys.W))
                 NextColor2();
-            if (currentKeyboardState.IsKeyDown(Keys.E) && previousKeyboardState.IsKeyUp(Keys.E))
-                SwapColors();
-            if (currentKeyboardState.IsKeyDown(Keys.Z) && previousKeyboardState.IsKeyUp(Keys.Z))
+            //hud
+            if (currentKeyboardState.IsKeyDown(Keys.D) && previousKeyboardState.IsKeyUp(Keys.D))
                 PreviousHudColor();
-            if (currentKeyboardState.IsKeyDown(Keys.X) && previousKeyboardState.IsKeyUp(Keys.X))
+            if (currentKeyboardState.IsKeyDown(Keys.E) && previousKeyboardState.IsKeyUp(Keys.E))
                 NextHudColor();
+            //enemy
+            if (currentKeyboardState.IsKeyDown(Keys.F) && previousKeyboardState.IsKeyUp(Keys.F))
+                PreviousEnemyColor();
+            if (currentKeyboardState.IsKeyDown(Keys.R) && previousKeyboardState.IsKeyUp(Keys.R))
+                NextEnemyColor();
+            //emiter
+            if (currentKeyboardState.IsKeyDown(Keys.G) && previousKeyboardState.IsKeyUp(Keys.G))
+                PreviousEmitersColor();
+            if (currentKeyboardState.IsKeyDown(Keys.T) && previousKeyboardState.IsKeyUp(Keys.T))
+                NextEmitersColor();
+            //tiles
+            if (currentKeyboardState.IsKeyDown(Keys.H) && previousKeyboardState.IsKeyUp(Keys.H))
+                PreviousTilesColor();
+            if (currentKeyboardState.IsKeyDown(Keys.Y) && previousKeyboardState.IsKeyUp(Keys.Y))
+                NextTilesColor();
+            // swaps
+            if (currentKeyboardState.IsKeyDown(Keys.Z) && previousKeyboardState.IsKeyUp(Keys.Z))
+                SwapGradientColors();
+            if (currentKeyboardState.IsKeyDown(Keys.X) && previousKeyboardState.IsKeyUp(Keys.X))
+                SwapEnemiesEmitersColor();
+            // same colors
+            if (currentKeyboardState.IsKeyDown(Keys.D1) && previousKeyboardState.IsKeyUp(Keys.D1))
+                HudAsTiles();
+            if (currentKeyboardState.IsKeyDown(Keys.D2) && previousKeyboardState.IsKeyUp(Keys.D2))
+                EmiterEnemiesAsTiles();
+            if (currentKeyboardState.IsKeyDown(Keys.D3) && previousKeyboardState.IsKeyUp(Keys.D3))
+                EmiterasEnemies(); 
+            // colors printing
+            colors = currentKeyboardState.IsKeyDown(Keys.Tab);                
             // END DEBUGG
 
             if (player.GetState(Player.State.dead))
@@ -474,6 +579,11 @@ namespace PixelPerfect
                 return;
             
             hud.Draw(spriteBatch);
+
+            if (colors)
+            {
+                spriteBatch.DrawString(Globals.silkscreenFont, "c1: " + color1 + " c2: " + color2 + " h: " + hudcolor + " en: " + enemiesColor + " em: " + emiterColor + " t: " + tileColor, new Vector2(10,150), Color.White);
+            }
             //resetButton.Draw(spriteBatch);
         }
 

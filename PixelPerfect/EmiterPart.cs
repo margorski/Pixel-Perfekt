@@ -100,7 +100,7 @@ namespace PixelPerfect
         {
             AdjustTextureRectangle();
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height)
-													, sourceRectangle, color);
+                                                    , sourceRectangle, Globals.emitersColor);
         }
 
         public bool Collide(Rectangle boundingBox)
@@ -330,7 +330,7 @@ namespace PixelPerfect
 
                     Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
-                                    pixSpeed, acc, textureColors[i], true, Globals.CurrentMap));
+                                    pixSpeed, acc, Globals.emitersColor, true, Globals.CurrentMap));
                 }
             }
         }

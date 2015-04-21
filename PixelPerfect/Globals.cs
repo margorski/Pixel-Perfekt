@@ -22,13 +22,14 @@ namespace PixelPerfect
         public static bool upsideDown = false;
         public static Texture2D pixelTexture = null;
         public static Color backgroundColor = Color.Black;
-        public static int color1 = -1;
-        public static int color2 = -1;
         public static double SpeedModificator = 1.2;
         public static bool playSounds = false;
         public static SoundEffectInstance hitSoundInstance;
         public static GameStateMachine.GameStateManager gameStateManager;
         public static SpriteFont silkscreenFont;
         public static List<Color> colorList = Util.GetColorList();
+        public static Color enemiesColor = Color.White;
+        public static Color emitersColor = Color.White;
+        public static Color tilesColor = Color.White;        
     }
 }
