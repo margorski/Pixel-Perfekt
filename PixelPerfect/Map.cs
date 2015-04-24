@@ -603,6 +603,8 @@ namespace PixelPerfect
                                         int delay2 = 0;
                                         int numofparts = 1;
                                         int wait = 0;
+                                        int adelay = Config.DEFAULT_ANIMATION_SPEED;
+
                                         while (xmlreader.MoveToNextAttribute())
                                         {
                                             if (xmlreader.Name == "name")
@@ -700,6 +702,10 @@ namespace PixelPerfect
                                                         case "wait":
                                                             wait = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                             break;
+
+                                                        case "adelay":
+                                                            adelay = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                                            break;
                                                         }
                                                     } while (xmlreader.ReadToNextSibling("property"));
                                                 }
@@ -736,7 +742,7 @@ namespace PixelPerfect
                                                                                 speedVector,
                                                                                 new Vector2(sizex, sizey),
                                                                                 triggerORtextureType,
-                                                                                startPosition + new Vector2(moveX, moveY),
+                                                                                startPosition + new Vector2(moveX, moveY), adelay,
                                                                                 reverse, blink, guardian, offset, wait, teleport));
                                                                 if (blink || teleport) // same time used for teleport delay and blink delay, teleport work only on normal move
                                                                     enemiesList.Last().SetBlinkTeleportTime(blinkTime);
@@ -802,7 +808,7 @@ namespace PixelPerfect
                                                                                distance, emiterSpeed, direction,
                                                                                new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
                                                                                emiterDelay, emiterOffset,
-                                                                               Color.White, explode, delay2, numofparts));
+                                                                               Color.White, adelay, explode, delay2, numofparts));
                                                                 break;
                                                         }
                                                     }

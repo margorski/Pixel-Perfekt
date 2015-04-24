@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="21">
+ <properties>
+  <property name="color1" value="33"/>
+  <property name="color2" value="27"/>
+  <property name="name" value="BEGINNING"/>
+  <property name="upsidedown" value="0"/>
+ </properties>
+ <tileset firstgid="1" name="Tileset" tilewidth="8" tileheight="8">
+  <image source="tileset.png" width="160" height="200"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="34" height="17">
+  <properties>
+   <property name="texture" value="tileset"/>
+  </properties>
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+41,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,
+41,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,
+41,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,
+41,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,41,
+41,3,3,3,0,41,164,4,4,4,4,4,4,4,4,324,0,7,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,
+41,0,0,0,0,41,0,8,0,0,0,0,0,0,0,164,4,4,4,4,4,4,4,324,0,0,3,3,3,0,0,0,0,41,
+41,0,3,3,3,41,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,0,0,0,0,0,0,0,0,0,0,41,
+41,0,0,0,0,41,0,0,6,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,3,3,41,
+41,3,3,3,6,41,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,41,
+41,0,0,0,0,41,41,41,2,2,2,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,6,41,
+41,0,3,3,3,41,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,
+41,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,0,0,0,0,0,0,0,2,2,2,0,0,0,0,41,
+41,9,10,11,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,
+41,29,13,31,0,0,0,2,2,2,2,2,2,2,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,2,2,2,41,
+41,49,50,51,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,41,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+</data>
+ </layer>
+ <objectgroup name="Small enemies layer">
+  <properties>
+   <property name="_type" value="1"/>
+   <property name="size" value="16"/>
+   <property name="speedx" value="25"/>
+   <property name="speedy" value="0"/>
+   <property name="texture" value="enemies_16x16"/>
+  </properties>
+  <object id="1" type="0" x="64" y="120">
+   <properties>
+    <property name="adelay" value="150"/>
+    <property name="blink" value="0"/>
+    <property name="blinktime" value="2000"/>
+    <property name="guardian" value="0"/>
+   </properties>
+   <polyline points="56,0 -16,0"/>
+  </object>
+  <object id="13" type="2" x="176" y="120">
+   <properties>
+    <property name="adelay" value="200"/>
+    <property name="blink" value="0"/>
+    <property name="blinktime" value="2000"/>
+    <property name="guardian" value="0"/>
+   </properties>
+   <polyline points="56,0 -16,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Emiter layer">
+  <properties>
+   <property name="_type" value="2"/>
+   <property name="size" value="5"/>
+   <property name="speed" value="25"/>
+   <property name="texture" value="enemies_5x5"/>
+  </properties>
+  <object id="15" type="0" x="88" y="40">
+   <properties>
+    <property name="delay" value="1200"/>
+    <property name="offset" value="600"/>
+   </properties>
+   <polyline points="0,0 0,-32"/>
+  </object>
+  <object id="16" type="0" x="56" y="40">
+   <properties>
+    <property name="delay" value="1200"/>
+    <property name="offset" value="1200"/>
+   </properties>
+   <polyline points="0,0 0,-32"/>
+  </object>
+ </objectgroup>
+</map>

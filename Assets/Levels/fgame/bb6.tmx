@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="28">
+ <properties>
+  <property name="name" value="pacman"/>
+ </properties>
+ <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
+  <image source="tileset.png" width="160" height="200"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="34" height="17">
+  <properties>
+   <property name="texture" value="tileset"/>
+  </properties>
+  <data encoding="csv">
+81,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,81,
+81,9,10,11,12,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,20,81,
+81,29,13,13,32,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,81,
+81,49,13,13,52,0,22,22,22,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,81,81,81,81,
+81,69,70,71,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,81,
+81,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,81,
+81,0,0,43,43,43,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43,43,43,0,0,0,81,
+81,0,0,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,0,0,0,81,
+81,43,43,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,43,43,43,81,
+81,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,81,
+81,0,0,43,43,43,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43,43,43,0,0,0,81,
+81,0,0,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,0,0,0,81,
+81,43,43,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43,43,43,81,
+81,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,81,
+81,0,0,43,43,43,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,43,43,43,0,0,0,81,
+81,0,0,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,22,22,22,0,0,0,0,0,0,81,
+81,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,81
+</data>
+ </layer>
+ <objectgroup name="enemies">
+  <properties>
+   <property name="_type" value="1"/>
+   <property name="sizex" value="16"/>
+   <property name="sizey" value="16"/>
+   <property name="speedx" value="30"/>
+   <property name="speedy" value="100"/>
+   <property name="texture" value="enemies"/>
+  </properties>
+  <object id="24" type="0" x="60" y="112">
+   <properties>
+    <property name="blink" value="1"/>
+    <property name="blinktime" value="850"/>
+    <property name="reverse" value="0"/>
+   </properties>
+   <polyline points="0,0 0,-32 0,-64 0,-96"/>
+  </object>
+  <object id="25" type="0" x="204" y="80">
+   <properties>
+    <property name="blink" value="1"/>
+    <property name="blinktime" value="850"/>
+    <property name="reverse" value="0"/>
+   </properties>
+   <polyline points="0,0 0,-32 0,-64 0,32"/>
+  </object>
+  <object id="26" type="0" x="108" y="48">
+   <properties>
+    <property name="blink" value="1"/>
+    <property name="blinktime" value="850"/>
+    <property name="reverse" value="0"/>
+   </properties>
+   <polyline points="0,0 0,-32 0,64 0,32"/>
+  </object>
+  <object id="27" type="0" x="156" y="16">
+   <properties>
+    <property name="blink" value="1"/>
+    <property name="blinktime" value="850"/>
+    <property name="reverse" value="0"/>
+   </properties>
+   <polyline points="0,0 0,96 0,64 0,32"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="bubbles">
+  <properties>
+   <property name="_type" value="2"/>
+   <property name="delay" value="3000"/>
+   <property name="sizex" value="16"/>
+   <property name="sizey" value="16"/>
+   <property name="speed" value="100"/>
+   <property name="texture" value="enemies"/>
+  </properties>
+ </objectgroup>
+</map>

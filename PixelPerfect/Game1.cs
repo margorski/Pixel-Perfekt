@@ -187,6 +187,10 @@ namespace PixelPerfect
                 matrix *= Matrix.CreateScale(-1);
                 matrix *= Matrix.CreateTranslation(new Vector3(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, 0));
             }
+            else
+            {
+                matrix *= Matrix.CreateTranslation(new Vector3(-3, 0, 0));
+            }
             matrix *= Matrix.CreateScale(scale);
 
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);//Matrix.CreateScale(scale));

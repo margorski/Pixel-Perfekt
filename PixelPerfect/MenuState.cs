@@ -48,6 +48,7 @@ namespace PixelPerfect
         Texture2D levelTile;
         int selectedWorld = -1;
         int selectedLevel = -1;
+        int currentPage = 0;
 
         Button skipButton;
         Button playButton;
@@ -55,6 +56,9 @@ namespace PixelPerfect
         Button sendButton;
         Button resetButton;
         Button soundButton; // temp
+        Button prevButton;
+        Button nextButton;
+
         public MenuState(GraphicsDeviceManager graphics, ContentManager content, GameStateManager gameStateManager) 
         {
             this.gameStateManager = gameStateManager;
@@ -73,6 +77,9 @@ namespace PixelPerfect
             resetButton = new Button("RESET", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
             soundButton = new Button("SOUND", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, true);
             soundButton.value = Globals.playSounds;
+            
+            prevButton = new Button("PREV", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
+            nextButton = new Button("NEXT", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
         }
 
         public override void Enter(int previousStateId)
@@ -365,21 +372,45 @@ namespace PixelPerfect
             {
                 if (touch.State == TouchLocationState.Pressed)
                 {
+                    if (prevButton.Clicked((int)touch.Position.X, (int)touch.Position.Y))
+                    {
+                        PreviousPage();
+                        continue;
+                    }
+
+                    if (nextButton.Clicked((int)touch.Position.X, (int)touch.Position.Y))
+                    {
+                        NextPage();
+                        continue;
+                    }
+
                     int clickedSquare = ClickedSquare((int)touch.Position.X, (int)touch.Position.Y);
 
                     if (clickedSquare < 0)
-                        return;
+                        continue;
 
                     if (!worlds[selectedWorld].LevelActivated(clickedSquare))
-                        return;
+                        continue;
 
-                    SelectLevel(clickedSquare);
+                    SelectLevel(clickedSquare + currentPage * 10);
                 }
 
             }
 #else
             if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
+                if (prevButton.Clicked(currMouseState.X, currMouseState.Y, scale))
+                {
+                    PreviousPage();
+                    return;
+                }
+
+                if (nextButton.Clicked(currMouseState.X, currMouseState.Y, scale))
+                {
+                    NextPage();
+                    return;
+                }
+
                 int clickedSquare = ClickedSquare(currMouseState.X, currMouseState.Y);
                 
                 if (clickedSquare < 0)
@@ -388,9 +419,21 @@ namespace PixelPerfect
                 if (!worlds[selectedWorld].LevelActivated(clickedSquare))
                     return;
 
-                SelectLevel(clickedSquare);
+                SelectLevel(clickedSquare + currentPage * 10);
             }
-#endif 
+#endif
+        }
+
+        private void PreviousPage()
+        {
+            if (--currentPage < 0)
+                currentPage = (worlds[selectedWorld].levels.Count - 1) / 10;
+        }
+
+        private void NextPage()
+        {
+            if (++currentPage > ((worlds[selectedWorld].levels.Count - 1) / 10))
+                currentPage = 0;
         }
 
         public void SelectLevel(int level)
@@ -499,11 +542,16 @@ namespace PixelPerfect
             int x, y;
             Color color = Color.White;
 
-            for (int i = 0; i < worlds[selectedWorld].levels.Count; i++)
-            {
-                x = Config.Menu.OFFSET_X + (i % Config.Menu.NUM_IN_ROW) * (levelTile.Width + Config.Menu.HORIZONTAL_SPACE);
-                y = Config.Menu.OFFSET_Y + (i / Config.Menu.NUM_IN_ROW) * (levelTile.Height + Config.Menu.VERTICAL_SPACE);
+            var currentPageLevels = worlds[selectedWorld].levels.Count - currentPage * 10; // levels amount on current page
+            var count = (currentPageLevels < 10 ? currentPageLevels : 10);
 
+            for (int i = currentPage * 10; i < count + currentPage * 10; i++)
+            {
+                var posI = i - currentPage * 10;
+
+                x = Config.Menu.OFFSET_X + (posI % Config.Menu.NUM_IN_ROW) * (levelTile.Width + Config.Menu.HORIZONTAL_SPACE);
+                y = Config.Menu.OFFSET_Y + (posI / Config.Menu.NUM_IN_ROW) * (levelTile.Height + Config.Menu.VERTICAL_SPACE);
+                
                 color = worlds[selectedWorld].LevelCompleted(i) ? Color.Green : 
                         worlds[selectedWorld].LevelSkipped(i)   ? Color.Gold : 
                         worlds[selectedWorld].LevelActivated(i) ? Color.White : Color.Gray;
@@ -513,6 +561,8 @@ namespace PixelPerfect
                 var textOffset = Globals.silkscreenFont.MeasureString(worlds[selectedWorld].levels[i].levelName) / 2;
                 spriteBatch.DrawString(Globals.silkscreenFont, worlds[selectedWorld].levels[i].levelName, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
             }
+            prevButton.Draw(spriteBatch);
+            nextButton.Draw(spriteBatch);
         }
 
         public int ClickedSquare(int X, int Y)
@@ -520,7 +570,7 @@ namespace PixelPerfect
             X /= (int)scale;
             Y /= (int)scale;
 
-            if ((Y) < Config.Menu.OFFSET_Y || (Y) > Config.SCREEN_HEIGHT_SCALED)
+            if ((Y) < Config.Menu.OFFSET_Y || (Y) > Config.Menu.OFFSET_Y + (levelTile.Height + Config.Menu.VERTICAL_SPACE) * 2)
                 return -1;
 
             int x = (X - Config.Menu.OFFSET_X) / (levelTile.Width + Config.Menu.HORIZONTAL_SPACE); 

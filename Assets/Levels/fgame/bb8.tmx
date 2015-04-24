@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="40">
+ <properties>
+  <property name="name" value="pacman"/>
+ </properties>
+ <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
+  <image source="tileset.png" width="160" height="200"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="34" height="17">
+  <properties>
+   <property name="texture" value="tileset"/>
+  </properties>
+  <data encoding="csv">
+101,0,0,0,0,101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,101,0,0,0,0,101,
+101,9,10,11,12,101,0,0,0,0,0,0,0,0,0,0,0,0,107,0,0,0,0,0,0,0,6,0,101,0,0,0,0,101,
+101,29,13,13,32,101,0,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,101,0,0,0,0,101,
+101,49,13,13,52,101,0,0,0,0,67,0,0,0,0,0,0,0,0,0,0,0,107,0,0,0,0,0,101,0,0,0,0,101,
+101,69,70,71,72,0,101,101,101,101,101,101,101,101,101,101,101,101,101,101,101,101,101,101,23,23,101,101,0,0,0,0,0,101,
+101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,101,
+101,0,0,23,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,101,
+101,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,101,
+101,23,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,101,
+101,0,0,0,0,23,0,0,0,0,0,0,0,23,23,0,0,6,0,0,0,0,0,82,82,82,82,82,0,0,0,0,0,101,
+101,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,82,82,101,
+101,23,23,0,0,0,0,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,87,0,0,0,0,101,
+101,0,0,0,0,0,0,0,0,0,5,5,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,82,82,82,82,101,
+101,0,0,0,0,23,23,23,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,107,0,0,0,0,0,0,0,0,0,101,
+101,0,0,0,0,0,0,0,0,0,0,0,0,0,4,4,4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,101,
+101,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,101,
+101,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,82,101
+</data>
+ </layer>
+ <objectgroup name="enemies">
+  <properties>
+   <property name="_type" value="1"/>
+   <property name="sizex" value="16"/>
+   <property name="sizey" value="16"/>
+   <property name="speedx" value="50"/>
+   <property name="speedy" value="100"/>
+   <property name="texture" value="enemies"/>
+  </properties>
+  <object id="21" type="3" x="224" y="24">
+   <properties>
+    <property name="speedx" value="40"/>
+   </properties>
+   <polyline points="-8,0 -168,0"/>
+  </object>
+  <object id="26" type="4" x="16" y="120">
+   <polyline points="0,0 88,0"/>
+  </object>
+  <object id="29" type="5" x="144" y="120">
+   <polyline points="0,0 112,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="bubbles">
+  <properties>
+   <property name="_type" value="2"/>
+   <property name="delay" value="3000"/>
+   <property name="sizex" value="16"/>
+   <property name="sizey" value="16"/>
+   <property name="speed" value="100"/>
+   <property name="texture" value="enemies"/>
+  </properties>
+ </objectgroup>
+ <objectgroup name="emiters">
+  <properties>
+   <property name="_type" value="2"/>
+   <property name="delay" value="5000"/>
+   <property name="offset" value="10000"/>
+   <property name="sizex" value="16"/>
+   <property name="sizey" value="16"/>
+   <property name="speed" value="25"/>
+   <property name="texture" value="enemies"/>
+  </properties>
+  <object id="32" type="2" x="144" y="136">
+   <properties>
+    <property name="delay" value="10000"/>
+    <property name="offset" value="9000"/>
+   </properties>
+   <polyline points="0,0 0,-148"/>
+  </object>
+  <object id="33" type="2" x="248" y="136">
+   <properties>
+    <property name="delay" value="10000"/>
+    <property name="offset" value="6200"/>
+   </properties>
+   <polyline points="0,0 0,-152"/>
+  </object>
+  <object id="34" type="2" x="24" y="136">
+   <properties>
+    <property name="delay" value="10000"/>
+    <property name="offset" value="4500"/>
+   </properties>
+   <polyline points="0,0 0,-154"/>
+  </object>
+  <object id="35" type="2" x="176" y="136">
+   <properties>
+    <property name="delay" value="10000"/>
+    <property name="offset" value="7200"/>
+   </properties>
+   <polyline points="0,0 0,-152"/>
+  </object>
+  <object id="36" type="2" x="208" y="136">
+   <properties>
+    <property name="delay" value="10000"/>
+    <property name="offset" value="2200"/>
+   </properties>
+   <polyline points="0,0 0,-152"/>
+  </object>
+  <object id="37" type="2" x="104" y="136">
+   <properties>
+    <property name="delay" value="10000"/>
+    <property name="offset" value="8100"/>
+   </properties>
+   <polyline points="0,0 0,-154"/>
+  </object>
+  <object id="38" type="2" x="56" y="136">
+   <properties>
+    <property name="delay" value="10000"/>
+    <property name="offset" value="3700"/>
+   </properties>
+   <polyline points="0,0 0,-156"/>
+  </object>
+  <object id="39" type="2" x="80" y="136">
+   <properties>
+    <property name="delay" value="10000"/>
+    <property name="offset" value="800"/>
+   </properties>
+   <polyline points="0,0 0,-156"/>
+  </object>
+ </objectgroup>
+</map>

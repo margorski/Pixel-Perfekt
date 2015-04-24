@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <worlds>
-  <world name="PPERFECT" icon ="" directory="pp">
-    <level name="level1" />
-  </world>
   <!--<world name="MMINER" icon="" directory="bonus">
 	  <level name="manic1" />
 	  <level name="manic2" />
@@ -11,7 +8,7 @@
 	  <level name="manic5" />
 	  <level name="manic6" />
 	  <level name="manic7" />
-  </world>-->
+  </world>
   <world name="AINTRUDERS" icon="" directory="spaceinvaders">
   	<level name="level1" />
 	  <level name="level2" />
@@ -60,12 +57,53 @@
     <level name="level6" />
     <level name="level7" />
     <level name="level8" />
-    <!--<level name="level9" />
-    <level name="level10" />-->
+    <level name="level9" />
+    <level name="level10" />
     <level name="boss" />
-  </world>
-  <!--
-  <world name="Pacman Big" icon="" directory="pacman_big">
-    <level name="level1" />
   </world>-->
+  <world name="FGame" icon="" directory="fgame">
+    <level name="pp0" />
+    <level name="si1" />
+	<level name="si2" />
+	<level name="si3" />
+	<level name="si4" />
+	<level name="si5" />
+	<level name="si6" />
+	<level name="si7" />
+	<level name="si8" />
+	<level name="si9" />
+	<level name="si10" />
+	<level name="si11" />
+	<level name="pm1" />
+	<level name="pm2" />
+	<level name="pm3" />
+	<level name="pm4" />
+	<level name="pm5" />
+	<level name="pm6" />
+	<level name="pm7" />
+	<level name="pm8" />
+	<level name="pm9" />
+	<level name="pm10" />
+	<level name="pm11" />
+	<level name="bb1" />
+	<level name="bb2" />
+	<level name="bb3" />
+	<level name="bb4" />
+	<level name="bb5" />
+	<level name="bb6" />
+	<level name="bb7" />
+	<level name="bb8" />
+	<level name="bb9" />
+	<level name="bb10" />
+	<level name="bb11" />
+	<level name="dk1" />
+	<level name="dk2" />
+	<level name="dk3" />
+	<level name="dk4" />
+	<level name="dk5" />
+	<level name="dk6" />
+	<level name="dk7" />
+	<level name="dk8" />
+	<level name="dk9" />
+  </world>
 </worlds>

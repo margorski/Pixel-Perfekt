@@ -264,7 +264,7 @@ namespace PixelPerfect
                 tileHeight = MathHelper.Clamp(tileHeight, 0.0f, (float)Config.Tile.SIZE);
                 standing = false;
                 pixelCount = 0;
-                sourceRect.Height = (int)tileHeight;
+                sourceRect.Height = (int)Math.Round(tileHeight);
 
                 if (sourceRect.Height == 0)
                 {

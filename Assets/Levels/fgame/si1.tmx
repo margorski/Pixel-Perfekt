@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="30">
+ <properties>
+  <property name="name" value="Mess invaders"/>
+ </properties>
+ <tileset firstgid="1" name="tileset" tilewidth="8" tileheight="8">
+  <image source="tileset.png" width="160" height="80"/>
+ </tileset>
+ <layer name="Tile Layer 1" width="34" height="17">
+  <properties>
+   <property name="texture" value="tileset"/>
+  </properties>
+  <data encoding="csv">
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6,1,
+1,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,83,1,
+1,0,0,0,2,2,2,0,0,0,2,2,2,2,2,0,0,0,0,2,2,2,2,2,0,6,0,2,2,2,0,0,0,1,
+1,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,83,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,11,0,0,1,
+1,63,0,0,2,2,2,0,6,0,2,2,2,2,2,0,0,0,0,2,2,2,2,2,0,0,0,2,2,2,14,0,83,1,
+1,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,63,0,0,0,0,0,0,0,0,0,0,0,0,0,0,3,3,0,0,0,0,0,0,0,0,0,0,0,0,0,0,83,1,
+1,0,0,0,2,2,2,0,0,0,2,2,2,2,2,0,0,0,0,2,2,2,2,2,0,0,0,2,2,2,0,0,0,1,
+1,63,0,20,0,0,0,0,0,0,0,0,0,0,0,0,0,13,0,0,0,0,0,0,0,0,0,0,0,6,0,0,83,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,0,121,1,1,1,41,0,0,0,21,101,1,1,1,1,1,1,1,1,101,1,1,141,0,0,0,21,1,1,1,41,0,1,
+1,0,141,61,22,81,1,0,0,0,1,161,22,22,22,22,22,22,22,22,22,22,181,1,0,0,0,1,61,22,81,1,0,1,
+1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
+1,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,1
+</data>
+ </layer>
+ <objectgroup name="enemy">
+  <properties>
+   <property name="_type" value="1"/>
+   <property name="sizex" value="24"/>
+   <property name="sizey" value="16"/>
+   <property name="speedx" value="10"/>
+   <property name="speedy" value="20"/>
+   <property name="texture" value="enemies_24x16"/>
+  </properties>
+  <object id="28" name="left" type="2" x="68" y="120">
+   <properties>
+    <property name="guardian" value="1"/>
+    <property name="offset" value="50"/>
+   </properties>
+   <polyline points="0,-56 0,0 0,-24"/>
+  </object>
+  <object id="29" name="right" type="2" x="204" y="120">
+   <properties>
+    <property name="guardian" value="1"/>
+    <property name="offset" value="80"/>
+   </properties>
+   <polyline points="0,-48 0,-96 0,-24"/>
+  </object>
+ </objectgroup>
+</map>

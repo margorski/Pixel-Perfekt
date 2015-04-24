@@ -55,7 +55,7 @@ namespace PixelPerfect
 
         public EmiterPart() { }
 
-        public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Rectangle textureRectangle, Color color, bool explode = false)
+        public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Rectangle textureRectangle, Color color, int animationDelay, bool explode = false)
         {
             this.position = position;
             this.texture = texture;
@@ -67,7 +67,7 @@ namespace PixelPerfect
             this.color = color;
             this.explode = explode;
 
-            animation = new Animation(4, (int)(Config.EMITER_ANIMATION_SPEED_BASE - speed * Config.EMITER_ANIMATION_SPEED_FACTOR), false);
+            animation = new Animation(4, animationDelay, false);
             InitializeSize();
             InitializeSpeed(speed);
             InitializeEndPosition(distance);
