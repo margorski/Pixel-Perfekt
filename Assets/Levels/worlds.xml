@@ -62,18 +62,18 @@
     <level name="boss" />
   </world>-->
   <world name="FGame" icon="" directory="fgame">
-    <level name="pp0" />
+    <level name="si4" />
     <level name="si1" />
-	<level name="si2" />
-	<level name="si3" />
-	<level name="si4" />
 	<level name="si5" />
+	<level name="si2" />
+	<level name="pp0" />
 	<level name="si6" />
-	<level name="si7" />
-	<level name="si8" />
-	<level name="si9" />
-	<level name="si10" />
 	<level name="si11" />
+	<level name="si8" />
+	<level name="si7" />
+	<level name="si3" />
+	<level name="si10" />
+	<level name="si9" />
 	<level name="pm1" />
 	<level name="pm2" />
 	<level name="pm3" />

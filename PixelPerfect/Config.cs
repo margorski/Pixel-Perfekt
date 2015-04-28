@@ -37,7 +37,7 @@ namespace PixelPerfect
             public const int PAUSE = 300;
             public const int TEXT = 400;
             public const int CUTSCENE = 500;
-        }
+        }   
 
         public struct Map
         {
@@ -76,7 +76,7 @@ namespace PixelPerfect
         {
             public const int BOOMCOLOR_TIME_MS = 20;
             public const int TRYJUMP_RESETTIME = 200;
-            public const int STOPTIME_REVERSE_MS = 300;
+            public const int STOPTIME_REVERSE_MS = 200;
             public const int WIDTH = 8;
             public const int HEIGHT = 16;
             public const float JUMP_SPEED = -78.0f;

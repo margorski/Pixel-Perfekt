@@ -73,7 +73,7 @@ namespace PixelPerfect
             }
         }
 
-        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, int animationDelay, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0, bool teleport = false)
+        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, int animationDelay, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0, bool teleport = false, bool animationreverse = true)
         {
             this.texture = texture;
             this.speed = speed;
@@ -91,7 +91,7 @@ namespace PixelPerfect
             if (teleport)
                 reverse = false;
 
-            animation = new Animation(4, animationDelay, true);
+            animation = new Animation(4, animationDelay, animationreverse);
  
             AdjustSpeed();
         }

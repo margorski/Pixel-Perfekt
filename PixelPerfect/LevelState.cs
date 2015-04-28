@@ -17,6 +17,16 @@ namespace PixelPerfect
 {
     class LevelState : GameState
     {
+        public class LevelColors
+        {
+            public int color1 = 11;
+            public int color2 = 135;
+            public int hudcolor = 13;
+            public int enemycolor = 3;
+            public int emmitercolor = 3;
+            public int tilecolor = 3;
+        }
+
         private GraphicsDeviceManager graphics;
         private ContentManager content;
         
@@ -52,142 +62,138 @@ namespace PixelPerfect
 
         private Texture2D backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
 
-        // DEBUG PART PURPOSES
-        private int color1 = 0;
-        private int color2 = 1;
-        private int hudcolor = 0;
-        private int enemiesColor = 0;
-        private int tileColor = 0;
-        private int emiterColor = 0;
+        private LevelColors levelColors = new LevelColors();
         private bool colors = false;
 
+#if WINDOWS
         private void PreviousColor1()
         {
-            if (--color1 < 0)
-                color1 = Globals.colorList.Count - 1;
+            if (--levelColors.color1 < 0)
+                levelColors.color1 = Globals.colorList.Count - 1;
             ReloadGradientTexture();
         }
         private void NextColor1()
         {
-            if (++color1 > Globals.colorList.Count - 1)
-                color1 = 0;
+            if (++levelColors.color1 > Globals.colorList.Count - 1)
+                levelColors.color1 = 0;
             ReloadGradientTexture();            
         }
 
         private void NextColor2()
         {
-            if (++color2 > Globals.colorList.Count - 1)
-                color2 = 0;
+            if (++levelColors.color2 > Globals.colorList.Count - 1)
+                levelColors.color2 = 0;
             ReloadGradientTexture();
         }
         private void PreviousColor2()
         {
-            if (--color2 < 0)
-                color2 = Globals.colorList.Count - 1;
+            if (--levelColors.color2 < 0)
+                levelColors.color2 = Globals.colorList.Count - 1;
             ReloadGradientTexture();
         }
 
-        private void ReloadGradientTexture()
-        {
-            if (color1 < 0 || color1 > Globals.colorList.Count - 1 || color2 < 0 || color2 > Globals.colorList.Count - 1)
-                return;
-
-            backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[color1], Globals.colorList[color2], Util.GradientType.Horizontal);
-        }
 
         private void SwapGradientColors()
         {
-            var temp = color1;
-            color1 = color2;
-            color2 = temp;
+            var temp = levelColors.color1;
+            levelColors.color1 = levelColors.color2;
+            levelColors.color2 = temp;
             ReloadGradientTexture();
         }
         
         private void SwapEnemiesEmitersColor()
         {
-            var temp = emiterColor;
-            emiterColor = enemiesColor;
-            enemiesColor = temp;
+            var temp = levelColors.emmitercolor;
+            levelColors.emmitercolor = levelColors.enemycolor;
+            levelColors.enemycolor = temp;
             RefreshColors();
         }
 
         private void EmiterasEnemies()
         {
-            emiterColor = enemiesColor;
+            levelColors.emmitercolor = levelColors.enemycolor;
             RefreshColors();
         }
 
         private void EmiterEnemiesAsTiles()
         {
-            emiterColor = enemiesColor = tileColor;
+            levelColors.emmitercolor = levelColors.enemycolor = levelColors.tilecolor;
             RefreshColors();
         }
 
         private void HudAsTiles()
         {
-            hudcolor = tileColor;
+            levelColors.hudcolor = levelColors.tilecolor;
             RefreshColors();
         }
         
         private void NextHudColor()
         {
-            if (++hudcolor > Globals.colorList.Count - 1)
-                hudcolor = 0;
-            hud.SetColor(Globals.colorList[hudcolor]);
+            if (++levelColors.hudcolor > Globals.colorList.Count - 1)
+                levelColors.hudcolor = 0;
+            hud.SetColor(Globals.colorList[levelColors.hudcolor]);
         }
         private void PreviousHudColor()
         {
-            if (--hudcolor < 0)
-                hudcolor = Globals.colorList.Count - 1;
-            hud.SetColor(Globals.colorList[hudcolor]);
+            if (--levelColors.hudcolor < 0)
+                levelColors.hudcolor = Globals.colorList.Count - 1;
+            hud.SetColor(Globals.colorList[levelColors.hudcolor]);
         }
 
         private void NextEnemyColor()
         {
-            if (++enemiesColor > Globals.colorList.Count - 1)
-                enemiesColor = 0;
-            Globals.enemiesColor = Globals.colorList[enemiesColor];
+            if (++levelColors.enemycolor > Globals.colorList.Count - 1)
+                levelColors.enemycolor = 0;
+            Globals.enemiesColor = Globals.colorList[levelColors.enemycolor];
         }
         private void PreviousEnemyColor()
         {
-            if (--enemiesColor < 0)
-                enemiesColor = Globals.colorList.Count - 1;
-            Globals.enemiesColor = Globals.colorList[enemiesColor];
+            if (--levelColors.enemycolor < 0)
+                levelColors.enemycolor = Globals.colorList.Count - 1;
+            Globals.enemiesColor = Globals.colorList[levelColors.enemycolor];
         }
         private void NextEmitersColor()
         {
-            if (++emiterColor > Globals.colorList.Count - 1)
-                emiterColor = 0;
-            Globals.emitersColor = Globals.colorList[emiterColor];
+            if (++levelColors.emmitercolor > Globals.colorList.Count - 1)
+                levelColors.emmitercolor = 0;
+            Globals.emitersColor = Globals.colorList[levelColors.emmitercolor];
         }
         private void PreviousEmitersColor()
         {
-            if (--emiterColor < 0)
-                emiterColor = Globals.colorList.Count - 1;
-            Globals.emitersColor = Globals.colorList[emiterColor];
+            if (--levelColors.emmitercolor < 0)
+                levelColors.emmitercolor = Globals.colorList.Count - 1;
+            Globals.emitersColor = Globals.colorList[levelColors.emmitercolor];
         }
         private void NextTilesColor()
         {
-            if (++tileColor > Globals.colorList.Count - 1)
-                tileColor = 0;
-            Globals.tilesColor = Globals.colorList[tileColor];
+            if (++levelColors.tilecolor > Globals.colorList.Count - 1)
+                levelColors.tilecolor = 0;
+            Globals.tilesColor = Globals.colorList[levelColors.tilecolor];
         }
         private void PreviousTilesColor()
         {
-            if (--tileColor < 0)
-                tileColor = Globals.colorList.Count - 1;
-            Globals.tilesColor = Globals.colorList[tileColor];
+            if (--levelColors.tilecolor < 0)
+                levelColors.tilecolor = Globals.colorList.Count - 1;
+            Globals.tilesColor = Globals.colorList[levelColors.tilecolor];
+        }
+#endif
+
+        private void ReloadGradientTexture()
+        {
+            if (levelColors.color1 < 0 || levelColors.color1 > Globals.colorList.Count - 1 || levelColors.color2 < 0 || levelColors.color2 > Globals.colorList.Count - 1)
+                return;
+
+            backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[levelColors.color1], Globals.colorList[levelColors.color2], Util.GradientType.Horizontal);
         }
 
         private void RefreshColors()
         {
-            Globals.tilesColor = Globals.colorList[tileColor];
-            Globals.emitersColor = Globals.colorList[emiterColor];
-            Globals.enemiesColor = Globals.colorList[enemiesColor];
-            hud.SetColor(Globals.colorList[hudcolor]);
+            Globals.tilesColor = Globals.colorList[levelColors.tilecolor];
+            Globals.emitersColor = Globals.colorList[levelColors.emmitercolor];
+            Globals.enemiesColor = Globals.colorList[levelColors.enemycolor];
+            hud.SetColor(Globals.colorList[levelColors.hudcolor]);
             ReloadGradientTexture();
         }
-        // END DEBUG PART
 
         public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile)
         {
@@ -582,20 +588,24 @@ namespace PixelPerfect
 
             if (colors)
             {
-                spriteBatch.DrawString(Globals.silkscreenFont, "c1: " + color1 + " c2: " + color2 + " h: " + hudcolor + " en: " + enemiesColor + " em: " + emiterColor + " t: " + tileColor, new Vector2(10,150), Color.White);
+                spriteBatch.DrawString(Globals.silkscreenFont, "c1: " + levelColors.color1 + " c2: " +  levelColors.color2 + " h: " +  levelColors.hudcolor + " en: " +  levelColors.enemycolor + " em: " +  levelColors.emmitercolor + " t: " +  levelColors.tilecolor, new Vector2(10,150), Color.White);
             }
             //resetButton.Draw(spriteBatch);
         }
 
+        public void ReloadColors(LevelColors levelcolors)
+        {
+            this.levelColors = levelcolors;
+            RefreshColors();
+        }
         private void InitLevel()
         {
             Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, hud, scale);
             Globals.backgroundColor = map.color;
-            color1 = map.color1;
-            color2 = map.color2;
-            ReloadGradientTexture();
-            var hudColor = (color2 >= 0 ? Util.MultiplyColor(Globals.colorList[color2], 0.5f) : Color.Black);
-            hud.Init(map.levelName, map.collectiblesCount, hudColor);
+
+
+            ReloadGradientTexture();            
+            hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics);
             player.explosionSoundInstance = explosionSoundInstance;
             player.randomizeSoundInstance = randomizeSoundInstance;

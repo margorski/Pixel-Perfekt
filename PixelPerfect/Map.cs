@@ -35,10 +35,9 @@ namespace PixelPerfect
         public byte collectiblesCount { private set;  get; }
         public string levelName { private set; get; }
         public Color color { private set; get; }
-        public int color1 { private set; get; }
-        public int color2 { private set; get; }
+        
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, int color1 = -1, int color2 = -1, bool upsidedown = false, bool moving = false)
+        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false)
         {            
             this.enemiesList = enemiesList;
             this.emiterList = emiterList;
@@ -47,9 +46,7 @@ namespace PixelPerfect
             this.upsidedown = upsidedown;
             this.moving = moving;
             this.color = color;
-            this.color1 = color1;
-            this.color2 = color2;
-
+        
             this.tileMap = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
             this.tileBackground = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
             this.tileset = tileset;
@@ -408,8 +405,7 @@ namespace PixelPerfect
             bool moving = false;
             int triggerCount = 0;
             Color color = Color.Black;
-            int color1 = -1;
-            int color2 = -1;
+            LevelState.LevelColors levelColors = new LevelState.LevelColors();
             string layername = "";
 
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile)))
@@ -457,10 +453,22 @@ namespace PixelPerfect
                                             color = Util.GetColorFromName(value);
                                             break;
                                         case "color1":
-                                            color1 = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            levelColors.color1 = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                             break;
                                         case "color2":
-                                            color2 = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            levelColors.color2 = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            break;
+                                        case "hudcolor":
+                                            levelColors.hudcolor = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            break;
+                                        case "enemycolor":
+                                            levelColors.enemycolor = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            break;
+                                        case "emmitercolor":
+                                            levelColors.emmitercolor = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            break;
+                                        case "tilecolor":
+                                            levelColors.tilecolor = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                             break;
                                             
                                     }
@@ -604,6 +612,7 @@ namespace PixelPerfect
                                         int numofparts = 1;
                                         int wait = 0;
                                         int adelay = Config.DEFAULT_ANIMATION_SPEED;
+                                        bool areverse = false;
 
                                         while (xmlreader.MoveToNextAttribute())
                                         {
@@ -706,6 +715,11 @@ namespace PixelPerfect
                                                         case "adelay":
                                                             adelay = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                             break;
+
+                                                        case "areverse":
+                                                            areverse = (int.Parse(value) == 1) ? true : false;
+                                                            break;
+
                                                         }
                                                     } while (xmlreader.ReadToNextSibling("property"));
                                                 }
@@ -743,7 +757,7 @@ namespace PixelPerfect
                                                                                 new Vector2(sizex, sizey),
                                                                                 triggerORtextureType,
                                                                                 startPosition + new Vector2(moveX, moveY), adelay,
-                                                                                reverse, blink, guardian, offset, wait, teleport));
+                                                                                reverse, blink, guardian, offset, wait, teleport, areverse));
                                                                 if (blink || teleport) // same time used for teleport delay and blink delay, teleport work only on normal move
                                                                     enemiesList.Last().SetBlinkTeleportTime(blinkTime);
                                                                 enemiesList.Last().SetDelayTime(localdelay);
@@ -808,7 +822,7 @@ namespace PixelPerfect
                                                                                distance, emiterSpeed, direction,
                                                                                new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
                                                                                emiterDelay, emiterOffset,
-                                                                               Color.White, adelay, explode, delay2, numofparts));
+                                                                               Color.White, adelay, explode, delay2, numofparts, areverse));
                                                                 break;
                                                         }
                                                     }
@@ -826,7 +840,9 @@ namespace PixelPerfect
             if (tileset == null)
                 return null;
 
-            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, color1, color2, upsidedown, moving);
+            Globals.CurrentLevelState.ReloadColors(levelColors);
+            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving);
         }
     }
+
 }

@@ -42,8 +42,9 @@ namespace PixelPerfect
         bool emmitingPhase = false;
         int emitCounter = 0;
         int animationDelay = Config.DEFAULT_ANIMATION_SPEED;
+        bool animationreverse = false;
 
-        public Emiter(Texture2D texture, Vector2 startPosition, uint distance, float speed, MovementDirection movementDirection, Rectangle textureRectangle, int emitsDelayMs, int delayOffsetMs, Color color, int animationSpeed, bool explode = false, int emitsDelayMsParts = 0, int partsNum = 1)
+        public Emiter(Texture2D texture, Vector2 startPosition, uint distance, float speed, MovementDirection movementDirection, Rectangle textureRectangle, int emitsDelayMs, int delayOffsetMs, Color color, int animationSpeed, bool explode = false, int emitsDelayMsParts = 0, int partsNum = 1, bool animationreverse = false)
         {
             this.texture = texture;
             this.startPosition = startPosition;
@@ -57,6 +58,7 @@ namespace PixelPerfect
             this.speed = speed;
             this.explode = explode;
             this.animationDelay = animationSpeed;
+            this.animationreverse = animationreverse;
 
             phaseTimer = TimeSpan.FromMilliseconds(delayOffsetMs);            
         }
@@ -107,7 +109,7 @@ namespace PixelPerfect
 
         public void EmitPart()
         {
-            emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, textureRectangle, color, animationDelay, explode));
+            emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, textureRectangle, color, animationDelay, explode, animationreverse));
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)
