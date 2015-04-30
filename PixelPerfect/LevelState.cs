@@ -248,7 +248,7 @@ namespace PixelPerfect
                 return;
 
             currGPState = GamePad.GetState(PlayerIndex.One);
-            if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
+            if ((currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released))
             {
                 Globals.gameStateManager.PushState(Config.States.PAUSE);
             }
@@ -481,6 +481,9 @@ namespace PixelPerfect
             // colors printing
             colors = currentKeyboardState.IsKeyDown(Keys.Tab);                
             // END DEBUGG
+
+            if ((currentKeyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape)))
+                Globals.gameStateManager.PushState(Config.States.PAUSE);
 
             if (player.GetState(Player.State.dead))
             {

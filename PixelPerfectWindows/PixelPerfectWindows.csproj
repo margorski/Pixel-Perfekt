@@ -672,14 +672,6 @@
       <Link>Content\cutscenes\arcade-inside_final.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\emiter_3x5.xnb">
-      <Link>Content\fgame\emiter_3x5.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\emiter_6x10.xnb">
-      <Link>Content\fgame\emiter_6x10.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\emiter_8x8.xnb">
       <Link>Content\fgame\emiter_8x8.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -690,14 +682,6 @@
     </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\enemies_10x10.xnb">
       <Link>Content\fgame\enemies_10x10.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_12x12.xnb">
-      <Link>Content\fgame\enemies_12x12.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_12x8.xnb">
-      <Link>Content\fgame\enemies_12x8.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\enemies_14x12.xnb">
@@ -716,24 +700,12 @@
       <Link>Content\fgame\enemies_18x18.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_24x16.xnb">
-      <Link>Content\fgame\enemies_24x16.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\enemies_46x34.xnb">
       <Link>Content\fgame\enemies_46x34.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_5x5.xnb">
-      <Link>Content\fgame\enemies_5x5.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\enemiesbig.xnb">
       <Link>Content\fgame\enemiesbig.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\laser_4x1.xnb">
-      <Link>Content\fgame\laser_4x1.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\pacman_104x104.xnb">
@@ -754,10 +726,6 @@
     </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\tileset.xnb">
       <Link>Content\fgame\tileset.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\ufo_32x16.xnb">
-      <Link>Content\fgame\ufo_32x16.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\assets\levels\fgame\bb1.tmx">

@@ -34,7 +34,9 @@ namespace PixelPerfect
 
 #if WINDOWS
         MouseState prevMouseState;
-        MouseState currMouseState;
+        MouseState currMouseState;        
+        KeyboardState currKeyboardState;
+        KeyboardState previousKeyboardState;
 #else
         TouchCollection touchState;
 #endif
@@ -131,7 +133,7 @@ namespace PixelPerfect
                     drawLetterCount = 0;
                 }
             }
-            prevMouseState = currMouseState;
+            prevMouseState = currMouseState;            
 #endif
             if (currentText >= textLines.Count)
             {

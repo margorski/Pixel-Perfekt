@@ -52,7 +52,11 @@ namespace PixelPerfect
             if (type == (int)Config.TileType.NONE)
                 attributes |= (UInt32)Tile.Attributes.NoDraw;
 
-            if (!background)
+            if (background)
+            {
+                attributes |= (UInt32)Tile.Attributes.Background;
+            }
+            else
             {
                 switch (NormalizeType(type))
                 {

@@ -116,6 +116,7 @@ namespace PixelPerfect
             Texture2D newTexture = new Texture2D(Globals.graphics.GraphicsDevice, blitRect.Width, blitRect.Height);
             Color[] newTextureColors = new Color[blitRect.Width * blitRect.Height];
 
+            
             Color[] textureColors = new Color[texture.Width * texture.Height];
             texture.GetData<Color>(textureColors);
 

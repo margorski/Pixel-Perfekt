@@ -469,18 +469,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Assets\Levels\fgame\emiter_3x5.png">
-      <Link>fgame\emiter_3x5.png</Link>
-      <Name>emiter_3x5</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\emiter_6x10.png">
-      <Link>fgame\emiter_6x10.png</Link>
-      <Name>emiter_6x10</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="..\..\Assets\Levels\fgame\emiter_8x8.png">
       <Link>fgame\emiter_8x8.png</Link>
       <Name>emiter_8x8</Name>
@@ -502,18 +490,6 @@
     <Compile Include="..\..\Assets\Levels\fgame\enemies_10x10.png">
       <Link>fgame\enemies_10x10.png</Link>
       <Name>enemies_10x10</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_12x12.png">
-      <Link>fgame\enemies_12x12.png</Link>
-      <Name>enemies_12x12</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_12x8.png">
-      <Link>fgame\enemies_12x8.png</Link>
-      <Name>enemies_12x8</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -541,27 +517,9 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_24x16.png">
-      <Link>fgame\enemies_24x16.png</Link>
-      <Name>enemies_24x16</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="..\..\Assets\Levels\fgame\enemies_46x34.png">
       <Link>fgame\enemies_46x34.png</Link>
       <Name>enemies_46x34</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_5x5.png">
-      <Link>fgame\enemies_5x5.png</Link>
-      <Name>enemies_5x5</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\laser_4x1.png">
-      <Link>fgame\laser_4x1.png</Link>
-      <Name>laser_4x1</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -592,12 +550,6 @@
     <Compile Include="..\..\Assets\Levels\fgame\tileset.png">
       <Link>fgame\tileset.png</Link>
       <Name>tileset</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\ufo_32x16.png">
-      <Link>fgame\ufo_32x16.png</Link>
-      <Name>ufo_32x16</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

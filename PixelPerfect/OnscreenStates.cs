@@ -22,6 +22,8 @@ namespace PixelPerfect
 #if WINDOWS
         MouseState prevMouseState;
         MouseState currMouseState;
+        KeyboardState prevKeyboardState;
+        KeyboardState currKeyboardState;
 #else
         TouchCollection touchState;
 #endif
@@ -44,6 +46,7 @@ namespace PixelPerfect
             touchState = TouchPanel.GetState();
 #else
             prevMouseState = currMouseState = Mouse.GetState();
+            currKeyboardState = prevKeyboardState = Keyboard.GetState();
 #endif
         }
 
@@ -87,6 +90,14 @@ namespace PixelPerfect
                 gameStateManager.PopState();
 
             prevMouseState = currMouseState;
+
+            currKeyboardState = Keyboard.GetState();
+            if (currKeyboardState.IsKeyDown(Keys.Escape)  && prevKeyboardState.IsKeyUp(Keys.Escape))
+            {
+                gameStateManager.PopState();
+                gameStateManager.ChangeState(Config.States.MENU);
+            }  
+            prevKeyboardState = currKeyboardState;
 #endif
         }
 

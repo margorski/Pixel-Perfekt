@@ -26,6 +26,7 @@ namespace PixelPerfect
             public const UInt32 Doors = 1 << 5;
             public const UInt32 DoorsMain = 1 << 6;
             public const UInt32 Moving = 1 << 7;
+            public const UInt32 Background = 1 << 8;
         }
 
         // Public
@@ -65,6 +66,9 @@ namespace PixelPerfect
                 this.color = Globals.enemiesColor;
             else
                this.color = Globals.tilesColor;
+
+            if ((attributes & (UInt32)Tile.Attributes.Background) > 0)
+                this.color.A = (byte)(this.color.A * 0.25);
 
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
         }

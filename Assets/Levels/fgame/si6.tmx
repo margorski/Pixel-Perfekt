@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="8">
  <properties>
-  <property name="name" value="Mess invaders"/>
+  <property name="color1" value="33"/>
+  <property name="color2" value="9"/>
+  <property name="emmitercolor" value="6"/>
+  <property name="enemycolor" value="5"/>
+  <property name="hudcolor" value="82"/>
+  <property name="name" value="Meet new friends"/>
+  <property name="tilecolor" value="136"/>
   <property name="upsidedown" value="0"/>
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="8" tileheight="8">

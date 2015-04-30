@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="21">
  <properties>
-  <property name="color1" value="33"/>
-  <property name="color2" value="27"/>
-  <property name="emmitercolor" value="120"/>
+  <property name="color1" value="53"/>
+  <property name="color2" value="58"/>
+  <property name="emmitercolor" value="21"/>
   <property name="enemycolor" value="15"/>
-  <property name="hudcolor" value="30"/>
+  <property name="hudcolor" value="58"/>
   <property name="name" value="BEGINNING"/>
   <property name="tilecolor" value="12"/>
   <property name="upsidedown" value="0"/>
@@ -67,18 +67,18 @@
  <objectgroup name="Emiter layer">
   <properties>
    <property name="_type" value="2"/>
-   <property name="size" value="5"/>
+   <property name="size" value="8"/>
    <property name="speed" value="25"/>
-   <property name="texture" value="enemies_5x5"/>
+   <property name="texture" value="enemies_8x8"/>
   </properties>
-  <object id="15" type="0" x="88" y="40">
+  <object id="15" type="1" x="88" y="40">
    <properties>
     <property name="delay" value="1200"/>
     <property name="offset" value="600"/>
    </properties>
    <polyline points="0,0 0,-32"/>
   </object>
-  <object id="16" type="0" x="56" y="40">
+  <object id="16" type="1" x="56" y="40">
    <properties>
     <property name="delay" value="1200"/>
     <property name="offset" value="1200"/>
