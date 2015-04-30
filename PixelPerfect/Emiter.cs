@@ -63,6 +63,7 @@ namespace PixelPerfect
             phaseTimer = TimeSpan.FromMilliseconds(delayOffsetMs);            
         }
 
+        
         public void Update(GameTime gameTime)
         {
             if (!emmitingPhase)

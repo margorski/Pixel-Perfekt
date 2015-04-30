@@ -372,13 +372,13 @@ namespace PixelPerfect
             {
                 if (touch.State == TouchLocationState.Pressed)
                 {
-                    if (prevButton.Clicked((int)touch.Position.X, (int)touch.Position.Y))
+                    if (prevButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
                     {
                         PreviousPage();
                         continue;
                     }
 
-                    if (nextButton.Clicked((int)touch.Position.X, (int)touch.Position.Y))
+                    if (nextButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
                     {
                         NextPage();
                         continue;

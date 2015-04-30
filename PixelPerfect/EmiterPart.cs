@@ -35,6 +35,9 @@ namespace PixelPerfect
         MovementDirection movementDirection;
         MovePhase movePhase;
         bool explode = false;
+
+        Color[] textureArray;
+
         public Rectangle boundingBox
         {
             get
@@ -68,6 +71,8 @@ namespace PixelPerfect
             this.explode = explode;
 
             animation = new Animation(4, animationDelay, animationreverse);
+
+            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, textureRectangle), textureRectangle.Width, textureRectangle.Height);
             InitializeSize();
             InitializeSpeed(speed);
             InitializeEndPosition(distance);
@@ -312,11 +317,8 @@ namespace PixelPerfect
 
         public void PixelExplosion()
         {
-            Texture2D texture = GetCurrentFrameTexture();
             Random rnd = new Random();
-
-            Color[] textureColors = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(textureColors);
+            Color[] textureColors = GetCurrentFrameArray();         
 
             for (int i = 0; i < textureColors.Length; i++)
             {
@@ -335,9 +337,12 @@ namespace PixelPerfect
             }
         }
 
-        public Texture2D GetCurrentFrameTexture()
+        public Color[] GetCurrentFrameArray()
         {
-            return Util.BlitTexture(texture, sourceRectangle, false);
+            int frameSizeInArray = (int)(textureRectangle.Width * textureRectangle.Height);
+            Color[] currentFrameArray = new Color[frameSizeInArray];
+            Array.Copy(textureArray, frameSizeInArray * animation.GetCurrentFrame(), currentFrameArray, 0, frameSizeInArray);
+            return currentFrameArray;            
         }
     }
 

@@ -111,7 +111,14 @@ namespace PixelPerfect
                                  sourceRect.Width, sourceRect.Height);
         }
 
-        public static Texture2D BlitTexture(Texture2D texture, Rectangle blitRect, bool horizontalFlip)
+        public static Color[] GetTextureArray(Texture2D texture, int width, int height)
+        {
+            Color[] colorArray = new Color[4 * width * height];
+            texture.GetData<Color>(colorArray);
+            return colorArray;
+        }
+
+        public static Texture2D BlitTexture(Texture2D texture, Rectangle blitRect)
         {
             Texture2D newTexture = new Texture2D(Globals.graphics.GraphicsDevice, blitRect.Width, blitRect.Height);
             Color[] newTextureColors = new Color[blitRect.Width * blitRect.Height];
@@ -126,24 +133,11 @@ namespace PixelPerfect
             int endRow = blitRect.Y + blitRect.Height;
             int counter = 0;
 
-            if (horizontalFlip)
+            for (int j = startRow; j < endRow; j++)
             {
-                for (int j = startRow; j < endRow; j++)
+                for (int i = startColumn; i < endColumn; i++)
                 {
-                    for (int i = endColumn - 1; i >= startColumn; i--)
-                    {
-                        newTextureColors[counter++] = textureColors[j * texture.Width + i];
-                    }
-                }
-            }
-            else
-            {
-                for (int j = startRow; j < endRow; j++)
-                {
-                    for (int i = startColumn; i < endColumn; i++)
-                    {
-                        newTextureColors[counter++] = textureColors[j * texture.Width + i];
-                    }
+                    newTextureColors[counter++] = textureColors[j * texture.Width + i];
                 }
             }
 

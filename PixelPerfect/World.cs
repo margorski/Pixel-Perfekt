@@ -42,14 +42,14 @@ namespace PixelPerfect
         public void AddLevel(string levelName)
         {
             Texture2D thumbnail = null;
-            try
-            {
-                thumbnail = Globals.content.Load<Texture2D>(directory + "\\" + levelName);
-            }
-            catch (Exception ex)
-            {
-                // do nothing if file exists
-            }
+            //try
+            //{
+            //    thumbnail = Globals.content.Load<Texture2D>(directory + "\\" + levelName);
+            //}
+            //catch (Exception ex)
+            //{
+            //    // do nothing if file exists
+            //}
 
             levels.Add(new Level(levelName, thumbnail));
         }

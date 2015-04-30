@@ -44,6 +44,7 @@ namespace PixelPerfect
         protected Texture2D texture;
         protected Rectangle sourceRect;
         protected Color color;
+        protected Color[] textureArray;
 
         // Methods
         public Tile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color)
@@ -53,6 +54,8 @@ namespace PixelPerfect
             this.attributes = attributes;
             this.sourceRect = sourceRect;
             this.color = color;
+
+            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, sourceRect), Config.Tile.SIZE, Config.Tile.SIZE);
         }
         public virtual void Update(GameTime gameTime) 
         { 
@@ -82,9 +85,9 @@ namespace PixelPerfect
             this.attributes = attributes;
         }
 
-        public Texture2D GetCurrentFrameTexture()
+        public Color[] GetTileArray()
         {
-            return Util.BlitTexture(texture, sourceRect, false);
+            return textureArray;
         }
     }
 

@@ -26,6 +26,7 @@ namespace PixelPerfect
         public const int DRAW_OFFSET_X = 0;
         public const int DRAW_OFFSET_Y = 0;
         public const bool CENTER_PIVOT = true;
+        public const int ANIM_FRAMES = 4;
 
         public const string SAVEFILE_NAME = "savefile.dat";
         public struct States

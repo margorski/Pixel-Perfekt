@@ -264,7 +264,7 @@ namespace PixelPerfect
                     if ((tileMap[i * Config.Map.WIDTH + j].attributes & attributes) > 0)
                     {
                         if (CheckCollisionPixelPerfect(player.boundingBox, tileMap[i * Config.Map.WIDTH + j].boundingBox, 
-                                                       player.GetCurrentFrameTexture(), tileMap[i * Config.Map.WIDTH + j].GetCurrentFrameTexture()))
+                                                       player.GetCurrentFrameArray(), tileMap[i * Config.Map.WIDTH + j].GetTileArray()))
                             return true;
                     }
                 }
@@ -277,28 +277,25 @@ namespace PixelPerfect
             return true;
         }
 
-        public bool CheckCollisionPixelPerfect(Rectangle rect1, Rectangle rect2, Texture2D texture1, Texture2D texture2)
+        public bool CheckCollisionPixelPerfect(Rectangle rect1, Rectangle rect2, Color[] textureArray1, Color[] textureArray2)
         {
-            Rectangle shareRect;
+            Rectangle sharedRect;
             
-            shareRect = Util.GetSharedRectangle(rect1, rect2);
-            if (shareRect.Width == 0 || shareRect.Height == 0)
+            sharedRect = Util.GetSharedRectangle(rect1, rect2);
+            if (sharedRect.Width == 0 || sharedRect.Height == 0)
                 return false;
+            
+            Rectangle normalizedRect1 = Util.NormalizeToBase(sharedRect, rect1);
+            Rectangle normalizedRect2 = Util.NormalizeToBase(sharedRect, rect2);
 
-            int colorSize = shareRect.Height * shareRect.Width;
-            Color[] texture1Colors = new Color[colorSize];
-            Color[] texture2Colors = new Color[colorSize];
-
-            Rectangle sourceRectTexture1 = Util.NormalizeToBase(shareRect, rect1);
-            Rectangle sourceRectTexture2 = Util.NormalizeToBase(shareRect, rect2);
-
-            texture1.GetData<Color>(0, sourceRectTexture1, texture1Colors, 0, colorSize);
-            texture2.GetData<Color>(0, sourceRectTexture2, texture2Colors, 0, colorSize);
-
-            for (int i = 0; i < colorSize; i++)
+            for (int i = 0; i < sharedRect.Height; i++)
             {
-                if (texture1Colors[i].A == 255 && texture2Colors[i].A == 255)
-                    return true;
+                for (int j = 0; j < sharedRect.Width; j++)
+                {
+                    if (textureArray1[(normalizedRect1.Y + i) * rect1.Width + normalizedRect1.X + j].A == 255 &&
+                        textureArray2[(normalizedRect2.Y + i) * rect1.Width + normalizedRect2.X + j].A == 255)
+                        return true;
+                }
             }
 
             return false;
@@ -362,7 +359,7 @@ namespace PixelPerfect
             {
                 if (enemy.boundingBox.Intersects(player.boundingBox))
                 {
-                    return CheckCollisionPixelPerfect(player.boundingBox, enemy.boundingBox, player.GetCurrentFrameTexture(), enemy.GetCurrentFrameTexture(graphic));
+                    return CheckCollisionPixelPerfect(player.boundingBox, enemy.boundingBox, player.GetCurrentFrameArray(), enemy.GetCurrentFrameArray());
                 }
             }
 
@@ -371,7 +368,7 @@ namespace PixelPerfect
             {
                 if (emiter.CheckCollision(player.boundingBox, out emiterPartRectangle))
                 {
-                    return CheckCollisionPixelPerfect(player.boundingBox, emiterPartRectangle.boundingBox, player.GetCurrentFrameTexture(), emiterPartRectangle.GetCurrentFrameTexture());
+                    return CheckCollisionPixelPerfect(player.boundingBox, emiterPartRectangle.boundingBox, player.GetCurrentFrameArray(), emiterPartRectangle.GetCurrentFrameArray());
                 }
             }
             return (CheckCollisionsPixelPerfectPlayer(player, Tile.Attributes.Killing));

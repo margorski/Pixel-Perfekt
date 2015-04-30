@@ -39,6 +39,7 @@ namespace PixelPerfect
         protected int offset = 0;
         protected double currentBlinkTime = 0.0;
         protected double currentDelayTime = 0.0;
+        protected Color[] textureArray;
 
         private TimeSpan waitTimer = TimeSpan.Zero;
         private TimeSpan delayTimer = TimeSpan.Zero;
@@ -87,6 +88,8 @@ namespace PixelPerfect
             this.offset = offset;
             this.waitTime = waitTime;
             this.teleport = teleport;
+
+            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle((int)(textureColumn * textureSize.X), 0, (int)textureSize.X, (int)textureSize.Y)), (int)textureSize.X, (int)(Config.ANIM_FRAMES * textureSize.Y));
 
             if (teleport)
                 reverse = false;
@@ -302,9 +305,22 @@ namespace PixelPerfect
 												1.0f, (leftDirection ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
         }
 
-        public Texture2D GetCurrentFrameTexture(GraphicsDeviceManager graphic)
+        public Color[] GetCurrentFrameArray()
         {
-            return Util.BlitTexture(texture, sourceRectangle, leftDirection);
+            int frameSizeInArray = (int)(textureSize.X * textureSize.Y);
+            Color[] currentFrameArray = new Color[frameSizeInArray];
+
+            if (leftDirection)
+            {
+                for (int i = 0; i < frameSizeInArray; i++)
+                    currentFrameArray[i] = textureArray[i + (int)textureSize.X - 1 - 2 * (i % (int)textureSize.X)];
+            }
+            else
+            {
+                Array.Copy(textureArray, frameSizeInArray * animation.GetCurrentFrame(), currentFrameArray, 0, frameSizeInArray);
+            }
+            
+            return currentFrameArray;
         }
 
         public void AddMovepoint(Vector2 movePoint)

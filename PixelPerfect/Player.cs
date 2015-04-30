@@ -62,6 +62,8 @@ namespace PixelPerfect
         public SoundEffectInstance explosionSoundInstance;
         public SoundEffectInstance randomizeSoundInstance;
 
+        private Color[] textureArray;
+
         private Rectangle sourceRectangle
         {
             get
@@ -80,10 +82,12 @@ namespace PixelPerfect
             acc = new Vector2(0.0f, Config.Player.GRAVITY);
             this.position = position;
             this.texture = texture;
-            animation = new Animation(4, Config.Player.ANIMATION_DELAY, false);
+            animation = new Animation(Config.ANIM_FRAMES, Config.Player.ANIMATION_DELAY, false);
             this.graphics = graphics;
             state = 0x0;
             boomColorIndex = 0;
+
+            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(0, 0, Config.Player.WIDTH, Config.Player.HEIGHT)), Config.Player.WIDTH, Config.Player.HEIGHT);
         }
 
         public void Update(GameTime gameTime)
@@ -334,11 +338,8 @@ namespace PixelPerfect
 
         public void PixelExplosion()
         {
-            Texture2D texture = GetCurrentFrameTexture();
+            Color[] textureColors = GetCurrentFrameArray();
             Random rnd = new Random();
-
-            Color[] textureColors = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(textureColors);
 
             for (int i = 0; i < textureColors.Length; i++)
             {
@@ -388,9 +389,22 @@ namespace PixelPerfect
             SetState(State.onMovingMap, true);
         }
 
-        public Texture2D GetCurrentFrameTexture()
+        public Color[] GetCurrentFrameArray()
         {
-            return Util.BlitTexture(texture, sourceRectangle, GetState(State.directionLeft));
+            int frameSizeInArray = Config.Player.WIDTH * Config.Player.HEIGHT;
+            Color[] currentFrameArray = new Color[frameSizeInArray];
+
+            if (GetState(State.directionLeft))
+            {
+                for (int i = 0; i < frameSizeInArray; i++)
+                    currentFrameArray[i] = textureArray[i + Config.Player.WIDTH - 1 - 2 * (i % Config.Player.WIDTH)];
+            }
+            else
+            {
+                Array.Copy(textureArray, frameSizeInArray * animation.GetCurrentFrame(), currentFrameArray, 0, frameSizeInArray);
+            }
+            return currentFrameArray;
         }
+
     }
 }

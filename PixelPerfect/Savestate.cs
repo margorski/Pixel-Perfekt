@@ -28,7 +28,7 @@ namespace PixelPerfect
     [ProtoContract]
     public sealed class Savestate
     {
-        public const int CURRENT_VERSION = 3;
+        public const int CURRENT_VERSION = 4;
 
         [ProtoMember(1)]
         public int version = CURRENT_VERSION;
