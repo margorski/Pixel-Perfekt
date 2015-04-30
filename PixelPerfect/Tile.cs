@@ -55,7 +55,10 @@ namespace PixelPerfect
             this.sourceRect = sourceRect;
             this.color = color;
 
-            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, sourceRect), Config.Tile.SIZE, Config.Tile.SIZE);
+            if ((attributes & Attributes.NoDraw) > 0)
+                textureArray = new Color[Config.Tile.SIZE * Config.Tile.SIZE];
+            else
+                textureArray = Util.GetTextureArray(Util.BlitTexture(texture, sourceRect), Config.Tile.SIZE, Config.Tile.SIZE);
         }
         public virtual void Update(GameTime gameTime) 
         { 

@@ -72,7 +72,7 @@ namespace PixelPerfect
 
             animation = new Animation(4, animationDelay, animationreverse);
 
-            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, textureRectangle), textureRectangle.Width, textureRectangle.Height);
+            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, textureRectangle), textureRectangle.Width, textureRectangle.Height * Config.ANIM_FRAMES);
             InitializeSize();
             InitializeSpeed(speed);
             InitializeEndPosition(distance);

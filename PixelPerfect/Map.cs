@@ -293,7 +293,7 @@ namespace PixelPerfect
                 for (int j = 0; j < sharedRect.Width; j++)
                 {
                     if (textureArray1[(normalizedRect1.Y + i) * rect1.Width + normalizedRect1.X + j].A == 255 &&
-                        textureArray2[(normalizedRect2.Y + i) * rect1.Width + normalizedRect2.X + j].A == 255)
+                        textureArray2[(normalizedRect2.Y + i) * rect2.Width + normalizedRect2.X + j].A == 255)
                         return true;
                 }
             }

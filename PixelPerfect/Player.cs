@@ -87,7 +87,7 @@ namespace PixelPerfect
             state = 0x0;
             boomColorIndex = 0;
 
-            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(0, 0, Config.Player.WIDTH, Config.Player.HEIGHT)), Config.Player.WIDTH, Config.Player.HEIGHT);
+            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(0, 0, Config.Player.WIDTH, Config.Player.HEIGHT * Config.ANIM_FRAMES)), Config.Player.WIDTH, Config.Player.HEIGHT * Config.ANIM_FRAMES);
         }
 
         public void Update(GameTime gameTime)

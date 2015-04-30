@@ -89,7 +89,7 @@ namespace PixelPerfect
             this.waitTime = waitTime;
             this.teleport = teleport;
 
-            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle((int)(textureColumn * textureSize.X), 0, (int)textureSize.X, (int)textureSize.Y)), (int)textureSize.X, (int)(Config.ANIM_FRAMES * textureSize.Y));
+            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle((int)(textureColumn * textureSize.X), 0, (int)textureSize.X, (int)(Config.ANIM_FRAMES * textureSize.Y))), (int)textureSize.X, (int)(Config.ANIM_FRAMES * textureSize.Y));
 
             if (teleport)
                 reverse = false;
