@@ -46,7 +46,8 @@ namespace PixelPerfect
         // Private
         private Animation animation;
         private Texture2D texture;
-        private Vector2 position;
+        public Vector2 position;
+        
         private Vector2 acc;
         private UInt32 state;
         public float jumpY;
@@ -64,6 +65,8 @@ namespace PixelPerfect
 
         private Color[] textureArray;
 
+        private readonly Vector2 startPosition;
+
         private Rectangle sourceRectangle
         {
             get
@@ -78,6 +81,7 @@ namespace PixelPerfect
 
         public Player(Vector2 position, Texture2D texture, GraphicsDeviceManager graphics)
         {
+            this.startPosition = position;
             speed = baseSpeed = new Vector2(Config.Player.MOVE_SPEED, 0.0f);
             acc = new Vector2(0.0f, Config.Player.GRAVITY);
             this.position = position;
@@ -339,7 +343,6 @@ namespace PixelPerfect
         public void PixelExplosion()
         {
             Color[] textureColors = GetCurrentFrameArray();
-            Random rnd = new Random();
 
             for (int i = 0; i < textureColors.Length; i++)
             {
@@ -347,12 +350,12 @@ namespace PixelPerfect
                 {
                     Vector2 boomCenter = position + new Vector2(texture.Width / 2, texture.Height / 2);
                     Vector2 pixPos = position + new Vector2(i % texture.Width, i / texture.Width);
-                    Vector2 pixSpeed = (pixPos - boomCenter) * rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
+                    Vector2 pixSpeed = (pixPos - boomCenter) * Globals.rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
                     Vector2 acc = Vector2.Zero;// new Vector2(rnd.Next(-100, 100), rnd.Next(-100, 100));
 
                     Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
-                                    pixSpeed, acc, boomColors[rnd.Next(boomColors.Length)], true, Globals.CurrentMap));
+                                    pixSpeed, acc, boomColors[Globals.rnd.Next(boomColors.Length)], true, Globals.CurrentMap));
                 }
             }
             if (Globals.playSounds)
@@ -406,5 +409,20 @@ namespace PixelPerfect
             return currentFrameArray;
         }
 
+        public void Reset()
+        {
+            position = startPosition;
+            speed = baseSpeed = new Vector2(Config.Player.MOVE_SPEED, 0.0f);
+            state = 0;
+            animation.Reset();
+            enviroSpeed = Vector2.Zero;
+            jumpY = 0.0f;
+            acc = Vector2.Zero;
+            boomColorIndex = 0;
+            boomColorTime = TimeSpan.Zero;
+            blinkTime = TimeSpan.Zero;
+            tryJumpTime = TimeSpan.Zero;
+            stopTimeForReverse = TimeSpan.Zero;
+        }
     }
 }

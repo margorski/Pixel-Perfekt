@@ -47,6 +47,7 @@ namespace PixelPerfect
         private bool waiting = false;
         private bool started = false;
 
+        private readonly Vector2 startPosition;
         // debug
         public float x_move = 0;
 
@@ -76,6 +77,7 @@ namespace PixelPerfect
 
         public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, int animationDelay, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0, bool teleport = false, bool animationreverse = true)
         {
+            this.startPosition = startPosition;
             this.texture = texture;
             this.speed = speed;
             this.textureSize = textureSize;
@@ -326,6 +328,21 @@ namespace PixelPerfect
         public void AddMovepoint(Vector2 movePoint)
         {
             movepointsList.Add(movePoint);
+        }
+
+        public void Reset()
+        {
+            if (guardPosition != Vector2.Zero && guardian)
+                movepointsList.Add(guardPosition);           
+            currentPath = 0;
+            currentBlinkTime = 0;
+            currentDelayTime = 0;
+            waitTimer = TimeSpan.Zero;
+            waiting = started = false;
+            goingBack = false;
+            onGuard = false;
+            animation.Reset();
+            currentPosition = targetPosition = startPosition;
         }
     }
 }

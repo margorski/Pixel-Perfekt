@@ -43,6 +43,8 @@ namespace PixelPerfect
         int emitCounter = 0;
         int animationDelay = Config.DEFAULT_ANIMATION_SPEED;
         bool animationreverse = false;
+        readonly int startOffset;
+        Color[] partTextureArray;
 
         public Emiter(Texture2D texture, Vector2 startPosition, uint distance, float speed, MovementDirection movementDirection, Rectangle textureRectangle, int emitsDelayMs, int delayOffsetMs, Color color, int animationSpeed, bool explode = false, int emitsDelayMsParts = 0, int partsNum = 1, bool animationreverse = false)
         {
@@ -59,7 +61,8 @@ namespace PixelPerfect
             this.explode = explode;
             this.animationDelay = animationSpeed;
             this.animationreverse = animationreverse;
-
+            this.startOffset = delayOffsetMs;
+            partTextureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(textureRectangle.X, textureRectangle.Y, textureRectangle.Width, Config.ANIM_FRAMES * textureRectangle.Height)), textureRectangle.Width, textureRectangle.Height * Config.ANIM_FRAMES);           
             phaseTimer = TimeSpan.FromMilliseconds(delayOffsetMs);            
         }
 
@@ -110,7 +113,7 @@ namespace PixelPerfect
 
         public void EmitPart()
         {
-            emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, textureRectangle, color, animationDelay, explode, animationreverse));
+            emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, partTextureArray, textureRectangle, color, animationDelay, explode, animationreverse));
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)
@@ -134,6 +137,15 @@ namespace PixelPerfect
                 }
             }
             return false;
+        }
+
+        public void Reset()
+        {
+            emitedParts.Clear();
+            phaseTimer = TimeSpan.FromMilliseconds(startOffset);
+            emmitingPhase = false;
+            emitCounter = 0;
+            lastEmit = TimeSpan.Zero;
         }
     }
 }

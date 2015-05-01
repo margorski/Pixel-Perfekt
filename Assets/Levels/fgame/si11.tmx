@@ -48,6 +48,7 @@
   <object id="67" type="6" x="112" y="112">
    <properties>
     <property name="adelay" value="450"/>
+    <property name="areverse" value="1"/>
     <property name="reverse" value="0"/>
     <property name="wait" value="150"/>
    </properties>
@@ -144,7 +145,7 @@
     <property name="num" value="3"/>
     <property name="offset" value="9600"/>
    </properties>
-   <polyline points="0,0 0,-70"/>
+   <polyline points="0,0 0,-66"/>
   </object>
   <object id="62" type="0" x="155" y="122">
    <properties>
@@ -152,7 +153,7 @@
     <property name="num" value="3"/>
     <property name="offset" value="7600"/>
    </properties>
-   <polyline points="0,0 0,-70"/>
+   <polyline points="0,0 0,-66"/>
   </object>
   <object id="63" type="0" x="109" y="122">
    <properties>
@@ -160,7 +161,7 @@
     <property name="num" value="3"/>
     <property name="offset" value="6400"/>
    </properties>
-   <polyline points="0,0 0,-70"/>
+   <polyline points="0,0 0,-66"/>
   </object>
   <object id="64" type="0" x="199" y="122">
    <properties>
@@ -168,7 +169,7 @@
     <property name="num" value="3"/>
     <property name="offset" value="4300"/>
    </properties>
-   <polyline points="0,0 0,-70"/>
+   <polyline points="0,0 0,-66"/>
   </object>
   <object id="65" type="0" x="247" y="122">
    <properties>
@@ -184,7 +185,7 @@
     <property name="num" value="3"/>
     <property name="offset" value="2100"/>
    </properties>
-   <polyline points="0,0 0,-70"/>
+   <polyline points="0,0 0,-66"/>
   </object>
   <object id="67" type="0" x="109" y="122">
    <properties>
@@ -192,7 +193,7 @@
     <property name="num" value="3"/>
     <property name="offset" value="200"/>
    </properties>
-   <polyline points="0,0 0,-70"/>
+   <polyline points="0,0 0,-66"/>
   </object>
  </objectgroup>
  <objectgroup name="enemy1">

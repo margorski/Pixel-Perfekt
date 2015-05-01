@@ -30,6 +30,7 @@ namespace PixelPerfect
         public static List<Color> colorList = Util.GetColorList();
         public static Color enemiesColor = Color.White;
         public static Color emitersColor = Color.White;
-        public static Color tilesColor = Color.White;        
+        public static Color tilesColor = Color.White;
+        public static Random rnd = new Random();
     }
 }

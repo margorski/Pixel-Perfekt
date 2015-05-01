@@ -79,6 +79,10 @@ namespace PixelPerfect
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
         }
 
+        public virtual void Reset()
+        {
+        }
+
         public void SetColor(Color color)
         {
             this.color = color;
@@ -139,7 +143,15 @@ namespace PixelPerfect
                 return;
 
             spriteBatch.Draw(texture, new Vector2(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X + boundingBox.Width / 2, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y + boundingBox.Height / 2), sourceRect, (disco ? color : Globals.tilesColor), currentRotation, new Vector2(boundingBox.Width / 2, boundingBox.Height / 2), currentScale, SpriteEffects.None, 0.0f);
-        }        
+        }
+
+        public override void Reset()
+        {
+            currentScale = 1.0f;
+            currentRotation = 0.0f;
+            scaleTimer = TimeSpan.Zero;
+            disco = false;
+        }
     }
 
     class MovingTile : Tile
@@ -168,6 +180,11 @@ namespace PixelPerfect
             animSourceRect.Y += animation.GetCurrentFrame() * Config.Tile.SIZE;
 
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), animSourceRect, Globals.tilesColor);
+        }
+
+        public override void Reset()
+        {
+            animation.Reset();
         }
     }
 
@@ -236,6 +253,13 @@ namespace PixelPerfect
         {
             base.Draw(spriteBatch, offset);
         }
+
+        public override void Reset()
+        {
+            hidden = false;
+            SetHidden(hidden);
+            currentBlinkTime = 0;
+        }
     }
 
 
@@ -247,7 +271,6 @@ namespace PixelPerfect
         private bool standing = false;
         private int pixelCount = 0;
         private TimeSpan pixelEmitTime = TimeSpan.Zero;
-        private Random rnd = new Random();
 
         // Public
         public override Rectangle boundingBox
@@ -317,12 +340,22 @@ namespace PixelPerfect
 
         public void EmitPixel()
         {
-            int x = rnd.Next(Config.Tile.SIZE);
+            int x = Globals.rnd.Next(Config.Tile.SIZE);
             Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(
                                new Vector2(boundingBox.Left + x, boundingBox.Bottom),
                                0.0f,//rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
                                new Vector2(0.0f, Config.PixelParticle.SPEED),
                                new Vector2(0.0f, 0.0f), Globals.tilesColor, true, Globals.CurrentMap));
+        }
+
+        public override void Reset()
+        {
+            standing = false;
+            pixelCount = 0;
+            pixelEmitTime = TimeSpan.Zero;
+            tileHeight = (float)Config.Tile.SIZE;
+            sourceRect.Height = (int)Math.Round(tileHeight);
+            attributes = Tile.Attributes.Platform; 
         }
     }
 
@@ -368,6 +401,11 @@ namespace PixelPerfect
             else
                 spriteBatch.Draw(texture, new Rectangle((int)position.X + Config.DRAW_OFFSET_X + (int)offset.X, (int)position.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, Config.Tile.SIZE, Config.Tile.SIZE), sourceRect, Globals.tilesColor);
         }
+
+        public override void Reset()
+        {
+            springy = true;
+        }
     }
 
     class CollectibleTile : Tile
@@ -377,7 +415,6 @@ namespace PixelPerfect
         private bool emmiting = false;
 
         private TimeSpan pixelEmitTime = TimeSpan.Zero;
-        private Random rnd = new Random();
         private Texture2D pixelTexture;
 
         private TimeSpan blinkTime = TimeSpan.Zero;
@@ -445,14 +482,24 @@ namespace PixelPerfect
         }
         public void EmitPixel()
         {
-            int x = rnd.Next(Config.Tile.SIZE - 4);
-            float accy = 15.0f + (float)rnd.NextDouble() * 2.0f;
+            int x = Globals.rnd.Next(Config.Tile.SIZE - 4);
+            float accy = 15.0f + (float)Globals.rnd.NextDouble() * 2.0f;
 
             Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(
                                new Vector2(boundingBox.Left + 2 + x, boundingBox.Bottom - 2),
-                               rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
+                               Globals.rnd.Next(Config.PixelParticle.PIXELPARTICLE_LIFETIME_MIN, Config.PixelParticle.PIXELPARTICLE_LIFETIME_MAX), 
                                new Vector2(0.0f, 0.0f),
                                new Vector2(0.0f, accy), color, false, Globals.CurrentMap, false, Config.StandingType.NoImpact));
+        }
+
+        public override void Reset()
+        {
+            active = true;       
+            pixelEmitTime = TimeSpan.Zero;
+            currentScale = 1.0f;
+            currentRotation = 0.0f;
+            scaleTimer = TimeSpan.Zero;
+            attributes = Tile.Attributes.Collectible;
         }
     }
 }

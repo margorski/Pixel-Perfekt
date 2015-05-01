@@ -216,14 +216,10 @@ namespace PixelPerfect
             jumpSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Jump4").CreateInstance();
             explosionSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Explosion9").CreateInstance();
             randomizeSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Randomize3").CreateInstance();
-            Globals.hitSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance();
-            hud = new Hud();
-            Globals.CurrentLevelState = this;
-            InitLevel();
+            Globals.hitSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance();            
+            InitLevel();     
             ResetInput();
-
-            if (map.upsidedown)
-                Globals.upsideDown = true;            
+           
         }
 
         public override void Exit(int nextStateId)
@@ -392,14 +388,14 @@ namespace PixelPerfect
             if (player.GetState(Player.State.dead))
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)                
-                    InitLevel();
+                    Reset();
             }
             else if (player.GetState(Player.State.dying))
             {
                 if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released)
                 {
                     player.SetState(Player.State.dead, true);
-                    InitLevel();
+                    Reset();
                 }
             }
             else
@@ -488,14 +484,14 @@ namespace PixelPerfect
             if (player.GetState(Player.State.dead))
             {
                 if (currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
-                    InitLevel();
+                    Reset();
             }            
             else if (player.GetState(Player.State.dying))
             {
                 if (currentKeyboardState.IsKeyDown(Keys.Enter) && previousKeyboardState.IsKeyUp(Keys.Enter))
                 {
                     player.SetState(Player.State.dead, true);
-                    InitLevel();
+                    Reset();
                 }
             }
             else
@@ -526,14 +522,14 @@ namespace PixelPerfect
                 if (player.GetState(Player.State.dead))
                 {
                     if (tl.State == TouchLocationState.Pressed)
-                        InitLevel();
+                        Reset();
                 }                
                 else if (player.GetState(Player.State.dying))
                 {
                     if (tl.State == TouchLocationState.Pressed)
                     {
                         player.SetState(Player.State.dead, true);
-                        InitLevel();
+                        Reset();
                     }
                 }
                 else
@@ -603,24 +599,25 @@ namespace PixelPerfect
         }
         private void InitLevel()
         {
+            levelTime = TimeSpan.Zero;
+            Globals.CurrentLevelState = this;
+
+            hud = new Hud();
+
             Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, hud, scale);
             Globals.backgroundColor = map.color;
+            if (map.upsidedown)
+                Globals.upsideDown = true;
+                        hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 
-
-            ReloadGradientTexture();            
-            hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
             player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics);
             player.explosionSoundInstance = explosionSoundInstance;
-            player.randomizeSoundInstance = randomizeSoundInstance;
+            player.randomizeSoundInstance = randomizeSoundInstance;            
             if (map.moving)
                 player.SetMovingMapState(-28.0f);
-            levelTime = TimeSpan.Zero;
 
-            foreach (PixelParticle pixelParticle in pixelParticles)
-            {
-                pixelParticle.map = Globals.CurrentMap;
-                pixelParticle.standingType = Config.StandingType.NoImpact;
-            }
+
+            //ReloadGradientTexture();
 
             if (!Savestate.Instance.levelSaves.ContainsKey(LevelId()))
             {
@@ -628,6 +625,20 @@ namespace PixelPerfect
                 Savestate.Instance.Save();
             }
         }        
+
+        private void Reset()
+        {
+            map.Reset();
+            player.Reset();
+            levelTime = TimeSpan.Zero;
+            hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
+
+            foreach (PixelParticle pixelParticle in pixelParticles)
+            {
+                pixelParticle.map = Globals.CurrentMap;
+                pixelParticle.standingType = Config.StandingType.NoImpact;
+            }
+        }
 
         private void ResetInput()
         {
@@ -645,7 +656,7 @@ namespace PixelPerfect
             pixelParticles.Add(pixelParticle);
 
             while (pixelParticles.Count > Config.PixelParticle.MAX_PARTICLES)
-                pixelParticles.RemoveAt(0);
+                pixelParticles.RemoveAt(Globals.rnd.Next(pixelParticles.Count));
         }
 
         public string LevelId()

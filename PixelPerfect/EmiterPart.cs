@@ -58,7 +58,7 @@ namespace PixelPerfect
 
         public EmiterPart() { }
 
-        public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Rectangle textureRectangle, Color color, int animationDelay, bool explode = false, bool animationreverse = false)
+        public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Color[] textureArray, Rectangle textureRectangle, Color color, int animationDelay, bool explode = false, bool animationreverse = false)
         {
             this.position = position;
             this.texture = texture;
@@ -72,7 +72,7 @@ namespace PixelPerfect
 
             animation = new Animation(4, animationDelay, animationreverse);
 
-            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, textureRectangle), textureRectangle.Width, textureRectangle.Height * Config.ANIM_FRAMES);
+            this.textureArray = textureArray;//Util.GetTextureArray(Util.BlitTexture(texture, textureRectangle), textureRectangle.Width, textureRectangle.Height * Config.ANIM_FRAMES);
             InitializeSize();
             InitializeSpeed(speed);
             InitializeEndPosition(distance);
@@ -316,19 +316,18 @@ namespace PixelPerfect
         }
 
         public void PixelExplosion()
-        {
-            Random rnd = new Random();
+        {            
             Color[] textureColors = GetCurrentFrameArray();         
 
             for (int i = 0; i < textureColors.Length; i++)
             {
                 if (textureColors[i].A == 255)
                 {
-                    Vector2 boomCenter = position + new Vector2(texture.Width / 2, texture.Height / 2);
-                    Vector2 pixPos = position + new Vector2(i % texture.Width, i / texture.Width);
+                    Vector2 boomCenter = position + new Vector2(size.X / 2, size.Y / 2);
+                    Vector2 pixPos = position + new Vector2(i % size.X, i / size.X);
                     pixPos.Y-=4;
-                    Vector2 pixSpeed = (pixPos - boomCenter) * rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);                   
-                    Vector2 acc = new Vector2(rnd.Next(-1000, 1000), rnd.Next(-1000, 1000));
+                    Vector2 pixSpeed = (pixPos - boomCenter) * Globals.rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
+                    Vector2 acc = new Vector2(Globals.rnd.Next(-1000, 1000), Globals.rnd.Next(-1000, 1000));
 
                     Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,

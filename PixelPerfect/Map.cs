@@ -28,6 +28,7 @@ namespace PixelPerfect
         private List<Emiter> emiterList = new List<Emiter>();
         private List<Trigger> triggerList = new List<Trigger>();
         private Vector2 mapOffset = Vector2.Zero;
+        private readonly byte initialCollectiblesCount;
         public bool upsidedown { get; private set; }
         public bool moving { get; private set; }
         // Public
@@ -66,6 +67,7 @@ namespace PixelPerfect
                 else if (tileMap[i] == (byte)Config.TileType.START_POSITION)
                     startPosition = tilePosition;
             }
+            initialCollectiblesCount = collectiblesCount;
         }
 
         public void Update(GameTime gameTime)
@@ -839,6 +841,19 @@ namespace PixelPerfect
 
             Globals.CurrentLevelState.ReloadColors(levelColors);
             return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving);
+        }
+
+        public void Reset()
+        {            
+            foreach (Tile tile in tileMap)
+                tile.Reset();
+            foreach (Enemy enemy in enemiesList)
+                enemy.Reset();
+            foreach (Emiter emiter in emiterList)
+                emiter.Reset();
+            foreach (Trigger trigger in triggerList)
+                trigger.Reset();
+            collectiblesCount = initialCollectiblesCount;
         }
     }
 

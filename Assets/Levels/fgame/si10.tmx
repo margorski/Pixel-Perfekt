@@ -46,6 +46,9 @@
    <property name="texture" value="enemies_16x16"/>
   </properties>
   <object id="23" name="type0" type="5" x="172" y="16">
+   <properties>
+    <property name="areverse" value="1"/>
+   </properties>
    <polyline points="0,0 28,0"/>
   </object>
   <object id="35" name="type1" type="3" x="88" y="16">
@@ -96,7 +99,7 @@
   </object>
   <object id="33" name="left" x="110" y="124">
    <properties>
-    <property name="offset" value="7400"/>
+    <property name="offset" value="7200"/>
    </properties>
    <polyline points="0,0 0,-124"/>
   </object>
@@ -119,6 +122,7 @@
   <object id="24" name="statek" type="8" x="208" y="112">
    <properties>
     <property name="adelay" value="350"/>
+    <property name="areverse" value="1"/>
     <property name="reverse" value="0"/>
    </properties>
    <polyline points="0,0 -92,0 -44,0 -140,0"/>

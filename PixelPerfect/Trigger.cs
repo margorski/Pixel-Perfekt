@@ -18,6 +18,7 @@ namespace PixelPerfect
     {
         private Rectangle area;
         private int useCount;
+        private readonly int startUseCount;
         private bool isIn = false;
         private Config.TriggerType triggerType;
         private int stateId = -1;
@@ -25,7 +26,7 @@ namespace PixelPerfect
         public Trigger(Rectangle area, int useCount, Config.TriggerType triggerType)
         {
             this.area = area;
-            this.useCount = useCount;
+            this.startUseCount = this.useCount = useCount;
             this.triggerType = triggerType;
         }
 
@@ -73,6 +74,12 @@ namespace PixelPerfect
                     break;
 
             }
+        }
+
+        public void Reset()
+        {
+            useCount = startUseCount;
+            isIn = false;
         }
     }
 }

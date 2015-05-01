@@ -77,5 +77,11 @@ namespace PixelPerfect
         {
             return currentFrame;
         }
+
+        public void Reset()
+        {
+            currentFrame = 0;
+            currentTime = TimeSpan.Zero;
+        }
     }
 }
