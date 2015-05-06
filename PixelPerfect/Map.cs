@@ -94,7 +94,13 @@ namespace PixelPerfect
         {
             foreach (Tile tile in tileBackground)
             {
-                tile.Draw(spriteBatch, Vector2.Zero);
+                //tile.Draw(spriteBatch, Vector2.Zero);
+                tile.Draw(spriteBatch, mapOffset);
+                if (moving) // draw 2x tiles for moving map
+                {
+                    var secondMapOffset = mapOffset + new Vector2(Config.Tile.SIZE * Config.Map.WIDTH, 0.0f);
+                    tile.Draw(spriteBatch, secondMapOffset);
+                }
             }
 
             foreach (Tile tile in tileMap)
@@ -854,6 +860,7 @@ namespace PixelPerfect
             foreach (Trigger trigger in triggerList)
                 trigger.Reset();
             collectiblesCount = initialCollectiblesCount;
+            mapOffset = Vector2.Zero;
         }
     }
 

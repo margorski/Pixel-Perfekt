@@ -124,10 +124,16 @@ namespace PixelPerfect
 
         public bool Skipped()
         {
+            int skippedLevels = 0;
+
             foreach (Levelsave levelsave in levelSaves.Values)
             {
                 if (levelsave.skipped)
-                    return true;
+                {
+                    skippedLevels++;
+                    if (skippedLevels >= Config.SKIP_AMOUNT)
+                        return true;
+                }                 
             }
             return false;
         }

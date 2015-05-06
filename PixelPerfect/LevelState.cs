@@ -630,6 +630,8 @@ namespace PixelPerfect
         {
             map.Reset();
             player.Reset();
+            if (map.moving)
+                player.SetMovingMapState(-28.0f);
             levelTime = TimeSpan.Zero;
             hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 

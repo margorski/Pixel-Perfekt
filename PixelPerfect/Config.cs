@@ -28,6 +28,8 @@ namespace PixelPerfect
         public const bool CENTER_PIVOT = true;
         public const int ANIM_FRAMES = 4;
 
+        public const int SKIP_AMOUNT = 3;
+
         public const string SAVEFILE_NAME = "savefile.dat";
         public struct States
         {
