@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="10">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="13">
  <properties>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
+  <property name="color1" value="27"/>
+  <property name="color2" value="32"/>
   <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="Meet new friends"/>
-  <property name="tilecolor" value="55"/>
+  <property name="enemycolor" value="66"/>
+  <property name="hudcolor" value="27"/>
+  <property name="name" value="passing through"/>
+  <property name="tilecolor" value="73"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -46,23 +46,35 @@
    <property name="speedy" value="50"/>
    <property name="texture" value="enemies_16x16"/>
   </properties>
-  <object id="4" type="0" x="256" y="120">
-   <properties>
-    <property name="speedx" value="50"/>
-   </properties>
-   <polyline points="0,0 -240,0"/>
-  </object>
-  <object id="6" type="1" x="136" y="32">
+  <object id="6" type="3" x="136" y="32">
    <properties>
     <property name="reverse" value="0"/>
    </properties>
    <polyline points="0,0 0,-24 -64,-24 -64,36 64,36 64,-24 0,-24 0,0"/>
   </object>
-  <object id="8" type="2" x="136" y="68">
+  <object id="8" type="6" x="136" y="68">
    <properties>
     <property name="reverse" value="0"/>
    </properties>
    <polyline points="0,0 64,0 64,-60 0,-60 0,-36 0,-60 -64,-60 -64,0 0,0"/>
+  </object>
+ </objectgroup>
+ <objectgroup name="Copy of enemies">
+  <properties>
+   <property name="_type" value="1"/>
+   <property name="reverse" value="0"/>
+   <property name="sizex" value="32"/>
+   <property name="sizey" value="32"/>
+   <property name="speedx" value="50"/>
+   <property name="speedy" value="50"/>
+   <property name="texture" value="enemies_32x32"/>
+  </properties>
+  <object id="10" type="1" x="256" y="112">
+   <properties>
+    <property name="areverse" value="1"/>
+    <property name="speedx" value="50"/>
+   </properties>
+   <polyline points="0,0 -240,0"/>
   </object>
  </objectgroup>
  <layer name="background" width="34" height="17">

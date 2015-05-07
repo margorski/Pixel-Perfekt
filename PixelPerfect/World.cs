@@ -56,9 +56,7 @@ namespace PixelPerfect
 
         public bool LevelActivated(int id)
         {
-            if (Config.CHEAT_MODE)
-                return true;
-
+#if !DEBUG 
             if (id < 0 || id > levels.Count - 1)
                 return false;
             
@@ -66,6 +64,10 @@ namespace PixelPerfect
                 return true;
           
             return (LevelCompleted(id - 1) || LevelSkipped(id - 1)); // if previous level is completed this is activated
+#else
+            return true;
+
+#endif
         }
 
         public bool LevelCompleted(int id)
@@ -182,8 +184,10 @@ namespace PixelPerfect
 
             for (int i = 1; i < worlds.Count; i++)
             {
-                if (!Config.CHEAT_MODE && !worlds[i - 1].Completed())
+#if !DEBUG
+                if (!worlds[i - 1].Completed())
                     break;
+#endif
                 worlds[i].active = true;
             }
         }

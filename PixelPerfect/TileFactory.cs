@@ -45,7 +45,7 @@ namespace PixelPerfect
             return type;
         }
 
-        public static Tile CreateTile(int type, Vector2 position, bool background = false)
+        public static Tile CreateTile(int type, Vector2 position, bool emit = true, bool background = false)
         {
             UInt32 attributes = 0;
 
@@ -129,7 +129,7 @@ namespace PixelPerfect
             else if (type == (int)Config.TileType.CRUSHY)
                 return new CrushyTile(position, tileTexture, attributes, sourceRectangle, color);
             else if (type == (int)Config.TileType.KEY)
-                return new CollectibleTile(position, tileTexture, pixelTexture, attributes, sourceRectangle, color, true);
+                return new CollectibleTile(position, tileTexture, pixelTexture, attributes, sourceRectangle, color, emit);
             else if (type == (int)Config.TileType.MOVING_LEFT)
                 return new MovingTile(position, tileTexture, attributes, sourceRectangle, color, -Config.Tile.MOVINGPLATFORM_SPEED);
             else if (type == (int)Config.TileType.MOVING_RIGHT)

@@ -15,7 +15,6 @@ namespace PixelPerfect
 {
     static class Config
     {
-        public const bool CHEAT_MODE = true;
         /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
          */        
@@ -79,7 +78,7 @@ namespace PixelPerfect
         {
             public const int BOOMCOLOR_TIME_MS = 20;
             public const int TRYJUMP_RESETTIME = 200;
-            public const int STOPTIME_REVERSE_MS = 300;
+            public const int STOPTIME_REVERSE_MS = 250;
             public const int WIDTH = 8;
             public const int HEIGHT = 16;
             public const float JUMP_SPEED = -78.0f;

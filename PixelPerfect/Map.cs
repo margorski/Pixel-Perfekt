@@ -38,7 +38,7 @@ namespace PixelPerfect
         public Color color { private set; get; }
         
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false)
+        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false, bool emit = true)
         {            
             this.enemiesList = enemiesList;
             this.emiterList = emiterList;
@@ -59,8 +59,8 @@ namespace PixelPerfect
                 tilePosition.X = (float)((i % Config.Map.WIDTH) * Config.Tile.SIZE);
                 tilePosition.Y = (float)((i / Config.Map.WIDTH) * Config.Tile.SIZE);
    
-                this.tileMap[i] = TileFactory.CreateTile(tileMap[i], tilePosition);
-                this.tileBackground[i] = TileFactory.CreateTile(backgroundtile[i], tilePosition, true);
+                this.tileMap[i] = TileFactory.CreateTile(tileMap[i], tilePosition, emit);
+                this.tileBackground[i] = TileFactory.CreateTile(backgroundtile[i], tilePosition, emit, true);
 
                 if (tileMap[i] == (byte)Config.TileType.KEY)
                     collectiblesCount++;
@@ -412,6 +412,7 @@ namespace PixelPerfect
             Color color = Color.Black;
             LevelState.LevelColors levelColors = new LevelState.LevelColors();
             string layername = "";
+            bool emit = true;
 
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile)))
             {
@@ -474,6 +475,9 @@ namespace PixelPerfect
                                             break;
                                         case "tilecolor":
                                             levelColors.tilecolor = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            break;
+                                        case "emit":
+                                            emit = (int.Parse(value) == 1 ? true : false);
                                             break;
                                             
                                     }
@@ -846,7 +850,7 @@ namespace PixelPerfect
                 return null;
 
             Globals.CurrentLevelState.ReloadColors(levelColors);
-            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving);
+            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving, emit);
         }
 
         public void Reset()

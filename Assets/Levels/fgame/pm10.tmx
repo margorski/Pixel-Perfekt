@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="6">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="8">
  <properties>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
+  <property name="color1" value="29"/>
+  <property name="color2" value="27"/>
   <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="Meet new friends"/>
-  <property name="tilecolor" value="55"/>
+  <property name="enemycolor" value="63"/>
+  <property name="hudcolor" value="58"/>
+  <property name="name" value="my little centaur"/>
+  <property name="tilecolor" value="31"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -39,18 +39,20 @@
  <objectgroup name="enemies">
   <properties>
    <property name="_type" value="1"/>
-   <property name="sizex" value="14"/>
-   <property name="sizey" value="14"/>
+   <property name="sizex" value="16"/>
+   <property name="sizey" value="16"/>
    <property name="speedx" value="50"/>
    <property name="speedy" value="50"/>
-   <property name="texture" value="enemies_14x14"/>
+   <property name="texture" value="enemies_16x16"/>
   </properties>
-  <object id="5" type="0" x="136" y="68">
+  <object id="5" type="5" x="136" y="68">
    <properties>
+    <property name="areverse" value="1"/>
     <property name="reverse" value="0"/>
    </properties>
    <polyline points="0,0 0,-28 72,-28 72,-52 120,-52 120,0 96,0 96,-28 48,-28 48,28 -96,28 -96,4 -120,4 -120,52 -72,52 -72,28 -48,28 -48,52 48,52 48,28 96,28 96,0 120,0 120,52 72,52 72,28 -96,28 -96,-28 -72,-28 -72,-52 -120,-52 -120,-4 -96,-4 -96,-28 -48,-28 -48,-52 48,-52 48,-28 0,-28 0,0"/>
   </object>
+  <object id="7" gid="1" x="252" y="-26"/>
  </objectgroup>
  <layer name="background" width="34" height="17">
   <properties>

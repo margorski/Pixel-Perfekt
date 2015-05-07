@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="23">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="24">
  <properties>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
-  <property name="emmitercolor" value="78"/>
+  <property name="color1" value="31"/>
+  <property name="color2" value="56"/>
+  <property name="emmitercolor" value="22"/>
   <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="Meet new friends"/>
-  <property name="tilecolor" value="55"/>
+  <property name="hudcolor" value="130"/>
+  <property name="name" value="hive"/>
+  <property name="tilecolor" value="92"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -48,51 +48,52 @@
    <property name="speedy" value="50"/>
    <property name="texture" value="enemies_8x8"/>
   </properties>
-  <object id="7" type="0" x="12" y="8">
+  <object id="7" type="3" x="12" y="8">
    <properties>
     <property name="offset" value="2500"/>
    </properties>
    <polyline points="0,0 0,120"/>
   </object>
-  <object id="8" type="1" x="52" y="8">
+  <object id="8" type="3" x="52" y="8">
    <properties>
     <property name="offset" value="1250"/>
    </properties>
    <polyline points="0,0 0,120"/>
   </object>
-  <object id="12" type="2" x="264" y="40">
+  <object id="12" type="4" x="264" y="40">
    <properties>
     <property name="offset" value="2500"/>
    </properties>
    <polyline points="0,0 -192,0"/>
   </object>
-  <object id="13" type="1" x="264" y="16">
+  <object id="13" type="4" x="264" y="16">
    <properties>
     <property name="offset" value="1250"/>
    </properties>
    <polyline points="0,0 -192,0"/>
   </object>
-  <object id="15" type="0" x="72" y="80">
+  <object id="15" type="5" x="72" y="80">
    <polyline points="0,0 192,0"/>
   </object>
-  <object id="17" type="2" x="264" y="56">
+  <object id="17" type="4" x="264" y="56">
    <properties>
     <property name="offset" value="1250"/>
    </properties>
    <polyline points="0,0 -192,0"/>
   </object>
-  <object id="19" type="1" x="264" y="120">
+  <object id="19" type="4" x="264" y="120">
    <properties>
     <property name="offset" value="1500"/>
    </properties>
    <polyline points="0,0 -192,0"/>
   </object>
-  <object id="21" type="0" x="264" y="96">
+  <object id="21" type="4" x="264" y="96">
    <properties>
     <property name="offset" value="250"/>
    </properties>
    <polyline points="0,0 -192,0"/>
   </object>
+  <object id="23" gid="0" x="-14" y="-40"/>
  </objectgroup>
  <layer name="background" width="34" height="17">
   <properties>

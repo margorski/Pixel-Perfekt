@@ -6,7 +6,7 @@
   <property name="emmitercolor" value="81"/>
   <property name="enemycolor" value="63"/>
   <property name="hudcolor" value="36"/>
-  <property name="name" value="Meet new friends"/>
+  <property name="name" value="space in me"/>
   <property name="tilecolor" value="140"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
@@ -59,6 +59,7 @@
   <properties>
    <property name="_type" value="2"/>
    <property name="delay" value="4500"/>
+   <property name="explode" value="1"/>
    <property name="offset" value="3000"/>
    <property name="sizex" value="8"/>
    <property name="sizey" value="8"/>
@@ -68,6 +69,7 @@
   <object id="4" x="272" y="20">
    <properties>
     <property name="delay" value="2500"/>
+    <property name="explode" value="1"/>
     <property name="offset" value="2500"/>
    </properties>
    <polyline points="0,0 -264,0"/>
