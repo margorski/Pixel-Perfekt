@@ -334,7 +334,6 @@ namespace PixelPerfect
         private void ResetSave()
         {
             Savestate.Reset();
-            Savestate.Instance.Save();
         }
 
         private void SendDataEmail()

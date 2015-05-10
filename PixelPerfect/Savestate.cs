@@ -45,7 +45,8 @@ namespace PixelPerfect
 
         public static void Reset()
         {
-            Instance = new Savestate();            
+            Instance = new Savestate();
+            Instance.Save(true);
         }
 
         public static bool Init() // Savestate class first need to be initialized, if file exists loaded, if not new created and saved
@@ -57,10 +58,12 @@ namespace PixelPerfect
                 {
                     if (storage.FileExists(Config.SAVEFILE_NAME)) // deserialize
                     {
-                        using (IsolatedStorageFileStream savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.Open))    
+                        using (IsolatedStorageFileStream savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.Open))
+                        {
                             Instance = Serializer.Deserialize<Savestate>(savefile);
-                        if (Instance.version != CURRENT_VERSION)
-                            CreateSavestate();
+                            if (Instance.version != CURRENT_VERSION)
+                                CreateSavestate();
+                        }
                     }
                     else
                     {
@@ -81,7 +84,7 @@ namespace PixelPerfect
         private static void CreateSavestate()
         {
             Instance = new Savestate();
-            Instance.Save();
+            Instance.Save(true);
         }
 
         public bool Reload()
@@ -103,14 +106,14 @@ namespace PixelPerfect
             return true;
         }
 
-        public bool Save()
+        public bool Save(bool createNew = false)
         {
 #if !WINDOWS
             try
             {
                 using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    using (IsolatedStorageFileStream savefile = storage.OpenFile(Config.SAVEFILE_NAME, System.IO.FileMode.OpenOrCreate))                    
+                    using (IsolatedStorageFileStream savefile = storage.OpenFile(Config.SAVEFILE_NAME, (createNew ? System.IO.FileMode.Create : System.IO.FileMode.OpenOrCreate)))                    
                         Serializer.Serialize<Savestate>(savefile, Instance);
                 }
             }

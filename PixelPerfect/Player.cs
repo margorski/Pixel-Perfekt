@@ -312,9 +312,7 @@ namespace PixelPerfect
 
                 if (fallDistance > Config.Player.MAX_FALL_DISTANCE)
                 {
-                    SetState(State.dying, true);
-                    if (Globals.playSounds)
-                        randomizeSoundInstance.Play();
+                    Die();
                     return;
                 }
             }
@@ -331,6 +329,22 @@ namespace PixelPerfect
             SetState(State.falling, false);
             SetState(State.jumpStopped, false);
             SetState(State.fallThroughScreen, false);
+        }
+
+        public void Die()
+        {
+            SetState(Player.State.dying, true);
+            if (Globals.playSounds)
+                randomizeSoundInstance.Play();
+            
+            Globals.CurrentLevelState.deathCount++;
+
+            if (!Savestate.Instance.levelSaves[Globals.CurrentLevelState.LevelId()].completed)
+            {
+                Savestate.Instance.levelSaves[Globals.CurrentLevelState.LevelId()].completeDeathCount++;
+            }
+            Savestate.Instance.levelSaves[Globals.CurrentLevelState.LevelId()].deathCount++;
+            Savestate.Instance.Save();            
         }
 
         public void HitTheWall(Rectangle tileBox)

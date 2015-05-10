@@ -45,7 +45,7 @@ namespace PixelPerfect
 #endif
         private GamePadState prevGPState;
         private GamePadState currGPState;
-        public int deathCount { private set; get; }
+        public int deathCount;
         //private int i = 0;
 
         public string levelFile { private set; get; }
@@ -343,17 +343,7 @@ namespace PixelPerfect
 
                 if (map.KillThisBastard(player, graphics))
                 {
-                    player.SetState(Player.State.dying, true);
-                    if (Globals.playSounds)
-                        randomizeSoundInstance.Play();
-                    deathCount++;
-                    
-                    if (!Savestate.Instance.levelSaves[LevelId()].completed)
-                    {
-                        Savestate.Instance.levelSaves[LevelId()].completeDeathCount++;                        
-                    }
-                    Savestate.Instance.levelSaves[LevelId()].deathCount++;
-                    Savestate.Instance.Save();
+                    player.Die();
                 }
 
                 if (map.EnteredDoors(player.boundingBox))
