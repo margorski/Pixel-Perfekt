@@ -75,7 +75,7 @@ namespace PixelPerfect
             }
         }
 
-        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, int animationDelay, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0, bool teleport = false, bool animationreverse = true)
+        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, int animationDelay, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0, bool teleport = false, bool animationreverse = true, int frames = 4)
         {
             this.startPosition = startPosition;
             this.texture = texture;
@@ -96,7 +96,7 @@ namespace PixelPerfect
             if (teleport)
                 reverse = false;
 
-            animation = new Animation(4, animationDelay, animationreverse);
+            animation = new Animation(frames, animationDelay, animationreverse);
  
             AdjustSpeed();
         }
@@ -343,6 +343,22 @@ namespace PixelPerfect
             onGuard = false;
             animation.Reset();
             currentPosition = targetPosition = startPosition;
+        }
+
+        public void PixelExplosion()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Vector2 boomCenter = currentPosition + new Vector2(textureSize.X / 2, textureSize.Y / 2);
+                Vector2 pixPos = currentPosition + new Vector2(i % textureSize.X, i / textureSize.X);
+                //pixPos.Y -= 4;
+                Vector2 pixSpeed = (pixPos - boomCenter) * Globals.rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
+                Vector2 acc = new Vector2(Globals.rnd.Next(-1000, 1000), Globals.rnd.Next(-1000, 1000));
+
+                Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
+                                0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
+                                pixSpeed, acc, Globals.enemiesColor, true, Globals.CurrentMap));
+            }
         }
     }
 }

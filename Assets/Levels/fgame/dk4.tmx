@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="21">
  <properties>
-  <property name="color" value="LightBlue"/>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
+  <property name="color1" value="33"/>
+  <property name="color2" value="36"/>
   <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="Meet new friends"/>
-  <property name="tilecolor" value="55"/>
+  <property name="enemycolor" value="116"/>
+  <property name="hudcolor" value="32"/>
+  <property name="name" value="walking dead"/>
+  <property name="tilecolor" value="79"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -33,8 +32,8 @@
 123,123,143,163,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,123,6,6,163,0,0,
 123,123,6,163,0,0,0,0,63,83,83,83,83,83,103,0,0,0,0,0,0,0,0,63,83,83,83,83,123,143,143,163,0,0,
 123,123,143,163,0,0,0,0,123,143,143,143,143,143,163,0,0,0,0,47,87,0,0,123,143,143,143,143,123,143,143,163,0,0,
-123,123,143,163,47,87,0,0,123,143,6,143,143,27,163,87,0,47,87,67,107,0,0,123,143,6,143,143,123,143,143,163,47,87,
-123,123,143,163,67,107,87,47,123,143,143,143,143,143,163,107,47,67,107,67,107,47,87,123,143,143,143,143,123,143,143,163,67,107
+123,123,143,163,47,87,0,0,123,143,6,143,143,27,163,87,0,47,87,1,1,7,0,123,143,6,143,143,123,143,143,163,47,87,
+123,123,143,163,1,1,87,47,123,143,143,143,143,143,163,1,47,1,1,1,1,1,87,123,143,143,143,143,123,143,143,163,1,1
 </data>
  </layer>
  <objectgroup name="enemies">
@@ -42,21 +41,23 @@
    <property name="_type" value="1"/>
    <property name="delay" value="5000"/>
    <property name="offset" value="4000"/>
-   <property name="sizex" value="18"/>
-   <property name="sizey" value="18"/>
+   <property name="sizex" value="32"/>
+   <property name="sizey" value="32"/>
    <property name="speed" value="40"/>
    <property name="speedx" value="15"/>
    <property name="speedy" value="15"/>
-   <property name="texture" value="enemies_18x18"/>
+   <property name="texture" value="enemies_32x32"/>
   </properties>
-  <object id="12" type="6" x="192" y="96">
+  <object id="12" type="13" x="192" y="88">
    <properties>
+    <property name="adelay" value="450"/>
     <property name="reverse" value="0"/>
    </properties>
-   <polyline points="0,0 24,0"/>
+   <polyline points="4,0 20,0"/>
   </object>
-  <object id="17" type="1" x="72" y="96">
+  <object id="17" type="17" x="72" y="88">
    <properties>
+    <property name="adelay" value="450"/>
     <property name="reverse" value="0"/>
    </properties>
    <polyline points="0,0 40,0"/>
@@ -67,14 +68,14 @@
    <property name="_type" value="1"/>
    <property name="delay" value="5000"/>
    <property name="offset" value="4000"/>
-   <property name="sizex" value="14"/>
-   <property name="sizey" value="12"/>
+   <property name="sizex" value="16"/>
+   <property name="sizey" value="16"/>
    <property name="speed" value="40"/>
    <property name="speedx" value="50"/>
    <property name="speedy" value="50"/>
-   <property name="texture" value="enemies_14x12"/>
+   <property name="texture" value="enemies_16x16"/>
   </properties>
-  <object id="18" type="2" x="92" y="34">
+  <object id="18" type="9" x="92" y="32">
    <properties>
     <property name="reverse" value="0"/>
    </properties>

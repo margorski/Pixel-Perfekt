@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="17">
  <properties>
-  <property name="color" value="LightBlue"/>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
-  <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="pacman"/>
-  <property name="tilecolor" value="55"/>
+  <property name="color1" value="21"/>
+  <property name="color2" value="22"/>
+  <property name="emmitercolor" value="54"/>
+  <property name="enemycolor" value="58"/>
+  <property name="hudcolor" value="21"/>
+  <property name="name" value="death cage"/>
+  <property name="tilecolor" value="105"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -25,11 +24,11 @@
 8,0,0,0,0,17,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,67,
 107,0,0,0,20,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
 8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,67,
-107,17,0,0,142,162,182,0,0,0,0,17,0,0,0,0,159,199,0,0,0,0,17,0,0,0,0,0,142,182,0,0,0,8,
+107,17,0,0,142,162,182,0,0,0,0,17,0,0,0,0,19,19,0,0,0,0,17,0,0,0,0,0,142,182,0,0,0,8,
 8,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,67,
 107,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
 8,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,67,
-107,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,159,179,199,8,
+107,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,19,19,8,
 8,142,162,162,162,162,182,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,67,
 107,0,0,0,0,0,0,0,0,0,0,0,0,142,162,182,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8,
 8,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,17,0,0,0,0,0,0,67,
@@ -40,11 +39,11 @@
  <objectgroup name="enemies">
   <properties>
    <property name="_type" value="1"/>
-   <property name="sizex" value="10"/>
-   <property name="sizey" value="10"/>
+   <property name="sizex" value="8"/>
+   <property name="sizey" value="8"/>
    <property name="speedx" value="25"/>
    <property name="speedy" value="25"/>
-   <property name="texture" value="enemies_10x10"/>
+   <property name="texture" value="enemies_8x8"/>
   </properties>
   <object id="13" type="0" x="100" y="100">
    <properties>
@@ -70,12 +69,12 @@
    <property name="_type" value="2"/>
    <property name="delay" value="5000"/>
    <property name="offset" value="4500"/>
-   <property name="sizex" value="10"/>
-   <property name="sizey" value="10"/>
+   <property name="sizex" value="8"/>
+   <property name="sizey" value="8"/>
    <property name="speed" value="80"/>
-   <property name="texture" value="enemies_10x10"/>
+   <property name="texture" value="enemies_8x8"/>
   </properties>
-  <object id="10" type="1" x="274" y="46">
+  <object id="10" type="4" x="274" y="46">
    <properties>
     <property name="delay" value="3600"/>
     <property name="offset" value="3100"/>

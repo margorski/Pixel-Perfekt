@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="14">
  <properties>
-  <property name="color" value="LightBlue"/>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
+  <property name="color1" value="23"/>
+  <property name="color2" value="23"/>
   <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="Meet new friends"/>
-  <property name="tilecolor" value="55"/>
+  <property name="enemycolor" value="44"/>
+  <property name="hudcolor" value="13"/>
+  <property name="name" value="HOT-HEADED"/>
+  <property name="tilecolor" value="140"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -22,12 +21,12 @@
 261,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 261,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,6,1,
 261,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,164,4,4,4,4,324,0,0,0,0,1,
-261,0,0,0,21,21,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,99,1,
+261,0,0,0,21,21,0,0,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,19,1,
 261,0,0,0,1,1,0,0,0,21,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-261,43,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,99,119,139,0,0,0,0,6,0,0,0,0,0,0,0,3,1,
+261,43,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,19,19,19,0,0,0,0,6,0,0,0,0,0,0,0,3,1,
 261,0,0,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
-261,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,99,1,
-261,17,0,0,0,0,0,6,0,0,0,279,319,0,0,0,0,0,0,0,164,4,165,0,0,0,0,0,0,0,0,0,0,1,
+261,0,0,0,0,0,0,0,0,0,0,0,27,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,19,1,
+261,17,0,0,0,0,0,6,0,0,0,19,19,0,0,0,0,0,0,0,164,4,165,0,0,0,0,0,0,0,0,0,0,1,
 261,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,
 261,0,0,0,21,21,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,1,
 261,0,0,0,1,1,0,0,0,21,21,0,0,0,0,0,0,0,0,0,0,0,325,5,5,5,5,5,165,0,0,0,0,1,
@@ -40,13 +39,13 @@
  <objectgroup name="enemies">
   <properties>
    <property name="_type" value="1"/>
-   <property name="sizex" value="18"/>
-   <property name="sizey" value="18"/>
+   <property name="sizex" value="32"/>
+   <property name="sizey" value="32"/>
    <property name="speedx" value="35"/>
    <property name="speedy" value="70"/>
-   <property name="texture" value="enemies_18x18"/>
+   <property name="texture" value="enemies_32x32"/>
   </properties>
-  <object id="12" type="8" x="224" y="120">
+  <object id="12" type="15" x="224" y="112">
    <properties>
     <property name="reverse" value="0"/>
    </properties>

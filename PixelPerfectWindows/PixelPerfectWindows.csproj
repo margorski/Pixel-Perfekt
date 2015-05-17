@@ -147,6 +147,30 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="..\content\content\bin\psm\content\music\8-bit.wma">
+      <Link>Content\music\8-bit.wma</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\ChaoticFilth.wma">
+      <Link>Content\music\ChaoticFilth.wma</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\ChaoticStandoff.wma">
+      <Link>Content\music\ChaoticStandoff.wma</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\ElevatorMusic.wma">
+      <Link>Content\music\ElevatorMusic.wma</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\GasolineRainbows.wma">
+      <Link>Content\music\GasolineRainbows.wma</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\KingBoss.wma">
+      <Link>Content\music\KingBoss.wma</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Icon.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -188,52 +212,8 @@
       <Link>Content\Sounds\Randomize3.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\emiter_8x8.xnb">
-      <Link>Content\fgame\emiter_8x8.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies.xnb">
-      <Link>Content\fgame\enemies.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_10x10.xnb">
-      <Link>Content\fgame\enemies_10x10.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_14x12.xnb">
-      <Link>Content\fgame\enemies_14x12.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_14x14.xnb">
-      <Link>Content\fgame\enemies_14x14.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\enemies_16x16.xnb">
       <Link>Content\fgame\enemies_16x16.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_18x18.xnb">
-      <Link>Content\fgame\enemies_18x18.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemies_46x34.xnb">
-      <Link>Content\fgame\enemies_46x34.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\enemiesbig.xnb">
-      <Link>Content\fgame\enemiesbig.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\pacman_104x104.xnb">
-      <Link>Content\fgame\pacman_104x104.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\pacman_130x130.xnb">
-      <Link>Content\fgame\pacman_130x130.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\content\content\bin\psm\content\fgame\pacman_13x13.xnb">
-      <Link>Content\fgame\pacman_13x13.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\player.xnb">
@@ -364,10 +344,6 @@
       <Link>Levels\fgame\pm8.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\assets\levels\fgame\pm9.tmx">
-      <Link>Levels\fgame\pm9.tmx</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\assets\levels\fgame\pp0.tmx">
       <Link>Levels\fgame\pp0.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -436,8 +412,41 @@
       <Link>Levels\fgame\beg3.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\fgame\biggo_130x130.xnb">
+      <Link>Content\fgame\biggo_130x130.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\fgame\king_48x48.xnb">
+      <Link>Content\fgame\king_48x48.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\8-bit.xnb">
+      <Link>Content\music\8-bit.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\ChaoticFilth.xnb">
+      <Link>Content\music\ChaoticFilth.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\ChaoticStandoff.xnb">
+      <Link>Content\music\ChaoticStandoff.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\ElevatorMusic.xnb">
+      <Link>Content\music\ElevatorMusic.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\GasolineRainbows.xnb">
+      <Link>Content\music\GasolineRainbows.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\content\content\bin\psm\content\music\KingBoss.xnb">
+      <Link>Content\music\KingBoss.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

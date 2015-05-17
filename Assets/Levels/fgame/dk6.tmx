@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="17">
  <properties>
-  <property name="color" value="LightBlue"/>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
-  <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="Meet new friends"/>
-  <property name="tilecolor" value="55"/>
+  <property name="color1" value="23"/>
+  <property name="color2" value="46"/>
+  <property name="emmitercolor" value="101"/>
+  <property name="enemycolor" value="93"/>
+  <property name="hudcolor" value="107"/>
+  <property name="name" value="make haste slowly"/>
+  <property name="tilecolor" value="107"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -25,14 +24,14 @@
 41,41,41,41,41,41,41,41,41,41,41,41,41,41,0,0,0,0,0,0,41,41,41,41,41,41,41,41,41,41,41,41,41,41,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,17,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,19,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,0,0,0,0,0,0,0,0,
-81,81,81,0,0,0,0,39,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,2,81,81,81,
-0,0,0,0,0,0,0,59,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,6,0,22,0,0,0,
-0,0,0,0,0,0,0,79,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,42,0,0,0,
-21,21,21,21,21,21,21,21,21,21,21,0,0,0,0,279,299,299,319,0,0,0,19,21,21,21,21,21,21,21,21,21,21,21,
+0,0,0,0,0,0,0,39,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,61,0,0,0,0,0,0,0,0,
+81,81,81,0,0,0,0,39,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,39,81,81,81,
+0,0,0,0,0,0,0,39,0,0,0,0,0,0,0,0,6,0,0,0,0,0,0,0,0,0,0,0,6,0,39,0,0,0,
+0,0,0,0,0,0,0,39,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,39,0,0,0,
+21,21,21,21,21,21,21,21,21,21,21,0,0,0,0,19,19,19,19,0,0,0,39,21,21,21,21,21,21,21,21,21,21,21,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,39,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,59,0,0,0,0,0,6,20,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,79,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,17,0,0,0,0,0,0,0,0,0,39,0,0,0,0,0,6,20,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,39,0,0,0,0,0,0,0,0,0,0,0,
 1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2
 </data>
@@ -43,14 +42,14 @@
    <property name="delay" value="5000"/>
    <property name="offset" value="5000"/>
    <property name="reverse" value="0"/>
-   <property name="sizex" value="10"/>
-   <property name="sizey" value="10"/>
+   <property name="sizex" value="8"/>
+   <property name="sizey" value="8"/>
    <property name="speed" value="70"/>
    <property name="speedx" value="50"/>
    <property name="speedy" value="50"/>
-   <property name="texture" value="enemies_10x10"/>
+   <property name="texture" value="enemies_8x8"/>
   </properties>
-  <object id="12" type="1" x="272" y="20">
+  <object id="12" type="0" x="272" y="20">
    <properties>
     <property name="delay" value="5000"/>
     <property name="delay2" value="1000"/>
@@ -59,21 +58,21 @@
    </properties>
    <polyline points="0,0 -278,0"/>
   </object>
-  <object id="13" type="1" x="0" y="44">
+  <object id="13" type="0" x="0" y="44">
    <properties>
     <property name="delay" value="5000"/>
     <property name="offset" value="2500"/>
    </properties>
    <polyline points="0,0 278,0"/>
   </object>
-  <object id="14" type="1" x="272" y="76">
+  <object id="14" type="0" x="272" y="76">
    <properties>
     <property name="delay" value="5000"/>
     <property name="offset" value="4500"/>
    </properties>
    <polyline points="0,0 -282,0"/>
   </object>
-  <object id="15" type="1" x="0" y="108">
+  <object id="15" type="0" x="0" y="108">
    <properties>
     <property name="delay" value="5500"/>
     <property name="offset" value="0"/>

@@ -32,5 +32,6 @@ namespace PixelPerfect
         public static Color emitersColor = Color.White;
         public static Color tilesColor = Color.White;
         public static Random rnd = new Random();
+        public static List<Song> backgroundMusicList = new List<Song>();
     }
 }

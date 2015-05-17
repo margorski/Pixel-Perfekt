@@ -154,6 +154,14 @@ namespace PixelPerfect
             specialBatch = new SpriteBatch(GraphicsDevice);
             Globals.pixelTexture = Content.Load<Texture2D>("pixel");
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
+
+            // music
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\8-bit"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\ChaoticFilth"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\ChaoticStandoff"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\ElevatorMusic"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\GasolineRainbows"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\KingBoss"));
         }
 
         protected override void UnloadContent()

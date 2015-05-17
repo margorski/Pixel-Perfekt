@@ -59,7 +59,7 @@ namespace PixelPerfect
         SoundEffectInstance jumpSoundInstance;
         SoundEffectInstance explosionSoundInstance;
         SoundEffectInstance randomizeSoundInstance;
-
+        
         private Texture2D backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
 
         private LevelColors levelColors = new LevelColors();
@@ -219,7 +219,9 @@ namespace PixelPerfect
             Globals.hitSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance();            
             InitLevel();     
             ResetInput();
-           
+            MediaPlayer.IsRepeating = true;
+            if (Globals.playSounds)
+                MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
         }
 
         public override void Exit(int nextStateId)
@@ -227,6 +229,7 @@ namespace PixelPerfect
             Globals.CurrentLevelState = null;
             Globals.upsideDown = false;
             Globals.backgroundColor = Color.Black;
+            MediaPlayer.Stop();
         }
 
         public override void Resume(int poppedStateId)

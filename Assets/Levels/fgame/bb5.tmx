@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="29">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="32">
  <properties>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
-  <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="Meet new friends"/>
-  <property name="tilecolor" value="55"/>
+  <property name="color1" value="37"/>
+  <property name="color2" value="37"/>
+  <property name="emmitercolor" value="79"/>
+  <property name="enemycolor" value="83"/>
+  <property name="hudcolor" value="0"/>
+  <property name="name" value="PEEK-A-BOO"/>
+  <property name="tilecolor" value="101"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -39,22 +39,22 @@
  <objectgroup name="enemies">
   <properties>
    <property name="_type" value="1"/>
-   <property name="sizex" value="16"/>
-   <property name="sizey" value="16"/>
+   <property name="sizex" value="32"/>
+   <property name="sizey" value="32"/>
    <property name="speedx" value="30"/>
    <property name="speedy" value="100"/>
-   <property name="texture" value="enemies"/>
+   <property name="texture" value="enemies_32x32"/>
   </properties>
-  <object id="24" type="3" x="96" y="56">
-   <polyline points="0,0 88,0"/>
+  <object id="24" type="15" x="96" y="48">
+   <polyline points="0,0 80,0"/>
   </object>
-  <object id="25" type="4" x="144" y="112">
-   <polyline points="0,0 72,0"/>
+  <object id="25" type="1" x="144" y="104">
+   <polyline points="8,0 68,0"/>
   </object>
-  <object id="26" type="5" x="128" y="112">
-   <polyline points="0,0 -72,0"/>
+  <object id="26" type="11" x="128" y="104">
+   <polyline points="-8,0 -68,0"/>
   </object>
-  <object id="27" type="0" x="176" y="24">
+  <object id="27" type="13" x="176" y="16">
    <properties>
     <property name="blink" value="1"/>
     <property name="blinktime" value="1000"/>
@@ -62,16 +62,6 @@
    </properties>
    <polyline points="0,0 -80,72 72,8 -152,8 0,72 -80,0 -112,56 32,56"/>
   </object>
- </objectgroup>
- <objectgroup name="bubbles">
-  <properties>
-   <property name="_type" value="2"/>
-   <property name="delay" value="3000"/>
-   <property name="sizex" value="16"/>
-   <property name="sizey" value="16"/>
-   <property name="speed" value="100"/>
-   <property name="texture" value="enemies"/>
-  </properties>
  </objectgroup>
  <layer name="background" width="34" height="17">
   <properties>

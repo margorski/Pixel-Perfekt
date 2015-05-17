@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="35">
  <properties>
-  <property name="color1" value="19"/>
-  <property name="color2" value="18"/>
-  <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
-  <property name="name" value="Meet new friends"/>
-  <property name="tilecolor" value="55"/>
+  <property name="color1" value="30"/>
+  <property name="color2" value="30"/>
+  <property name="emmitercolor" value="80"/>
+  <property name="enemycolor" value="60"/>
+  <property name="hudcolor" value="82"/>
+  <property name="name" value="TWO.. three BROTHERS"/>
+  <property name="tilecolor" value="50"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>
@@ -43,9 +43,9 @@
    <property name="sizey" value="16"/>
    <property name="speedx" value="30"/>
    <property name="speedy" value="100"/>
-   <property name="texture" value="enemies"/>
+   <property name="texture" value="enemies_16x16"/>
   </properties>
-  <object id="28" type="8" x="256" y="24">
+  <object id="28" type="9" x="256" y="24">
    <properties>
     <property name="speedx" value="100"/>
     <property name="speedy" value="100"/>
@@ -62,10 +62,12 @@
    <property name="speed" value="100"/>
    <property name="speedx" value="20"/>
    <property name="speedy" value="20"/>
-   <property name="texture" value="enemiesbig"/>
+   <property name="texture" value="enemies_32x32"/>
   </properties>
-  <object id="34" type="9" x="250" y="112">
+  <object id="34" type="12" x="250" y="112">
    <properties>
+    <property name="adelay" value="500"/>
+    <property name="offset" value="50"/>
     <property name="wait" value="450"/>
    </properties>
    <polyline points="-2,0 -26,-24 -82,-24 -114,0 -146,-24 -202,-24 -226,0"/>

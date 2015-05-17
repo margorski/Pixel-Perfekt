@@ -341,12 +341,15 @@ namespace PixelPerfect
                             bbox.Width -= 2;
                             if (playerbbox.Intersects(bbox))
                             {
-                                if (--collectiblesCount == 0)
+                                collectiblesCount--;
+
+                                if (collectiblesCount == 0)
                                 {
-                                    OpenDoor();
                                     foreach (Enemy enemy in enemiesList)
-                                        enemy.TriggerGuardian();
+                                        enemy.TriggerGuardian();                                    
+                                    OpenDoor();
                                 }
+                                 
                                 tileMap[index].SetAttributes(Tile.Attributes.NoDraw);
                                 return true;
                             }
@@ -526,6 +529,7 @@ namespace PixelPerfect
                                 int sizey = 0;
                                 int delay = 0;
                                 int offset = 0;
+                                int frames = 4;
                                 Texture2D texture = null;
 
                                 xmlreader.ReadToFollowing("properties");
@@ -590,6 +594,11 @@ namespace PixelPerfect
                                             case "offset":
                                                 offset = (int)float.Parse(value, CultureInfo.InvariantCulture);
                                                 break;
+
+                                            case "frames":
+                                                frames = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                                break;
+
                                         } 
                                     }
                                 }
@@ -766,7 +775,7 @@ namespace PixelPerfect
                                                                                 new Vector2(sizex, sizey),
                                                                                 triggerORtextureType,
                                                                                 startPosition + new Vector2(moveX, moveY), adelay,
-                                                                                reverse, blink, guardian, offset, wait, teleport, areverse));
+                                                                                reverse, blink, guardian, offset, wait, teleport, areverse, frames));
                                                                 if (blink || teleport) // same time used for teleport delay and blink delay, teleport work only on normal move
                                                                     enemiesList.Last().SetBlinkTeleportTime(blinkTime);
                                                                 enemiesList.Last().SetDelayTime(localdelay);

@@ -110,75 +110,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Assets\Levels\fgame\emiter_8x8.png">
-      <Link>fgame\emiter_8x8.png</Link>
-      <Name>emiter_8x8</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies.png">
-      <Link>fgame\enemies.png</Link>
-      <Name>enemies</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemiesbig.png">
-      <Link>fgame\enemiesbig.png</Link>
-      <Name>enemiesbig</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_10x10.png">
-      <Link>fgame\enemies_10x10.png</Link>
-      <Name>enemies_10x10</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_14x12.png">
-      <Link>fgame\enemies_14x12.png</Link>
-      <Name>enemies_14x12</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_14x14.png">
-      <Link>fgame\enemies_14x14.png</Link>
-      <Name>enemies_14x14</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="..\..\Assets\Levels\fgame\enemies_16x16.png">
       <Link>fgame\enemies_16x16.png</Link>
       <Name>enemies_16x16</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_18x18.png">
-      <Link>fgame\enemies_18x18.png</Link>
-      <Name>enemies_18x18</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_46x34.png">
-      <Link>fgame\enemies_46x34.png</Link>
-      <Name>enemies_46x34</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\pacman_104x104.png">
-      <Link>fgame\pacman_104x104.png</Link>
-      <Name>pacman_104x104</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\pacman_130x130.png">
-      <Link>fgame\pacman_130x130.png</Link>
-      <Name>pacman_130x130</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\Levels\fgame\pacman_13x13.png">
-      <Link>fgame\pacman_13x13.png</Link>
-      <Name>pacman_13x13</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -209,6 +143,60 @@
       <Name>enemies_32x32</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\fgame\king_48x48.png">
+      <Link>fgame\king_48x48.png</Link>
+      <Name>king_48x48</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\fgame\biggo_130x130.png">
+      <Link>fgame\biggo_130x130.png</Link>
+      <Name>biggo_130x130</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\music\8-bit.mp3">
+      <Link>music\8-bit.mp3</Link>
+      <Name>8-bit</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\ChaoticFilth.mp3">
+      <Link>music\ChaoticFilth.mp3</Link>
+      <Name>ChaoticFilth</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\ChaoticStandoff.mp3">
+      <Link>music\ChaoticStandoff.mp3</Link>
+      <Name>ChaoticStandoff</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\ElevatorMusic.mp3">
+      <Link>music\ElevatorMusic.mp3</Link>
+      <Name>ElevatorMusic</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\GasolineRainbows.mp3">
+      <Link>music\GasolineRainbows.mp3</Link>
+      <Name>GasolineRainbows</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\KingBoss.mp3">
+      <Link>music\KingBoss.mp3</Link>
+      <Name>KingBoss</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

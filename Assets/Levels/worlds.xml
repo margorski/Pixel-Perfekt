@@ -86,7 +86,7 @@
 	  <level name="pm10" />
 	  <level name="pm7" />
 	  <level name="pm3" />        
-	  <level name="pm4" /><!--
+	  <level name="pm4" />
 	  <level name="bb1" />
 	  <level name="bb2" />
 	  <level name="bb3" />
@@ -106,6 +106,6 @@
 	  <level name="dk6" />
 	  <level name="dk7" />
 	  <level name="dk8" />
-	  <level name="dk9" />-->
+	  <level name="dk9" />
   </world>
 </worlds>
