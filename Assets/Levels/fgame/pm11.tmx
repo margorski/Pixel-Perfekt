@@ -8,7 +8,7 @@
   <property name="enemycolor" value="59"/>
   <property name="hudcolor" value="23"/>
   <property name="moving" value="1"/>
-  <property name="name" value="time matters"/>
+  <property name="name" value="run you fools"/>
   <property name="tilecolor" value="55"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">

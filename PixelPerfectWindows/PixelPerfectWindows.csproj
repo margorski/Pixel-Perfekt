@@ -444,6 +444,26 @@
       <Link>Content\music\KingBoss.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Assets\Levels\fgame\beg4.tmx">
+      <Link>Levels\fgame\beg4.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\beg5.tmx">
+      <Link>Levels\fgame\beg5.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\beg6.tmx">
+      <Link>Levels\fgame\beg6.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\beg7.tmx">
+      <Link>Levels\fgame\beg7.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\beg8.tmx">
+      <Link>Levels\fgame\beg8.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
