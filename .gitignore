@@ -156,3 +156,9 @@ FakesAssemblies/
 *.plg
 # Visual Studio 6 workspace options file
 *.opt
+# media
+*.wav
+*.mp3
+*.mp4
+*.avi
+*.mid

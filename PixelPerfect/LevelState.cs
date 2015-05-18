@@ -92,7 +92,6 @@ namespace PixelPerfect
             ReloadGradientTexture();
         }
 
-
         private void SwapGradientColors()
         {
             var temp = levelColors.color1;
@@ -216,12 +215,13 @@ namespace PixelPerfect
             jumpSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Jump4").CreateInstance();
             explosionSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Explosion9").CreateInstance();
             randomizeSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Randomize3").CreateInstance();
-            Globals.hitSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance();            
+            Globals.hitSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance();
+            coinSoundInstance.Volume = jumpSoundInstance.Volume = explosionSoundInstance.Volume = randomizeSoundInstance.Volume = Globals.hitSoundInstance.Volume = 0.15f;
             InitLevel();     
             ResetInput();
             MediaPlayer.IsRepeating = true;
             if (Globals.playSounds)
-                MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
+                MediaPlayer.Play(Globals.backgroundMusicCollection, map.music);
         }
 
         public override void Exit(int nextStateId)
@@ -229,12 +229,13 @@ namespace PixelPerfect
             Globals.CurrentLevelState = null;
             Globals.upsideDown = false;
             Globals.backgroundColor = Color.Black;
-            MediaPlayer.Stop();
+            MediaPlayer.Pause();
         }
 
         public override void Resume(int poppedStateId)
         {
             ResetInput();
+            MediaPlayer.Resume();
         }
 
         public override void Suspend(int pushedStateId)
@@ -468,7 +469,14 @@ namespace PixelPerfect
             if (currentKeyboardState.IsKeyDown(Keys.D3) && previousKeyboardState.IsKeyUp(Keys.D3))
                 EmiterasEnemies(); 
             // colors printing
-            colors = currentKeyboardState.IsKeyDown(Keys.Tab);                
+            colors = currentKeyboardState.IsKeyDown(Keys.Tab);     
+           // music changing
+            if (currentKeyboardState.IsKeyDown(Keys.N) && previousKeyboardState.IsKeyUp(Keys.N))
+                MediaPlayer.MovePrevious();
+            if (currentKeyboardState.IsKeyDown(Keys.M) && previousKeyboardState.IsKeyUp(Keys.M))
+            {
+                MediaPlayer.MoveNext();
+            }
             // END DEBUGG
 
             if ((currentKeyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape)))

@@ -36,7 +36,9 @@ namespace PixelPerfect
         public byte collectiblesCount { private set;  get; }
         public string levelName { private set; get; }
         public Color color { private set; get; }
-        
+
+        public int music = 4;
+
         // Methods
         public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false, bool emit = true)
         {            

@@ -156,12 +156,22 @@ namespace PixelPerfect
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
 
             // music
-            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\8-bit"));
-            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\ChaoticFilth"));
-            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\ChaoticStandoff"));
-            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\ElevatorMusic"));
-            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\GasolineRainbows"));
-            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\KingBoss"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\cheesy bassoon (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\xylophone (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Elevator Music (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\8-bit loop (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Gasoline Rainbows (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Chippy Cloud Kid (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\ChipChippy (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Sad Song 1"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Dramatic Metal Entrance (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Chaotic Filth (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Chaotic Standoff (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Ring Leader (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Rising Sun (oriental with dance beats)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Vanguard Bouncy (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\wubby dancer (loop)"));
+            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\King Boss (loop)"));
         }
 
         protected override void UnloadContent()
