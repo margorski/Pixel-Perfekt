@@ -21,8 +21,7 @@ namespace PixelPerfect
         public static bool upsideDown = false;
         public static Texture2D pixelTexture = null;
         public static Color backgroundColor = Color.Black;
-        public static double SpeedModificator = 1.4;
-        public static bool playSounds = false;
+        public static double SpeedModificator = 1.4;        
         public static GameStateMachine.GameStateManager gameStateManager;
         public static SpriteFont silkscreenFont;
         public static List<Color> colorList = Util.GetColorList();
@@ -34,5 +33,7 @@ namespace PixelPerfect
         public static Dictionary<string, Sprite> spritesDictionary = new Dictionary<string, Sprite>();
         public static Dictionary<string, SoundEffectInstance> soundsDictionary = new Dictionary<string, SoundEffectInstance>();
         public static Tileset tileset;
+        public static bool musicEnabled = true;
+        public static bool soundEnabled = true;
     }
 }

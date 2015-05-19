@@ -53,11 +53,6 @@ namespace PixelPerfect
         public TimeSpan levelTime { private set; get; }
 
         //Button resetButton;
-
-        SoundEffectInstance coinSoundInstance;
-        SoundEffectInstance jumpSoundInstance;
-        SoundEffectInstance explosionSoundInstance;
-        SoundEffectInstance randomizeSoundInstance;
         
         private Texture2D backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
 
@@ -106,7 +101,7 @@ namespace PixelPerfect
         private void ReloadMusic()
         {
             //MediaPlayer.Stop();
-            if (Globals.playSounds)
+            if (Globals.musicEnabled)
                 MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
         }
 
@@ -229,14 +224,10 @@ namespace PixelPerfect
 
         public override void Enter(int previousStateId)
         {
-            coinSoundInstance = Globals.soundsDictionary["coin"];
-            jumpSoundInstance = Globals.soundsDictionary["jump"];
-            explosionSoundInstance = Globals.soundsDictionary["explosion"];
-            randomizeSoundInstance = Globals.soundsDictionary["randomize"];
             InitLevel();     
             ResetInput();
             MediaPlayer.IsRepeating = true;
-            if (Globals.playSounds)
+            if (Globals.musicEnabled)
                 MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
         }
 
@@ -245,6 +236,8 @@ namespace PixelPerfect
             Globals.CurrentLevelState = null;
             Globals.upsideDown = false;
             Globals.backgroundColor = Color.Black;
+            foreach (KeyValuePair<string, SoundEffectInstance> sfinstance in Globals.soundsDictionary)
+                sfinstance.Value.Stop();
             MediaPlayer.Pause();
         }
 
@@ -323,8 +316,8 @@ namespace PixelPerfect
                     player.HitTheGround(tempRectangle);
                     if (springy)
                     {
-                        if (player.Jump(true) && Globals.playSounds)
-                            jumpSoundInstance.Play();                        
+                        if (player.Jump(true) && Globals.soundEnabled)
+                            Globals.soundsDictionary["jump"].Play();                        
                     }
                 }
                 else
@@ -357,8 +350,8 @@ namespace PixelPerfect
                 if (map.GrabCollectibles(player, graphics))
                 {
                     hud.Collect();
-                    if (Globals.playSounds)
-                        coinSoundInstance.Play();
+                    if (Globals.soundEnabled)
+                        Globals.soundsDictionary["coin"].Play();
                 }
 
                 if (map.KillThisBastard(player, graphics))
@@ -368,6 +361,7 @@ namespace PixelPerfect
 
                 if (map.EnteredDoors(player.boundingBox))
                 {
+                    Globals.soundsDictionary["doors"].Stop();
                     if (!Savestate.Instance.levelSaves[LevelId()].completed)
                     {
                         Savestate.Instance.levelSaves[LevelId()].completed = true;
@@ -429,8 +423,8 @@ namespace PixelPerfect
                         player.Stop(gameTime);
                     else if (rightScreenHalf.Contains(mousePosition))
                     {
-                        if (player.Jump() && Globals.playSounds)
-                            jumpSoundInstance.Play();
+                        if (player.Jump() && Globals.soundEnabled)
+                            Globals.soundsDictionary["jump"].Play();
                     }
                 }
             }
@@ -522,8 +516,8 @@ namespace PixelPerfect
 
                 if (currentKeyboardState.IsKeyDown(Keys.RightShift) && previousKeyboardState.IsKeyUp(Keys.RightShift)) // right shift
                 {
-                    if (player.Jump() && Globals.playSounds)
-                        jumpSoundInstance.Play();
+                    if (player.Jump() && Globals.soundEnabled)
+                        Globals.soundsDictionary["jump"].Play();
                 }
             }
             previousKeyboardState = currentKeyboardState;
@@ -562,8 +556,8 @@ namespace PixelPerfect
                                       (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y))
                         && tl.State == TouchLocationState.Pressed)
                     {
-                        if (player.Jump() && Globals.playSounds)
-                            jumpSoundInstance.Play();
+                        if (player.Jump() && Globals.soundEnabled)
+                            Globals.soundsDictionary["jump"].Play();
                     }
 
                     else if (new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2),
@@ -625,9 +619,7 @@ namespace PixelPerfect
                 Globals.upsideDown = true;
                         hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 
-            player = new Player(map.startPosition, Globals.spritesDictionary["player"].texture);
-            player.explosionSoundInstance = explosionSoundInstance;
-            player.randomizeSoundInstance = randomizeSoundInstance;            
+            player = new Player(map.startPosition, Globals.spritesDictionary["player"].texture);          
             if (map.moving)
                 player.SetMovingMapState(-28.0f);
 
@@ -645,6 +637,7 @@ namespace PixelPerfect
         {
             map.Reset();
             player.Reset();
+            Globals.soundsDictionary["doors"].Stop();
             if (map.moving)
                 player.SetMovingMapState(-28.0f);
             levelTime = TimeSpan.Zero;

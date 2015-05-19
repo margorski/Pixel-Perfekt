@@ -40,7 +40,8 @@ namespace PixelPerfect
 
         private Savestate() 
         {
-            levelSaves = new Dictionary<string, Levelsave>();            
+            levelSaves = new Dictionary<string, Levelsave>();
+            //soundsEnabled = musicEnabled = true;
         }
 
         public static void Reset()

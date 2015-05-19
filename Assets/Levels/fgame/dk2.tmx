@@ -4,7 +4,7 @@
   <property name="color" value="LightBlue"/>
   <property name="color1" value="9"/>
   <property name="color2" value="82"/>
-  <property name="emmitercolor" value="142"/>
+  <property name="emmitercolor" value="141"/>
   <property name="enemycolor" value="116"/>
   <property name="hudcolor" value="116"/>
   <property name="music" value="11"/>

@@ -42,14 +42,14 @@
 	  <level name="bb9" />
 	  <level name="bb10" />
 	  <level name="bb11" />
+	  <level name="dk8" />
 	  <level name="dk1" />
-	  <level name="dk2" />
 	  <level name="dk3" />
-	  <level name="dk4" />
+	  <level name="dk2" />
 	  <level name="dk5" />
+	  <level name="dk4" />
 	  <level name="dk6" />
 	  <level name="dk7" />
-	  <level name="dk8" />
 	  <level name="dk9" />
   </world>
 </worlds>

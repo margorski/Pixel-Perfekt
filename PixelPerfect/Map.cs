@@ -389,6 +389,7 @@ namespace PixelPerfect
 
         public void OpenDoor()
         {
+            Globals.soundsDictionary["doors"].Play();
             foreach (Tile tile in tileMap)
             {
                 if ((tile.attributes & Tile.Attributes.Doors) > 0)

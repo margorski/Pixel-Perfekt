@@ -315,7 +315,9 @@ namespace PixelPerfect
         }
 
         public void PixelExplosion()
-        {            
+        {
+            if (Globals.soundEnabled)
+                Globals.soundsDictionary["explosion"].Play();
             Color[] textureColors = GetCurrentFrameArray();         
 
             for (int i = 0; i < textureColors.Length; i++)

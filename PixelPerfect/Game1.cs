@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
+using System.IO.IsolatedStorage;
 using GameStateMachine;
 
 namespace PixelPerfect
@@ -91,13 +92,30 @@ namespace PixelPerfect
             // TODO: Add your initialization logic here
             base.Initialize();
             Savestate.Init();
+
+#if !WINDOWS
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("music"))
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("music", true);
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+            Globals.musicEnabled = (bool)IsolatedStorageSettings.ApplicationSettings["music"];
+
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("sound"))
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("sound", true);
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+            Globals.soundEnabled = (bool)IsolatedStorageSettings.ApplicationSettings["sound"];
+#endif
+
             gameStateManager = new GameStateManager();
             Globals.gameStateManager = gameStateManager;
             var menuState = new MenuState(graphics, Content, gameStateManager);            
             var pauseState = new PauseState(Content, gameStateManager); 
             menuState.scale = pauseState.scale = scale;
 
-            
+
             //var cstate = new Cutscene.CutsceneState();
             //Cutscene.Scene scene = new Cutscene.Scene();            
             //scene.duration = (new TimeSpan(0, 0, 28)).ToString();
@@ -156,7 +174,7 @@ namespace PixelPerfect
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
 
             //sprites
-            Globals.spritesDictionary.Add("biggo_128x128", new Sprite("biggo_128x128", 128, 128, 2));
+            Globals.spritesDictionary.Add("biggo_128x128", new Sprite("biggo_128x128", 128, 128, 1));
             Globals.spritesDictionary.Add("enemies_16x16", new Sprite("enemies_16x16", 16, 16));
             Globals.spritesDictionary.Add("enemies_32x32", new Sprite("enemies_32x32", 32, 32));
             Globals.spritesDictionary.Add("enemies_8x8", new Sprite("enemies_8x8", 8, 8));
@@ -164,15 +182,20 @@ namespace PixelPerfect
             Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16));
             Globals.tileset = new Tileset("tileset");
             
-            //sounds
-            Globals.soundsDictionary.Add("coin", Content.Load<SoundEffect>("Sounds\\" + "Pickup_Coin8").CreateInstance());
-            Globals.soundsDictionary.Add("jump", Content.Load<SoundEffect>("Sounds\\" + "Jump4").CreateInstance());
-            Globals.soundsDictionary.Add("explosion", Content.Load<SoundEffect>("Sounds\\" + "Explosion9").CreateInstance());
-            Globals.soundsDictionary.Add("randomize", Content.Load<SoundEffect>("Sounds\\" + "Randomize3").CreateInstance());
-            Globals.soundsDictionary.Add("hit", Content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance());
+            ////sounds
+            Globals.soundsDictionary.Add("coin", Content.Load<SoundEffect>(@"Sounds\Pickup_Coin8").CreateInstance());
+            Globals.soundsDictionary.Add("jump", Content.Load<SoundEffect>(@"Sounds\Jump4").CreateInstance());
+            Globals.soundsDictionary.Add("explosion", Content.Load<SoundEffect>(@"Sounds\Explosion9").CreateInstance());
+            Globals.soundsDictionary.Add("randomize", Content.Load<SoundEffect>(@"Sounds\Randomize3").CreateInstance());
+            Globals.soundsDictionary.Add("hit", Content.Load<SoundEffect>(@"Sounds\Hit_Hurt2").CreateInstance());
+            Globals.soundsDictionary.Add("doors", Content.Load<SoundEffect>(@"Sounds\Randomize2").CreateInstance());
+            Globals.soundsDictionary["doors"].IsLooped = true;            
             foreach (KeyValuePair<string, SoundEffectInstance> sfeffect in Globals.soundsDictionary)
-                sfeffect.Value.Volume = 0.12f;
-
+                sfeffect.Value.Volume = 0.15f;
+            Globals.soundsDictionary["hit"].Volume = 0.2f;
+            Globals.soundsDictionary["coin"].Volume = 0.12f;
+            Globals.soundsDictionary["doors"].Volume = 0.2f;
+            Globals.soundsDictionary["doors"].Pitch = 0.5f;
             // music
             //Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\cheesy bassoon (loop)"));
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\xylophone (loop)"));

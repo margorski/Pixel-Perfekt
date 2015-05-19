@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.IO.IsolatedStorage;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -52,7 +53,7 @@ namespace PixelPerfect
         Button skipButton;
         Button playButton;
         Button backButton;
-        Button sendButton;
+        Button musicButton;
         Button resetButton;
         Button soundButton; // temp
         Button prevButton;
@@ -72,11 +73,12 @@ namespace PixelPerfect
             playButton = new Button("PLAY", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
             backButton = new Button("BACK", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
 
-            sendButton = new Button("SEND", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
-            resetButton = new Button("RESET", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
             soundButton = new Button("SOUND", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, true);
-            soundButton.value = Globals.playSounds;
-            
+            soundButton.value = Globals.soundEnabled;
+            musicButton = new Button("MUSIC", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, true);
+            musicButton.value = Globals.musicEnabled;
+            resetButton = new Button("RESET",  new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
+
             prevButton = new Button("PREV", new Rectangle(10, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
             nextButton = new Button("NEXT", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
         }
@@ -98,10 +100,9 @@ namespace PixelPerfect
 
             World.RefreshWorldStatus(worlds);
 
-            int levelId = Config.States.LEVEL;
             int textstateId = Config.States.TEXT;
-            
-            while (gameStateManager.UnregisterState(levelId++)) ;
+
+            while (gameStateManager.UnregisterState(Config.States.LEVEL)) ;
             while (gameStateManager.UnregisterState(textstateId++)) ;
 
             
@@ -209,13 +210,10 @@ namespace PixelPerfect
 
         private void StartLevel()
         {
-            for (int i = 0; i < worlds[selectedWorld].levels.Count; i++) // initialize levelstates
-            {
-                var levelState = new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(i));
-                levelState.scale = scale;
-                gameStateManager.RegisterState(Config.States.LEVEL + i, levelState);
-            }
-            gameStateManager.ChangeState(Config.States.LEVEL + selectedLevel);
+            var levelState = new LevelState(graphics, content, worlds[selectedWorld].directory, worlds[selectedWorld].GetLevelFile(selectedLevel));
+            levelState.scale = scale;
+            gameStateManager.RegisterState(Config.States.LEVEL, levelState);
+            gameStateManager.ChangeState(Config.States.LEVEL);
         }
 
         private void StartPacmanLevel()
@@ -273,9 +271,11 @@ namespace PixelPerfect
             {
                 if (touch.State == TouchLocationState.Pressed)
                 {
-                    if (sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    if (musicButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
                     {
-                        SendDataEmail();
+                        Globals.musicEnabled = musicButton.value;
+                        IsolatedStorageSettings.ApplicationSettings["music"] = Globals.musicEnabled;
+                        IsolatedStorageSettings.ApplicationSettings.Save();
                         break;
                     }
                     else if (resetButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
@@ -285,7 +285,9 @@ namespace PixelPerfect
                     }
                     else if (soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
                     {
-                        Globals.playSounds = soundButton.value;
+                        Globals.soundEnabled = soundButton.value;
+                        IsolatedStorageSettings.ApplicationSettings["sound"] = Globals.soundEnabled;
+                        IsolatedStorageSettings.ApplicationSettings.Save();
                         break;
                     }
                     else 
@@ -306,13 +308,13 @@ namespace PixelPerfect
 #else
             if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
             {
-                if (sendButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                if (musicButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
                 {
-                    SendDataEmail();
+                    Globals.musicEnabled = musicButton.value;
                 }
                 else if (soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
                 {
-                    Globals.playSounds = soundButton.value;
+                    Globals.soundEnabled = soundButton.value;
                 }
                 else
                 {
@@ -528,7 +530,7 @@ namespace PixelPerfect
                 var textOffset = Globals.silkscreenFont.MeasureString(worlds[i].name) / 2;
                 spriteBatch.DrawString(Globals.silkscreenFont, worlds[i].name, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
             }
-            sendButton.Draw(spriteBatch);
+            musicButton.Draw(spriteBatch);
             resetButton.Draw(spriteBatch);
             soundButton.Draw(spriteBatch);
         }

@@ -59,9 +59,6 @@ namespace PixelPerfect
         private TimeSpan tryJumpTime = TimeSpan.Zero;
         private TimeSpan stopTimeForReverse = TimeSpan.Zero;
 
-        public SoundEffectInstance explosionSoundInstance;
-        public SoundEffectInstance randomizeSoundInstance;
-
         private Color[] textureArray;
 
         private readonly Vector2 startPosition;
@@ -294,10 +291,15 @@ namespace PixelPerfect
             SetVerticalPositionOnTile(tileBox);
             SetState(State.falling, true);
             SetSpeedY(10.0f);
+            if (Globals.soundEnabled)
+                Globals.soundsDictionary["hit"].Play();
         }
 
         public void HitTheGround(Rectangle tileBox)
         {
+            if (Globals.soundEnabled && (GetState(State.falling) || GetState(State.jumping)))
+                Globals.soundsDictionary["hit"].Play();
+
             if (GetState(State.falling))
             {
                 float fallDistance = boundingBox.Y - jumpY;
@@ -331,8 +333,8 @@ namespace PixelPerfect
         public void Die()
         {
             SetState(Player.State.dying, true);
-            if (Globals.playSounds)
-                randomizeSoundInstance.Play();
+            if (Globals.soundEnabled)
+                Globals.soundsDictionary["randomize"].Play();
             
             Globals.CurrentLevelState.deathCount++;
 
@@ -348,7 +350,11 @@ namespace PixelPerfect
         {
             SetHorizontalPositionOnTile(tileBox);
             if (!GetState(Player.State.jumping))
+            {
                 Reverse();
+                if (Globals.soundEnabled)
+                    Globals.soundsDictionary["hit"].Play();
+            }
         }
 
         public void PixelExplosion()
@@ -369,8 +375,8 @@ namespace PixelPerfect
                                     pixSpeed, acc, boomColors[Globals.rnd.Next(boomColors.Length)], true, Globals.CurrentMap));
                 }
             }
-            if (Globals.playSounds)
-                explosionSoundInstance.Play();
+            if (Globals.soundEnabled)
+                Globals.soundsDictionary["explosion"].Play();
         }
 
 
