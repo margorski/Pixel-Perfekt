@@ -3,9 +3,10 @@
  <properties>
   <property name="color1" value="51"/>
   <property name="color2" value="51"/>
-  <property name="emmitercolor" value="114"/>
+  <property name="emmitercolor" value="115"/>
   <property name="enemycolor" value="84"/>
   <property name="hudcolor" value="23"/>
+  <property name="music" value="8"/>
   <property name="name" value="Meet new friends"/>
   <property name="tilecolor" value="27"/>
  </properties>

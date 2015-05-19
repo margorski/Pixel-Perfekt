@@ -6,7 +6,6 @@ using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -90,6 +89,25 @@ namespace PixelPerfect
             if (--levelColors.color2 < 0)
                 levelColors.color2 = Globals.colorList.Count - 1;
             ReloadGradientTexture();
+        }
+        private void NextMusic()
+        {
+            if (++map.music > Globals.backgroundMusicList.Count - 1)
+                map.music = 0;
+            ReloadMusic();
+        }
+        private void PreviousMusic()
+        {
+            if (--map.music < 0)
+                map.music = Globals.backgroundMusicList.Count - 1;
+            ReloadMusic();
+        }
+
+        private void ReloadMusic()
+        {
+            //MediaPlayer.Stop();
+            if (Globals.playSounds)
+                MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
         }
 
         private void SwapGradientColors()
@@ -211,17 +229,15 @@ namespace PixelPerfect
 
         public override void Enter(int previousStateId)
         {
-            coinSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Pickup_Coin8").CreateInstance();
-            jumpSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Jump4").CreateInstance();
-            explosionSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Explosion9").CreateInstance();
-            randomizeSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Randomize3").CreateInstance();
-            Globals.hitSoundInstance = content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance();
-            coinSoundInstance.Volume = jumpSoundInstance.Volume = explosionSoundInstance.Volume = randomizeSoundInstance.Volume = Globals.hitSoundInstance.Volume = 0.15f;
+            coinSoundInstance = Globals.soundsDictionary["coin"];
+            jumpSoundInstance = Globals.soundsDictionary["jump"];
+            explosionSoundInstance = Globals.soundsDictionary["explosion"];
+            randomizeSoundInstance = Globals.soundsDictionary["randomize"];
             InitLevel();     
             ResetInput();
             MediaPlayer.IsRepeating = true;
             if (Globals.playSounds)
-                MediaPlayer.Play(Globals.backgroundMusicCollection, map.music);
+                MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
         }
 
         public override void Exit(int nextStateId)
@@ -472,11 +488,9 @@ namespace PixelPerfect
             colors = currentKeyboardState.IsKeyDown(Keys.Tab);     
            // music changing
             if (currentKeyboardState.IsKeyDown(Keys.N) && previousKeyboardState.IsKeyUp(Keys.N))
-                MediaPlayer.MovePrevious();
+                PreviousMusic();
             if (currentKeyboardState.IsKeyDown(Keys.M) && previousKeyboardState.IsKeyUp(Keys.M))
-            {
-                MediaPlayer.MoveNext();
-            }
+                NextMusic();
             // END DEBUGG
 
             if ((currentKeyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape)))
@@ -588,7 +602,7 @@ namespace PixelPerfect
 
             if (colors)
             {
-                spriteBatch.DrawString(Globals.silkscreenFont, "c1: " + levelColors.color1 + " c2: " +  levelColors.color2 + " h: " +  levelColors.hudcolor + " en: " +  levelColors.enemycolor + " em: " +  levelColors.emmitercolor + " t: " +  levelColors.tilecolor, new Vector2(10,150), Color.White);
+                spriteBatch.DrawString(Globals.silkscreenFont, "c1: " + levelColors.color1 + " c2: " +  levelColors.color2 + " h: " +  levelColors.hudcolor + " en: " +  levelColors.enemycolor + " em: " +  levelColors.emmitercolor + " t: " +  levelColors.tilecolor + "MUS: " + map.music, new Vector2(10,150), Color.White);
             }
             //resetButton.Draw(spriteBatch);
         }
@@ -611,7 +625,7 @@ namespace PixelPerfect
                 Globals.upsideDown = true;
                         hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 
-            player = new Player(map.startPosition, content.Load<Texture2D>(directory + "\\" + "player"), graphics);
+            player = new Player(map.startPosition, Globals.spritesDictionary["player"].texture);
             player.explosionSoundInstance = explosionSoundInstance;
             player.randomizeSoundInstance = randomizeSoundInstance;            
             if (map.moving)

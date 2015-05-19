@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -117,31 +116,28 @@ namespace PixelPerfect
                 color = colors[type - 1];
             */
 
-            int typex = ((type - 1) % 20) + 1;
-            int typey = ((type - 1) / 20);
 
-            type = NormalizeType(type);
-                 
-            Rectangle sourceRectangle = new Rectangle(((int)typex - 1) * Config.Tile.SIZE, (int)typey * Config.Tile.SIZE, Config.Tile.SIZE, Config.Tile.SIZE);
+            int ntype = NormalizeType(type);
+
 
             if (background)
-                return new Tile(position, tileTexture, attributes, sourceRectangle, transpColor);
-            else if (type == (int)Config.TileType.CRUSHY)
-                return new CrushyTile(position, tileTexture, attributes, sourceRectangle, color);
-            else if (type == (int)Config.TileType.KEY)
-                return new CollectibleTile(position, tileTexture, pixelTexture, attributes, sourceRectangle, color, emit);
-            else if (type == (int)Config.TileType.MOVING_LEFT)
-                return new MovingTile(position, tileTexture, attributes, sourceRectangle, color, -Config.Tile.MOVINGPLATFORM_SPEED);
-            else if (type == (int)Config.TileType.MOVING_RIGHT)
-                return new MovingTile(position, tileTexture, attributes, sourceRectangle, color, Config.Tile.MOVINGPLATFORM_SPEED);
-            else if (type == (int)Config.TileType.BLINKING_PLATFORM || type == (int)Config.TileType.BLINKING_SOLID)
-                return new BlinkingTile(position, tileTexture, attributes, sourceRectangle, color);
-            else if (type == (int)Config.TileType.SPRING)
-                return new SpringTile(position, tileTexture, attributes, sourceRectangle, color);
+                return new Tile(position, tileTexture, attributes, type, transpColor);
+            else if (ntype == (int)Config.TileType.CRUSHY)
+                return new CrushyTile(position, tileTexture, attributes, type, color);
+            else if (ntype == (int)Config.TileType.KEY)
+                return new CollectibleTile(position, tileTexture, pixelTexture, attributes, type, color, emit);
+            else if (ntype == (int)Config.TileType.MOVING_LEFT)
+                return new MovingTile(position, tileTexture, attributes, type, color, -Config.Tile.MOVINGPLATFORM_SPEED);
+            else if (ntype == (int)Config.TileType.MOVING_RIGHT)
+                return new MovingTile(position, tileTexture, attributes, type, color, Config.Tile.MOVINGPLATFORM_SPEED);
+            else if (ntype == (int)Config.TileType.BLINKING_PLATFORM || type == (int)Config.TileType.BLINKING_SOLID)
+                return new BlinkingTile(position, tileTexture, attributes, type, color);
+            else if (ntype == (int)Config.TileType.SPRING)
+                return new SpringTile(position, tileTexture, attributes, type, color);
             else if ((attributes & (UInt32)Tile.Attributes.Doors) > 0)
-                return new DiscoTile(position, tileTexture, attributes, sourceRectangle, color);
+                return new DiscoTile(position, tileTexture, attributes, type, color);
             else
-                return new Tile(position, tileTexture, attributes, sourceRectangle, color);
+                return new Tile(position, tileTexture, attributes, type, color);
         }
     }
 }

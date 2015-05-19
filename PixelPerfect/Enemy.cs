@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -75,10 +74,10 @@ namespace PixelPerfect
             }
         }
 
-        public Enemy(Texture2D texture, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, int animationDelay, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0, bool teleport = false, bool animationreverse = true, int frames = 4)
+        public Enemy(string textureName, Vector2 speed, Vector2 textureSize, int textureColumn, Vector2 startPosition, int animationDelay, bool reverse = true, bool blink = false, bool guardian = false, int offset = 0, int waitTime = 0, bool teleport = false, bool animationreverse = true, int frames = 4)
         {
             this.startPosition = startPosition;
-            this.texture = texture;
+            this.texture = Globals.spritesDictionary[textureName].texture;
             this.speed = speed;
             this.textureSize = textureSize;
             this.textureColumn = textureColumn;            
@@ -91,7 +90,7 @@ namespace PixelPerfect
             this.waitTime = waitTime;
             this.teleport = teleport;
 
-            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle((int)(textureColumn * textureSize.X), 0, (int)textureSize.X, (int)(Config.ANIM_FRAMES * textureSize.Y))), (int)textureSize.X, (int)(Config.ANIM_FRAMES * textureSize.Y));
+            textureArray = Globals.spritesDictionary[textureName].textureArray[textureColumn];//Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle((int)(textureColumn * textureSize.X), 0, (int)textureSize.X, (int)(Config.ANIM_FRAMES * textureSize.Y))), (int)textureSize.X, (int)(Config.ANIM_FRAMES * textureSize.Y));
 
             if (teleport)
                 reverse = false;

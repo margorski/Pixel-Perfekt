@@ -6,8 +6,9 @@
   <property name="emmitercolor" value="78"/>
   <property name="enemycolor" value="44"/>
   <property name="hudcolor" value="13"/>
+  <property name="music" value="10"/>
   <property name="name" value="HOT-HEADED"/>
-  <property name="tilecolor" value="140"/>
+  <property name="tilecolor" value="141"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>

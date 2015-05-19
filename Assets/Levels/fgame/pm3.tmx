@@ -4,8 +4,9 @@
   <property name="color1" value="53"/>
   <property name="color2" value="50"/>
   <property name="emmitercolor" value="82"/>
-  <property name="enemycolor" value="114"/>
+  <property name="enemycolor" value="115"/>
   <property name="hudcolor" value="29"/>
+  <property name="music" value="12"/>
   <property name="name" value="chaos theory"/>
   <property name="tilecolor" value="84"/>
  </properties>

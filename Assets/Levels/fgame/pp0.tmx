@@ -6,6 +6,7 @@
   <property name="emmitercolor" value="21"/>
   <property name="enemycolor" value="15"/>
   <property name="hudcolor" value="58"/>
+  <property name="music" value="4"/>
   <property name="name" value="industrial"/>
   <property name="tilecolor" value="12"/>
   <property name="upsidedown" value="0"/>

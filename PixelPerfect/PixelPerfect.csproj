@@ -25,7 +25,7 @@
     <ValidateXaml>true</ValidateXaml>
     <MinimumVisualStudioVersion>11.0</MinimumVisualStudioVersion>
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
-    <NuGetPackageImportStamp>121d8d25</NuGetPackageImportStamp>
+    <NuGetPackageImportStamp>e533132a</NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -98,6 +98,7 @@
     <Compile Include="Game1.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="MenuState.cs" />
+    <Compile Include="Sprite.cs" />
     <Compile Include="OnscreenStates.cs" />
     <Compile Include="PixelParticle.cs" />
     <Compile Include="Player.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="TextState.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileFactory.cs" />
+    <Compile Include="Tileset.cs" />
     <Compile Include="Trigger.cs" />
     <Compile Include="Util.cs" />
     <Compile Include="World.cs" />
@@ -147,10 +149,6 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Standoff %28loop%29.wma">
       <Link>Content\music\Chaotic Standoff %28loop%29.wma</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\cheesy bassoon %28loop%29.wma">
-      <Link>Content\music\cheesy bassoon %28loop%29.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\ChipChippy %28loop%29.wma">
@@ -233,15 +231,15 @@
     <Content Include="iconic_medium.png" />
     <Content Include="iconic_small.png" />
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\enemies_16x16.xnb">
-      <Link>Content\fgame\enemies_16x16.xnb</Link>
+      <Link>Content\enemies_16x16.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\player.xnb">
-      <Link>Content\fgame\player.xnb</Link>
+      <Link>Content\player.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\tileset.xnb">
-      <Link>Content\fgame\tileset.xnb</Link>
+      <Link>Content\tileset.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb1.tmx">
@@ -413,11 +411,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\enemies_8x8.xnb">
-      <Link>Content\fgame\enemies_8x8.xnb</Link>
+      <Link>Content\enemies_8x8.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\enemies_32x32.xnb">
-      <Link>Content\fgame\enemies_32x32.xnb</Link>
+      <Link>Content\enemies_32x32.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg1.tmx">
@@ -432,12 +430,8 @@
       <Link>Levels\fgame\beg3.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\fgame\biggo_130x130.xnb">
-      <Link>Content\fgame\biggo_130x130.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\king_48x48.xnb">
-      <Link>Content\fgame\king_48x48.xnb</Link>
+      <Link>Content\king_48x48.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg4.tmx">
@@ -470,10 +464,6 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Standoff %28loop%29.xnb">
       <Link>Content\music\Chaotic Standoff %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\cheesy bassoon %28loop%29.xnb">
-      <Link>Content\music\cheesy bassoon %28loop%29.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\ChipChippy %28loop%29.xnb">
@@ -524,7 +514,13 @@
       <Link>Content\music\xylophone %28loop%29.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="packages.config" />
+    <Content Include="..\Content\Content\bin\PSM\Content\fgame\biggo_128x128.xnb">
+      <Link>Content\biggo_128x128.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
@@ -560,12 +556,7 @@
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
-    <Reference Include="MonoGame.Framework" Condition=" '$(Platform)' == 'ARM' ">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsPhone\ARM\MonoGame.Framework.dll</HintPath>
-    </Reference>
-    <Reference Include="MonoGame.Framework" Condition=" '$(Platform)' == 'x86' ">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\WindowsPhone\x86\MonoGame.Framework.dll</HintPath>
-    </Reference>
+    <Reference Include="MonoGame.Framework, Version=3.4.0.456, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\windowsphone8\protobuf-net.dll</HintPath>
     </Reference>
@@ -596,5 +587,7 @@
       <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
     </PropertyGroup>
     <Error Condition="!Exists('..\packages\MonoGame.Binaries.3.2.0\build\wp8\MonoGame.Binaries.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Binaries.3.2.0\build\wp8\MonoGame.Binaries.targets'))" />
+    <Error Condition="!Exists('..\packages\MonoGame.Framework.WindowsPhone8.3.4.0.459\build\wp8\MonoGame.Framework.WindowsPhone8.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\MonoGame.Framework.WindowsPhone8.3.4.0.459\build\wp8\MonoGame.Framework.WindowsPhone8.targets'))" />
   </Target>
+  <Import Project="..\packages\MonoGame.Framework.WindowsPhone8.3.4.0.459\build\wp8\MonoGame.Framework.WindowsPhone8.targets" Condition="Exists('..\packages\MonoGame.Framework.WindowsPhone8.3.4.0.459\build\wp8\MonoGame.Framework.WindowsPhone8.targets')" />
 </Project>

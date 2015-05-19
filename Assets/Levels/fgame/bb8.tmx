@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="41">
  <properties>
-  <property name="color1" value="129"/>
-  <property name="color2" value="119"/>
-  <property name="emmitercolor" value="111"/>
+  <property name="color1" value="130"/>
+  <property name="color2" value="120"/>
+  <property name="emmitercolor" value="112"/>
   <property name="enemycolor" value="60"/>
   <property name="hudcolor" value="37"/>
+  <property name="music" value="3"/>
   <property name="name" value="library"/>
-  <property name="tilecolor" value="132"/>
+  <property name="tilecolor" value="133"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>

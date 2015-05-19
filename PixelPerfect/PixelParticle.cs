@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -65,8 +64,7 @@ namespace PixelPerfect
             this.enviroAffect = enviroAffect;
             this.standingType = standingType;
 
-            if (Globals.hitSoundInstance != null)
-                hitSoundInstance = Globals.hitSoundInstance;
+            hitSoundInstance = Globals.soundsDictionary["hit"];
         }
 
         public bool Update(GameTime gameTime)

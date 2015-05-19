@@ -2,12 +2,13 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="30">
  <properties>
   <property name="color1" value="12"/>
-  <property name="color2" value="136"/>
+  <property name="color2" value="137"/>
   <property name="emmitercolor" value="2"/>
-  <property name="enemycolor" value="114"/>
-  <property name="hudcolor" value="121"/>
+  <property name="enemycolor" value="115"/>
+  <property name="hudcolor" value="122"/>
+  <property name="music" value="3"/>
   <property name="name" value="bouncy bouncers"/>
-  <property name="tilecolor" value="129"/>
+  <property name="tilecolor" value="130"/>
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>

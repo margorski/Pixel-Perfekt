@@ -2,9 +2,9 @@
 <worlds>
   <world name="FGame" icon="" directory="fgame">
     <level name="beg1" />
+    <level name="beg3" />
     <level name="beg5" />
     <level name="beg6" />    
-    <level name="beg3" />
     <level name="beg7" />
     <level name="beg8" />   
     <level name="beg2" />

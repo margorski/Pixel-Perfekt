@@ -6,6 +6,7 @@
   <property name="emmitercolor" value="80"/>
   <property name="enemycolor" value="60"/>
   <property name="hudcolor" value="82"/>
+  <property name="music" value="11"/>
   <property name="name" value="TWO.. three BROTHERS"/>
   <property name="tilecolor" value="50"/>
  </properties>

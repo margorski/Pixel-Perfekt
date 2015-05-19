@@ -2,10 +2,11 @@
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="12">
  <properties>
   <property name="color1" value="19"/>
-  <property name="color2" value="20"/>
+  <property name="color2" value="133"/>
   <property name="emmitercolor" value="78"/>
   <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="19"/>
+  <property name="hudcolor" value="0"/>
+  <property name="music" value="1"/>
   <property name="name" value="i'm like a bird"/>
   <property name="tilecolor" value="66"/>
   <property name="upsidedown" value="0"/>

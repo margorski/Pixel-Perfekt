@@ -4,11 +4,12 @@
   <property name="color" value="LightBlue"/>
   <property name="color1" value="9"/>
   <property name="color2" value="82"/>
-  <property name="emmitercolor" value="141"/>
-  <property name="enemycolor" value="115"/>
-  <property name="hudcolor" value="115"/>
+  <property name="emmitercolor" value="142"/>
+  <property name="enemycolor" value="116"/>
+  <property name="hudcolor" value="116"/>
+  <property name="music" value="11"/>
   <property name="name" value="hell's atrium"/>
-  <property name="tilecolor" value="107"/>
+  <property name="tilecolor" value="108"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>

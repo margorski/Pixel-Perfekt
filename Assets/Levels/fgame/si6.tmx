@@ -6,8 +6,9 @@
   <property name="emmitercolor" value="6"/>
   <property name="enemycolor" value="5"/>
   <property name="hudcolor" value="82"/>
+  <property name="music" value="3"/>
   <property name="name" value="more new friends"/>
-  <property name="tilecolor" value="136"/>
+  <property name="tilecolor" value="137"/>
   <property name="upsidedown" value="0"/>
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="8" tileheight="8">

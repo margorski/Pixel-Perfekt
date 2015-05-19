@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -24,7 +23,6 @@ namespace PixelPerfect
         public static Color backgroundColor = Color.Black;
         public static double SpeedModificator = 1.4;
         public static bool playSounds = false;
-        public static SoundEffectInstance hitSoundInstance;
         public static GameStateMachine.GameStateManager gameStateManager;
         public static SpriteFont silkscreenFont;
         public static List<Color> colorList = Util.GetColorList();
@@ -32,7 +30,9 @@ namespace PixelPerfect
         public static Color emitersColor = Color.White;
         public static Color tilesColor = Color.White;
         public static Random rnd = new Random();
-        public static SongCollection backgroundMusicCollection = new SongCollection();
-        //public static List<Song> backgroundMusicList = new List<Song>();
+        public static List<Song> backgroundMusicList = new List<Song>();
+        public static Dictionary<string, Sprite> spritesDictionary = new Dictionary<string, Sprite>();
+        public static Dictionary<string, SoundEffectInstance> soundsDictionary = new Dictionary<string, SoundEffectInstance>();
+        public static Tileset tileset;
     }
 }

@@ -110,12 +110,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Assets\Levels\fgame\enemies_16x16.png">
-      <Link>fgame\enemies_16x16.png</Link>
-      <Name>enemies_16x16</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
     <Compile Include="..\..\Assets\Levels\fgame\player.png">
       <Link>fgame\player.png</Link>
       <Name>player</Name>
@@ -154,14 +148,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Assets\Levels\fgame\biggo_130x130.png">
-      <Link>fgame\biggo_130x130.png</Link>
-      <Name>biggo_130x130</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\..\Assets\music\8-bit loop %28loop%29.mp3">
       <Link>music\8-bit loop %28loop%29.mp3</Link>
       <Name>8-bit loop %28loop%29</Name>
@@ -177,12 +163,6 @@
     <Compile Include="..\..\Assets\music\Chaotic Standoff %28loop%29.mp3">
       <Link>music\Chaotic Standoff %28loop%29.mp3</Link>
       <Name>Chaotic Standoff %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-    </Compile>
-    <Compile Include="..\..\Assets\music\cheesy bassoon %28loop%29.mp3">
-      <Link>music\cheesy bassoon %28loop%29.mp3</Link>
-      <Name>cheesy bassoon %28loop%29</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
     </Compile>
@@ -257,6 +237,20 @@
       <Name>xylophone %28loop%29</Name>
       <Importer>Mp3Importer</Importer>
       <Processor>SongProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\fgame\biggo_128x128.png">
+      <Link>fgame\biggo_128x128.png</Link>
+      <Name>biggo_128x128</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\fgame\enemies_16x16.png">
+      <Link>fgame\enemies_16x16.png</Link>
+      <Name>enemies_16x16</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

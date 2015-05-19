@@ -4,10 +4,11 @@
   <property name="color1" value="21"/>
   <property name="color2" value="25"/>
   <property name="emmitercolor" value="82"/>
-  <property name="enemycolor" value="140"/>
+  <property name="enemycolor" value="141"/>
   <property name="hudcolor" value="13"/>
+  <property name="music" value="11"/>
   <property name="name" value="frying pan"/>
-  <property name="tilecolor" value="124"/>
+  <property name="tilecolor" value="125"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>

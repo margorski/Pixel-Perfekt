@@ -3,11 +3,12 @@
  <properties>
   <property name="color1" value="58"/>
   <property name="color2" value="58"/>
-  <property name="emmitercolor" value="102"/>
+  <property name="emmitercolor" value="103"/>
   <property name="enemycolor" value="58"/>
   <property name="hudcolor" value="9"/>
+  <property name="music" value="9"/>
   <property name="name" value="turmoil here today"/>
-  <property name="tilecolor" value="129"/>
+  <property name="tilecolor" value="130"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>

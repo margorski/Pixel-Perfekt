@@ -5,9 +5,10 @@
   <property name="color2" value="50"/>
   <property name="emmitercolor" value="80"/>
   <property name="enemycolor" value="56"/>
-  <property name="hudcolor" value="117"/>
+  <property name="hudcolor" value="118"/>
+  <property name="music" value="3"/>
   <property name="name" value="mirror, mirror"/>
-  <property name="tilecolor" value="117"/>
+  <property name="tilecolor" value="118"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">
   <image source="tileset.png" width="160" height="200"/>

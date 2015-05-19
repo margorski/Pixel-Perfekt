@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -74,12 +73,11 @@ namespace PixelPerfect
                 return new Rectangle(0, animation.GetCurrentFrame() * Config.Player.HEIGHT, Config.Player.WIDTH, Config.Player.HEIGHT);
             }
         }
-        private GraphicsDeviceManager graphics;
 
         private int boomColorIndex = 0;
         private TimeSpan boomColorTime = TimeSpan.Zero;
 
-        public Player(Vector2 position, Texture2D texture, GraphicsDeviceManager graphics)
+        public Player(Vector2 position, Texture2D texture)
         {
             this.startPosition = position;
             speed = baseSpeed = new Vector2(Config.Player.MOVE_SPEED, 0.0f);
@@ -87,11 +85,10 @@ namespace PixelPerfect
             this.position = position;
             this.texture = texture;
             animation = new Animation(Config.ANIM_FRAMES, Config.Player.ANIMATION_DELAY, false);
-            this.graphics = graphics;
             state = 0x0;
             boomColorIndex = 0;
 
-            textureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(0, 0, Config.Player.WIDTH, Config.Player.HEIGHT * Config.ANIM_FRAMES)), Config.Player.WIDTH, Config.Player.HEIGHT * Config.ANIM_FRAMES);
+            textureArray = Globals.spritesDictionary["player"].textureArray[0];// Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(0, 0, Config.Player.WIDTH, Config.Player.HEIGHT * Config.ANIM_FRAMES)), Config.Player.WIDTH, Config.Player.HEIGHT * Config.ANIM_FRAMES);
         }
 
         public void Update(GameTime gameTime)

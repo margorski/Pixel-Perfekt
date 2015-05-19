@@ -6,8 +6,9 @@
   <property name="emmitercolor" value="19"/>
   <property name="enemycolor" value="36"/>
   <property name="hudcolor" value="13"/>
+  <property name="music" value="4"/>
   <property name="name" value="long way home"/>
-  <property name="tilecolor" value="138"/>
+  <property name="tilecolor" value="139"/>
   <property name="upsidedown" value="0"/>
  </properties>
  <tileset firstgid="1" name="tileset" tilewidth="8" tileheight="8">

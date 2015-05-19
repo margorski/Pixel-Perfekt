@@ -8,7 +8,6 @@ using System.Globalization;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -40,7 +39,7 @@ namespace PixelPerfect
         public int music = 4;
 
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false, bool emit = true)
+        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false, bool emit = true, int music = 0)
         {            
             this.enemiesList = enemiesList;
             this.emiterList = emiterList;
@@ -49,7 +48,8 @@ namespace PixelPerfect
             this.upsidedown = upsidedown;
             this.moving = moving;
             this.color = color;
-        
+            this.music = music;
+
             this.tileMap = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
             this.tileBackground = new Tile[Config.Map.HEIGHT * Config.Map.WIDTH];
             this.tileset = tileset;
@@ -418,6 +418,7 @@ namespace PixelPerfect
             LevelState.LevelColors levelColors = new LevelState.LevelColors();
             string layername = "";
             bool emit = true;
+            int music = 0;
 
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile)))
             {
@@ -484,6 +485,9 @@ namespace PixelPerfect
                                         case "emit":
                                             emit = (int.Parse(value) == 1 ? true : false);
                                             break;
+                                        case "music":
+                                            music = (int)float.Parse(value, CultureInfo.InvariantCulture);
+                                            break;
                                             
                                     }
                                 } while (xmlreader.ReadToNextSibling("property"));
@@ -493,15 +497,16 @@ namespace PixelPerfect
                             case "layer":
                                 xmlreader.MoveToAttribute("name");
                                 layername = xmlreader.Value;
-
+                                tileset = Globals.tileset.texture;
+                                /*
                                 xmlreader.ReadToFollowing("property");
                                 xmlreader.MoveToNextAttribute();
                                 if (xmlreader.Name == "name" && xmlreader.Value == "texture")
                                 {
                                     xmlreader.MoveToNextAttribute();
                                     if (xmlreader.Name == "value")
-                                        tileset = content.Load<Texture2D>(directory + "\\" + xmlreader.Value);
-                                }
+                                        tileset = content.Load<Texture2D>( + "\\" + xmlreader.Value);
+                                }*/
                                 xmlreader.ReadToFollowing("data");
                                 string[] dataStrings = xmlreader.ReadElementContentAsString().Split(',');
                                 for (int i = 0; i < Config.Map.WIDTH * Config.Map.HEIGHT; i++)
@@ -532,7 +537,7 @@ namespace PixelPerfect
                                 int delay = 0;
                                 int offset = 0;
                                 int frames = 4;
-                                Texture2D texture = null;
+                                string textureName = "";
 
                                 xmlreader.ReadToFollowing("properties");
 
@@ -586,7 +591,7 @@ namespace PixelPerfect
                                                 break;
 
                                             case "texture":
-                                                texture = content.Load<Texture2D>(directory + "\\" + value);
+                                                textureName = value;
                                                 break;
 
                                             case "delay":
@@ -772,7 +777,7 @@ namespace PixelPerfect
                                                                 if (localoffset <= 100 && localoffset >= 0)
                                                                     offset = localoffset;
 
-                                                                enemiesList.Add(new Enemy(texture,
+                                                                enemiesList.Add(new Enemy(textureName,
                                                                                 speedVector,
                                                                                 new Vector2(sizex, sizey),
                                                                                 triggerORtextureType,
@@ -837,7 +842,7 @@ namespace PixelPerfect
                                                                 if (localoffset != 0)
                                                                     emiterOffset = localoffset;
 
-                                                                emiterList.Add(new Emiter(texture,
+                                                                emiterList.Add(new Emiter(textureName,
                                                                                startPosition,
                                                                                distance, emiterSpeed, direction,
                                                                                new Rectangle(triggerORtextureType * sizex, 0, sizex, sizey),
@@ -861,7 +866,7 @@ namespace PixelPerfect
                 return null;
 
             Globals.CurrentLevelState.ReloadColors(levelColors);
-            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving, emit);
+            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving, emit, music);
         }
 
         public void Reset()

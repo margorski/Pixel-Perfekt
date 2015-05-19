@@ -6,7 +6,8 @@
   <property name="emmitercolor" value="78"/>
   <property name="enemycolor" value="82"/>
   <property name="hudcolor" value="37"/>
-  <property name="name" value="jump lessons"/>
+  <property name="music" value="2"/>
+  <property name="name" value="white men can jump"/>
   <property name="tilecolor" value="89"/>
   <property name="upsidedown" value="0"/>
  </properties>

@@ -4,7 +4,6 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -152,26 +151,45 @@ namespace PixelPerfect
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             specialBatch = new SpriteBatch(GraphicsDevice);
+            
             Globals.pixelTexture = Content.Load<Texture2D>("pixel");
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
 
+            //sprites
+            Globals.spritesDictionary.Add("biggo_128x128", new Sprite("biggo_128x128", 128, 128, 2));
+            Globals.spritesDictionary.Add("enemies_16x16", new Sprite("enemies_16x16", 16, 16));
+            Globals.spritesDictionary.Add("enemies_32x32", new Sprite("enemies_32x32", 32, 32));
+            Globals.spritesDictionary.Add("enemies_8x8", new Sprite("enemies_8x8", 8, 8));
+            Globals.spritesDictionary.Add("king_48x48", new Sprite("king_48x48", 48, 48, 14));
+            Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16));
+            Globals.tileset = new Tileset("tileset");
+            
+            //sounds
+            Globals.soundsDictionary.Add("coin", Content.Load<SoundEffect>("Sounds\\" + "Pickup_Coin8").CreateInstance());
+            Globals.soundsDictionary.Add("jump", Content.Load<SoundEffect>("Sounds\\" + "Jump4").CreateInstance());
+            Globals.soundsDictionary.Add("explosion", Content.Load<SoundEffect>("Sounds\\" + "Explosion9").CreateInstance());
+            Globals.soundsDictionary.Add("randomize", Content.Load<SoundEffect>("Sounds\\" + "Randomize3").CreateInstance());
+            Globals.soundsDictionary.Add("hit", Content.Load<SoundEffect>("Sounds\\" + "Hit_Hurt2").CreateInstance());
+            foreach (KeyValuePair<string, SoundEffectInstance> sfeffect in Globals.soundsDictionary)
+                sfeffect.Value.Volume = 0.12f;
+
             // music
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\cheesy bassoon (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\xylophone (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Elevator Music (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\8-bit loop (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Gasoline Rainbows (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Chippy Cloud Kid (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\ChipChippy (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Sad Song 1"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Dramatic Metal Entrance (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Chaotic Filth (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Chaotic Standoff (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Ring Leader (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Rising Sun (oriental with dance beats)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\Vanguard Bouncy (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\wubby dancer (loop)"));
-            Globals.backgroundMusicCollection.Add(Content.Load<Song>(@"music\King Boss (loop)"));
+            //Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\cheesy bassoon (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\xylophone (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Elevator Music (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\8-bit loop (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Gasoline Rainbows (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Chippy Cloud Kid (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\ChipChippy (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Sad Song 1"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Dramatic Metal Entrance (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Chaotic Filth (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Chaotic Standoff (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Ring Leader (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Rising Sun (oriental with dance beats)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Vanguard Bouncy (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\wubby dancer (loop)"));
+            Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\King Boss (loop)"));
         }
 
         protected override void UnloadContent()
@@ -228,13 +246,17 @@ namespace PixelPerfect
 
         protected override void OnDeactivated(object sender, EventArgs args)
         {
+#if !WINDOWS
             Savestate.Instance.Save();
+#endif
             base.OnDeactivated(sender, args);
         }
 
         protected override void OnExiting(object sender, EventArgs args)
         {
+#if !WINDOWS
             Savestate.Instance.Save();
+#endif
             base.OnExiting(sender, args);
         }
 

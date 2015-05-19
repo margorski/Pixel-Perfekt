@@ -110,6 +110,9 @@
     <Compile Include="..\PixelPerfect\Savestate.cs">
       <Link>Savestate.cs</Link>
     </Compile>
+    <Compile Include="..\PixelPerfect\Sprite.cs">
+      <Link>Sprite.cs</Link>
+    </Compile>
     <Compile Include="..\PixelPerfect\TextState.cs">
       <Link>TextState.cs</Link>
     </Compile>
@@ -118,6 +121,9 @@
     </Compile>
     <Compile Include="..\PixelPerfect\TileFactory.cs">
       <Link>TileFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Tileset.cs">
+      <Link>Tileset.cs</Link>
     </Compile>
     <Compile Include="..\PixelPerfect\Trigger.cs">
       <Link>Trigger.cs</Link>
@@ -132,8 +138,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="MonoGame.Framework">
-      <HintPath>$(MSBuildExtensionsPath)\..\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    <Reference Include="MonoGame.Framework, Version=3.4.0.456, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Windows\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\packages\MonoGame.Framework.WindowsGL.3.4.0.459\lib\net40\OpenTK.dll</HintPath>
     </Reference>
     <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\net40\protobuf-net.dll</HintPath>
@@ -157,10 +167,6 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Standoff %28loop%29.wma">
       <Link>Content\music\Chaotic Standoff %28loop%29.wma</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\cheesy bassoon %28loop%29.wma">
-      <Link>Content\music\cheesy bassoon %28loop%29.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\ChipChippy %28loop%29.wma">
@@ -253,15 +259,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\enemies_16x16.xnb">
-      <Link>Content\fgame\enemies_16x16.xnb</Link>
+      <Link>Content\enemies_16x16.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\player.xnb">
-      <Link>Content\fgame\player.xnb</Link>
+      <Link>Content\player.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\content\content\bin\psm\content\fgame\tileset.xnb">
-      <Link>Content\fgame\tileset.xnb</Link>
+      <Link>Content\tileset.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\assets\levels\fgame\bb1.tmx">
@@ -433,11 +439,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\enemies_8x8.xnb">
-      <Link>Content\fgame\enemies_8x8.xnb</Link>
+      <Link>Content\enemies_8x8.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\enemies_32x32.xnb">
-      <Link>Content\fgame\enemies_32x32.xnb</Link>
+      <Link>Content\enemies_32x32.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg1.tmx">
@@ -452,12 +458,8 @@
       <Link>Levels\fgame\beg3.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\fgame\biggo_130x130.xnb">
-      <Link>Content\fgame\biggo_130x130.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\king_48x48.xnb">
-      <Link>Content\fgame\king_48x48.xnb</Link>
+      <Link>Content\king_48x48.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg4.tmx">
@@ -490,10 +492,6 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Standoff %28loop%29.xnb">
       <Link>Content\music\Chaotic Standoff %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\cheesy bassoon %28loop%29.xnb">
-      <Link>Content\music\cheesy bassoon %28loop%29.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\ChipChippy %28loop%29.xnb">
@@ -542,6 +540,10 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\xylophone %28loop%29.xnb">
       <Link>Content\music\xylophone %28loop%29.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\fgame\biggo_128x128.xnb">
+      <Link>Content\biggo_128x128.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

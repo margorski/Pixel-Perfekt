@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -46,9 +45,9 @@ namespace PixelPerfect
         readonly int startOffset;
         Color[] partTextureArray;
 
-        public Emiter(Texture2D texture, Vector2 startPosition, uint distance, float speed, MovementDirection movementDirection, Rectangle textureRectangle, int emitsDelayMs, int delayOffsetMs, Color color, int animationSpeed, bool explode = false, int emitsDelayMsParts = 0, int partsNum = 1, bool animationreverse = false)
+        public Emiter(string textureName, Vector2 startPosition, uint distance, float speed, MovementDirection movementDirection, Rectangle textureRectangle, int emitsDelayMs, int delayOffsetMs, Color color, int animationSpeed, bool explode = false, int emitsDelayMsParts = 0, int partsNum = 1, bool animationreverse = false)
         {
-            this.texture = texture;
+            this.texture = Globals.spritesDictionary[textureName].texture;
             this.startPosition = startPosition;
             this.distance = distance;
             this.textureRectangle = textureRectangle;
@@ -62,7 +61,7 @@ namespace PixelPerfect
             this.animationDelay = animationSpeed;
             this.animationreverse = animationreverse;
             this.startOffset = delayOffsetMs;
-            partTextureArray = Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(textureRectangle.X, textureRectangle.Y, textureRectangle.Width, Config.ANIM_FRAMES * textureRectangle.Height)), textureRectangle.Width, textureRectangle.Height * Config.ANIM_FRAMES);           
+            partTextureArray = Globals.spritesDictionary[textureName].textureArray[textureRectangle.X / textureRectangle.Width];//Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(textureRectangle.X, textureRectangle.Y, textureRectangle.Width, Config.ANIM_FRAMES * textureRectangle.Height)), textureRectangle.Width, textureRectangle.Height * Config.ANIM_FRAMES);           
             phaseTimer = TimeSpan.FromMilliseconds(delayOffsetMs);            
         }
 

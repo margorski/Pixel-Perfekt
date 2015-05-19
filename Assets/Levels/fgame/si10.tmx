@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="49">
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="7" nextobjectid="49">
  <properties>
   <property name="color1" value="32"/>
   <property name="color2" value="16"/>
   <property name="emmitercolor" value="60"/>
   <property name="enemycolor" value="50"/>
   <property name="hudcolor" value="92"/>
+  <property name="music" value="2"/>
   <property name="name" value="under the bridge"/>
   <property name="tilecolor" value="11"/>
  </properties>

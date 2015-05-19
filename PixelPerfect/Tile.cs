@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -47,18 +46,20 @@ namespace PixelPerfect
         protected Color[] textureArray;
 
         // Methods
-        public Tile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color)
+        public Tile(Vector2 position, Texture2D texture, UInt32 attributes, int type, Color color)
         {
             this.position = position;
             this.texture = texture;
             this.attributes = attributes;
-            this.sourceRect = sourceRect;
+            this.sourceRect = CalculateSourceRectangle(type);
             this.color = color;
 
-            if ((attributes & Attributes.NoDraw) > 0)
-                textureArray = new Color[Config.Tile.SIZE * Config.Tile.SIZE];
-            else
-                textureArray = Util.GetTextureArray(Util.BlitTexture(texture, sourceRect), Config.Tile.SIZE, Config.Tile.SIZE);
+
+            textureArray = Globals.tileset.tileTextureArray[type];
+            //if ((attributes & Attributes.NoDraw) > 0)
+            //    textureArray = new Color[Config.Tile.SIZE * Config.Tile.SIZE];
+            //else
+            //    textureArray = Util.GetTextureArray(Util.BlitTexture(texture, sourceRect), Config.Tile.SIZE, Config.Tile.SIZE);
         }
         public virtual void Update(GameTime gameTime) 
         { 
@@ -77,6 +78,15 @@ namespace PixelPerfect
                 this.color.A = (byte)(this.color.A * 0.25);
 
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), sourceRect, color);
+        }
+
+        private Rectangle CalculateSourceRectangle(int type)
+        {
+            int typex = ((type - 1) % 20) + 1;
+            int typey = ((type - 1) / 20);
+
+
+            return new Rectangle(((int)typex - 1) * Config.Tile.SIZE, (int)typey * Config.Tile.SIZE, Config.Tile.SIZE, Config.Tile.SIZE);
         }
 
         public virtual void Reset()
@@ -110,8 +120,8 @@ namespace PixelPerfect
         private float currentRotation = 0.0f;
         private TimeSpan scaleTimer = TimeSpan.Zero;
 
-        public DiscoTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color)
-            : base(position, texture, attributes, sourceRect, color)
+        public DiscoTile(Vector2 position, Texture2D texture, UInt32 attributes, int type, Color color)
+            : base(position, texture, attributes, type, color)
         {
             
         }
@@ -162,7 +172,7 @@ namespace PixelPerfect
         public float movingSpeed { private set; get; }
 
         // Public
-        public MovingTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color, float movingSpeed) : base(position, texture, attributes, sourceRect, color)
+        public MovingTile(Vector2 position, Texture2D texture, UInt32 attributes, int type, Color color, float movingSpeed) : base(position, texture, attributes, type, color)
         {  this.movingSpeed = movingSpeed; }
 
         public override void Update(GameTime gameTime)
@@ -206,7 +216,7 @@ namespace PixelPerfect
             }
         }
 
-        public BlinkingTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color, int blinkTime = Config.Tile.DEFAULT_BLINK_TIME, int offsetTime = 0) : base(position, texture, attributes, sourceRect, color)
+        public BlinkingTile(Vector2 position, Texture2D texture, UInt32 attributes, int type, Color color, int blinkTime = Config.Tile.DEFAULT_BLINK_TIME, int offsetTime = 0) : base(position, texture, attributes, type, color)
         {
             this.blinkTime = blinkTime;
             currentBlinkTime = offsetTime % blinkTime;
@@ -283,7 +293,7 @@ namespace PixelPerfect
         }
         
         // Methods
-        public CrushyTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color) : base(position, texture, attributes, sourceRect, color)
+        public CrushyTile(Vector2 position, Texture2D texture, UInt32 attributes, int type, Color color) : base(position, texture, attributes, type, color)
         { }
 
         public override void Update(GameTime gameTime)
@@ -375,8 +385,8 @@ namespace PixelPerfect
             }
         }
 
-        public SpringTile(Vector2 position, Texture2D texture, UInt32 attributes, Rectangle sourceRect, Color color) : base(position, texture, attributes, sourceRect, color)
-        {
+        public SpringTile(Vector2 position, Texture2D texture, UInt32 attributes, int type, Color color) : base(position, texture, attributes, type, color)
+        {                
             sourceRectInactive = new Rectangle(sourceRect.X, sourceRect.Y + Config.Tile.SIZE, Config.Tile.SIZE, Config.Tile.SIZE);
         }
 
@@ -424,7 +434,7 @@ namespace PixelPerfect
         private float currentRotation = 0.0f;
         private TimeSpan scaleTimer = TimeSpan.Zero;
 
-        public CollectibleTile(Vector2 position, Texture2D texture, Texture2D pixelTexture, UInt32 attributes, Rectangle sourceRect, Color color, bool emmiting) : base(position, texture, attributes, sourceRect, color)
+        public CollectibleTile(Vector2 position, Texture2D texture, Texture2D pixelTexture, UInt32 attributes, int type, Color color, bool emmiting) : base(position, texture, attributes, type, color)
         { 
             this.pixelTexture = pixelTexture;
             this.emmiting = emmiting;

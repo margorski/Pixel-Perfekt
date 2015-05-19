@@ -7,6 +7,7 @@
   <property name="emmitercolor" value="78"/>
   <property name="enemycolor" value="48"/>
   <property name="hudcolor" value="9"/>
+  <property name="music" value="10"/>
   <property name="name" value="it grew dark"/>
   <property name="tilecolor" value="9"/>
  </properties>

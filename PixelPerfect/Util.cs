@@ -5,7 +5,6 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
@@ -113,7 +112,7 @@ namespace PixelPerfect
 
         public static Color[] GetTextureArray(Texture2D texture, int width, int height)
         {
-            Color[] colorArray = new Color[4 * width * height];
+            Color[] colorArray = new Color[width * height];
             texture.GetData<Color>(colorArray);
             return colorArray;
         }

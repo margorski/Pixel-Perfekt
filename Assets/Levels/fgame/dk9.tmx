@@ -4,9 +4,10 @@
   <property name="color1" value="9"/>
   <property name="color2" value="21"/>
   <property name="emmitercolor" value="78"/>
-  <property name="enemycolor" value="121"/>
+  <property name="enemycolor" value="123"/>
   <property name="hudcolor" value="9"/>
   <property name="moving" value="0"/>
+  <property name="music" value="14"/>
   <property name="name" value="hail to the king"/>
   <property name="tilecolor" value="72"/>
  </properties>
