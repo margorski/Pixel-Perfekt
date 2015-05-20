@@ -81,11 +81,11 @@ namespace PixelPerfect
             acc = new Vector2(0.0f, Config.Player.GRAVITY);
             this.position = position;
             this.texture = texture;
-            animation = new Animation(Config.ANIM_FRAMES, Config.Player.ANIMATION_DELAY, false);
+            animation = new Animation(Config.ANIM_FRAMES, Config.Player.ANIMATION_DELAY, true);
             state = 0x0;
             boomColorIndex = 0;
 
-            textureArray = Globals.spritesDictionary["player"].textureArray[0];// Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(0, 0, Config.Player.WIDTH, Config.Player.HEIGHT * Config.ANIM_FRAMES)), Config.Player.WIDTH, Config.Player.HEIGHT * Config.ANIM_FRAMES);
+            textureArray = Globals.spritesDictionary["player"].textureArray[0];
         }
 
         public void Update(GameTime gameTime)

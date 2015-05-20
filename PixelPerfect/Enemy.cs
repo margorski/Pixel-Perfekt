@@ -307,7 +307,7 @@ namespace PixelPerfect
         }
 
         public Color[] GetCurrentFrameArray()
-        {
+        {            
             int frameSizeInArray = (int)(textureSize.X * textureSize.Y);
             Color[] currentFrameArray = new Color[frameSizeInArray];
 

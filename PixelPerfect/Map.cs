@@ -282,11 +282,6 @@ namespace PixelPerfect
             return false;
         }
 
-        public bool CheckCollisionsPixelPerfectPixel(Rectangle boundingBox, UInt32 attributes)
-        {
-            return true;
-        }
-
         public bool CheckCollisionPixelPerfect(Rectangle rect1, Rectangle rect2, Color[] textureArray1, Color[] textureArray2)
         {
             Rectangle sharedRect;
@@ -389,7 +384,8 @@ namespace PixelPerfect
 
         public void OpenDoor()
         {
-            Globals.soundsDictionary["doors"].Play();
+            if (Globals.soundEnabled)
+                Globals.soundsDictionary["doors"].Play();
             foreach (Tile tile in tileMap)
             {
                 if ((tile.attributes & Tile.Attributes.Doors) > 0)

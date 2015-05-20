@@ -238,7 +238,7 @@ namespace PixelPerfect
             Globals.backgroundColor = Color.Black;
             foreach (KeyValuePair<string, SoundEffectInstance> sfinstance in Globals.soundsDictionary)
                 sfinstance.Value.Stop();
-            MediaPlayer.Pause();
+            MediaPlayer.Stop();
         }
 
         public override void Resume(int poppedStateId)
@@ -249,6 +249,7 @@ namespace PixelPerfect
 
         public override void Suspend(int pushedStateId)
         {
+            MediaPlayer.Pause();
         }
 
         public override void Update(GameTime gameTime, bool suspended)

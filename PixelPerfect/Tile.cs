@@ -54,12 +54,10 @@ namespace PixelPerfect
             this.sourceRect = CalculateSourceRectangle(type);
             this.color = color;
 
-
-            textureArray = Globals.tileset.tileTextureArray[type];
-            //if ((attributes & Attributes.NoDraw) > 0)
-            //    textureArray = new Color[Config.Tile.SIZE * Config.Tile.SIZE];
-            //else
-            //    textureArray = Util.GetTextureArray(Util.BlitTexture(texture, sourceRect), Config.Tile.SIZE, Config.Tile.SIZE);
+            if (((attributes & Attributes.NoDraw) > 0) || (type == 0))
+                textureArray = new Color[Config.Tile.SIZE * Config.Tile.SIZE];
+            else
+                textureArray = Globals.tileset.tileTextureArray[type - 1];
         }
         public virtual void Update(GameTime gameTime) 
         { 
