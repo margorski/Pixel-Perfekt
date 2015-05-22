@@ -226,7 +226,6 @@ namespace PixelPerfect
         {
             InitLevel();     
             ResetInput();
-            MediaPlayer.IsRepeating = true;
             if (Globals.musicEnabled)
                 MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
         }

@@ -169,17 +169,19 @@ namespace PixelPerfect
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
             specialBatch = new SpriteBatch(GraphicsDevice);
-            
+
+            MediaPlayer.IsRepeating = true;
+
             Globals.pixelTexture = Content.Load<Texture2D>("pixel");
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
 
             //sprites
-            Globals.spritesDictionary.Add("biggo_128x128", new Sprite("biggo_128x128", 128, 128, 1));
+            Globals.spritesDictionary.Add("biggo_128x128", new Sprite("biggo_128x128", 128, 128, 2));
             Globals.spritesDictionary.Add("enemies_16x16", new Sprite("enemies_16x16", 16, 16));
             Globals.spritesDictionary.Add("enemies_32x32", new Sprite("enemies_32x32", 32, 32));
             Globals.spritesDictionary.Add("enemies_8x8", new Sprite("enemies_8x8", 8, 8));
             Globals.spritesDictionary.Add("king_48x48", new Sprite("king_48x48", 48, 48, 14));
-            Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16));
+            Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16, 6));
             Globals.tileset = new Tileset("tileset");
             
             ////sounds
@@ -197,7 +199,6 @@ namespace PixelPerfect
             Globals.soundsDictionary["doors"].Volume = 0.2f;
             Globals.soundsDictionary["doors"].Pitch = 0.5f;
             // music
-            //Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\cheesy bassoon (loop)"));
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\xylophone (loop)"));
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Elevator Music (loop)"));
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\8-bit loop (loop)"));

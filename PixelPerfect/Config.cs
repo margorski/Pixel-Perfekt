@@ -87,6 +87,7 @@ namespace PixelPerfect
             public const float MAX_FALL_DISTANCE = Tile.SIZE * 5 - 1;
             public const float MOVE_SPEED = 25.0f;
             public const int ANIMATION_DELAY = 150;
+            public const int ANIM_FRAMES = 5;
         }
 
         public struct Enemy

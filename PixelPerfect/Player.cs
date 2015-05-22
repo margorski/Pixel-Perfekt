@@ -67,7 +67,7 @@ namespace PixelPerfect
         {
             get
             {
-                return new Rectangle(0, animation.GetCurrentFrame() * Config.Player.HEIGHT, Config.Player.WIDTH, Config.Player.HEIGHT);
+                return new Rectangle(0, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : (animation.GetCurrentFrame() + 1) * Config.Player.HEIGHT, Config.Player.WIDTH, Config.Player.HEIGHT);
             }
         }
 
@@ -81,7 +81,7 @@ namespace PixelPerfect
             acc = new Vector2(0.0f, Config.Player.GRAVITY);
             this.position = position;
             this.texture = texture;
-            animation = new Animation(Config.ANIM_FRAMES, Config.Player.ANIMATION_DELAY, true);
+            animation = new Animation(Config.Player.ANIM_FRAMES, Config.Player.ANIMATION_DELAY, true);
             state = 0x0;
             boomColorIndex = 0;
 
@@ -194,10 +194,10 @@ namespace PixelPerfect
                 position.Y = 0 - Config.Player.HEIGHT;
                 SetState(State.fallThroughScreen, true);
             }
-            else if (position.Y < -Config.Player.HEIGHT)
-            {
-                position.Y = (Config.Map.HEIGHT * Config.Tile.SIZE) - 2;
-            }
+            //else if (position.Y < -Config.Player.HEIGHT)
+            //{
+            //    position.Y = (Config.Map.HEIGHT * Config.Tile.SIZE) - 2;
+            //}
         }
 
         public void SetHorizontalPositionOnTile(Rectangle tileBox)
@@ -421,7 +421,7 @@ namespace PixelPerfect
             }
             else
             {
-                Array.Copy(textureArray, frameSizeInArray * animation.GetCurrentFrame(), currentFrameArray, 0, frameSizeInArray);
+                Array.Copy(textureArray, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : frameSizeInArray * (animation.GetCurrentFrame() + 1), currentFrameArray, 0, frameSizeInArray);
             }
             return currentFrameArray;
         }
