@@ -50,10 +50,10 @@
    <properties>
     <property name="blink" value="1"/>
     <property name="blinktime" value="2500"/>
-    <property name="guardian" value="1"/>
+    <property name="guardian" value="0"/>
     <property name="reverse" value="0"/>
    </properties>
-   <polyline points="0,0 80,-40 -80,32 80,32 -80,-40 0,-32"/>
+   <polyline points="0,0 80,-40 -80,32 80,32 -80,-40"/>
   </object>
  </objectgroup>
  <layer name="background" width="34" height="17">

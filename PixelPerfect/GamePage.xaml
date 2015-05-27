@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:adRotator="clr-namespace:AdRotator;assembly=AdRotator"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -15,12 +16,16 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
-		<!--Drawing surface for DirectX content - supports Landscape and Portrait-->
-        <DrawingSurface x:Name="XnaSurface"/>
+        <!--Drawing surface for DirectX content - supports Landscape and Portrait-->
+        
+        <DrawingSurface x:Name="XnaSurface" />
 
-		<!-- Media element for audio -->
+        <!-- Media element for audio -->
         <MediaElement></MediaElement>
-		
+        <!--<adRotator:AdRotatorControl x:Name="AdRotator" AdHeight="90" AdWidth="480"
+                                    LocalSettingsLocation="defaultAdSettings.xml"
+                                    AutoStartAds="True" VerticalAlignment="Bottom" Margin="0 0 0 -4"
+                                    IsEnabled="True" Visibility="Collapsed" />-->
         <!-- LOCALIZATION NOTE:
             To localize the displayed strings copy their values to appropriately named
             keys in the app's neutral language resource file (AppResources.resx) then

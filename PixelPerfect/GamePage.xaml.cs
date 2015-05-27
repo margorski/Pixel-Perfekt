@@ -27,9 +27,10 @@ namespace PixelPerfect
                 throw new InvalidOperationException("There can be only one GamePage object!");
             Instance = this;
             _game = XamlGame<Game1>.Create("", this);
-
+            
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+            
         }
 
         // Sample code for building a localized ApplicationBar

@@ -64,6 +64,7 @@
    <properties>
     <property name="adelay" value="350"/>
     <property name="areverse" value="1"/>
+    <property name="speedx" value="45"/>
    </properties>
    <polyline points="0,0 112,0"/>
   </object>
