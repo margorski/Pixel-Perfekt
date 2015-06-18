@@ -34,8 +34,6 @@ namespace PixelPerfect
 #if WINDOWS
         MouseState prevMouseState;
         MouseState currMouseState;        
-        KeyboardState currKeyboardState;
-        KeyboardState previousKeyboardState;
 #else
         TouchCollection touchState;
 #endif
@@ -155,9 +153,6 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            if (!upsidedownBatch && Globals.upsideDown)
-                return;
-
             int marginX = Config.Hud.AVATAR_POSITION_X;
 
             if (textLines[currentText].avatar != null)

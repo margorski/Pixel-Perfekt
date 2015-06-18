@@ -28,10 +28,18 @@ namespace PixelPerfect
 
         public const int SKIP_AMOUNT = 3;
 
+        public static Color[] boomColors = { Color.White, Color.Red, Color.Blue, Color.LightSeaGreen, Color.OrangeRed, Color.Crimson, 
+                                       Color.SpringGreen, Color.Teal, Color.RoyalBlue, Color.AntiqueWhite, Color.Chocolate, 
+                                       Color.HotPink, Color.Honeydew, Color.PaleVioletRed, Color.SteelBlue, Color.Indigo,
+                                       Color.Orange, Color.Yellow, Color.OldLace, Color.MediumPurple, Color.Azure, Color.Red};
+        public static Color[] titleColors = {Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.White, 
+                                             Color.Red, Color.Cyan, Color.Yellow, Color.Blue, Color.Magenta, Color.Green, Color.Orange, Color.LawnGreen};
         public const string SAVEFILE_NAME = "savefile.dat";
         public struct States
         {
-            public const int MENU = 100;
+            public const int TITLESCREEN = 100;
+            public const int LEVELSELECT = 150;
+            public const int LEVELDETAILS = 190;
             public const int LEVEL = 200;
             public const int LEVELMIN = LEVEL;
             public const int LEVELMAX = 300;
@@ -42,8 +50,12 @@ namespace PixelPerfect
 
         public struct Map
         {
-            public const int WIDTH = 34;
-            public const int HEIGHT = 17;
+            public static int WIDTH = 34;
+            public static int HEIGHT = 17;
+            public const int NORMAL_WIDTH = 34;
+            public const int NORMAL_HEIGHT = 17;
+            public const int MENUMAP_WIDTH = 34;
+            public const int MENUMAP_HEIGHT = 20;
             public const int BLINK_MS = 200;
             public const float MOVING_MAP_SPEED = -55.0f;
         }
@@ -164,6 +176,11 @@ namespace PixelPerfect
             public const int VERTICAL_SPACE = 20;
             public const int TEXT_SPACE = 5;
             public const int NUM_IN_ROW = 5;
+            public const int TITLETIME = 3000; // ms
+            public const int SINPOW = 6;
+            public const double SINSHIFT = 13.0;
+            public const float TITLESCALE = 4f;
+            public const int MUSIC = 2;
         }
     }
 }

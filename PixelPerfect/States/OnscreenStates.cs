@@ -67,7 +67,7 @@ namespace PixelPerfect
             if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
             {
                 gameStateManager.PopState();
-                gameStateManager.ChangeState(Config.States.MENU);
+                gameStateManager.ChangeState(Config.States.LEVELSELECT);
             }
             prevGPState = currGPState;
 
@@ -94,7 +94,7 @@ namespace PixelPerfect
             if (currKeyboardState.IsKeyDown(Keys.Escape)  && prevKeyboardState.IsKeyUp(Keys.Escape))
             {
                 gameStateManager.PopState();
-                gameStateManager.ChangeState(Config.States.MENU);
+                gameStateManager.ChangeState(Config.States.LEVELSELECT);
             }  
             prevKeyboardState = currKeyboardState;
 #endif
@@ -102,9 +102,6 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            if (!upsidedownBatch && Globals.upsideDown)
-                return;
-
             if (suspended)
                 spriteBatch.DrawString(menuFont, "PAUSE", new Vector2(120, 60), Color.White);
             else

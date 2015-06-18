@@ -69,7 +69,7 @@ namespace PixelPerfect.Cutscene
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Globals.pixelTexture, new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), backgroundColor);
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), backgroundColor);
 
             foreach (Image image in images)
                 image.Draw(spriteBatch);

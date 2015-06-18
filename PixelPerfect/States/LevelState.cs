@@ -25,16 +25,13 @@ namespace PixelPerfect
             public int emmitercolor = 3;
             public int tilecolor = 3;
         }
-
-        private GraphicsDeviceManager graphics;
-        private ContentManager content;
         
         private Map map;        
         private Player player;
         private Hud hud;
         private List<PixelParticle> pixelParticles = new List<PixelParticle>();
 #if !WINDOWS
-        private TouchCollection touchCollection;
+        //private TouchCollection touchCollection;
         private int touchId = 0; 
 #else
         private MouseState previousMouseState;
@@ -51,13 +48,14 @@ namespace PixelPerfect
         private string directory = "";
 
         public TimeSpan levelTime { private set; get; }
-
+        
         //Button resetButton;
         
         private Texture2D backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
 
         private LevelColors levelColors = new LevelColors();
         private bool colors = false;
+        private bool menuLevel = false;
 
 #if WINDOWS
         private void PreviousColor1()
@@ -143,13 +141,15 @@ namespace PixelPerfect
         {
             if (++levelColors.hudcolor > Globals.colorList.Count - 1)
                 levelColors.hudcolor = 0;
-            hud.SetColor(Globals.colorList[levelColors.hudcolor]);
+            if (!menuLevel)
+                hud.SetColor(Globals.colorList[levelColors.hudcolor]);
         }
         private void PreviousHudColor()
         {
             if (--levelColors.hudcolor < 0)
                 levelColors.hudcolor = Globals.colorList.Count - 1;
-            hud.SetColor(Globals.colorList[levelColors.hudcolor]);
+            if (!menuLevel)
+                hud.SetColor(Globals.colorList[levelColors.hudcolor]);
         }
 
         private void NextEnemyColor()
@@ -203,14 +203,13 @@ namespace PixelPerfect
             Globals.tilesColor = Globals.colorList[levelColors.tilecolor];
             Globals.emitersColor = Globals.colorList[levelColors.emmitercolor];
             Globals.enemiesColor = Globals.colorList[levelColors.enemycolor];
-            hud.SetColor(Globals.colorList[levelColors.hudcolor]);
+            if (!menuLevel)
+                hud.SetColor(Globals.colorList[levelColors.hudcolor]);
             ReloadGradientTexture();
         }
 
-        public LevelState(GraphicsDeviceManager graphics, ContentManager content, String directory, String levelFile)
+        public LevelState(String directory, String levelFile, bool menuLevel = false)
         {
-            this.graphics = graphics;
-            this.content = content;
             this.levelFile = levelFile;
             this.directory = directory;
             if (levelFile.Length > 4)
@@ -218,6 +217,7 @@ namespace PixelPerfect
                 if (!levelFile.Substring(levelFile.Length - 4, 4).ToLower().Equals(".tmx"))
                     levelFile += ".tmx";
             }
+            this.menuLevel = menuLevel;
             //resetButton = new Button("RESET", new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 12, 60, 12), Globals.pixelTexture, silkscreenFont, false);
             //resetButton.activeColor = Color.Black;
         }
@@ -226,48 +226,55 @@ namespace PixelPerfect
         {
             InitLevel();     
             ResetInput();
-            if (Globals.musicEnabled)
+            if (Globals.musicEnabled && !menuLevel)
                 MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
         }
 
         public override void Exit(int nextStateId)
         {
             Globals.CurrentLevelState = null;
-            Globals.upsideDown = false;
             Globals.backgroundColor = Color.Black;
             foreach (KeyValuePair<string, SoundEffectInstance> sfinstance in Globals.soundsDictionary)
                 sfinstance.Value.Stop();
-            MediaPlayer.Stop();
+            if (!menuLevel)
+                MediaPlayer.Stop();
         }
 
         public override void Resume(int poppedStateId)
         {
+            ReloadGradientTexture();
             ResetInput();
-            MediaPlayer.Resume();
+            if (!menuLevel)
+                MediaPlayer.Resume();
         }
 
         public override void Suspend(int pushedStateId)
         {
-            MediaPlayer.Pause();
+            if (!menuLevel)
+                MediaPlayer.Pause();
         }
 
         public override void Update(GameTime gameTime, bool suspended)
-        {
+        {            
             if (suspended)
                 return;
 
-            currGPState = GamePad.GetState(PlayerIndex.One);
-            if ((currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released))
+            if (!menuLevel)
             {
-                Globals.gameStateManager.PushState(Config.States.PAUSE);
+                currGPState = GamePad.GetState(PlayerIndex.One);
+                if ((currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released))
+                {
+                    Globals.gameStateManager.PushState(Config.States.PAUSE);
+                }
+                prevGPState = currGPState;
             }
-            prevGPState = currGPState;
-
 #if !WINDOWS
-            TouchInput(gameTime);
+            if (!menuLevel)
+                TouchInput(gameTime, TouchPanel.GetState());
 #else
             MouseInput(gameTime);
-            KeyboardInput(gameTime);
+            if (!menuLevel)
+                KeyboardInput(gameTime);
 #endif
 
             for (int i = 0; i < pixelParticles.Count; i++)
@@ -347,14 +354,15 @@ namespace PixelPerfect
 
                 map.CheckTriggers(player.boundingBox);
 
-                if (map.GrabCollectibles(player, graphics))
+                if (map.GrabCollectibles(player, Globals.graphics))
                 {
-                    hud.Collect();
+                    if (!menuLevel)
+                        hud.Collect();
                     if (Globals.soundEnabled)
                         Globals.soundsDictionary["coin"].Play();
                 }
 
-                if (map.KillThisBastard(player, graphics))
+                if (map.KillThisBastard(player, Globals.graphics))
                 {
                     player.Die();
                 }
@@ -374,14 +382,15 @@ namespace PixelPerfect
                         Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
                         Savestate.Instance.Save();
                     }
-                    if (!Globals.gameStateManager.ChangeState(Config.States.MENU))
+                    if (!Globals.gameStateManager.ChangeState(Config.States.TITLESCREEN))
                         Globals.gameStateManager.EmptyStack();                        
                     return;
                 }
             }
             map.Update(gameTime);
 
-            hud.Update(gameTime);
+            if (!menuLevel)
+                hud.Update(gameTime);
         }
 
 #if WINDOWS
@@ -485,6 +494,8 @@ namespace PixelPerfect
                 PreviousMusic();
             if (currentKeyboardState.IsKeyDown(Keys.M) && previousKeyboardState.IsKeyUp(Keys.M))
                 NextMusic();
+            if (currentKeyboardState.IsKeyDown(Keys.F10) && previousKeyboardState.IsKeyUp(Keys.F10))
+                Globals.graphics.ToggleFullScreen();
             // END DEBUGG
 
             if ((currentKeyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape)))
@@ -523,9 +534,8 @@ namespace PixelPerfect
             previousKeyboardState = currentKeyboardState;
         }
 #else
-        private void TouchInput(GameTime gameTime)
+        public void TouchInput(GameTime gameTime, TouchCollection touchCollection)
         {
-            touchCollection = TouchPanel.GetState();
             foreach (TouchLocation tl in touchCollection)
             {
                 if (player.GetState(Player.State.dead))
@@ -588,11 +598,9 @@ namespace PixelPerfect
 
                 player.Draw(spriteBatch);
             }
-
-            if (!upsidedownBatch && Globals.upsideDown)
-                return;
             
-            hud.Draw(spriteBatch);
+            if (!menuLevel)
+                hud.Draw(spriteBatch);
 
             if (colors)
             {
@@ -611,26 +619,40 @@ namespace PixelPerfect
             levelTime = TimeSpan.Zero;
             Globals.CurrentLevelState = this;
 
-            hud = new Hud();
+            if (!menuLevel)
+                hud = new Hud();
+            else
+                hud = null;
 
-            Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", graphics, content, hud, scale);
+            if (menuLevel)
+            {
+                Config.Map.WIDTH = Config.Map.MENUMAP_WIDTH;
+                Config.Map.HEIGHT = Config.Map.MENUMAP_HEIGHT;
+            }
+            else
+            {
+                Config.Map.WIDTH = Config.Map.NORMAL_WIDTH;
+                Config.Map.HEIGHT = Config.Map.NORMAL_HEIGHT;
+            }
+
+            Globals.CurrentMap = map = Map.LoadMap(directory, levelFile + ".tmx", Globals.graphics, Globals.content, hud, scale);
             Globals.backgroundColor = map.color;
-            if (map.upsidedown)
-                Globals.upsideDown = true;
-                        hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
+
+            if (!menuLevel)
+                hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 
             player = new Player(map.startPosition, Globals.spritesDictionary["player"].texture);          
             if (map.moving)
-                player.SetMovingMapState(-28.0f);
-
-
-            //ReloadGradientTexture();
+                player.SetMovingMapState(-28.0f);         
 
             if (!Savestate.Instance.levelSaves.ContainsKey(LevelId()))
             {
                 Savestate.Instance.levelSaves.Add(LevelId(), new Levelsave());
                 Savestate.Instance.Save();
             }
+
+            if (menuLevel)
+                pixelParticles.Clear();
         }        
 
         private void Reset()
@@ -641,7 +663,9 @@ namespace PixelPerfect
             if (map.moving)
                 player.SetMovingMapState(-28.0f);
             levelTime = TimeSpan.Zero;
-            hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
+
+            if (!menuLevel)
+                hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 
             foreach (PixelParticle pixelParticle in pixelParticles)
             {
@@ -654,9 +678,10 @@ namespace PixelPerfect
         {
 #if WINDOWS
             previousMouseState = currentMouseState = Mouse.GetState();
+            previousKeyboardState = currentKeyboardState = Keyboard.GetState();
 #else
                 touchId = 0;
-                touchCollection = TouchPanel.GetState();
+                //touchCollection = TouchPanel.GetState();
 #endif
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
         }

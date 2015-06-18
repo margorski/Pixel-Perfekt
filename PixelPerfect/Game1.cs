@@ -21,7 +21,6 @@ namespace PixelPerfect
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        SpriteBatch specialBatch;
         GameStateManager gameStateManager;
 
         private float scale = 1.0f;
@@ -111,68 +110,34 @@ namespace PixelPerfect
 
             gameStateManager = new GameStateManager();
             Globals.gameStateManager = gameStateManager;
-            var menuState = new MenuState(graphics, Content, gameStateManager);            
+            
+            var menuState = new TitlescreenState(gameStateManager);  
+            var backgroundLevel = new LevelState("fgame", "fgame\\menu", true);    
+            backgroundLevel.scale = scale;
+            menuState.backgroundLevel = backgroundLevel;      
             var pauseState = new PauseState(Content, gameStateManager); 
             menuState.scale = pauseState.scale = scale;
+            var levelSelectState = new LevelSelectState(gameStateManager);
+            levelSelectState.scale = scale;
 
-
-            //var cstate = new Cutscene.CutsceneState();
-            //Cutscene.Scene scene = new Cutscene.Scene();            
-            //scene.duration = (new TimeSpan(0, 0, 28)).ToString();
-            //scene.backgroundColor = Color.Black;
-
-            //var textItem = new Cutscene.Text();
-            //textItem.text = "HELLO\nMY NAME IS JOHN PERFECT.\nI AM\r\r\r\rI WAS ARCADE GAME STAR.\n\nOH THOSE WERE THE DAYS...";
-            //var textkeyframestart = new Cutscene.Keyframe();
-            //var textkeyframeend = new Cutscene.Keyframe();
-            //var textkeyframeStill = new Cutscene.Keyframe();
-            //textkeyframestart.position = textkeyframeend.position = textkeyframeStill.position = new Vector2(100, 30);
-            //textkeyframeend.printedLetters = textItem.text.Length;
-            //textkeyframeend.time = (new TimeSpan(0, 0, 15)).ToString();
-            //textkeyframeStill.printedLetters = textItem.text.Length;
-            //textkeyframeStill.time = (new TimeSpan(0, 0, 18)).ToString();
-            //textItem.keyframeList.Add(textkeyframestart);
-            //textItem.keyframeList.Add(textkeyframeend);
-            //scene.texts.Add(textItem);
-
-            //var item = new Cutscene.Image();
-            //item.textureFile = "cutscenes\\arcade-inside_final";
-            //var keyframeStart = new Cutscene.Keyframe();
-            //var keyframeEnd = new Cutscene.Keyframe();
-            //keyframeStart.time = (new TimeSpan(0, 0, 18)).ToString();
-            //keyframeEnd.time = (new TimeSpan(0, 0, 23)).ToString();            
-            //item.keyframeList.Add(keyframeStart);
-            //item.keyframeList.Add(keyframeEnd);
-            //scene.images.Add(item);
-
-            //var item2 = new Cutscene.Image();
-            //item2.textureFile = "cutscenes\\arcade-cabinet_final2";
-            //var keyframeStart2 = new Cutscene.Keyframe();
-            //var keyframeEnd2 = new Cutscene.Keyframe();
-            //keyframeStart2.time = (new TimeSpan(0, 0, 23)).ToString();
-            //keyframeEnd2.time = (new TimeSpan(0, 0, 28)).ToString();
-            //item2.keyframeList.Add(keyframeStart2);
-            //item2.keyframeList.Add(keyframeEnd2);
-            //scene.images.Add(item2);
-
-            //cstate.scenes.Add(scene);
-            
-            //gameStateManager.RegisterState(Config.States.CUTSCENE, cstate);
-            gameStateManager.RegisterState(Config.States.MENU, menuState);
+            gameStateManager.RegisterState(Config.States.TITLESCREEN, menuState);
             gameStateManager.RegisterState(Config.States.PAUSE, pauseState);
-            gameStateManager.ChangeState(Config.States.MENU);
-            
-            //gameStateManager.PushState(Config.States.CUTSCENE);
+            gameStateManager.RegisterState(Config.States.LEVELSELECT, levelSelectState);
+            gameStateManager.PushState(Config.States.TITLESCREEN);
+           
         }
 
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            specialBatch = new SpriteBatch(GraphicsDevice);
 
             MediaPlayer.IsRepeating = true;
 
-            Globals.pixelTexture = Content.Load<Texture2D>("pixel");
+            Globals.textureDictionary.Add("pixel", Content.Load<Texture2D>("pixel"));
+            Globals.textureDictionary.Add("play", Content.Load<Texture2D>("menu\\play"));
+            Globals.textureDictionary.Add("music", Content.Load<Texture2D>("menu\\music"));
+            Globals.textureDictionary.Add("sound", Content.Load<Texture2D>("menu\\sound"));
+            Globals.textureDictionary.Add("logo", Content.Load<Texture2D>("menu\\logo"));
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
 
             //sprites
@@ -181,7 +146,7 @@ namespace PixelPerfect
             Globals.spritesDictionary.Add("enemies_32x32", new Sprite("enemies_32x32", 32, 32));
             Globals.spritesDictionary.Add("enemies_8x8", new Sprite("enemies_8x8", 8, 8));
             Globals.spritesDictionary.Add("king_48x48", new Sprite("king_48x48", 48, 48, 14));
-            Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16, 6));
+            Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16, 6));            
             Globals.tileset = new Tileset("tileset");
             
             ////sounds
@@ -237,33 +202,20 @@ namespace PixelPerfect
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {
+        {            
             GraphicsDevice.Clear(Globals.backgroundColor);
             //spriteBatch.Begin();
 
             Matrix matrix = Matrix.Identity;            
-            if (Globals.upsideDown)
-            {
-                matrix *= Matrix.CreateScale(-1);
-                matrix *= Matrix.CreateTranslation(new Vector3(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, 0));
-            }
-            else
-            {
-                matrix *= Matrix.CreateTranslation(new Vector3(-3, 0, 0));
-            }
+            matrix *= Matrix.CreateTranslation(new Vector3(-3, 0, 0)); // position adjusting
             matrix *= Matrix.CreateScale(scale);
-
+            matrix *= Matrix.CreateTranslation(new Vector3(graphics.GraphicsDevice.Viewport.Width * gameStateManager.GetTranslationShift(), 0.0f, 0.0f));
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);//Matrix.CreateScale(scale));
-            if (Globals.upsideDown)
-                specialBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, Matrix.CreateScale(scale));
 
             gameStateManager.Draw(spriteBatch);
-            if (Globals.upsideDown)
-                gameStateManager.Draw(specialBatch, true);
             
             spriteBatch.End();
-            if (Globals.upsideDown)
-                specialBatch.End();
+
 
             base.Draw(gameTime);
         }

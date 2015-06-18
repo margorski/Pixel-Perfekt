@@ -50,7 +50,7 @@ namespace PixelPerfect
         public PixelParticle(Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null, bool enviroAffect = true, Config.StandingType standingType = Config.StandingType.Pixel)
         {
             enviroSpeed = Vector2.Zero;
-            this.texture = Globals.pixelTexture;
+            this.texture = Globals.textureDictionary["pixel"];
             this.position = position;
             this.maxLifeMs = maxLifeMs;
             this.speedY = speed.Y;

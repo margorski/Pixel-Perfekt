@@ -28,7 +28,6 @@ namespace PixelPerfect
         private List<Trigger> triggerList = new List<Trigger>();
         private Vector2 mapOffset = Vector2.Zero;
         private readonly byte initialCollectiblesCount;
-        public bool upsidedown { get; private set; }
         public bool moving { get; private set; }
         // Public
         public Vector2 startPosition { private set; get; }
@@ -39,13 +38,12 @@ namespace PixelPerfect
         public int music = 4;
 
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool upsidedown = false, bool moving = false, bool emit = true, int music = 0)
+        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool moving = false, bool emit = true, int music = 0)
         {            
             this.enemiesList = enemiesList;
             this.emiterList = emiterList;
             this.triggerList = triggerList;
             this.levelName = levelName;
-            this.upsidedown = upsidedown;
             this.moving = moving;
             this.color = color;
             this.music = music;
@@ -408,7 +406,6 @@ namespace PixelPerfect
             int[] tileMap = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
             int[] tileBackground = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
             string levelName = "";
-            bool upsidedown = false;
             bool moving = false;
             int triggerCount = 0;
             Color color = Color.Black;
@@ -451,9 +448,6 @@ namespace PixelPerfect
                                     {
                                         case "name":
                                             levelName = value;
-                                            break;
-                                        case "upsidedown":
-                                            upsidedown = (int.Parse(value) == 1 ? true : false);
                                             break;
                                         case "moving":
                                             moving = (int.Parse(value) == 1 ? true : false);
@@ -863,7 +857,7 @@ namespace PixelPerfect
                 return null;
 
             Globals.CurrentLevelState.ReloadColors(levelColors);
-            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, upsidedown, moving, emit, music);
+            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, moving, emit, music);
         }
 
         public void Reset()

@@ -61,7 +61,7 @@
     <property name="areverse" value="1"/>
     <property name="guardian" value="1"/>
     <property name="reverse" value="0"/>
-    <property name="speedx" value="50"/>
+    <property name="speedx" value="10"/>
    </properties>
    <polyline points="0,0 0,24 148,8"/>
   </object>

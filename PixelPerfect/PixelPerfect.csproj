@@ -85,21 +85,22 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="GameStateMachine\GameState.cs" />
     <Compile Include="GameStateMachine\GameStateManager.cs" />
+    <Compile Include="GameStateMachine\Transition.cs" />
     <Compile Include="Globals.cs" />
     <Compile Include="Hud.cs" />
     <Compile Include="Cutscene\Item.cs" />
     <Compile Include="Cutscene\Keyframe.cs" />
     <Compile Include="Level.cs" />
-    <Compile Include="LevelState.cs" />
+    <Compile Include="States\LevelState.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="GamePage.xaml.cs">
       <DependentUpon>GamePage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Game1.cs" />
     <Compile Include="Map.cs" />
-    <Compile Include="MenuState.cs" />
+    <Compile Include="States\LevelSelectState.cs" />
     <Compile Include="Sprite.cs" />
-    <Compile Include="OnscreenStates.cs" />
+    <Compile Include="States\OnscreenStates.cs" />
     <Compile Include="PixelParticle.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -111,7 +112,8 @@
     </Compile>
     <Compile Include="Savestate.cs" />
     <Compile Include="Cutscene\Scene.cs" />
-    <Compile Include="TextState.cs" />
+    <Compile Include="States\TextState.cs" />
+    <Compile Include="States\TitlescreenState.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileFactory.cs" />
     <Compile Include="Tileset.cs" />
@@ -525,7 +527,26 @@
       <Link>Content\Sounds\Randomize2.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <None Include="ReadMe-AdRotator-XAML.txt" />
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\music.xnb">
+      <Link>Content\menu\music.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\play.xnb">
+      <Link>Content\menu\play.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\sound.xnb">
+      <Link>Content\menu\sound.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\logo.xnb">
+      <Link>Content\menu\logo.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\menu.tmx">
+      <Link>Levels\fgame\menu.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ReleaseNotes.txt" />
     <None Include="packages.config">
       <SubType>Designer</SubType>

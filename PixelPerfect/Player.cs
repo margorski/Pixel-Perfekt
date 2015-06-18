@@ -50,10 +50,6 @@ namespace PixelPerfect
         private Vector2 acc;
         private UInt32 state;
         public float jumpY;
-        private Color[] boomColors = { Color.White, Color.Red, Color.Blue, Color.LightSeaGreen, Color.OrangeRed, Color.Crimson, 
-                                       Color.SpringGreen, Color.Teal, Color.RoyalBlue, Color.AntiqueWhite, Color.Chocolate, 
-                                       Color.HotPink, Color.Honeydew, Color.PaleVioletRed, Color.SteelBlue, Color.Indigo,
-                                       Color.Orange, Color.Yellow, Color.OldLace, Color.MediumPurple, Color.Azure, Color.Red};
 
         private TimeSpan blinkTime = TimeSpan.Zero;
         private TimeSpan tryJumpTime = TimeSpan.Zero;
@@ -99,7 +95,7 @@ namespace PixelPerfect
                 if (boomColorTime.TotalMilliseconds > Config.Player.BOOMCOLOR_TIME_MS)
                 {
                     boomColorTime = TimeSpan.Zero;
-                    if (++boomColorIndex >= boomColors.Length)
+                    if (++boomColorIndex >= Config.boomColors.Length)
                     {
                         PixelExplosion();
                         SetState(State.dying, false);
@@ -149,7 +145,7 @@ namespace PixelPerfect
             sourceModifiedRectangle.Height -= heightDrawModifier;
 
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height - heightDrawModifier),
-                            sourceModifiedRectangle, boomColors[boomColorIndex], 0.0f, Vector2.Zero, 
+                            sourceModifiedRectangle, Config.boomColors[boomColorIndex], 0.0f, Vector2.Zero, 
 							(GetState(State.directionLeft) ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
         }
 
@@ -372,7 +368,7 @@ namespace PixelPerfect
 
                     Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
-                                    pixSpeed, acc, boomColors[Globals.rnd.Next(boomColors.Length)], true, Globals.CurrentMap));
+                                    pixSpeed, acc, Config.boomColors[Globals.rnd.Next(Config.boomColors.Length)], true, Globals.CurrentMap));
                 }
             }
             if (Globals.soundEnabled)

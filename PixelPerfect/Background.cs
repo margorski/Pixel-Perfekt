@@ -25,7 +25,7 @@ namespace PixelPerfect
 
         public void Draw(SpriteBatch spritebatch)
         {
-            spritebatch.Draw(Globals.pixelTexture, screenRectangle, color);            
+            spritebatch.Draw(Globals.textureDictionary["pixel"], screenRectangle, color);            
         }
     }
 

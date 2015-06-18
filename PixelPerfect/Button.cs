@@ -78,6 +78,5 @@ namespace PixelPerfect
 
             spriteBatch.DrawString(font, text, centerVector - dimensions / 2, color);
         }
-
-    }
+    }    
 }

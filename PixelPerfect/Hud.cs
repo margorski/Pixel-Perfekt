@@ -60,7 +60,7 @@ namespace PixelPerfect
             //if (hudTexture != null)
             //    spriteBatch.Draw(hudTexture, new Vector2(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT), Color.White);
 
-            spriteBatch.Draw(Globals.pixelTexture, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), color);
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), color);
 
             Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
