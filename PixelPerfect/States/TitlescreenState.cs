@@ -36,8 +36,7 @@ namespace PixelPerfect
         Button musicButton;
         Button soundButton;
 
-        TimeSpan titleTimer = TimeSpan.Zero;
-        const string title = "PIXEL PERFEKT";
+        WavyText wavyText = new WavyText("PIXEL PERFEKT", new Vector2(14, 10), 3000, 4.0f, Config.titleColors, 13.0f, 6.0f);            
 
         public LevelState backgroundLevel { set; private get; }
 
@@ -62,7 +61,6 @@ namespace PixelPerfect
             prevMouseState = currMouseState = Mouse.GetState();
 #endif
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
-            titleTimer = TimeSpan.Zero;
 
             if (backgroundLevel != null)
                 backgroundLevel.Enter(previousStateId);
@@ -93,14 +91,7 @@ namespace PixelPerfect
             if (backgroundLevel != null)
                 backgroundLevel.Draw(spriteBatch, suspended);
 
-            float sineBase = (float)(2 * Math.PI * (titleTimer.TotalMilliseconds / (double)Config.Menu.TITLETIME));
-            for (int i = 0; i < title.Length; i++)
-            {
-                spriteBatch.DrawString(Globals.silkscreenFont, title.Substring(i, 1),
-                                       new Vector2(14 + Globals.silkscreenFont.MeasureString(title.Substring(0, i)).X * (Config.Menu.TITLESCALE - 0.5f), 10 + (float)Math.Sin(sineBase + (i / Config.Menu.SINSHIFT) * Math.PI * 2) * Config.Menu.SINPOW),
-                                       Config.titleColors[i], 0.0f, Vector2.Zero, Config.Menu.TITLESCALE, SpriteEffects.None, 0.0f);
-
-            }
+            wavyText.Draw(spriteBatch);
 
             playButton.Draw(spriteBatch);
             musicButton.Draw(spriteBatch);
@@ -112,10 +103,7 @@ namespace PixelPerfect
             if (suspended)
                 return;
 
-            titleTimer += gameTime.ElapsedGameTime;
-            if (titleTimer.TotalMilliseconds >= Config.Menu.TITLETIME)
-                titleTimer = TimeSpan.Zero;
-
+            wavyText.Update(gameTime);
 
 #if WINDOWS
             currMouseState = Mouse.GetState();

@@ -21,6 +21,7 @@ namespace PixelPerfect
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        SpriteBatch spriteBatch2;
         GameStateManager gameStateManager;
 
         private float scale = 1.0f;
@@ -119,10 +120,13 @@ namespace PixelPerfect
             menuState.scale = pauseState.scale = scale;
             var levelSelectState = new LevelSelectState(gameStateManager);
             levelSelectState.scale = scale;
+            var backgroundState = new TextureBackgroundState();
 
             gameStateManager.RegisterState(Config.States.TITLESCREEN, menuState);
             gameStateManager.RegisterState(Config.States.PAUSE, pauseState);
             gameStateManager.RegisterState(Config.States.LEVELSELECT, levelSelectState);
+            gameStateManager.RegisterState(Config.States.BACKGROUND, backgroundState);
+            gameStateManager.PushState(Config.States.BACKGROUND);
             gameStateManager.PushState(Config.States.TITLESCREEN);
            
         }
@@ -130,6 +134,7 @@ namespace PixelPerfect
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(GraphicsDevice);
+            spriteBatch2 = new SpriteBatch(GraphicsDevice);
 
             MediaPlayer.IsRepeating = true;
 
@@ -209,13 +214,14 @@ namespace PixelPerfect
             Matrix matrix = Matrix.Identity;            
             matrix *= Matrix.CreateTranslation(new Vector3(-3, 0, 0)); // position adjusting
             matrix *= Matrix.CreateScale(scale);
-            matrix *= Matrix.CreateTranslation(new Vector3(graphics.GraphicsDevice.Viewport.Width * gameStateManager.GetTranslationShift(), 0.0f, 0.0f));
-            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);//Matrix.CreateScale(scale));
+            var shiftMatrix = matrix * Matrix.CreateTranslation(new Vector3(graphics.GraphicsDevice.Viewport.Width * gameStateManager.GetTranslationShift(), 0.0f, 0.0f));
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, shiftMatrix);//Matrix.CreateScale(scale));
+            spriteBatch2.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);
 
-            gameStateManager.Draw(spriteBatch);
-            
+            gameStateManager.Draw(spriteBatch, spriteBatch2);
+
+            spriteBatch2.End();
             spriteBatch.End();
-
 
             base.Draw(gameTime);
         }

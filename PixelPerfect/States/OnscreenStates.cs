@@ -108,4 +108,39 @@ namespace PixelPerfect
                 spriteBatch.DrawString(menuFont, "PAUSE", new Vector2(120, 60), Color.Red);
         }
     }
+
+    class TextureBackgroundState : GameState
+    {
+        private Texture2D background = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[23], Globals.colorList[135], Util.GradientType.Horizontal);
+        
+        public TextureBackgroundState( )
+        { }
+
+        public override void Enter(int previousStateId)
+        {
+        }
+
+        public override void Exit(int nextStateId)
+        {
+        }
+
+        public override void Suspend(int pushedStateId)
+        {
+        }
+
+        public override void Resume(int poppedStateId)
+        {
+            background = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[23], Globals.colorList[135], Util.GradientType.Horizontal);
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
+        {
+            spriteBatch.Draw(background, Vector2.Zero, Color.White);
+        }
+
+        public override void Update(GameTime gameTime, bool suspended)
+        {
+        }
+    }
+
 }

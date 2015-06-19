@@ -184,14 +184,14 @@ namespace GameStateMachine
                     break;
             }
         }
-        public void Draw(SpriteBatch spriteBatch)
+        public void Draw(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
         {
             for (int i = 0; i < stateStack.Count; i++)
             {
                 if (i == stateStack.Count - 1)
                     stateStack.ElementAt(i).Value.Draw(spriteBatch, false);
                 else
-                    stateStack.ElementAt(i).Value.Draw(spriteBatch, true);
+                    stateStack.ElementAt(i).Value.Draw(spriteBatch2, true);
             }
         }
 

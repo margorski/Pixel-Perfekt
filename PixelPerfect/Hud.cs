@@ -20,6 +20,7 @@ namespace PixelPerfect
 
         public bool enabled = true;
 
+        private WavyText leveltitle;
         //private Texture2D hudTexture;
         private Color color = Color.Black;
         public Hud() {}
@@ -27,6 +28,8 @@ namespace PixelPerfect
         public void Init(string levelName, int collectiblesCount, Color color)
         {
             this.levelName = levelName;
+            var titlex = Config.SCREEN_WIDTH_SCALED / 2 - Globals.silkscreenFont.MeasureString(levelName).X / 2;
+            leveltitle = new WavyText(levelName, new Vector2(titlex, 137), 1500, 1.0f, Config.titleColors, 12.0f, 1.0f, 0.0f);
 
             collectibleTiles.Clear();
             collectedTiles.Clear();
@@ -45,6 +48,8 @@ namespace PixelPerfect
 
         public void Update(GameTime gameTime)
         {
+            leveltitle.Update(gameTime);
+
             foreach (Tile tile in collectibleTiles)
                 tile.Update(gameTime);
 
@@ -57,6 +62,7 @@ namespace PixelPerfect
             if (!enabled)
                 return;
 
+
             //if (hudTexture != null)
             //    spriteBatch.Draw(hudTexture, new Vector2(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT), Color.White);
 
@@ -66,10 +72,11 @@ namespace PixelPerfect
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                         new Vector2(4, Config.Hud.TEXT_POSITION_Y), Util.Align.Left);
 
-            Util.DrawStringAligned(spriteBatch, levelName, Globals.silkscreenFont, Color.White,
-                                    new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
-                                    new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Center);
+            //Util.DrawStringAligned(spriteBatch, levelName, Globals.silkscreenFont, Color.White,
+            //                        new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
+            //                        new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Center);
 
+            leveltitle.Draw(spriteBatch);
             Util.DrawStringAligned(spriteBatch, "DEATHS: " + Globals.CurrentLevelState.deathCount, Globals.silkscreenFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
                         new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Right);

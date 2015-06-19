@@ -33,10 +33,15 @@ namespace PixelPerfect
                                        Color.HotPink, Color.Honeydew, Color.PaleVioletRed, Color.SteelBlue, Color.Indigo,
                                        Color.Orange, Color.Yellow, Color.OldLace, Color.MediumPurple, Color.Azure, Color.Red};
         public static Color[] titleColors = {Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.White, 
+                                             Color.Red, Color.Cyan, Color.Yellow, Color.Blue, Color.Magenta, Color.Green, Color.Orange, Color.LawnGreen,
+                                            Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.White, 
+                                             Color.Red, Color.Cyan, Color.Yellow, Color.Blue, Color.Magenta, Color.Green, Color.Orange, Color.LawnGreen,
+                                            Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.White, 
                                              Color.Red, Color.Cyan, Color.Yellow, Color.Blue, Color.Magenta, Color.Green, Color.Orange, Color.LawnGreen};
         public const string SAVEFILE_NAME = "savefile.dat";
         public struct States
         {
+            public const int BACKGROUND = 1;
             public const int TITLESCREEN = 100;
             public const int LEVELSELECT = 150;
             public const int LEVELDETAILS = 190;
@@ -176,10 +181,6 @@ namespace PixelPerfect
             public const int VERTICAL_SPACE = 20;
             public const int TEXT_SPACE = 5;
             public const int NUM_IN_ROW = 5;
-            public const int TITLETIME = 3000; // ms
-            public const int SINPOW = 6;
-            public const double SINSHIFT = 13.0;
-            public const float TITLESCALE = 4f;
             public const int MUSIC = 2;
         }
     }
