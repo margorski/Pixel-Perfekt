@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Serialization;
-using GameStateMachine;
 using System.IO;
 
 namespace PixelPerfect.Cutscene
 {
-    public class CutsceneState : GameState
+    class CutsceneState : GameState
     {
         public List<Scene> scenes = new List<Scene>();
 

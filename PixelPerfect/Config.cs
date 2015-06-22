@@ -43,6 +43,7 @@ namespace PixelPerfect
         {
             public const int BACKGROUND = 1;
             public const int TITLESCREEN = 100;
+            public const int WORLDSELECT = 120;
             public const int LEVELSELECT = 150;
             public const int LEVELDETAILS = 190;
             public const int LEVEL = 200;
@@ -51,6 +52,7 @@ namespace PixelPerfect
             public const int PAUSE = 300;
             public const int TEXT = 400;
             public const int CUTSCENE = 500;
+            public const int DUMMY = 666;
         }   
 
         public struct Map
@@ -87,7 +89,7 @@ namespace PixelPerfect
             public const int PIXELPARTICLE_LIFETIME_MIN = 400;
             public const int PIXELPARTICLE_LIFETIME_MAX = 1200;
             public const int MAX_EXPLOSION_MAGNITUDE = 70;
-            public const int MAX_PARTICLES = 1000;
+            public const int MAX_PARTICLES = 2000;
         }
 
         public struct Player

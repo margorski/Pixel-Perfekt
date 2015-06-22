@@ -35,10 +35,10 @@ namespace PixelPerfect
             if (id < 0 || id > levels.Count - 1)
                 return "";
 
-            return directory + "\\" + levels[id].levelName;
+            return directory + "\\" + levels[id].shortName;
         }
 
-        public void AddLevel(string levelName)
+        public void AddLevel(string name, string levelName)
         {
             Texture2D thumbnail = null;
             //try
@@ -50,7 +50,7 @@ namespace PixelPerfect
             //    // do nothing if file exists
             //}
 
-            levels.Add(new Level(levelName, thumbnail));
+            levels.Add(new Level(name, levelName, thumbnail));
         }
 
         public bool LevelActivated(int id)
@@ -73,7 +73,7 @@ namespace PixelPerfect
         {
             Levelsave levelsave;
 
-            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levels[id].levelName, out levelsave))
+            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levels[id].shortName, out levelsave))
                 return false;
 
             return levelsave.completed;
@@ -83,7 +83,7 @@ namespace PixelPerfect
         {
             Levelsave levelsave;
 
-            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levels[id].levelName, out levelsave))
+            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levels[id].shortName, out levelsave))
                 return false;
 
             return levelsave.skipped;
@@ -95,7 +95,7 @@ namespace PixelPerfect
 
             foreach (Level level in levels)
             {
-                if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + level.levelName, out levelSave))
+                if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + level.shortName, out levelSave))
                     return false;
 
                 if (!levelSave.completed)
@@ -144,9 +144,20 @@ namespace PixelPerfect
                             }
                             if (xmlreader.NodeType == XmlNodeType.Element && xmlreader.Name == "level")
                             {
+                                string sname, levelname;
+                                sname = levelname = "";
                                 xmlreader.MoveToNextAttribute();
                                 if (xmlreader.Name == "name")
-                                    tempworld.AddLevel(xmlreader.Value);
+                                {
+                                    sname = xmlreader.Value;
+                                    xmlreader.MoveToNextAttribute();
+                                }
+                                if (xmlreader.Name == "value")
+                                {
+                                    levelname = xmlreader.Value;
+                                    xmlreader.MoveToNextAttribute();
+                                }
+                                tempworld.AddLevel(sname, levelname);
                             }
                         }
                     }
@@ -191,8 +202,7 @@ namespace PixelPerfect
             }
         }
 
-
-        internal bool Skip(int selectedLevel)
+        public bool Skip(int selectedLevel)
         {
             if (selectedLevel >= levels.Count - 1)
                 return false; // cannot skip last level

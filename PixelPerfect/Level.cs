@@ -15,10 +15,12 @@ namespace PixelPerfect
     class Level
     {
         public Texture2D thumbnail = null;
+        public String shortName;
         public String levelName;
 
-        public Level(String levelName,Texture2D thumbnail)
+        public Level(String shortName, String levelName, Texture2D thumbnail)
         {
+            this.shortName = shortName;
             this.levelName = levelName;
             this.thumbnail = thumbnail;
         }

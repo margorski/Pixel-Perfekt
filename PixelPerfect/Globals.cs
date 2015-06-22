@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-using GameStateMachine;
 
 namespace PixelPerfect
 {
@@ -19,6 +18,8 @@ namespace PixelPerfect
         public static LevelState CurrentLevelState;
         public static GraphicsDeviceManager graphics;
         public static ContentManager content;
+        public static SpriteBatch spriteBatch;
+        public static RenderTarget2D renderTarget;
         public static Color backgroundColor = Color.Black;
         public static double SpeedModificator = 1.4;        
         public static GameStateManager gameStateManager;
@@ -34,6 +35,11 @@ namespace PixelPerfect
         public static Dictionary<string, Texture2D> textureDictionary = new Dictionary<string, Texture2D>();
         public static Tileset tileset;
         public static bool musicEnabled = true;
-        public static bool soundEnabled = true;        
+        public static bool soundEnabled = true;
+        public static List<PixelParticle> pixelParticles = new List<PixelParticle>();
+        public static List<World> worlds;
+        public static int selectedWorld = -1;
+        public static int selectedLevel = -1;
+        public static LevelState.LevelColors currentLevelColors;
     }
 }

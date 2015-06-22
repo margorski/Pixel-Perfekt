@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
 using System.IO.IsolatedStorage;
-using GameStateMachine;
 
 namespace PixelPerfect
 {
@@ -22,6 +21,7 @@ namespace PixelPerfect
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteBatch spriteBatch2;
+
         GameStateManager gameStateManager;
 
         private float scale = 1.0f;
@@ -91,8 +91,10 @@ namespace PixelPerfect
         {
             // TODO: Add your initialization logic here
             base.Initialize();
+            Globals.renderTarget = new RenderTarget2D(GraphicsDevice, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED,
+                                                      false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
             Savestate.Init();
-
+            
 #if !WINDOWS
             if (!IsolatedStorageSettings.ApplicationSettings.Contains("music"))
             {
@@ -111,29 +113,39 @@ namespace PixelPerfect
 
             gameStateManager = new GameStateManager();
             Globals.gameStateManager = gameStateManager;
-            
+            Globals.worlds = World.LoadWorlds();
+
             var menuState = new TitlescreenState(gameStateManager);  
-            var backgroundLevel = new LevelState("fgame", "fgame\\menu", true);    
-            backgroundLevel.scale = scale;
+            var backgroundLevel = new LevelState("", "menu", true);    
+            backgroundLevel.scale = scale;            
             menuState.backgroundLevel = backgroundLevel;      
             var pauseState = new PauseState(Content, gameStateManager); 
             menuState.scale = pauseState.scale = scale;
             var levelSelectState = new LevelSelectState(gameStateManager);
             levelSelectState.scale = scale;
             var backgroundState = new TextureBackgroundState();
+            var dummyState = new DummyState();
+            var worldSelectState = new WorldSelectState(gameStateManager);
+            worldSelectState.scale = scale;
+            var levelDetailsState = new LevelDetailsState(gameStateManager);
+            levelDetailsState.scale = scale;
 
             gameStateManager.RegisterState(Config.States.TITLESCREEN, menuState);
             gameStateManager.RegisterState(Config.States.PAUSE, pauseState);
+            gameStateManager.RegisterState(Config.States.WORLDSELECT, worldSelectState);
             gameStateManager.RegisterState(Config.States.LEVELSELECT, levelSelectState);
+            gameStateManager.RegisterState(Config.States.LEVELDETAILS, levelDetailsState);
             gameStateManager.RegisterState(Config.States.BACKGROUND, backgroundState);
+            gameStateManager.RegisterState(Config.States.DUMMY, dummyState);
             gameStateManager.PushState(Config.States.BACKGROUND);
+            gameStateManager.PushState(Config.States.DUMMY);
             gameStateManager.PushState(Config.States.TITLESCREEN);
            
         }
 
         protected override void LoadContent()
         {
-            spriteBatch = new SpriteBatch(GraphicsDevice);
+            Globals.spriteBatch = spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteBatch2 = new SpriteBatch(GraphicsDevice);
 
             MediaPlayer.IsRepeating = true;
@@ -194,8 +206,8 @@ namespace PixelPerfect
         {
             var modifiedGameTime = new GameTime(gameTime.TotalGameTime, new TimeSpan(0, 0, 0, 0, (int)(gameTime.ElapsedGameTime.TotalMilliseconds * Globals.SpeedModificator)));
             gameStateManager.Update(modifiedGameTime);
-            if (gameStateManager.CurrentState() == 0)
-                this.Exit();
+            //if (gameStateManager.CurrentState() == 0)
+            //    this.Exit();
 
             base.Update(gameTime);
         }
@@ -207,17 +219,18 @@ namespace PixelPerfect
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
-        {            
-            GraphicsDevice.Clear(Globals.backgroundColor);
-            //spriteBatch.Begin();
+        {
 
+            GraphicsDevice.Clear(Globals.backgroundColor);
+ 
             Matrix matrix = Matrix.Identity;            
             matrix *= Matrix.CreateTranslation(new Vector3(-3, 0, 0)); // position adjusting
             matrix *= Matrix.CreateScale(scale);
-            var shiftMatrix = matrix * Matrix.CreateTranslation(new Vector3(graphics.GraphicsDevice.Viewport.Width * gameStateManager.GetTranslationShift(), 0.0f, 0.0f));
+            var translationShift = gameStateManager.GetHorizontalTransition();
+            var shiftMatrix = matrix * Matrix.CreateTranslation(new Vector3(graphics.GraphicsDevice.Viewport.Width * translationShift.X, graphics.GraphicsDevice.Viewport.Height * translationShift.Y, 0.0f));
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, shiftMatrix);//Matrix.CreateScale(scale));
             spriteBatch2.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);
-
+         
             gameStateManager.Draw(spriteBatch, spriteBatch2);
 
             spriteBatch2.End();
@@ -225,6 +238,7 @@ namespace PixelPerfect
 
             base.Draw(gameTime);
         }
+
 
         protected override void OnDeactivated(object sender, EventArgs args)
         {

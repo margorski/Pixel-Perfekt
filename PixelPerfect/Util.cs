@@ -117,6 +117,11 @@ namespace PixelPerfect
             return colorArray;
         }
 
+        public static Color[] GetTextureArray(Texture2D texture)
+        {
+            return GetTextureArray(texture, texture.Width, texture.Height);
+        }
+
         public static Texture2D BlitTexture(Texture2D texture, Rectangle blitRect)
         {
             Texture2D newTexture = new Texture2D(Globals.graphics.GraphicsDevice, blitRect.Width, blitRect.Height);
@@ -209,6 +214,31 @@ namespace PixelPerfect
             }
 
             spriteBatch.DrawString(spriteFont, text, position, color);
+        }
+
+        public delegate void DrawDelegate(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false);
+
+        public static Texture2D DrawToTexture (DrawDelegate drawDelegate)
+        {
+            if (drawDelegate == null)
+                return null;
+
+            Globals.graphics.GraphicsDevice.SetRenderTarget(Globals.renderTarget);
+            Globals.graphics.GraphicsDevice.DepthStencilState = new DepthStencilState() { DepthBufferEnable = true };
+            Globals.graphics.GraphicsDevice.Clear(Color.Transparent);
+
+
+            Matrix matrix = Matrix.Identity;
+            //matrix *= Matrix.CreateTranslation(new Vector3(-3, 0, 0)); // position adjusting
+            //matrix *= Matrix.CreateScale(state.scale);
+            Globals.spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);
+
+            drawDelegate(Globals.spriteBatch, false);
+            Globals.spriteBatch.End();
+
+            Globals.graphics.GraphicsDevice.SetRenderTarget(null);
+
+            return (Texture2D)Globals.renderTarget;
         }
     }
 }

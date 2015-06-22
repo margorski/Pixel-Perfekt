@@ -91,6 +91,8 @@
     <Compile Include="Cutscene\Item.cs" />
     <Compile Include="Cutscene\Keyframe.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="States\LevelDetailsState.cs" />
+    <Compile Include="States\WorldSelectState.cs" />
     <Compile Include="States\LevelState.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="GamePage.xaml.cs">
@@ -249,171 +251,171 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb1.tmx">
-      <Link>Levels\fgame\bb1.tmx</Link>
+      <Link>Levels\sad\bb1.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb10.tmx">
-      <Link>Levels\fgame\bb10.tmx</Link>
+      <Link>Levels\sad\bb10.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb11.tmx">
-      <Link>Levels\fgame\bb11.tmx</Link>
+      <Link>Levels\scared\bb11.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb2.tmx">
-      <Link>Levels\fgame\bb2.tmx</Link>
+      <Link>Levels\sad\bb2.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb3.tmx">
-      <Link>Levels\fgame\bb3.tmx</Link>
+      <Link>Levels\sad\bb3.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb4.tmx">
-      <Link>Levels\fgame\bb4.tmx</Link>
+      <Link>Levels\sad\bb4.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb5.tmx">
-      <Link>Levels\fgame\bb5.tmx</Link>
+      <Link>Levels\sad\bb5.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb6.tmx">
-      <Link>Levels\fgame\bb6.tmx</Link>
+      <Link>Levels\sad\bb6.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb7.tmx">
-      <Link>Levels\fgame\bb7.tmx</Link>
+      <Link>Levels\sad\bb7.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb8.tmx">
-      <Link>Levels\fgame\bb8.tmx</Link>
+      <Link>Levels\sad\bb8.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\bb9.tmx">
-      <Link>Levels\fgame\bb9.tmx</Link>
+      <Link>Levels\sad\bb9.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk1.tmx">
-      <Link>Levels\fgame\dk1.tmx</Link>
+      <Link>Levels\scared\dk1.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk2.tmx">
-      <Link>Levels\fgame\dk2.tmx</Link>
+      <Link>Levels\scared\dk2.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk3.tmx">
-      <Link>Levels\fgame\dk3.tmx</Link>
+      <Link>Levels\scared\dk3.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk4.tmx">
-      <Link>Levels\fgame\dk4.tmx</Link>
+      <Link>Levels\scared\dk4.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk5.tmx">
-      <Link>Levels\fgame\dk5.tmx</Link>
+      <Link>Levels\scared\dk5.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk6.tmx">
-      <Link>Levels\fgame\dk6.tmx</Link>
+      <Link>Levels\scared\dk6.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk7.tmx">
-      <Link>Levels\fgame\dk7.tmx</Link>
+      <Link>Levels\scared\dk7.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk8.tmx">
-      <Link>Levels\fgame\dk8.tmx</Link>
+      <Link>Levels\scared\dk8.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\dk9.tmx">
-      <Link>Levels\fgame\dk9.tmx</Link>
+      <Link>Levels\scared\dk9.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm1.tmx">
-      <Link>Levels\fgame\pm1.tmx</Link>
+      <Link>Levels\happy\pm1.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm10.tmx">
-      <Link>Levels\fgame\pm10.tmx</Link>
+      <Link>Levels\happy\pm10.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm11.tmx">
-      <Link>Levels\fgame\pm11.tmx</Link>
+      <Link>Levels\happy\pm11.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm2.tmx">
-      <Link>Levels\fgame\pm2.tmx</Link>
+      <Link>Levels\happy\pm2.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm3.tmx">
-      <Link>Levels\fgame\pm3.tmx</Link>
+      <Link>Levels\happy\pm3.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm4.tmx">
-      <Link>Levels\fgame\pm4.tmx</Link>
+      <Link>Levels\happy\pm4.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm5.tmx">
-      <Link>Levels\fgame\pm5.tmx</Link>
+      <Link>Levels\happy\pm5.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm6.tmx">
-      <Link>Levels\fgame\pm6.tmx</Link>
+      <Link>Levels\happy\pm6.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm7.tmx">
-      <Link>Levels\fgame\pm7.tmx</Link>
+      <Link>Levels\happy\pm7.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pm8.tmx">
-      <Link>Levels\fgame\pm8.tmx</Link>
+      <Link>Levels\happy\pm8.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\pp0.tmx">
-      <Link>Levels\fgame\pp0.tmx</Link>
+      <Link>Levels\happy\pp0.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si1.tmx">
-      <Link>Levels\fgame\si1.tmx</Link>
+      <Link>Levels\cool\si1.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si10.tmx">
-      <Link>Levels\fgame\si10.tmx</Link>
+      <Link>Levels\happy\si10.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si11.tmx">
-      <Link>Levels\fgame\si11.tmx</Link>
+      <Link>Levels\happy\si11.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si2.tmx">
-      <Link>Levels\fgame\si2.tmx</Link>
+      <Link>Levels\happy\si2.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si3.tmx">
-      <Link>Levels\fgame\si3.tmx</Link>
+      <Link>Levels\happy\si3.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si4.tmx">
-      <Link>Levels\fgame\si4.tmx</Link>
+      <Link>Levels\cool\si4.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si5.tmx">
-      <Link>Levels\fgame\si5.tmx</Link>
+      <Link>Levels\happy\si5.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si6.tmx">
-      <Link>Levels\fgame\si6.tmx</Link>
+      <Link>Levels\happy\si6.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si7.tmx">
-      <Link>Levels\fgame\si7.tmx</Link>
+      <Link>Levels\happy\si7.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si8.tmx">
-      <Link>Levels\fgame\si8.tmx</Link>
+      <Link>Levels\happy\si8.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\si9.tmx">
-      <Link>Levels\fgame\si9.tmx</Link>
+      <Link>Levels\happy\si9.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\enemies_8x8.xnb">
@@ -425,15 +427,15 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg1.tmx">
-      <Link>Levels\fgame\beg1.tmx</Link>
+      <Link>Levels\cool\beg1.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg2.tmx">
-      <Link>Levels\fgame\beg2.tmx</Link>
+      <Link>Levels\cool\beg2.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg3.tmx">
-      <Link>Levels\fgame\beg3.tmx</Link>
+      <Link>Levels\cool\beg3.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\king_48x48.xnb">
@@ -441,23 +443,23 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg4.tmx">
-      <Link>Levels\fgame\beg4.tmx</Link>
+      <Link>Levels\cool\beg4.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg5.tmx">
-      <Link>Levels\fgame\beg5.tmx</Link>
+      <Link>Levels\cool\beg5.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg6.tmx">
-      <Link>Levels\fgame\beg6.tmx</Link>
+      <Link>Levels\cool\beg6.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg7.tmx">
-      <Link>Levels\fgame\beg7.tmx</Link>
+      <Link>Levels\cool\beg7.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\beg8.tmx">
-      <Link>Levels\fgame\beg8.tmx</Link>
+      <Link>Levels\cool\beg8.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\8-bit loop %28loop%29.xnb">
@@ -545,7 +547,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Assets\Levels\fgame\menu.tmx">
-      <Link>Levels\fgame\menu.tmx</Link>
+      <Link>Levels\menu.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="ReleaseNotes.txt" />

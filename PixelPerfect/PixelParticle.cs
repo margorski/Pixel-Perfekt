@@ -47,7 +47,11 @@ namespace PixelPerfect
 
         public Map map;
 
-        public PixelParticle(Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null, bool enviroAffect = true, Config.StandingType standingType = Config.StandingType.Pixel)
+        private TimeSpan gravityDelayTimer = TimeSpan.Zero;
+        private int gravityDelay;
+        private bool gravityEnabled = false;
+
+        public PixelParticle(Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null, bool enviroAffect = true, Config.StandingType standingType = Config.StandingType.Pixel, int gravityDelay = 0)
         {
             enviroSpeed = Vector2.Zero;
             this.texture = Globals.textureDictionary["pixel"];
@@ -63,7 +67,7 @@ namespace PixelPerfect
             this.map = map;
             this.enviroAffect = enviroAffect;
             this.standingType = standingType;
-
+            this.gravityDelay = gravityDelay;
             hitSoundInstance = Globals.soundsDictionary["hit"];
         }
 
@@ -76,7 +80,14 @@ namespace PixelPerfect
                     return true;
             }
 
-            if (gravityAffect)
+            if (!gravityEnabled)
+            {
+                gravityDelayTimer += gameTime.ElapsedGameTime;
+                if (gravityDelayTimer.TotalMilliseconds > gravityDelay)
+                    gravityEnabled = true;
+            }
+
+            if (gravityAffect && gravityEnabled)
             {
                 speedY += Config.Player.GRAVITY * gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0;
             }
@@ -125,7 +136,7 @@ namespace PixelPerfect
             else if (position.X < -1)
                 position.X = Config.Map.WIDTH * Config.Tile.SIZE - 2;
             */
-            if (position.Y > Config.SCREEN_HEIGHT_SCALED) // remove on out of screen
+            if (position.Y > Config.SCREEN_HEIGHT_SCALED || position.X < 0 || position.X > Config.SCREEN_WIDTH_SCALED) // remove on out of screen
                 return true;
 
             return false;

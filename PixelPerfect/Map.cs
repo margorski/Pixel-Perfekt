@@ -12,7 +12,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-using GameStateMachine;
 
 namespace PixelPerfect
 {
@@ -38,7 +37,7 @@ namespace PixelPerfect
         public int music = 4;
 
         // Methods
-        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, string levelName, Color color, bool moving = false, bool emit = true, int music = 0)
+        public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, Color color, bool moving = false, bool emit = true, int music = 0)
         {            
             this.enemiesList = enemiesList;
             this.emiterList = emiterList;
@@ -405,7 +404,6 @@ namespace PixelPerfect
             List<Trigger> triggerList = new List<Trigger>();
             int[] tileMap = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
             int[] tileBackground = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
-            string levelName = "";
             bool moving = false;
             int triggerCount = 0;
             Color color = Color.Black;
@@ -446,9 +444,6 @@ namespace PixelPerfect
 
                                     switch (property_name)
                                     {
-                                        case "name":
-                                            levelName = value;
-                                            break;
                                         case "moving":
                                             moving = (int.Parse(value) == 1 ? true : false);
                                             break;
@@ -857,7 +852,7 @@ namespace PixelPerfect
                 return null;
 
             Globals.CurrentLevelState.ReloadColors(levelColors);
-            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, levelName, color, moving, emit, music);
+            return new Map(tileset, pixel, tileMap, tileBackground, enemiesList, emiterList, triggerList, color, moving, emit, music);
         }
 
         public void Reset()

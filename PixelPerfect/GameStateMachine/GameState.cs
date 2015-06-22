@@ -8,9 +8,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace GameStateMachine
+namespace PixelPerfect
 {
-    public abstract class GameState
+    abstract class GameState
     {
         public float scale = 1.0f;
 
@@ -20,5 +20,34 @@ namespace GameStateMachine
         public abstract void Resume(int poppedStateId);
         public abstract void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false);
         public abstract void Update(GameTime gameTime, bool suspended);
+
     }
+
+    class DummyState : GameState
+    {
+        public override void Enter(int previousStateId)
+        {
+        }
+
+        public override void Exit(int nextStateId)
+        {
+        }
+
+        public override void Suspend(int pushedStateId)
+        {
+        }
+
+        public override void Resume(int poppedStateId)
+        {
+        }
+
+        public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
+        {
+        }
+
+        public override void Update(GameTime gameTime, bool suspended)
+        {
+        }
+    }
+
 }

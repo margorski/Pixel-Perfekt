@@ -10,7 +10,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-using GameStateMachine;
 
 namespace PixelPerfect
 {
@@ -43,6 +42,7 @@ namespace PixelPerfect
         private GamePadState currGPState;
         public int deathCount;
         //private int i = 0;
+        public string name = "";
 
         public string levelFile { private set; get; }
         private string directory = "";
@@ -244,14 +244,24 @@ namespace PixelPerfect
         {
             ReloadGradientTexture();
             ResetInput();
-            if (!menuLevel)
-                MediaPlayer.Resume();
+            Globals.CurrentLevelState = this;
+            if (menuLevel)
+            {
+                InitLevel();
+                if (Globals.musicEnabled)
+                    MediaPlayer.Resume();
+            }
         }
 
         public override void Suspend(int pushedStateId)
         {
-            if (!menuLevel)
-                MediaPlayer.Pause();
+            if (menuLevel)
+                InitLevel();
+            else
+            {
+                if (Globals.musicEnabled)
+                    MediaPlayer.Pause();
+            }
         }
 
         public override void Update(GameTime gameTime, bool suspended)
@@ -586,7 +596,7 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            if (backgroundTexture != null)
+            if (backgroundTexture != null && !menuLevel)
                 spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
 
             if (!upsidedownBatch)
@@ -639,7 +649,7 @@ namespace PixelPerfect
             Globals.backgroundColor = map.color;
 
             if (!menuLevel)
-                hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
+                hud.Init(name, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 
             player = new Player(map.startPosition, Globals.spritesDictionary["player"].texture);          
             if (map.moving)
@@ -665,7 +675,7 @@ namespace PixelPerfect
             levelTime = TimeSpan.Zero;
 
             if (!menuLevel)
-                hud.Init(map.levelName, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
+                hud.Init(name, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 
             foreach (PixelParticle pixelParticle in pixelParticles)
             {

@@ -11,7 +11,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-using GameStateMachine;
 
 #if !WINDOWS
 using Microsoft.Phone.Tasks;
@@ -36,7 +35,7 @@ namespace PixelPerfect
         Button musicButton;
         Button soundButton;
 
-        WavyText wavyText = new WavyText("PIXEL PERFEKT", new Vector2(14, 10), 3000, 4.0f, Config.titleColors, 13.0f, 6.0f);            
+        WavyText wavyText = new WavyText("PIXEL PERFEKT", new Vector2(14, 10), 3000, 4.0f, Config.titleColors, 13.0f, 6.0f);
 
         public LevelState backgroundLevel { set; private get; }
 
@@ -74,16 +73,23 @@ namespace PixelPerfect
 
         public override void Suspend(int pushedStateId)
         {
-            MediaPlayer.Pause();
             if (backgroundLevel != null)
                 backgroundLevel.Suspend(pushedStateId);
         }
 
         public override void Resume(int poppedStateId)
         {
-            MediaPlayer.Resume();
+            if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
+                MediaPlayer.Play(Globals.backgroundMusicList[Config.Menu.MUSIC]);
+#if !WINDOWS
+            touchState = TouchPanel.GetState();
+#else
+            prevMouseState = currMouseState = Mouse.GetState();
+#endif
+            prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
+
             if (backgroundLevel != null)
-                backgroundLevel.Resume(poppedStateId);
+                backgroundLevel.Resume(poppedStateId);            
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
@@ -95,7 +101,7 @@ namespace PixelPerfect
 
             playButton.Draw(spriteBatch);
             musicButton.Draw(spriteBatch);
-            soundButton.Draw(spriteBatch);
+            soundButton.Draw(spriteBatch);        
         }
 
         public override void Update(GameTime gameTime, bool suspended)
@@ -137,8 +143,8 @@ namespace PixelPerfect
                         continue;
                     }
                     else if (playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
-                    {
-                        gameStateManager.ChangeState(Config.States.LEVELSELECT, true);
+                    {                            
+                        gameStateManager.ChangeState(Config.States.WORLDSELECT, true, 2000);
                         break;
                     }
                 }
@@ -160,16 +166,15 @@ namespace PixelPerfect
                 }
                 else if (playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
                 {
-                    gameStateManager.ChangeState(Config.States.LEVELSELECT, true);
+                    gameStateManager.ChangeState(Config.States.WORLDSELECT, true, 2000);
                 }
             }
 #endif
-
-
 
 #if WINDOWS
             prevMouseState = currMouseState;
 #endif      
         }
+
     }
 }

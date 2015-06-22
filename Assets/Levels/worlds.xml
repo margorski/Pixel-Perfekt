@@ -1,55 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <worlds>
-  <world name="FGame" icon="" directory="fgame">
-    <level name="beg1" />
-    <level name="beg3" />
-    <level name="beg5" />
-    <level name="beg6" />    
-    <level name="beg7" />
-    <level name="beg8" />   
-    <level name="beg2" />
-    <level name="beg4" />    
-    <level name="si1" />
-    <level name="si4" />
-	  <level name="pp0" />
-	  <level name="si2" />
-	  <level name="si5" />
-	  <level name="si6" />
-	  <level name="si11" />
-	  <level name="si8" />
-	  <level name="si7" />
-	  <level name="si3" />
-	  <level name="si10" />
-	  <level name="si9" />
-	  <level name="pm1" />
-	  <level name="pm5" />
-	  <level name="pm11" />
-	  <level name="pm6" />
-	  <level name="pm8" />
-	  <level name="pm2" />
-	  <level name="pm10" />
-	  <level name="pm7" />
-	  <level name="pm3" />        
-	  <level name="pm4" />
-	  <level name="bb1" />
-	  <level name="bb2" />
-	  <level name="bb3" />
-	  <level name="bb4" />
-	  <level name="bb5" />
-	  <level name="bb6" />
-	  <level name="bb7" />
-	  <level name="bb8" />
-	  <level name="bb9" />
-	  <level name="bb10" />
-	  <level name="bb11" />
-	  <level name="dk8" />
-	  <level name="dk1" />
-	  <level name="dk3" />
-	  <level name="dk2" />
-	  <level name="dk5" />
-	  <level name="dk4" />
-	  <level name="dk6" />
-	  <level name="dk7" />
-	  <level name="dk9" />
+  <world name="sleepy" icon="" directory="sleepy">
+    <level name="beg1" value="Hello world!"/>
+    <level name="beg3" value="i'm like a bird"/>
+    <level name="beg5" value="white men can jump"/>
+    <level name="beg6" value="hello"/>    
+    <level name="beg7" value="just jump"/>
+    <level name="beg8" value="well, well, well"/>   
+    <level name="beg2" value="can't touch this"/>
+    <level name="beg4" value="spike strip"/>    
+    <level name="si1" value="bouncy bouncers"/>
+    <level name="si4" value="Meet new friends" />
+  </world>
+  <world name="cool" icon="" directory="cool">
+	  <level name="pp0" value="industrial"/>
+	  <level name="si2" value="corporate lifestyle"/>
+	  <level name="si5" value="late shift"/>
+	  <level name="si6" value="more new friends"/>
+	  <level name="si11" value="hangover"/>
+	  <level name="si8" value="long way home"/>
+	  <level name="si7" value="down in a cavern"/>
+	  <level name="si3" value="up a tree"/>
+	  <level name="si10" value="under the bridge" />
+	  <level name="si9" value="back and forth"/>
+  </world>
+  <world name="happy" icon="" directory="happy">
+	  <level name="pm1" value="spooky"/>
+	  <level name="pm5" value="go round"/>
+	  <level name="pm11" value="run you fools" />
+	  <level name="pm6" value="passing through"/>
+	  <level name="pm8" value="space in me"/>
+	  <level name="pm2"  value="is left right?"/>
+	  <level name="pm10" value="minotaur"/>
+	  <level name="pm7" value="hive"/>
+	  <level name="pm3" value="chaos theory" />        
+	  <level name="pm4" value="turmoil here today" />
+  </world>
+  <world name="sad" icon="" directory="sad">
+	  <level name="bb1" value="mirror, mirror"/>
+    <level name="bb2" value="hyperspeed" />
+	  <level name="bb3" value="haunted house"/>
+	  <level name="bb4"  value="frying pan"/>
+	  <level name="bb5" value="PEEK-A-BOO" />
+	  <level name="bb6" value="elevator action"/>
+	  <level name="bb7" value="ninja"/>
+	  <level name="bb8" value="library"/>
+	  <level name="bb9" value="CGA"/>
+	  <level name="bb10"  value="aquarium" />
+  </world>
+  <world name="scared" icon="" directory="scared">
+	  <level name="bb11" value="TWO.. three BROTHERS"/>
+	  <level name="dk8" value="death cage"/>
+	  <level name="dk1" value="it grew dark"/>
+	  <level name="dk3"  value="one false step"/>
+	  <level name="dk2" value="hell's atrium"/>
+	  <level name="dk5" value="HOT-HEADED"/>
+	  <level name="dk4" value="walking dead"/>
+	  <level name="dk6" value="make haste slowly"/>
+	  <level name="dk7" value="PRECISELY"/>
+	  <level name="dk9" value="hail to the king"/>
   </world>
 </worlds>
