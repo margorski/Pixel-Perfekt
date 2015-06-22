@@ -114,7 +114,7 @@ namespace PixelPerfect
 
         private void GoBack()
         {
-            gameStateManager.ChangeState(Config.States.WORLDSELECT, true, 2000);      
+            gameStateManager.ChangeState(Config.States.WORLDSELECT, true, Config.Menu.TRANSITION_DELAY);      
         }
 
         public void Update_LevelSelect()
@@ -170,7 +170,7 @@ namespace PixelPerfect
                 return;
 
             Globals.selectedLevel = level;
-            gameStateManager.ChangeState(Config.States.LEVELDETAILS, true, 2000);
+            gameStateManager.ChangeState(Config.States.LEVELDETAILS, true, Config.Menu.TRANSITION_DELAY);
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)

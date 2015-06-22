@@ -184,6 +184,7 @@ namespace PixelPerfect
             public const int TEXT_SPACE = 5;
             public const int NUM_IN_ROW = 5;
             public const int MUSIC = 2;
+            public const int TRANSITION_DELAY = 1000;
         }
     }
 }

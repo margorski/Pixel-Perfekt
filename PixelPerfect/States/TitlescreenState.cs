@@ -133,6 +133,10 @@ namespace PixelPerfect
                         Globals.musicEnabled = musicButton.value;
                         IsolatedStorageSettings.ApplicationSettings["music"] = Globals.musicEnabled;
                         IsolatedStorageSettings.ApplicationSettings.Save();
+                        if (Globals.musicEnabled)
+                            MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
+                        else
+                            MediaPlayer.Stop();
                         continue;
                     }        
                     else if (soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
@@ -144,7 +148,7 @@ namespace PixelPerfect
                     }
                     else if (playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
                     {                            
-                        gameStateManager.ChangeState(Config.States.WORLDSELECT, true, 2000);
+                        gameStateManager.ChangeState(Config.States.WORLDSELECT, true, Config.Menu.TRANSITION_DELAY);
                         break;
                     }
                 }
@@ -166,14 +170,14 @@ namespace PixelPerfect
                 }
                 else if (playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
                 {
-                    gameStateManager.ChangeState(Config.States.WORLDSELECT, true, 2000);
+                    gameStateManager.ChangeState(Config.States.WORLDSELECT, true, Config.Menu.TRANSITION_DELAY);
                 }
             }
 #endif
 
 #if WINDOWS
             prevMouseState = currMouseState;
-#endif      
+#endif
         }
 
     }

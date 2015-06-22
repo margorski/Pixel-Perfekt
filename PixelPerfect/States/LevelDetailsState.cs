@@ -177,7 +177,7 @@ namespace PixelPerfect
 
         private void GoBack()
         {
-            gameStateManager.ChangeState(Config.States.LEVELSELECT, true, 2000);
+            gameStateManager.ChangeState(Config.States.LEVELSELECT, true, Config.Menu.TRANSITION_DELAY);
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)

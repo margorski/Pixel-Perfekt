@@ -119,7 +119,7 @@ namespace PixelPerfect
 
         private void GoBack()
         {
-            gameStateManager.ChangeState(Config.States.TITLESCREEN, true, 2000);
+            gameStateManager.ChangeState(Config.States.TITLESCREEN, true, Config.Menu.TRANSITION_DELAY);
         }
 
         private void SendDataEmail()
@@ -195,7 +195,7 @@ namespace PixelPerfect
                 return;
 
             Globals.selectedWorld = world;
-            gameStateManager.ChangeState(Config.States.LEVELSELECT, true, 2000);
+            gameStateManager.ChangeState(Config.States.LEVELSELECT, true, Config.Menu.TRANSITION_DELAY);
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
