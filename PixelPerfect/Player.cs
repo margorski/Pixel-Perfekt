@@ -63,7 +63,8 @@ namespace PixelPerfect
         {
             get
             {
-                return new Rectangle(0, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : (animation.GetCurrentFrame() + 1) * Config.Player.HEIGHT, Config.Player.WIDTH, Config.Player.HEIGHT);
+                var spriteColumn = (Globals.selectedWorld == -1 ? 0 : Globals.selectedWorld);
+                return new Rectangle(spriteColumn * Config.Player.WIDTH, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : (animation.GetCurrentFrame() + 1) * Config.Player.HEIGHT, Config.Player.WIDTH, Config.Player.HEIGHT);
             }
         }
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <worlds>
-  <world name="sleepy" icon="" directory="sleepy">
+  <world name="cool" icon="cool" directory="cool">
     <level name="beg1" value="Hello world!"/>
     <level name="beg3" value="i'm like a bird"/>
     <level name="beg5" value="white men can jump"/>
@@ -12,7 +12,7 @@
     <level name="si1" value="bouncy bouncers"/>
     <level name="si4" value="Meet new friends" />
   </world>
-  <world name="cool" icon="" directory="cool">
+  <world name="happy" icon="happy" directory="happy">
 	  <level name="pp0" value="industrial"/>
 	  <level name="si2" value="corporate lifestyle"/>
 	  <level name="si5" value="late shift"/>
@@ -24,7 +24,7 @@
 	  <level name="si10" value="under the bridge" />
 	  <level name="si9" value="back and forth"/>
   </world>
-  <world name="happy" icon="" directory="happy">
+  <world name="confused" icon="confused" directory="confused">
 	  <level name="pm1" value="spooky"/>
 	  <level name="pm5" value="go round"/>
 	  <level name="pm11" value="run you fools" />
@@ -36,7 +36,7 @@
 	  <level name="pm3" value="chaos theory" />        
 	  <level name="pm4" value="turmoil here today" />
   </world>
-  <world name="sad" icon="" directory="sad">
+  <world name="shocked" icon="shocked" directory="shocked">
 	  <level name="bb1" value="mirror, mirror"/>
     <level name="bb2" value="hyperspeed" />
 	  <level name="bb3" value="haunted house"/>
@@ -48,7 +48,7 @@
 	  <level name="bb9" value="CGA"/>
 	  <level name="bb10"  value="aquarium" />
   </world>
-  <world name="scared" icon="" directory="scared">
+  <world name="scared" icon="scared" directory="scared">
 	  <level name="bb11" value="TWO.. three BROTHERS"/>
 	  <level name="dk8" value="death cage"/>
 	  <level name="dk1" value="it grew dark"/>

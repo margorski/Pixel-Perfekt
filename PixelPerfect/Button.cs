@@ -19,13 +19,19 @@ namespace PixelPerfect
         private Rectangle rectangle;        
         private Texture2D texture;
         public Color activeColor = Color.White;
-        public Color toggleColor = Color.Gray;
-        public Color notactiveColor = Color.DarkGray;
+        public Color notactiveColor = new Color(0.25f, 0.25f, 0.25f);
+        public Color toggleColor = Color.DimGray;
         private SpriteFont font;
         public bool active = true;
         public bool value = false;
-
+        private bool clicked = false;
         private bool toggleable = false;
+
+        public int X { get { return rectangle.X; } }
+        public int Y { get { return rectangle.Y; } }
+        public int Width { get { return rectangle.Width; } }
+        public int Height { get { return rectangle.Height; } }
+
         public Button (string text, Rectangle rectangle, Texture2D texture, SpriteFont font, bool toggleable)
         {
             this.text = text;
@@ -35,26 +41,38 @@ namespace PixelPerfect
             this.toggleable = toggleable;   
         }
         
-        public bool Clicked(int x, int y)
+        public bool Clicked(int x, int y, bool release)
         {
+            clicked = false;
+
             if (!active)
                 return false;
-                        
+
             if (rectangle.Contains(x, y))
             {
-                if (toggleable)
+                if (release)
+                    clicked = false;
+                else
+                    clicked = true;
+
+                if (toggleable && release)
                     Toggle();
                 return true;
             }
             return false;
         }
-
-        public bool Clicked(int x, int y, float scale)
+        
+        public void setPosition (Vector2 position)
+        {
+            rectangle = new Rectangle((int)position.X, (int)position.Y, rectangle.Width, rectangle.Height);
+        }
+            
+        public bool Clicked(int x, int y, float scale, bool release)
         {
             x = (int)(x / scale);
             y = (int)(y / scale);
 
-            return Clicked(x, y);
+            return Clicked(x, y, release);
         }
 
         public void Toggle()
@@ -71,10 +89,20 @@ namespace PixelPerfect
             if (toggleable && !value)
                 color = toggleColor;
 
+            if (clicked)
+            {
+                color = (toggleable ? value ? Color.LightGray : Color.DarkGray : Color.LightGray);
+            }
+
+            Draw(spriteBatch, color);
+        }
+
+        public void Draw(SpriteBatch spriteBatch, Color color)
+        {          
             spriteBatch.Draw(texture, rectangle, color);
-            
+
             var dimensions = font.MeasureString(text);
-            Vector2 centerVector = new Vector2(rectangle.Center.X, rectangle.Center.Y);            
+            Vector2 centerVector = new Vector2(rectangle.Center.X, rectangle.Center.Y);
 
             spriteBatch.DrawString(font, text, centerVector - dimensions / 2, color);
         }

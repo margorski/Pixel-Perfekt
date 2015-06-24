@@ -155,6 +155,15 @@ namespace PixelPerfect
             Globals.textureDictionary.Add("music", Content.Load<Texture2D>("menu\\music"));
             Globals.textureDictionary.Add("sound", Content.Load<Texture2D>("menu\\sound"));
             Globals.textureDictionary.Add("logo", Content.Load<Texture2D>("menu\\logo"));
+            Globals.textureDictionary.Add("miniTileset", Content.Load<Texture2D>("tileset_mini"));
+            Globals.textureDictionary.Add("miniPlayer", Content.Load<Texture2D>("player_mini"));
+            Globals.textureDictionary.Add("miniDoor", Content.Load<Texture2D>("door_mini"));
+            Globals.textureDictionary.Add("cool", Content.Load<Texture2D>("moods\\cool"));
+            Globals.textureDictionary.Add("happy", Content.Load<Texture2D>("moods\\happy"));
+            Globals.textureDictionary.Add("confused", Content.Load<Texture2D>("moods\\confused"));
+            Globals.textureDictionary.Add("shocked", Content.Load<Texture2D>("moods\\shocked"));
+            Globals.textureDictionary.Add("scared", Content.Load<Texture2D>("moods\\scared"));
+            Globals.textureDictionary.Add("keylock", Content.Load<Texture2D>("keylock"));
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
 
             //sprites

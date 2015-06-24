@@ -1,8 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{2906709a-36d3-485f-9248-8dfa160c962d}" Title="Pixel Perfect PreAlpha" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="PixelPerfect author" Description="" Publisher="PixelPerfect" PublisherID="{0df4bf76-7146-42eb-ba7c-83daa7249a23}">
-    <IconPath IsRelative="true" IsResource="false">icon.png</IconPath>
+  <App xmlns="" ProductID="{2906709a-36d3-485f-9248-8dfa160c962d}" Title="Pixel Perfekt Beta" RuntimeType="Silverlight" Version="1.0.0.0" Genre="apps.normal" Author="PixelPerfect author" Description="" Publisher="PixelPerfect" PublisherID="{0df4bf76-7146-42eb-ba7c-83daa7249a23}">
+    <IconPath IsRelative="true" IsResource="false">pikpok.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_NETWORKING" />
       <Capability Name="ID_CAP_MEDIALIB_AUDIO" />
@@ -20,10 +20,11 @@
     <Tokens>
       <PrimaryToken TokenID="PixelPerfectToken" TaskName="_default">
         <TemplateIconic>
-          <SmallImageURI IsRelative="true" IsResource="false">iconic_small.png</SmallImageURI>
+          <SmallImageURI IsRelative="true" IsResource="false">pikpok.png</SmallImageURI>
           <Count>0</Count>
-          <IconImageURI IsRelative="true" IsResource="false">iconic_medium.png</IconImageURI>
-          <Title>Pixel Perfect PreALPHA</Title>
+          <IconImageURI IsRelative="true" IsResource="false">pikpok.png</IconImageURI>
+          <Title>
+          </Title>
           <Message>
           </Message>
           <BackgroundColor>

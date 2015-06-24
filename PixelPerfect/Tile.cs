@@ -132,10 +132,7 @@ namespace PixelPerfect
             if (disco)
             {
                 scaleTimer += gameTime.ElapsedGameTime;
-                if (scaleTimer.TotalMilliseconds >= 
-                    
-                    
-                    .0)
+                if (scaleTimer.TotalMilliseconds >= 2000)                                   
                     scaleTimer = TimeSpan.Zero;
                 currentScale = (float)Math.Sin((scaleTimer.TotalMilliseconds / 1000.0) * Math.PI * 2) / 2 + 1.5f;
                 //currentRotation = (float)(Math.Sin((scaleTimer.TotalMilliseconds / 2000.0) * Math.PI * 2) * Math.PI / 5);

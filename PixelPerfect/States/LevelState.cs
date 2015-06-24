@@ -218,8 +218,6 @@ namespace PixelPerfect
                     levelFile += ".tmx";
             }
             this.menuLevel = menuLevel;
-            //resetButton = new Button("RESET", new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 12, 60, 12), Globals.pixelTexture, silkscreenFont, false);
-            //resetButton.activeColor = Color.Black;
         }
 
         public override void Enter(int previousStateId)
@@ -392,8 +390,11 @@ namespace PixelPerfect
                         Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
                         Savestate.Instance.Save();
                     }
-                    if (!Globals.gameStateManager.ChangeState(Config.States.TITLESCREEN))
-                        Globals.gameStateManager.EmptyStack();                        
+                    if (Globals.worlds[Globals.selectedWorld].Completed())
+                        Globals.gameStateManager.ChangeState(Config.States.WORLDSELECT);
+                    else
+                        Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
+                    
                     return;
                 }
             }
@@ -700,7 +701,7 @@ namespace PixelPerfect
         {
             pixelParticles.Add(pixelParticle);
 
-            while (pixelParticles.Count > Config.PixelParticle.MAX_PARTICLES)
+            while (pixelParticles.Count > Config.PixelParticle.MAX_PARTICLES_LEVEL)
                 pixelParticles.RemoveAt(Globals.rnd.Next(pixelParticles.Count));
         }
 

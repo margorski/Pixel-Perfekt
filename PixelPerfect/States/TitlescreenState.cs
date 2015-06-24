@@ -125,10 +125,16 @@ namespace PixelPerfect
 #if !WINDOWS
             foreach (TouchLocation touch in touchState)
             {
-                if (touch.State == TouchLocationState.Pressed)
+                if (touch.State == TouchLocationState.Moved || touch.State == TouchLocationState.Pressed)
+                {
+                    musicButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                }
+                else if (touch.State == TouchLocationState.Released)
                 {
 
-                    if (musicButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    if (musicButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {
                         Globals.musicEnabled = musicButton.value;
                         IsolatedStorageSettings.ApplicationSettings["music"] = Globals.musicEnabled;
@@ -138,15 +144,15 @@ namespace PixelPerfect
                         else
                             MediaPlayer.Stop();
                         continue;
-                    }        
-                    else if (soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    }
+                    else if (soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {
                         Globals.soundEnabled = soundButton.value;
                         IsolatedStorageSettings.ApplicationSettings["sound"] = Globals.soundEnabled;
                         IsolatedStorageSettings.ApplicationSettings.Save();
                         continue;
                     }
-                    else if (playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    else if (playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {                            
                         gameStateManager.ChangeState(Config.States.WORLDSELECT, true, Config.Menu.TRANSITION_DELAY);
                         break;
@@ -154,9 +160,15 @@ namespace PixelPerfect
                 }
             }
 #else
-            if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+            if (currMouseState.LeftButton == ButtonState.Pressed)
             {
-                if (musicButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                musicButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+            }
+            else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
+            {
+                if (musicButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
                     Globals.musicEnabled = musicButton.value;
                     if (Globals.musicEnabled)
@@ -164,11 +176,11 @@ namespace PixelPerfect
                     else
                         MediaPlayer.Stop();
                 }
-                else if (soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                else if (soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
                     Globals.soundEnabled = soundButton.value;
                 }
-                else if (playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                else if (playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
                     gameStateManager.ChangeState(Config.States.WORLDSELECT, true, Config.Menu.TRANSITION_DELAY);
                 }

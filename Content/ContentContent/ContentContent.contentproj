@@ -303,6 +303,68 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\fgame\tileset_mini.png">
+      <Link>tileset_mini.png</Link>
+      <Name>tileset_mini</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\fgame\door_mini.png">
+      <Link>door_mini.png</Link>
+      <Name>door_mini</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\fgame\player_mini.png">
+      <Link>player_mini.png</Link>
+      <Name>player_mini</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\fgame\confused.png">
+      <Link>moods\confused.png</Link>
+      <Name>confused</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\fgame\cool.png">
+      <Link>moods\cool.png</Link>
+      <Name>cool</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\fgame\happy.png">
+      <Link>moods\happy.png</Link>
+      <Name>happy</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\fgame\scared.png">
+      <Link>moods\scared.png</Link>
+      <Name>scared</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\Levels\fgame\shocked.png">
+      <Link>moods\shocked.png</Link>
+      <Name>shocked</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\Levels\fgame\keylock.png">
+      <Link>keylock.png</Link>
+      <Name>keylock</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--
       To modify your build process, add your task inside one of the targets below and uncomment it. 

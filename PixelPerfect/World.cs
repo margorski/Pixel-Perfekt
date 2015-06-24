@@ -18,7 +18,7 @@ namespace PixelPerfect
     {
         public string name = "";
         public List<Level> levels = new List<Level>();
-        private string icon = "";
+        public string icon = "";
         public string directory = "";
         public bool active { private set; get; }
 

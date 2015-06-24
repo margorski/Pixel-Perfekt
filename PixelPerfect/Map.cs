@@ -38,7 +38,7 @@ namespace PixelPerfect
 
         // Methods
         public Map(Texture2D tileset, Texture2D pixel, int[] tileMap, int[] backgroundtile, List<Enemy> enemiesList, List<Emiter> emiterList, List<Trigger> triggerList, Color color, bool moving = false, bool emit = true, int music = 0)
-        {            
+        {                        
             this.enemiesList = enemiesList;
             this.emiterList = emiterList;
             this.triggerList = triggerList;
@@ -395,6 +395,31 @@ namespace PixelPerfect
             return (CheckCollisions(boundingBox, Tile.Attributes.DoorsMain) && collectiblesCount == 0);
         }
 
+        public static int[] LoadTileMap(string directory, string xmlFile)
+        {
+            int[] tileMap = new int[Config.Map.NORMAL_HEIGHT * Config.Map.NORMAL_WIDTH];
+            byte[] buffer = new byte[Config.Map.NORMAL_HEIGHT * Config.Map.NORMAL_WIDTH * 4];
+            string layername = "";
+
+            using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile + ".tmx")))
+            {                
+                while (xmlreader.ReadToFollowing("layer"))   
+                {
+                    xmlreader.MoveToAttribute("name");
+                    layername = xmlreader.Value;
+                    if (layername == "background")
+                        continue;
+                    xmlreader.ReadToFollowing("data");
+                    xmlreader.ReadElementContentAsBase64(buffer, 0, buffer.Length);                        
+                }                    
+            }
+            for (int i = 0; i < tileMap.Length; i++)
+                tileMap[i] = System.BitConverter.ToInt32(buffer, i * 4);
+
+            return tileMap;
+            
+        }
+
         public static Map LoadMap(string directory, string xmlFile, GraphicsDeviceManager graphics, ContentManager content, Hud hud, float scale = 1.0f)
         {
             Texture2D pixel = content.Load<Texture2D>("pixel");
@@ -404,6 +429,7 @@ namespace PixelPerfect
             List<Trigger> triggerList = new List<Trigger>();
             int[] tileMap = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
             int[] tileBackground = new int[Config.Map.WIDTH * Config.Map.HEIGHT];
+            byte[] buffer = new byte[Config.Map.WIDTH * Config.Map.HEIGHT * 4];
             bool moving = false;
             int triggerCount = 0;
             Color color = Color.Black;
@@ -424,14 +450,6 @@ namespace PixelPerfect
                                 xmlreader.ReadToFollowing("property");
                                 do
                                 {
-                                    //xmlreader.MoveToNextAttribute();
-                                    //if (xmlreader.Name == "name" && xmlreader.Value == "name")
-                                    //{
-                                    //    xmlreader.MoveToNextAttribute();
-                                    //    if (xmlreader.Name == "value")
-                                    //        levelName = xmlreader.Value;
-                                    //}
-
                                     xmlreader.MoveToNextAttribute();
                                     string property_name = "";
                                     if (xmlreader.Name == "name")
@@ -484,30 +502,18 @@ namespace PixelPerfect
                                 xmlreader.MoveToAttribute("name");
                                 layername = xmlreader.Value;
                                 tileset = Globals.tileset.texture;
-                                /*
-                                xmlreader.ReadToFollowing("property");
-                                xmlreader.MoveToNextAttribute();
-                                if (xmlreader.Name == "name" && xmlreader.Value == "texture")
-                                {
-                                    xmlreader.MoveToNextAttribute();
-                                    if (xmlreader.Name == "value")
-                                        tileset = content.Load<Texture2D>( + "\\" + xmlreader.Value);
-                                }*/
+
                                 xmlreader.ReadToFollowing("data");
-                                string[] dataStrings = xmlreader.ReadElementContentAsString().Split(',');
-                                for (int i = 0; i < Config.Map.WIDTH * Config.Map.HEIGHT; i++)
+                                xmlreader.ReadElementContentAsBase64(buffer, 0, buffer.Length);     
+                                if (layername == "background")
                                 {
-                                    try
-                                    {
-                                        if (layername == "background")
-                                            tileBackground[i] = Int32.Parse(dataStrings[i], CultureInfo.InvariantCulture);
-                                        else
-                                            tileMap[i] = Int32.Parse(dataStrings[i], CultureInfo.InvariantCulture);
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        string j = ex.Message;
-                                    }
+                                    for (int i = 0; i < tileMap.Length; i++)
+                                        tileBackground[i] = System.BitConverter.ToInt32(buffer, i * 4);
+                                }
+                                else
+                                {
+                                    for (int i = 0; i < tileMap.Length; i++)
+                                        tileMap[i] = System.BitConverter.ToInt32(buffer, i * 4);
                                 }
                                     
                                 break;

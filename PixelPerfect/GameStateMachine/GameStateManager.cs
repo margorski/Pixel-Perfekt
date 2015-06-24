@@ -195,7 +195,7 @@ namespace PixelPerfect
 
             List<int> addedPixels = new List<int>();
 
-            while (Globals.pixelParticles.Count < Config.PixelParticle.MAX_PARTICLES)
+            while (Globals.pixelParticles.Count < Config.PixelParticle.MAX_PARTICLES_MENU)
             {
                 int pixelNumber = Globals.rnd.Next(textureArray.Length - 1);
                 

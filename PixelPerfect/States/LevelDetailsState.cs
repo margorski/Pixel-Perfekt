@@ -37,7 +37,8 @@ namespace PixelPerfect
         Button skipButton;
         Button startButton;
 
-        WavyText caption; 
+        WavyText caption;
+        int[] tileMap;
 
         public LevelDetailsState(GameStateManager gameStateManager) 
         {
@@ -78,6 +79,10 @@ namespace PixelPerfect
 
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
                 MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
+
+            tileMap = Map.LoadTileMap(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel));
+            tileMap = tileMap.Select(tile => ((tile - 1) % 20)).ToArray();
+
         }
 
         public override void Exit(int nextStateId)
@@ -118,11 +123,11 @@ namespace PixelPerfect
 #if !WINDOWS
             foreach (TouchLocation touch in touchState)
             {
-                if (touch.State == TouchLocationState.Pressed)
+                if (touch.State == TouchLocationState.Released)
                 {
-                    if (startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    if (startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                         StartLevel();
-                    else if (skipButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale))
+                    else if (skipButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {
                         if (Skip())
                             GoBack();
@@ -130,11 +135,11 @@ namespace PixelPerfect
                 }
             }
 #else
-            if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+            if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
             {
-                if (startButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                if (startButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                     StartLevel();
-                else if (skipButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale))
+                else if (skipButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
                     if (Skip())
                         GoBack();
@@ -211,8 +216,52 @@ namespace PixelPerfect
             Util.DrawStringAligned(spriteBatch, deathsString, Globals.silkscreenFont, timeColor, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 40, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Left);
             Util.DrawStringAligned(spriteBatch, timeString, Globals.silkscreenFont, deathColor, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 40, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Right);
 
+            DrawMiniMap(spriteBatch, new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE / 2, 30));
             skipButton.Draw(spriteBatch);
             startButton.Draw(spriteBatch);
+        }
+
+        public void DrawMiniMap(SpriteBatch spriteBatch, Vector2 position)
+        {
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle((int)position.X, (int)position.Y,
+                                                                               Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE + 4,
+                                                                               Config.Map.NORMAL_HEIGHT * Config.Tile.MINISIZE + 4),
+                                                                               Color.Black);
+
+            position.X += 2;
+            position.Y += 2;
+
+            for (int i = 0; i < tileMap.Length; i++)
+            {
+                if (tileMap[i] == -1)
+                    continue;
+                
+                Vector2 tilePosition = position + new Vector2(i % Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE, i / Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE);
+
+                if (tileMap[i] == 19) //start
+                    spriteBatch.Draw(Globals.textureDictionary["miniPlayer"], tilePosition + new Vector2(-1, -1), Color.Magenta);
+                else if (tileMap[i] == 12) //player
+                    spriteBatch.Draw(Globals.textureDictionary["miniDoor"], tilePosition + new Vector2(-1, 2), Color.Magenta);
+                else
+                {
+                    Color color = Color.White;
+                    if (tileMap[i] == 1)
+                        color = Color.Yellow;
+                    else if (tileMap[i] == 2)
+                        color = Color.Green;
+                    else if (tileMap[i] == 3 || tileMap[i] == 4)
+                        color = Color.Orange;
+                    if (tileMap[i] == 5)
+                        color = Color.Cyan;
+                    else if (tileMap[i] == 6 || tileMap[i] == 7)
+                        color = Color.Red;
+                    else if (tileMap[i] == 16)
+                        color = Color.Blue;
+                    else if (tileMap[i] == 18)
+                        color = Color.Gray;
+                    spriteBatch.Draw(Globals.textureDictionary["miniTileset"], tilePosition, new Rectangle(tileMap[i] * Config.Tile.MINISIZE, 0, Config.Tile.MINISIZE, Config.Tile.MINISIZE), color);
+                }
+            }
         }
     }
 }

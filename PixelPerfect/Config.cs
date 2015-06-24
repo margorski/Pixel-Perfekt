@@ -70,6 +70,7 @@ namespace PixelPerfect
         public struct Tile
         {
             public const int SIZE = 8;
+            public const int MINISIZE = 4;
             public const float CRUSH_SPEED = 2.5f;
             public const float CRUSH_PIXEL_COUNT = 45.0f;
             public const float MOVINGPLATFORM_SPEED = 25.0f;
@@ -89,7 +90,8 @@ namespace PixelPerfect
             public const int PIXELPARTICLE_LIFETIME_MIN = 400;
             public const int PIXELPARTICLE_LIFETIME_MAX = 1200;
             public const int MAX_EXPLOSION_MAGNITUDE = 70;
-            public const int MAX_PARTICLES = 2000;
+            public const int MAX_PARTICLES_MENU = 2000;
+            public const int MAX_PARTICLES_LEVEL = 1000;
         }
 
         public struct Player
@@ -178,13 +180,16 @@ namespace PixelPerfect
         public struct Menu
         {
             public const int OFFSET_X = 10;
-            public const int OFFSET_Y = 30;
-            public const int HORIZONTAL_SPACE = 25;
+            public const int OFFSET_Y = 50;
+            public const int HORIZONTAL_SPACE = 20;
             public const int VERTICAL_SPACE = 20;
             public const int TEXT_SPACE = 5;
             public const int NUM_IN_ROW = 5;
             public const int MUSIC = 2;
             public const int TRANSITION_DELAY = 1000;
+            public const float SLIDE_SPEED = 300.0f;
+            public const float SLIDE_FACTOR = 0.35f;
+            public const float INACTIVE_AREA = 700.0f;
         }
     }
 }
