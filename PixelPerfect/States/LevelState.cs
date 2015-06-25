@@ -393,7 +393,17 @@ namespace PixelPerfect
                     if (Globals.worlds[Globals.selectedWorld].Completed())
                         Globals.gameStateManager.ChangeState(Config.States.WORLDSELECT);
                     else
+                    {
                         Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
+                        //Globals.selectedLevel++;
+                        //var levelState = new LevelState(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel));
+                        //levelState.scale = scale;
+                        //levelState.name = Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName;
+                        //Globals.gameStateManager.UnregisterState(Config.States.LEVEL);
+                        //Globals.gameStateManager.RegisterState(Config.States.LEVEL, levelState);
+                        //if (!Globals.gameStateManager.ChangeState(Config.States.LEVEL))
+                        //    Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
+                    }
                     
                     return;
                 }

@@ -149,12 +149,16 @@ namespace PixelPerfect
             spriteBatch2 = new SpriteBatch(GraphicsDevice);
 
             MediaPlayer.IsRepeating = true;
-
+            
             Globals.textureDictionary.Add("pixel", Content.Load<Texture2D>("pixel"));
             Globals.textureDictionary.Add("play", Content.Load<Texture2D>("menu\\play"));
             Globals.textureDictionary.Add("music", Content.Load<Texture2D>("menu\\music"));
             Globals.textureDictionary.Add("sound", Content.Load<Texture2D>("menu\\sound"));
             Globals.textureDictionary.Add("logo", Content.Load<Texture2D>("menu\\logo"));
+            Globals.textureDictionary.Add("back", Content.Load<Texture2D>("menu\\back"));
+            Globals.textureDictionary.Add("info", Content.Load<Texture2D>("menu\\info"));
+            Globals.textureDictionary.Add("play2", Content.Load<Texture2D>("menu\\play2"));
+            Globals.textureDictionary.Add("skip", Content.Load<Texture2D>("menu\\skip"));
             Globals.textureDictionary.Add("miniTileset", Content.Load<Texture2D>("tileset_mini"));
             Globals.textureDictionary.Add("miniPlayer", Content.Load<Texture2D>("player_mini"));
             Globals.textureDictionary.Add("miniDoor", Content.Load<Texture2D>("door_mini"));
@@ -164,6 +168,12 @@ namespace PixelPerfect
             Globals.textureDictionary.Add("shocked", Content.Load<Texture2D>("moods\\shocked"));
             Globals.textureDictionary.Add("scared", Content.Load<Texture2D>("moods\\scared"));
             Globals.textureDictionary.Add("keylock", Content.Load<Texture2D>("keylock"));
+            Globals.textureDictionary.Add("coolLevel", Content.Load<Texture2D>("moods\\level_cool"));
+            Globals.textureDictionary.Add("happyLevel", Content.Load<Texture2D>("moods\\level_happy"));
+            Globals.textureDictionary.Add("confusedLevel", Content.Load<Texture2D>("moods\\level_confused"));
+            Globals.textureDictionary.Add("shockedLevel", Content.Load<Texture2D>("moods\\level_shocked"));
+            Globals.textureDictionary.Add("scaredLevel", Content.Load<Texture2D>("moods\\level_scared"));
+            Globals.textureDictionary.Add("keylockLevel", Content.Load<Texture2D>("keylock_small"));            
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
 
             //sprites

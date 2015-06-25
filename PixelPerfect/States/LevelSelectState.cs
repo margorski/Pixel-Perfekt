@@ -32,15 +32,14 @@ namespace PixelPerfect
         GamePadState prevGPState;
         GamePadState currGPState;
 
-        Texture2D levelTile;
-        int currentPage = 0;
-
         WavyText caption;
+        List<Button> levelButtons = new List<Button>();
+
+        Button backButton;
+        Animation pikpokAnimation = new Animation(4, Config.DEFAULT_ANIMATION_SPEED, false);
         public LevelSelectState(GameStateManager gameStateManager) 
         {
             this.gameStateManager = gameStateManager;
-
-            levelTile = Globals.content.Load<Texture2D>("leveltile");
         }
 
         public override void Enter(int previousStateId)
@@ -56,11 +55,14 @@ namespace PixelPerfect
             var worldName = Globals.worlds[Globals.selectedWorld].name;
             var titlex = Config.SCREEN_WIDTH_SCALED / 2.0f - Globals.silkscreenFont.MeasureString(worldName).X * 2.0f / 2.0f;
             caption = new WavyText(worldName, new Vector2(titlex, 7), 3000, 2.0f, Config.titleColors, 13.0f, 3f, 0.0f);
-            
+            backButton = new Button("", new Rectangle(Config.Menu.BACK_X, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
+
             Globals.selectedLevel = -1;            
             
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
                 MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
+
+            PrepareButtons();
         }
 
         public override void Exit(int nextStateId)
@@ -82,6 +84,8 @@ namespace PixelPerfect
 
             if (caption != null)
                 caption.Update(gameTime);
+
+            pikpokAnimation.Update(gameTime);
 #if WINDOWS
             currMouseState = Mouse.GetState();
 #else
@@ -112,6 +116,24 @@ namespace PixelPerfect
 #endif
         }
 
+        private void PrepareButtons()
+        {
+            levelButtons.Clear();
+            var worldName = Globals.worlds[Globals.selectedWorld].name;
+            int levelCount = 0;
+            foreach (Level level in Globals.worlds[Globals.selectedWorld].levels)
+            {
+                Rectangle rectangle = new Rectangle(Config.Menu.LEVEL_OFFSET_X + (levelCount % 5) * (Config.Menu.LEVEL_HORIZONTAL_SPACE + Globals.textureDictionary[worldName + "Level"].Width),
+                                                    Config.Menu.LEVEL_OFFSET_Y + (levelCount / 5) * (Config.Menu.LEVEL_VERTICAL_SPACE + Globals.textureDictionary[worldName + "Level"].Height),
+                                                    Globals.textureDictionary[worldName + "Level"].Width,
+                                                    Globals.textureDictionary[worldName + "Level"].Height);
+                levelButtons.Add(new Button("", rectangle, Globals.textureDictionary[worldName + "Level"], Globals.silkscreenFont, false));
+                if (!Globals.worlds[Globals.selectedWorld].LevelActivated(levelCount))
+                    levelButtons[levelCount].active = false;
+                levelCount++;
+            }
+        }
+
         private void GoBack()
         {
             gameStateManager.ChangeState(Config.States.WORLDSELECT, true, Config.Menu.TRANSITION_DELAY);      
@@ -122,47 +144,48 @@ namespace PixelPerfect
 #if !WINDOWS
             foreach (TouchLocation touch in touchState)
             {
-                if (touch.State == TouchLocationState.Pressed)
+                if (touch.State == TouchLocationState.Pressed || touch.State == TouchLocationState.Moved)
                 {
-                    int clickedSquare = ClickedSquare((int)touch.Position.X, (int)touch.Position.Y);
-
-                    if (clickedSquare < 0)
-                        continue;
-
-                    if (!Globals.worlds[Globals.selectedWorld].LevelActivated(clickedSquare))
-                        continue;
-
-                    SelectLevel(clickedSquare + currentPage * 10);
+                    foreach (Button button in levelButtons)
+                    {
+                        button.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    }
+                    backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                 }
-
+                else if (touch.State == TouchLocationState.Released)
+                {
+                    foreach (Button button in levelButtons)
+                    {
+                        if (button.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                            SelectLevel(levelButtons.IndexOf(button));
+                    }
+                    if (backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                        GoBack();
+                }
             }
 #else
-            if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
+            if (currMouseState.LeftButton == ButtonState.Pressed)
             {
-                int clickedSquare = ClickedSquare(currMouseState.X, currMouseState.Y);
-                
-                if (clickedSquare < 0)
-                    return;
-
-                if (!Globals.worlds[Globals.selectedWorld].LevelActivated(clickedSquare))
-                    return;
-
-                SelectLevel(clickedSquare + currentPage * 10);
+                foreach (Button button in levelButtons)
+                {
+                    button.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                }
+                backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+            }
+            else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
+            {
+                foreach (Button button in levelButtons)
+                {
+                    if (button.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale,true))
+                        SelectLevel(levelButtons.IndexOf(button));
+                }
+                if (backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                    GoBack();
             }
 #endif
         }
 
-        private void PreviousPage()
-        {
-            if (--currentPage < 0)
-                currentPage = (Globals.worlds[Globals.selectedWorld].levels.Count - 1) / 10;
-        }
 
-        private void NextPage()
-        {
-            if (++currentPage > ((Globals.worlds[Globals.selectedWorld].levels.Count - 1) / 10))
-                currentPage = 0;
-        }
 
         public void SelectLevel(int level)
         {
@@ -177,42 +200,45 @@ namespace PixelPerfect
         {
             if (caption != null)
                 caption.Draw(spriteBatch);
-            int x, y;
+            backButton.Draw(spriteBatch);
+
             Color color = Color.White;
+            int levelCount = 0;
 
-            var currentPageLevels = Globals.worlds[Globals.selectedWorld].levels.Count - currentPage * 10; // levels amount on current page
-            var count = (currentPageLevels < 10 ? currentPageLevels : 10);
-
-            for (int i = currentPage * 10; i < count + currentPage * 10; i++)
+            foreach (Button button in levelButtons)
             {
-                var posI = i - currentPage * 10;
-
-                x = Config.Menu.OFFSET_X + (posI % Config.Menu.NUM_IN_ROW) * (levelTile.Width + Config.Menu.HORIZONTAL_SPACE);
-                y = Config.Menu.OFFSET_Y + (posI / Config.Menu.NUM_IN_ROW) * (levelTile.Height + Config.Menu.VERTICAL_SPACE);
-
-                color = Globals.worlds[Globals.selectedWorld].LevelCompleted(i) ? Color.Green :
-                        Globals.worlds[Globals.selectedWorld].LevelSkipped(i) ? Color.Gold :
-                        Globals.worlds[Globals.selectedWorld].LevelActivated(i) ? Color.White : Color.Gray;
-
-                spriteBatch.Draw(levelTile, new Vector2(x, y), color);
-
-                var textOffset = Globals.silkscreenFont.MeasureString(Globals.worlds[Globals.selectedWorld].levels[i].shortName) / 2;
-                spriteBatch.DrawString(Globals.silkscreenFont, Globals.worlds[Globals.selectedWorld].levels[i].shortName, new Vector2(x - textOffset.X + levelTile.Width / 2, y + levelTile.Height + Config.Menu.TEXT_SPACE), color);
+                color = Globals.worlds[Globals.selectedWorld].LevelCompleted(levelCount) ? Color.Green :
+                        Globals.worlds[Globals.selectedWorld].LevelSkipped(levelCount) ? Color.Red : Color.White;
+                if (color == Color.White)
+                    button.Draw(spriteBatch);
+                else
+                {
+                    button.Draw(spriteBatch, color);
+                    if (Globals.worlds[Globals.selectedWorld].LevelSkipped(levelCount))
+                        spriteBatch.Draw(Globals.spritesDictionary["enemies_16x16"].texture, new Vector2(button.rectangle.X, button.rectangle.Y), 
+                                         new Rectangle(0, pikpokAnimation.GetCurrentFrame() * 16, 16, 16), Color.White);
+                }
+                spriteBatch.DrawString(Globals.silkscreenFont, (levelCount + 1).ToString(),
+                                    new Vector2(button.rectangle.Right - 10, button.rectangle.Bottom - 10), color
+                                    , 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
+                levelCount++;
+                
             }
-        }
 
-        public int ClickedSquare(int X, int Y)
-        {
-            X /= (int)scale;
-            Y /= (int)scale;
-
-            if ((Y) < Config.Menu.OFFSET_Y || (Y) > Config.Menu.OFFSET_Y + (levelTile.Height + Config.Menu.VERTICAL_SPACE) * 2)
-                return -1;
-
-            int x = (X - Config.Menu.OFFSET_X) / (levelTile.Width + Config.Menu.HORIZONTAL_SPACE); 
-            int y = (Y - Config.Menu.OFFSET_Y) / (levelTile.Height + Config.Menu.VERTICAL_SPACE);
-
-            return x + y * Config.Menu.NUM_IN_ROW;
+            String text = "SKIPS";
+            Vector2 textPosition = new Vector2(Config.SCREEN_WIDTH_SCALED/2, Config.Menu.SKIPTEXT_Y);
+            textPosition -= Globals.silkscreenFont.MeasureString(text) / 2;
+            spriteBatch.DrawString(Globals.silkscreenFont, text, textPosition, Color.White);
+            for (int i = 0; i < Config.SKIP_AMOUNT; i++)
+            {
+                bool skipped = (i >= Savestate.Instance.SkipLeft());
+                if (skipped)
+                    break;
+                Vector2 position = new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 8 - 26 + 26 * i, Config.Menu.SKIPTEXT_Y + 4);
+                spriteBatch.Draw(Globals.spritesDictionary["enemies_16x16"].texture, position, new Rectangle(0, 
+                    (!skipped ? pikpokAnimation.GetCurrentFrame() * 16 : 16), 16, 16), 
+                    (!skipped ? Color.White : Color.DimGray));
+            }
         }
     }
 }

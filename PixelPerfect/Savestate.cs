@@ -142,5 +142,23 @@ namespace PixelPerfect
             return false;
         }
 
+        public int SkipUsed()
+        {
+            int skippedLevels = 0;
+
+            foreach (Levelsave levelsave in levelSaves.Values)
+            {
+                if (levelsave.skipped)
+                {
+                    skippedLevels++;
+                }
+            }
+            return skippedLevels;
+        }
+
+        public int SkipLeft()
+        {
+            return Config.SKIP_AMOUNT - SkipUsed();
+        }
     }
 }

@@ -66,7 +66,7 @@ namespace PixelPerfect
             if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
             {
                 gameStateManager.PopState();
-                gameStateManager.ChangeState(Config.States.LEVELSELECT);
+                gameStateManager.ChangeState(Config.States.LEVELDETAILS);
             }
             prevGPState = currGPState;
 

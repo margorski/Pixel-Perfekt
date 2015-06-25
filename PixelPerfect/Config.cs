@@ -179,18 +179,32 @@ namespace PixelPerfect
 
         public struct Menu
         {
-            public const int OFFSET_X = 10;
-            public const int OFFSET_Y = 50;
-            public const int HORIZONTAL_SPACE = 20;
-            public const int VERTICAL_SPACE = 20;
+            public const int WORLD_OFFSET_X = 10;
+            public const int WORLD_OFFSET_Y = 38;
+            public const int WORLD_HORIZONTAL_SPACE = 20;
+            public const int WORLD_VERTICAL_SPACE = 20;
+            public const int LEVEL_OFFSET_X = 15;
+            public const int LEVEL_OFFSET_Y = 32;
+            public const int LEVEL_HORIZONTAL_SPACE = 10;
+            public const int LEVEL_VERTICAL_SPACE = 10;
             public const int TEXT_SPACE = 5;
             public const int NUM_IN_ROW = 5;
             public const int MUSIC = 2;
             public const int TRANSITION_DELAY = 1000;
             public const float SLIDE_SPEED = 300.0f;
             public const float SLIDE_FACTOR = 0.35f;
-            public const float INACTIVE_AREA = 700.0f;
+            public const float INACTIVE_AREA = 10.0f;
+            public const int BOINGS_OFFSET_Y = 150;
+            public const int BOINGS_SPACE = 30;
+            public const int BOINGS_SIZE = 3;
+            public const int SMALL_BOINGS_QTY = 4;
+            public const int SKIPTEXT_Y = 133;
+            public const int BACK_X = 9;
+            public const int BACK_Y = 130;
+            public const int BUTTONS_X = 180;
+            public const int BUTTONS_SPACE = 6;
         }
     }
 }
+
 

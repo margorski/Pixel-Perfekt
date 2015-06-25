@@ -16,7 +16,7 @@ namespace PixelPerfect
     class Button
     {
         private string text = "";
-        private Rectangle rectangle;        
+        public Rectangle rectangle;        
         private Texture2D texture;
         public Color activeColor = Color.White;
         public Color notactiveColor = new Color(0.25f, 0.25f, 0.25f);
@@ -24,7 +24,7 @@ namespace PixelPerfect
         private SpriteFont font;
         public bool active = true;
         public bool value = false;
-        private bool clicked = false;
+        public bool clicked { private set; get; }
         private bool toggleable = false;
 
         public int X { get { return rectangle.X; } }
@@ -39,6 +39,7 @@ namespace PixelPerfect
             this.texture = texture;
             this.font = font;
             this.toggleable = toggleable;   
+            clicked = false;
         }
         
         public bool Clicked(int x, int y, bool release)

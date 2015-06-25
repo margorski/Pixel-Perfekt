@@ -34,19 +34,24 @@ namespace PixelPerfect
 
         Texture2D levelTile;
 
+        Button backButton;
         Button skipButton;
         Button startButton;
+        //Button infoButton;
 
         WavyText caption;
         int[] tileMap;
+
 
         public LevelDetailsState(GameStateManager gameStateManager) 
         {
             this.gameStateManager = gameStateManager;
 
             levelTile = Globals.content.Load<Texture2D>("leveltile");
-            skipButton = new Button("SKIP", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 30, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
-            startButton = new Button("START", new Rectangle(Config.SCREEN_WIDTH_SCALED - 70, Config.SCREEN_HEIGHT_SCALED - 25, 60, 20), levelTile, Globals.silkscreenFont, false);
+            //infoButton = new Button("", new Rectangle(Config.Menu.BUTTONS_X, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["info"], Globals.silkscreenFont, false);
+            skipButton = new Button("", new Rectangle(Config.Menu.BUTTONS_X + 24 + Config.Menu.BUTTONS_SPACE, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["skip"], Globals.silkscreenFont, false);
+            startButton = new Button("", new Rectangle(Config.Menu.BUTTONS_X + 2 * (24 + Config.Menu.BUTTONS_SPACE), Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["play2"], Globals.silkscreenFont, false);
+            backButton = new Button("", new Rectangle(Config.Menu.BACK_X, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
          }
 
         public override void Enter(int previousStateId)
@@ -123,6 +128,13 @@ namespace PixelPerfect
 #if !WINDOWS
             foreach (TouchLocation touch in touchState)
             {
+                if (touch.State == TouchLocationState.Pressed)
+                {
+                    startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    skipButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    //infoButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                }
                 if (touch.State == TouchLocationState.Released)
                 {
                     if (startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
@@ -132,10 +144,21 @@ namespace PixelPerfect
                         if (Skip())
                             GoBack();
                     }
-                }
+                    else if (backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                        GoBack();
+                    //else if (infoButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                    //    GoBack();
+                }            
             }
 #else
-            if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
+            if (currMouseState.LeftButton == ButtonState.Pressed)
+            {
+                startButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                skipButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                //infoButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+            }
+            else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
             {
                 if (startButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                     StartLevel();
@@ -144,6 +167,10 @@ namespace PixelPerfect
                     if (Skip())
                         GoBack();
                 }
+                else if (backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                    GoBack();
+               // else if (infoButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                    //GoBack();
             }
 #endif 
         }
@@ -196,6 +223,7 @@ namespace PixelPerfect
 
             string deathsString = "TOTAL DEATHS: ";
             string timeString = "BEST TIME: ";
+
             if (exist)
             {
                 deathsString += levelsave.deathCount;
@@ -213,12 +241,17 @@ namespace PixelPerfect
             //Util.DrawStringAligned(spriteBatch, Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName, Globals.silkscreenFont, nameColor, new Rectangle(0, 10, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Center);
             if (caption != null)
                 caption.Draw(spriteBatch);
-            Util.DrawStringAligned(spriteBatch, deathsString, Globals.silkscreenFont, timeColor, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 40, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Left);
-            Util.DrawStringAligned(spriteBatch, timeString, Globals.silkscreenFont, deathColor, new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 40, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(10, 0), Util.Align.Right);
+
+            Util.DrawStringAligned(spriteBatch, "PERFEKT TIME: 00:30.12", Globals.silkscreenFont, Color.Gold, new Rectangle(0, 102, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(0, 0), Util.Align.Center);
+            Util.DrawStringAligned(spriteBatch, deathsString, Globals.silkscreenFont, timeColor, new Rectangle(0, 118, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(8, 0), Util.Align.Left);
+            Util.DrawStringAligned(spriteBatch, timeString, Globals.silkscreenFont, deathColor, new Rectangle(0, 118, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(4, 0), Util.Align.Right);
+
 
             DrawMiniMap(spriteBatch, new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE / 2, 30));
             skipButton.Draw(spriteBatch);
             startButton.Draw(spriteBatch);
+            backButton.Draw(spriteBatch);
+           // infoButton.Draw(spriteBatch);
         }
 
         public void DrawMiniMap(SpriteBatch spriteBatch, Vector2 position)

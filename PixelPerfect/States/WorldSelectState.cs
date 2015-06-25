@@ -43,6 +43,7 @@ namespace PixelPerfect
         Texture2D worldTile;
 
         Button sendButton;
+        Button backButton;
         List<Button> worldButtons = new List<Button>();
 
         int selectedWorld = 0;        
@@ -50,10 +51,11 @@ namespace PixelPerfect
 
         TimeSpan clickTime = TimeSpan.Zero;
 
-        WavyText caption = new WavyText("WORLD SELECT", new Vector2(76, 7), 3000, 2.0f, Config.titleColors, 13.0f, 3f, 0.0f);
+        WavyText caption = new WavyText("MOOD SELECT", new Vector2(76, 7), 3000, 2.0f, Config.titleColors, 13.0f, 3f, 0.0f);
 
         int touchId = -1;
         float startPositionX = 0.0f;
+        Animation playerAnimation = new Animation(6, Config.DEFAULT_ANIMATION_SPEED, true);
 
         float menuSlidingShift
         {
@@ -86,7 +88,7 @@ namespace PixelPerfect
             this.gameStateManager = gameStateManager;
 
             worldTile = Globals.content.Load<Texture2D>("leveltile");
-
+            backButton = new Button("", new Rectangle(Config.Menu.BACK_X, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
             foreach (World world in Globals.worlds)
             {
                 var icon = Globals.textureDictionary[world.icon];
@@ -138,7 +140,8 @@ namespace PixelPerfect
         {
             if (suspended)
                 return;
-
+            
+            playerAnimation.Update(gameTime);            
             caption.Update(gameTime);
 #if WINDOWS
             currMouseState = Mouse.GetState();
@@ -210,6 +213,7 @@ namespace PixelPerfect
                     case MenuState.IDLE:
                         if (touch.State == TouchLocationState.Pressed)
                         {
+                            startPositionX = touch.Position.X;
                             touchId = touch.Id;
                             state = MenuState.CLICKING;
                             foreach (Button worldButton in worldButtons)
@@ -217,6 +221,8 @@ namespace PixelPerfect
                                 if (worldButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false))
                                     break;
                             }
+                            sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                            backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);    
                         }
                         break;
 
@@ -224,8 +230,9 @@ namespace PixelPerfect
                         if (Math.Abs(touch.Position.X - startPositionX) > Config.Menu.INACTIVE_AREA)
                         {
                             foreach (Button worldButton in worldButtons)
-                                worldButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);                            
-                            startPositionX = touch.Position.X;
+                                worldButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
+                            sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
+                            backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);          
                             state = MenuState.SLIDING;                        
                         }
                         else if (touch.State == TouchLocationState.Released)
@@ -235,14 +242,16 @@ namespace PixelPerfect
                                 if (worldButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                                 {
                                     SelectWorld(worldButtons.IndexOf(worldButton));
-                                    break;
                                 }
                             }
                             if (sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                             {
                                 SendDataEmail();
-                                return;
                             }
+                            else if (backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                            {
+                                GoBack();
+                            }   
                             touchId = -1;
                             state = MenuState.IDLE;
                         }
@@ -260,7 +269,7 @@ namespace PixelPerfect
                                 }
                                 else
                                 {
-                                    startPositionX = (startPositionX - touch.Position.X) * Config.Menu.SLIDE_FACTOR - (worldButtons[selectedWorld].Width + +Config.Menu.HORIZONTAL_SPACE);
+                                    startPositionX = (startPositionX - touch.Position.X) * Config.Menu.SLIDE_FACTOR - (worldButtons[selectedWorld].Width + +Config.Menu.WORLD_HORIZONTAL_SPACE);
                                 }
                                 state = MenuState.FLOATING;
                             }
@@ -273,7 +282,7 @@ namespace PixelPerfect
                                 }
                                 else
                                 {
-                                    startPositionX = (startPositionX - touch.Position.X) * Config.Menu.SLIDE_FACTOR + (worldButtons[selectedWorld].Width + Config.Menu.HORIZONTAL_SPACE);
+                                    startPositionX = (startPositionX - touch.Position.X) * Config.Menu.SLIDE_FACTOR + (worldButtons[selectedWorld].Width + Config.Menu.WORLD_HORIZONTAL_SPACE);
                                 }
                                 state = MenuState.FLOATING;
                             }
@@ -296,19 +305,25 @@ namespace PixelPerfect
                     if (currMouseState.LeftButton == ButtonState.Pressed && prevMouseState.LeftButton == ButtonState.Released)
                     {
                         state = MenuState.CLICKING;
+                        startPositionX = currMouseState.Position.X;
                         foreach (Button worldButton in worldButtons)
                         {
                             if (worldButton.Clicked(currMouseState.X, currMouseState.Y, scale, false))
                                 break;
+
                         }
+                        sendButton.Clicked(currMouseState.X, currMouseState.Y, scale, false);
+                        backButton.Clicked(currMouseState.X, currMouseState.Y, scale, false);
                     }
                     break;
 
                 case MenuState.CLICKING:
-                    clickTime += gameTime.ElapsedGameTime;
-                    if (clickTime.TotalMilliseconds >= Config.Menu.CLICK_TIME)
+                    if (Math.Abs(currMouseState.Position.X - startPositionX) > Config.Menu.INACTIVE_AREA)
                     {
-                        startPositionX = currMouseState.Position.X;
+                        foreach (Button worldButton in worldButtons)
+                            worldButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true);
+                        sendButton.Clicked(currMouseState.X, currMouseState.Y, scale, true);
+                        backButton.Clicked(currMouseState.X, currMouseState.Y, scale, true);
                         state = MenuState.SLIDING;                        
                     }
                     else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
@@ -316,13 +331,19 @@ namespace PixelPerfect
                         foreach (Button worldButton in worldButtons)
                         {
                             if (worldButton.Clicked(currMouseState.X, currMouseState.Y, scale, true))
-                                break;
+                            {
+                                SelectWorld(worldButtons.IndexOf(worldButton));
+                            }
                         }
                         if (sendButton.Clicked(currMouseState.X, currMouseState.Y, scale, true))
                         {
                             SendDataEmail();
                             return;
                         }
+                        else if (backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                        {
+                            GoBack();
+                        }   
                         state = MenuState.IDLE;
                     }
                     break;
@@ -339,7 +360,7 @@ namespace PixelPerfect
                             }
                             else
                             {
-                                startPositionX = (startPositionX - currMouseState.X) * Config.Menu.SLIDE_FACTOR - (worldButtons[selectedWorld].Width + +Config.Menu.HORIZONTAL_SPACE);
+                                startPositionX = (startPositionX - currMouseState.X) * Config.Menu.SLIDE_FACTOR - (worldButtons[selectedWorld].Width + Config.Menu.WORLD_HORIZONTAL_SPACE);
                             }            
                             state = MenuState.FLOATING;
                         }
@@ -352,9 +373,13 @@ namespace PixelPerfect
                             }
                             else
                             {
-                                startPositionX = (startPositionX - currMouseState.X) * Config.Menu.SLIDE_FACTOR + (worldButtons[selectedWorld].Width + Config.Menu.HORIZONTAL_SPACE);
-                            }            
+                                startPositionX = (startPositionX - currMouseState.X) * Config.Menu.SLIDE_FACTOR + (worldButtons[selectedWorld].Width + Config.Menu.WORLD_HORIZONTAL_SPACE);                                                            
+                            }
                             state = MenuState.FLOATING;
+                        }
+                        else
+                        {
+                            state = MenuState.IDLE;
                         }
                     }
                     break;            
@@ -396,6 +421,7 @@ namespace PixelPerfect
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
             caption.Draw(spriteBatch);
+            backButton.Draw(spriteBatch);
 #if DEBUG
             sendButton.Draw(spriteBatch);
 #endif
@@ -403,12 +429,12 @@ namespace PixelPerfect
             int x, y;
             Color color = Color.White;
 
-            int centeringX = (Config.SCREEN_WIDTH_SCALED / 2 - worldButtons[selectedWorld].Width / 2) - selectedWorld * (worldButtons[selectedWorld].Width + Config.Menu.HORIZONTAL_SPACE);
+            int centeringX = (Config.SCREEN_WIDTH_SCALED / 2 - worldButtons[selectedWorld].Width / 2) - selectedWorld * (worldButtons[selectedWorld].Width + Config.Menu.WORLD_HORIZONTAL_SPACE);
 
             for (int i = 0; i < Globals.worlds.Count; i++)
             {
-                x = centeringX + i * (worldButtons[i].Width + Config.Menu.HORIZONTAL_SPACE) + (int)menuSlidingShift;
-                y = Config.Menu.OFFSET_Y;
+                x = centeringX + i * (worldButtons[i].Width + Config.Menu.WORLD_HORIZONTAL_SPACE) + (int)menuSlidingShift;
+                y = Config.Menu.WORLD_OFFSET_Y;
 
                 color = Globals.worlds[i].Completed() ? Color.Green : Color.White;                    
                 
@@ -424,23 +450,32 @@ namespace PixelPerfect
 
                 var textOffset = Globals.silkscreenFont.MeasureString(Globals.worlds[i].name) / 2;
                 spriteBatch.DrawString(Globals.silkscreenFont, Globals.worlds[i].name, new Vector2(x - textOffset.X + Globals.textureDictionary[Globals.worlds[i].icon].Width / 2, y + Globals.textureDictionary[Globals.worlds[i].icon].Height + Config.Menu.TEXT_SPACE), color);
+
+                spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - (Config.Menu.BOINGS_SIZE * 5 + Config.Menu.BOINGS_SPACE * 4) / 2 + (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) * i, Config.Menu.BOINGS_OFFSET_Y, Config.Menu.BOINGS_SIZE, Config.Menu.BOINGS_SIZE), (i == selectedWorld ? Color.Blue : Color.White));
+                for (int j = 0; j < Config.Menu.SMALL_BOINGS_QTY; j++)
+                {
+                    if (i == Globals.worlds.Count - 1)
+                        break;
+
+                    float smallBoingX = Config.SCREEN_WIDTH_SCALED / 2 - (Config.Menu.BOINGS_SIZE * 5 + Config.Menu.BOINGS_SPACE * 4) / 2 + (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) * i + Config.Menu.BOINGS_SIZE / 2; // boing base
+                    smallBoingX += (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) / (Config.Menu.SMALL_BOINGS_QTY + 1) * (j + 1);
+                    spriteBatch.Draw(Globals.textureDictionary["pixel"], new Vector2(smallBoingX, Config.Menu.BOINGS_OFFSET_Y + 1), Color.White);
+                }
             }
-        }
+            float progressBetweenLevels = - (menuSlidingShift / (worldButtons[selectedWorld].Width + Config.Menu.WORLD_HORIZONTAL_SPACE));
+            if (progressBetweenLevels > 1.0f)
+                progressBetweenLevels = 1.0f;
+            else if (progressBetweenLevels < -1.0f)
+                progressBetweenLevels = -1.0f;
+            if (selectedWorld == 0 && progressBetweenLevels < 0.0f)
+                progressBetweenLevels = 0.0f;
+            else if (selectedWorld == Globals.worlds.Count - 1 && progressBetweenLevels > 0.0f)
+                progressBetweenLevels = 0.0f;
 
-
-        public int ClickedSquare(int X, int Y)
-        {
-            X /= (int)scale;
-            Y /= (int)scale;
-
-            if ((Y) < Config.Menu.OFFSET_Y || (Y) > Config.Menu.OFFSET_Y + (Globals.textureDictionary[Globals.worlds[0].icon].Height + Config.Menu.VERTICAL_SPACE) * 2)
-                return -1;
-
-            int x = (X - Config.Menu.OFFSET_X) / (Globals.textureDictionary[Globals.worlds[0].icon].Width + Config.Menu.HORIZONTAL_SPACE);
-            int y = (Y - Config.Menu.OFFSET_Y) / (Globals.textureDictionary[Globals.worlds[0].icon].Height + Config.Menu.VERTICAL_SPACE);
-
-            //return x + y * Config.Menu.NUM_IN_ROW;
-            return -1;
+            bool walking = (state == MenuState.FLOATING || state == MenuState.SLIDING);
+            spriteBatch.Draw(Globals.spritesDictionary["player"].texture,
+                             new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - (Config.Menu.BOINGS_SIZE * 5 + Config.Menu.BOINGS_SPACE * 4) / 2 - 3 + (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) * selectedWorld + (int)(progressBetweenLevels * (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE)), 
+                                          Config.Menu.BOINGS_OFFSET_Y - 20, 8, 16), new Rectangle(0, walking ? playerAnimation.GetCurrentFrame() * 16 : 32, 8, 16), Color.White);
         }
     }
 }
