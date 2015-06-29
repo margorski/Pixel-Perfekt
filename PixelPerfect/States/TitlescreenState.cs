@@ -53,7 +53,7 @@ namespace PixelPerfect
         public override void Enter(int previousStateId)
         {
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
-                MediaPlayer.Play(Globals.backgroundMusicList[Config.Menu.MUSIC]);
+                MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
 #if !WINDOWS
             touchState = TouchPanel.GetState();
 #else
@@ -80,7 +80,7 @@ namespace PixelPerfect
         public override void Resume(int poppedStateId)
         {
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
-                MediaPlayer.Play(Globals.backgroundMusicList[Config.Menu.MUSIC]);
+                MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
 #if !WINDOWS
             touchState = TouchPanel.GetState();
 #else
@@ -140,7 +140,7 @@ namespace PixelPerfect
                         IsolatedStorageSettings.ApplicationSettings["music"] = Globals.musicEnabled;
                         IsolatedStorageSettings.ApplicationSettings.Save();
                         if (Globals.musicEnabled)
-                            MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
+                            MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
                         else
                             MediaPlayer.Stop();
                         continue;
@@ -172,7 +172,7 @@ namespace PixelPerfect
                 {
                     Globals.musicEnabled = musicButton.value;
                     if (Globals.musicEnabled)
-                        MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
+                        MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
                     else
                         MediaPlayer.Stop();
                 }

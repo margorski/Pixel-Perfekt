@@ -58,12 +58,13 @@ namespace PixelPerfect
         private Color[] textureArray;
 
         private readonly Vector2 startPosition;
+        private int spriteColumn = 0;
 
         private Rectangle sourceRectangle
         {
             get
             {
-                var spriteColumn = (Globals.selectedWorld == -1 ? 0 : Globals.selectedWorld);
+                //var spriteColumn = Theme.Themes.e(Globals.selectedWorld == -1 ? 0 : Globals.selectedWorld);
                 return new Rectangle(spriteColumn * Config.Player.WIDTH, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : (animation.GetCurrentFrame() + 1) * Config.Player.HEIGHT, Config.Player.WIDTH, Config.Player.HEIGHT);
             }
         }
@@ -81,7 +82,7 @@ namespace PixelPerfect
             animation = new Animation(Config.Player.ANIM_FRAMES, Config.Player.ANIMATION_DELAY, true);
             state = 0x0;
             boomColorIndex = 0;
-
+            spriteColumn = World.LastActiveWorld();
             textureArray = Globals.spritesDictionary["player"].textureArray[0];
         }
 

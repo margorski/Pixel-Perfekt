@@ -38,7 +38,7 @@ namespace PixelPerfect
             return directory + "\\" + levels[id].shortName;
         }
 
-        public void AddLevel(string name, string levelName)
+        public void AddLevel(string name, string levelName, TimeSpan time)
         {
             Texture2D thumbnail = null;
             //try
@@ -50,7 +50,7 @@ namespace PixelPerfect
             //    // do nothing if file exists
             //}
 
-            levels.Add(new Level(name, levelName, thumbnail));
+            levels.Add(new Level(name, levelName, thumbnail, time));
         }
 
         public bool LevelActivated(int id)
@@ -67,6 +67,33 @@ namespace PixelPerfect
             return true;
 
 #endif
+        }
+
+        public bool BeatWorldPerfektTime()
+        {
+            bool value = true;
+            for (int i = 0; i < levels.Count; i++)
+            {
+                if (!BeatLevelPerfektTime(i))
+                {
+                    value = false;
+                    break;
+                }
+            }
+            return value;
+        }
+
+        public bool BeatLevelPerfektTime(int id)
+        {
+            Levelsave levelsave;
+
+            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levels[id].shortName, out levelsave))
+                return false;
+
+            if (levelsave.bestTime == TimeSpan.Zero)
+                return false;
+
+            return levelsave.bestTime <= this.levels[id].time;
         }
 
         public bool LevelCompleted(int id)
@@ -109,6 +136,7 @@ namespace PixelPerfect
             List<World> worlds = new List<World>();
             World tempworld;
             string icon, name, directory;
+            TimeSpan time = TimeSpan.Zero;
 
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + worldFile)))
             {
@@ -152,12 +180,17 @@ namespace PixelPerfect
                                     sname = xmlreader.Value;
                                     xmlreader.MoveToNextAttribute();
                                 }
+                                if (xmlreader.Name == "time")
+                                {
+                                    time = TimeSpan.Parse(xmlreader.Value, System.Globalization.CultureInfo.InvariantCulture);
+                                    xmlreader.MoveToNextAttribute();
+                                }
                                 if (xmlreader.Name == "value")
                                 {
                                     levelname = xmlreader.Value;
                                     xmlreader.MoveToNextAttribute();
                                 }
-                                tempworld.AddLevel(sname, levelname);
+                                tempworld.AddLevel(sname, levelname, time);
                             }
                         }
                     }
@@ -223,6 +256,9 @@ namespace PixelPerfect
             return true;
         }
 
-
+        public static int LastActiveWorld()
+        {
+            return Globals.worlds.FindLastIndex(world => world.active);
+        }
     }
 }

@@ -104,6 +104,9 @@
     <Compile Include="..\PixelPerfect\Sprite.cs">
       <Link>Sprite.cs</Link>
     </Compile>
+    <Compile Include="..\PixelPerfect\States\ControlsState.cs">
+      <Link>States\ControlsState.cs</Link>
+    </Compile>
     <Compile Include="..\PixelPerfect\States\LevelDetailsState.cs">
       <Link>States\LevelDetailsState.cs</Link>
     </Compile>
@@ -113,17 +116,26 @@
     <Compile Include="..\PixelPerfect\States\LevelState.cs">
       <Link>States\LevelState.cs</Link>
     </Compile>
-    <Compile Include="..\PixelPerfect\States\OnscreenStates.cs">
-      <Link>States\OnscreenStates.cs</Link>
+    <Compile Include="..\PixelPerfect\States\PauseState.cs">
+      <Link>States\PauseState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\TapState.cs">
+      <Link>States\TapState.cs</Link>
     </Compile>
     <Compile Include="..\PixelPerfect\States\TextState.cs">
       <Link>States\TextState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\TextureBackgroundState.cs">
+      <Link>States\TextureBackgroundState.cs</Link>
     </Compile>
     <Compile Include="..\PixelPerfect\States\TitlescreenState.cs">
       <Link>States\TitlescreenState.cs</Link>
     </Compile>
     <Compile Include="..\PixelPerfect\States\WorldSelectState.cs">
       <Link>States\WorldSelectState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Theme.cs">
+      <Link>Theme.cs</Link>
     </Compile>
     <Compile Include="..\PixelPerfect\Tile.cs">
       <Link>Tile.cs</Link>
@@ -376,10 +388,6 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\menu\logo.xnb">
       <Link>Content\menu\logo.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Assets\Levels\fgame\menu.tmx">
-      <Link>Levels\menu.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\tileset_mini.xnb">
@@ -656,6 +664,50 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\menu\skip.xnb">
       <Link>Content\menu\skip.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\trophy.xnb">
+      <Link>Content\menu\trophy.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\fgame\menu_confused.tmx">
+      <Link>Levels\menu\menu_confused.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\fgame\menu_cool.tmx">
+      <Link>Levels\menu\menu_cool.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\fgame\menu_happy.tmx">
+      <Link>Levels\menu\menu_happy.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\fgame\menu_scared.tmx">
+      <Link>Levels\menu\menu_scared.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\assets\levels\fgame\menu_shocked.tmx">
+      <Link>Levels\menu\menu_shocked.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\clock.xnb">
+      <Link>Content\menu\clock.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\skull.xnb">
+      <Link>Content\menu\skull.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\next.xnb">
+      <Link>Content\menu\next.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\restart.xnb">
+      <Link>Content\menu\restart.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\tap.xnb">
+      <Link>Content\menu\tap.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

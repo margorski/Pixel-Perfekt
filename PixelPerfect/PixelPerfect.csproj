@@ -91,7 +91,10 @@
     <Compile Include="Cutscene\Item.cs" />
     <Compile Include="Cutscene\Keyframe.cs" />
     <Compile Include="Level.cs" />
+    <Compile Include="States\ControlsState.cs" />
     <Compile Include="States\LevelDetailsState.cs" />
+    <Compile Include="States\TapState.cs" />
+    <Compile Include="States\TextureBackgroundState.cs" />
     <Compile Include="States\WorldSelectState.cs" />
     <Compile Include="States\LevelState.cs" />
     <Compile Include="LocalizedStrings.cs" />
@@ -102,7 +105,7 @@
     <Compile Include="Map.cs" />
     <Compile Include="States\LevelSelectState.cs" />
     <Compile Include="Sprite.cs" />
-    <Compile Include="States\OnscreenStates.cs" />
+    <Compile Include="States\PauseState.cs" />
     <Compile Include="PixelParticle.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
@@ -116,6 +119,7 @@
     <Compile Include="Cutscene\Scene.cs" />
     <Compile Include="States\TextState.cs" />
     <Compile Include="States\TitlescreenState.cs" />
+    <Compile Include="Theme.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="TileFactory.cs" />
     <Compile Include="Tileset.cs" />
@@ -344,10 +348,6 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\menu\logo.xnb">
       <Link>Content\menu\logo.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Assets\Levels\fgame\menu.tmx">
-      <Link>Levels\menu.tmx</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="pikpok.png" />
@@ -628,6 +628,50 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\menu\skip.xnb">
       <Link>Content\menu\skip.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\trophy.xnb">
+      <Link>Content\menu\trophy.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\menu_confused.tmx">
+      <Link>Levels\menu\menu_confused.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\menu_cool.tmx">
+      <Link>Levels\menu\menu_cool.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\menu_happy.tmx">
+      <Link>Levels\menu\menu_happy.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\menu_scared.tmx">
+      <Link>Levels\menu\menu_scared.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Assets\Levels\fgame\menu_shocked.tmx">
+      <Link>Levels\menu\menu_shocked.tmx</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\clock.xnb">
+      <Link>Content\menu\clock.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\skull.xnb">
+      <Link>Content\menu\skull.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\next.xnb">
+      <Link>Content\menu\next.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\restart.xnb">
+      <Link>Content\menu\restart.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\tap.xnb">
+      <Link>Content\menu\tap.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">

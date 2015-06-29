@@ -40,6 +40,6 @@ namespace PixelPerfect
         public static List<World> worlds;
         public static int selectedWorld = -1;
         public static int selectedLevel = -1;
-        public static LevelState.LevelColors currentLevelColors;
+        public static int detonateWorldKeylock = -1;
     }
 }

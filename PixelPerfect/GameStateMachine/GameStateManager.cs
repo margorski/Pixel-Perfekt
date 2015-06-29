@@ -112,16 +112,12 @@ namespace PixelPerfect
 
             nextStateId = -1;
             previousStateId = stateStack.ElementAt(stateStack.Count - 1).Key;
-            if (transtion)
-            {
-                state = State.Delay;
-                return true;
-            }
-            
             stateStack[previousStateId].Exit(-1);
+            if (transtion)            
+                ExplodeState(stateStack[previousStateId]);                
+            
             stateStack.Remove(previousStateId);
-            if (stateStack.Count > 0)
-                stateStack.ElementAt(stateStack.Count - 1).Value.Resume(previousStateId);
+            state = State.Delay;
 
             return true;
         }
@@ -158,7 +154,7 @@ namespace PixelPerfect
             if (!registeredStates.ContainsKey(stateId))
                 return null;
 
-            return stateStack[stateId];
+            return registeredStates[stateId];
         }
 
         public void EmptyStack()
@@ -172,7 +168,14 @@ namespace PixelPerfect
         }
 
         private void SetState()
-        {    
+        {
+            if (nextStateId == -1)
+            {
+                if (stateStack.Count > 0)
+                    stateStack.ElementAt(stateStack.Count - 1).Value.Resume(previousStateId);
+                return;
+            }
+
             if (stateStack.ContainsKey(nextStateId))
             {
                 stateStack.Remove(nextStateId);
@@ -271,7 +274,7 @@ namespace PixelPerfect
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, SpriteBatch spriteBatch2)
+        public void Draw(SpriteBatch spriteBatch, SpriteBatch spriteBatch2, SpriteBatch spriteBatch3)
         {
             for (int i = 0; i < stateStack.Count; i++)
             {
@@ -282,7 +285,7 @@ namespace PixelPerfect
             }
 
             foreach (PixelParticle pparticle in Globals.pixelParticles)
-                pparticle.Draw(spriteBatch2);
+                pparticle.Draw(spriteBatch3);
         }
 
         public Vector2 GetHorizontalTransition()

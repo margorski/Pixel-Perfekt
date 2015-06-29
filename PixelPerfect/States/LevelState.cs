@@ -208,7 +208,7 @@ namespace PixelPerfect
             ReloadGradientTexture();
         }
 
-        public LevelState(String directory, String levelFile, bool menuLevel = false)
+        public LevelState(String directory, String levelFile, bool menuLevel = false, float scale = 1.0f)
         {
             this.levelFile = levelFile;
             this.directory = directory;
@@ -218,6 +218,7 @@ namespace PixelPerfect
                     levelFile += ".tmx";
             }
             this.menuLevel = menuLevel;
+            this.scale = scale;
         }
 
         public override void Enter(int previousStateId)
@@ -226,11 +227,17 @@ namespace PixelPerfect
             ResetInput();
             if (Globals.musicEnabled && !menuLevel)
                 MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
+            if (!menuLevel)
+            {
+                if (Globals.selectedLevel == 0 && Globals.selectedWorld == 0)
+                    Globals.gameStateManager.PushState(Config.States.CONTROLS);
+                else
+                    Globals.gameStateManager.PushState(Config.States.TAP);
+            }
         }
 
         public override void Exit(int nextStateId)
         {
-            Globals.CurrentLevelState = null;
             Globals.backgroundColor = Color.Black;
             foreach (KeyValuePair<string, SoundEffectInstance> sfinstance in Globals.soundsDictionary)
                 sfinstance.Value.Stop();
@@ -242,12 +249,11 @@ namespace PixelPerfect
         {
             ReloadGradientTexture();
             ResetInput();
-            Globals.CurrentLevelState = this;
+            if (Globals.musicEnabled)
+                MediaPlayer.Resume();
             if (menuLevel)
             {
-                InitLevel();
-                if (Globals.musicEnabled)
-                    MediaPlayer.Resume();
+                InitLevel();                
             }
         }
 
@@ -257,8 +263,8 @@ namespace PixelPerfect
                 InitLevel();
             else
             {
-                if (Globals.musicEnabled)
-                    MediaPlayer.Pause();
+                if (Globals.musicEnabled && pushedStateId == -1)
+                    MediaPlayer.Pause();                
             }
         }
 
@@ -391,7 +397,19 @@ namespace PixelPerfect
                         Savestate.Instance.Save();
                     }
                     if (Globals.worlds[Globals.selectedWorld].Completed())
+                    {
+                        if (Globals.selectedWorld == Globals.worlds.Count - 1)
+                        {
+                            Globals.gameStateManager.ChangeState(Config.States.TITLESCREEN);//ending
+                            return;
+                        }
+                        else if (!Globals.worlds[Globals.selectedWorld + 1].active)
+                        {
+                            Theme.ReloadTheme(Globals.selectedWorld + 1);
+                            Globals.detonateWorldKeylock = Globals.selectedWorld + 1;
+                        }
                         Globals.gameStateManager.ChangeState(Config.States.WORLDSELECT);
+                    }
                     else
                     {
                         Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
@@ -676,7 +694,7 @@ namespace PixelPerfect
                 pixelParticles.Clear();
         }        
 
-        private void Reset()
+        public void Reset()
         {
             map.Reset();
             player.Reset();
@@ -693,6 +711,9 @@ namespace PixelPerfect
                 pixelParticle.map = Globals.CurrentMap;
                 pixelParticle.standingType = Config.StandingType.NoImpact;
             }
+
+            if (!menuLevel)
+                Globals.gameStateManager.PushState(Config.States.TAP);
         }
 
         private void ResetInput()
@@ -702,7 +723,7 @@ namespace PixelPerfect
             previousKeyboardState = currentKeyboardState = Keyboard.GetState();
 #else
                 touchId = 0;
-                //touchCollection = TouchPanel.GetState();
+                //touch = TouchPanel.GetState();
 #endif
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
         }

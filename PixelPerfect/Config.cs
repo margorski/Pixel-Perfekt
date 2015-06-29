@@ -50,8 +50,9 @@ namespace PixelPerfect
             public const int LEVELMIN = LEVEL;
             public const int LEVELMAX = 300;
             public const int PAUSE = 300;
+            public const int TAP = 350;
             public const int TEXT = 400;
-            public const int CUTSCENE = 500;
+            public const int CONTROLS = 500;
             public const int DUMMY = 666;
         }   
 
@@ -88,8 +89,8 @@ namespace PixelPerfect
             public const float MAX_FALL_SPEED = 70.0f;
             public const float MAX_FLY_SPEED = -150.0f;
             public const int PIXELPARTICLE_LIFETIME_MIN = 400;
-            public const int PIXELPARTICLE_LIFETIME_MAX = 1200;
-            public const int MAX_EXPLOSION_MAGNITUDE = 70;
+            public const int PIXELPARTICLE_LIFETIME_MAX = 1200;                        
+            public const int MAX_EXPLOSION_MAGNITUDE = 30;
             public const int MAX_PARTICLES_MENU = 2000;
             public const int MAX_PARTICLES_LEVEL = 1000;
         }
@@ -170,7 +171,7 @@ namespace PixelPerfect
             public const int AVATAR_POSITION_X = 20;
             public const int TEXT_POSITION_Y = AVATAR_POSITION_Y;            
             public const int COLLECTIBLES_X = Config.SCREEN_WIDTH_SCALED;
-            public const int COLLECTIBLES_Y = TEXT_POSITION_Y + 13;
+            public const int COLLECTIBLES_Y = TEXT_POSITION_Y + 14;
             public const int COLLECTIBLES_SPACE = 10;
             public const int TEXTSTATE_POSITION_X = 4;
             public const int TEXTSTATE_POSITION_Y = TEXT_POSITION_Y;
@@ -189,7 +190,6 @@ namespace PixelPerfect
             public const int LEVEL_VERTICAL_SPACE = 10;
             public const int TEXT_SPACE = 5;
             public const int NUM_IN_ROW = 5;
-            public const int MUSIC = 2;
             public const int TRANSITION_DELAY = 1000;
             public const float SLIDE_SPEED = 300.0f;
             public const float SLIDE_FACTOR = 0.35f;

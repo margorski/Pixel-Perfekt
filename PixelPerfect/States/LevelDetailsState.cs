@@ -56,10 +56,7 @@ namespace PixelPerfect
 
         public override void Enter(int previousStateId)
         {
-            int textstateId = Config.States.TEXT;
-
             while (gameStateManager.UnregisterState(Config.States.LEVEL)) ;
-            while (gameStateManager.UnregisterState(textstateId++)) ;
 #if !WINDOWS
             touchState = TouchPanel.GetState();
 #else
@@ -68,7 +65,8 @@ namespace PixelPerfect
 #endif
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
 
-            if (Savestate.Instance.Skipped() || Globals.worlds[Globals.selectedWorld].LevelSkipped(Globals.selectedLevel) || Globals.selectedLevel >= Globals.worlds[Globals.selectedWorld].levels.Count - 1)
+            if (Savestate.Instance.Skipped() || Globals.worlds[Globals.selectedWorld].LevelSkipped(Globals.selectedLevel) || Globals.selectedLevel >= Globals.worlds[Globals.selectedWorld].levels.Count - 1
+                || Globals.worlds[Globals.selectedWorld].LevelCompleted(Globals.selectedLevel))
                 skipButton.active = false;
             else
                 skipButton.active = true;
@@ -83,7 +81,7 @@ namespace PixelPerfect
             caption = new WavyText(levelName, new Vector2(titlex, 7), 3000, 2.0f, Config.titleColors, 13.0f, 3f, 0.0f);
 
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
-                MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
+                MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
 
             tileMap = Map.LoadTileMap(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel));
             tileMap = tileMap.Select(tile => ((tile - 1) % 20)).ToArray();
@@ -218,8 +216,14 @@ namespace PixelPerfect
             bool exist = Savestate.Instance.levelSaves.TryGetValue(Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel), out levelsave);
 
             Color nameColor = (Globals.worlds[Globals.selectedWorld].LevelCompleted(Globals.selectedLevel) ? Color.Green : Globals.worlds[Globals.selectedWorld].LevelSkipped(Globals.selectedLevel) ? Color.Gold : Color.White);
-            Color deathColor = Color.White;
+            Color deathColor = Color.White;            
             Color timeColor = Color.White;
+            if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))
+            {
+                timeColor = Color.Gold;
+                deathColor = Color.Gold;
+                spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 8, 115), Color.Gold);
+            }
 
             string deathsString = "TOTAL DEATHS: ";
             string timeString = "BEST TIME: ";
@@ -242,10 +246,11 @@ namespace PixelPerfect
             if (caption != null)
                 caption.Draw(spriteBatch);
 
-            Util.DrawStringAligned(spriteBatch, "PERFEKT TIME: 00:30.12", Globals.silkscreenFont, Color.Gold, new Rectangle(0, 102, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(0, 0), Util.Align.Center);
-            Util.DrawStringAligned(spriteBatch, deathsString, Globals.silkscreenFont, timeColor, new Rectangle(0, 118, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(8, 0), Util.Align.Left);
-            Util.DrawStringAligned(spriteBatch, timeString, Globals.silkscreenFont, deathColor, new Rectangle(0, 118, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(4, 0), Util.Align.Right);
-
+            Util.DrawStringAligned(spriteBatch, "PERFEKT TIME: " + Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].time.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.Gold, new Rectangle(0, 104, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(16, 0), Util.Align.Center);
+            Util.DrawStringAligned(spriteBatch, timeString, Globals.silkscreenFont, timeColor, new Rectangle(0, 117, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(19, 0), Util.Align.Left);
+            spriteBatch.Draw(Globals.textureDictionary["clock"], new Vector2(8, 117), timeColor);
+            Util.DrawStringAligned(spriteBatch, deathsString, Globals.silkscreenFont, deathColor, new Rectangle(0, 117, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(3, 0), Util.Align.Right);
+            spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(178, 117), deathColor);
 
             DrawMiniMap(spriteBatch, new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE / 2, 30));
             skipButton.Draw(spriteBatch);

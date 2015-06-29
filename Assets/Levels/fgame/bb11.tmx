@@ -7,7 +7,7 @@
   <property name="enemycolor" value="60"/>
   <property name="hudcolor" value="82"/>
   <property name="music" value="11"/>
-  <property name="name" value="TWO.. three BROTHERS"/>
+  <property name="name" value="JOE, MAC... and IAN"/>
   <property name="tilecolor" value="50"/>
  </properties>
  <tileset firstgid="1" name="pacman" tilewidth="8" tileheight="8">

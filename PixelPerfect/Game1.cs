@@ -21,6 +21,7 @@ namespace PixelPerfect
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         SpriteBatch spriteBatch2;
+        SpriteBatch spriteBatch3;
 
         GameStateManager gameStateManager;
 
@@ -115,38 +116,53 @@ namespace PixelPerfect
             Globals.gameStateManager = gameStateManager;
             Globals.worlds = World.LoadWorlds();
 
-            var menuState = new TitlescreenState(gameStateManager);  
-            var backgroundLevel = new LevelState("", "menu", true);    
+            var menuState = new TitlescreenState(gameStateManager);
+            var backgroundLevel = Theme.CurrentTheme.level; 
             backgroundLevel.scale = scale;            
-            menuState.backgroundLevel = backgroundLevel;      
-            var pauseState = new PauseState(Content, gameStateManager); 
+            var pauseState = new PauseState();             
             menuState.scale = pauseState.scale = scale;
             var levelSelectState = new LevelSelectState(gameStateManager);
             levelSelectState.scale = scale;
-            var backgroundState = new TextureBackgroundState();
+
+            var backgroundState = new TextureBackgroundState(Theme.Cool.color1, Theme.Cool.color2);
+
             var dummyState = new DummyState();
+
             var worldSelectState = new WorldSelectState(gameStateManager);
             worldSelectState.scale = scale;
+
             var levelDetailsState = new LevelDetailsState(gameStateManager);
             levelDetailsState.scale = scale;
 
+            var tapState = new TapState();
+            tapState.scale = scale;
+
+            var controlsState = new ControlsState();
+            controlsState.scale = scale;
+
+            gameStateManager.RegisterState(Config.States.CONTROLS, controlsState);
+            gameStateManager.RegisterState(Config.States.TAP, tapState);
+            gameStateManager.RegisterState(Config.States.BACKGROUND, backgroundState);
             gameStateManager.RegisterState(Config.States.TITLESCREEN, menuState);
             gameStateManager.RegisterState(Config.States.PAUSE, pauseState);
             gameStateManager.RegisterState(Config.States.WORLDSELECT, worldSelectState);
             gameStateManager.RegisterState(Config.States.LEVELSELECT, levelSelectState);
             gameStateManager.RegisterState(Config.States.LEVELDETAILS, levelDetailsState);
-            gameStateManager.RegisterState(Config.States.BACKGROUND, backgroundState);
             gameStateManager.RegisterState(Config.States.DUMMY, dummyState);
+
+            Theme.ReloadTheme(World.LastActiveWorld());
+
             gameStateManager.PushState(Config.States.BACKGROUND);
             gameStateManager.PushState(Config.States.DUMMY);
             gameStateManager.PushState(Config.States.TITLESCREEN);
-           
+                       
         }
 
         protected override void LoadContent()
         {
             Globals.spriteBatch = spriteBatch = new SpriteBatch(GraphicsDevice);
             spriteBatch2 = new SpriteBatch(GraphicsDevice);
+            spriteBatch3 = new SpriteBatch(GraphicsDevice);
 
             MediaPlayer.IsRepeating = true;
             
@@ -173,7 +189,13 @@ namespace PixelPerfect
             Globals.textureDictionary.Add("confusedLevel", Content.Load<Texture2D>("moods\\level_confused"));
             Globals.textureDictionary.Add("shockedLevel", Content.Load<Texture2D>("moods\\level_shocked"));
             Globals.textureDictionary.Add("scaredLevel", Content.Load<Texture2D>("moods\\level_scared"));
-            Globals.textureDictionary.Add("keylockLevel", Content.Load<Texture2D>("keylock_small"));            
+            Globals.textureDictionary.Add("keylockLevel", Content.Load<Texture2D>("keylock_small"));
+            Globals.textureDictionary.Add("trophy", Content.Load<Texture2D>("menu\\trophy"));
+            Globals.textureDictionary.Add("skull", Content.Load<Texture2D>("menu\\skull"));
+            Globals.textureDictionary.Add("clock", Content.Load<Texture2D>("menu\\clock"));
+            Globals.textureDictionary.Add("tap", Content.Load<Texture2D>("menu\\tap"));
+            Globals.textureDictionary.Add("next", Content.Load<Texture2D>("menu\\next"));
+            Globals.textureDictionary.Add("restart", Content.Load<Texture2D>("menu\\restart"));
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
 
             //sprites
@@ -247,13 +269,16 @@ namespace PixelPerfect
             matrix *= Matrix.CreateScale(scale);
             var translationShift = gameStateManager.GetHorizontalTransition();
             var shiftMatrix = matrix * Matrix.CreateTranslation(new Vector3(graphics.GraphicsDevice.Viewport.Width * translationShift.X, graphics.GraphicsDevice.Viewport.Height * translationShift.Y, 0.0f));
+
+            spriteBatch3.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, shiftMatrix);//Matrix.CreateScale(scale));
             spriteBatch2.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);
          
-            gameStateManager.Draw(spriteBatch, spriteBatch2);
+            gameStateManager.Draw(spriteBatch, spriteBatch2, spriteBatch3);
 
             spriteBatch2.End();
             spriteBatch.End();
+            spriteBatch3.End();
 
             base.Draw(gameTime);
         }
@@ -282,3 +307,4 @@ namespace PixelPerfect
         }
     }
 }
+

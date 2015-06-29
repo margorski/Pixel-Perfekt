@@ -66,20 +66,25 @@ namespace PixelPerfect
             //if (hudTexture != null)
             //    spriteBatch.Draw(hudTexture, new Vector2(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT), Color.White);
 
+            Levelsave levelsave;
+            Savestate.Instance.levelSaves.TryGetValue(Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel), out levelsave);
+
             spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), color);
 
+            spriteBatch.Draw(Globals.textureDictionary["clock"], new Vector2(6, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
             Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
-                        new Vector2(4, Config.Hud.TEXT_POSITION_Y), Util.Align.Left);
+                        new Vector2(17, Config.Hud.TEXT_POSITION_Y), Util.Align.Left);
 
             //Util.DrawStringAligned(spriteBatch, levelName, Globals.silkscreenFont, Color.White,
             //                        new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
             //                        new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Center);
 
             leveltitle.Draw(spriteBatch);
-            Util.DrawStringAligned(spriteBatch, "DEATHS: " + Globals.CurrentLevelState.deathCount, Globals.silkscreenFont, Color.White,
+            spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(209, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
+            Util.DrawStringAligned(spriteBatch, "DEATHS: " + levelsave.deathCount, Globals.silkscreenFont, Color.White,
                         new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
-                        new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Right);
+                        new Vector2(3, Config.Hud.TEXT_POSITION_Y), Util.Align.Right);
 
             foreach (Tile tile in collectibleTiles)
                 tile.Draw(spriteBatch, Vector2.Zero);

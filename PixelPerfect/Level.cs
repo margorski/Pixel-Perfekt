@@ -17,12 +17,14 @@ namespace PixelPerfect
         public Texture2D thumbnail = null;
         public String shortName;
         public String levelName;
+        public TimeSpan time;
 
-        public Level(String shortName, String levelName, Texture2D thumbnail)
+        public Level(String shortName, String levelName, Texture2D thumbnail, TimeSpan time)
         {
             this.shortName = shortName;
             this.levelName = levelName;
             this.thumbnail = thumbnail;
+            this.time = time;
         }
     }
 }

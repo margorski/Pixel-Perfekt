@@ -60,7 +60,7 @@ namespace PixelPerfect
             Globals.selectedLevel = -1;            
             
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
-                MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
+                MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
 
             PrepareButtons();
         }
@@ -207,8 +207,9 @@ namespace PixelPerfect
 
             foreach (Button button in levelButtons)
             {
-                color = Globals.worlds[Globals.selectedWorld].LevelCompleted(levelCount) ? Color.Green :
-                        Globals.worlds[Globals.selectedWorld].LevelSkipped(levelCount) ? Color.Red : Color.White;
+                color = Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(levelCount) ? Color.Gold :
+                        Globals.worlds[Globals.selectedWorld].LevelCompleted(levelCount) ? Color.Green :
+                        Globals.worlds[Globals.selectedWorld].LevelSkipped(levelCount) ? Color.MediumVioletRed : Color.White;
                 if (color == Color.White)
                     button.Draw(spriteBatch);
                 else
@@ -217,6 +218,8 @@ namespace PixelPerfect
                     if (Globals.worlds[Globals.selectedWorld].LevelSkipped(levelCount))
                         spriteBatch.Draw(Globals.spritesDictionary["enemies_16x16"].texture, new Vector2(button.rectangle.X, button.rectangle.Y), 
                                          new Rectangle(0, pikpokAnimation.GetCurrentFrame() * 16, 16, 16), Color.White);
+                    if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(levelCount))
+                        spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(button.rectangle.X, button.rectangle.Y), Color.White);
                 }
                 spriteBatch.DrawString(Globals.silkscreenFont, (levelCount + 1).ToString(),
                                     new Vector2(button.rectangle.Right - 10, button.rectangle.Bottom - 10), color

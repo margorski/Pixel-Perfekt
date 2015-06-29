@@ -24,7 +24,9 @@ namespace PixelPerfect
             IDLE,
             CLICKING,
             SLIDING,
-            FLOATING
+            FLOATING,
+            EXPLODE,
+            EXPLODING
         }
 
         GameStateManager gameStateManager;
@@ -53,9 +55,15 @@ namespace PixelPerfect
 
         WavyText caption = new WavyText("MOOD SELECT", new Vector2(76, 7), 3000, 2.0f, Config.titleColors, 13.0f, 3f, 0.0f);
 
+#if !WINDOWS
         int touchId = -1;
+#endif
+
         float startPositionX = 0.0f;
-        Animation playerAnimation = new Animation(6, Config.DEFAULT_ANIMATION_SPEED, true);
+        Animation playerAnimation = new Animation(Config.ANIM_FRAMES, Config.DEFAULT_ANIMATION_SPEED, true);
+        TimeSpan boomDelay = TimeSpan.Zero;
+        TimeSpan boomColorTime = TimeSpan.Zero;
+        int boomColorIndex = 0;
 
         float menuSlidingShift
         {
@@ -108,18 +116,54 @@ namespace PixelPerfect
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
 
             World.RefreshWorldStatus(Globals.worlds);
+
+            state = MenuState.FLOATING;
+            startPositionX = -(selectedWorld + 1) * (worldButtons[0].Width + Config.Menu.WORLD_HORIZONTAL_SPACE);
             Globals.selectedWorld = -1;
+            if (Globals.detonateWorldKeylock > -1)
+                selectedWorld = Globals.detonateWorldKeylock;
+            else
+                selectedWorld = Globals.worlds.IndexOf(Globals.worlds.Last(world => world.active));
 
             for (int i = 0; i < worldButtons.Count; i++ )
             {
+                if (Globals.detonateWorldKeylock == i)
+                    continue;
                 worldButtons[i].active = Globals.worlds[i].active;                    
             }                
-
+                        
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
-                MediaPlayer.Play(Globals.backgroundMusicList[Globals.rnd.Next(Globals.backgroundMusicList.Count)]);
-            selectedWorld = Globals.worlds.IndexOf(Globals.worlds.Last(world => world.active));
-            state = MenuState.IDLE;
+                MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);       
+#if !WINDOWS     
             touchId = -1;
+#endif
+        }
+
+        private void PixelExplosion(int world)
+        {
+            int centeringX = (Config.SCREEN_WIDTH_SCALED / 2 - worldButtons[world].Width / 2) - selectedWorld * (worldButtons[world].Width + Config.Menu.WORLD_HORIZONTAL_SPACE);
+
+            var keylockTexture = Globals.textureDictionary["keylock"];
+            var textureArray = Util.GetTextureArray(keylockTexture, keylockTexture.Width, keylockTexture.Height);
+            var position = new Vector2(centeringX + world * (worldButtons[world].Width + Config.Menu.WORLD_HORIZONTAL_SPACE),
+                                       Config.Menu.WORLD_OFFSET_Y);
+
+            for (int i = 0; i < textureArray.Length; i++)
+            {
+                if (textureArray[i].A == 255)
+                {
+                    Vector2 boomCenter = position + new Vector2(keylockTexture.Width / 2, keylockTexture.Height / 2);
+                    Vector2 pixPos = position + new Vector2(i % keylockTexture.Width, i / keylockTexture.Width);
+                    Vector2 pixSpeed = (pixPos - boomCenter) * Globals.rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
+                    Vector2 acc = Vector2.Zero;// new Vector2(rnd.Next(-100, 100), rnd.Next(-100, 100));
+
+                    Globals.pixelParticles.Add(new PixelParticle(pixPos,
+                                    0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
+                                    pixSpeed, acc, Config.boomColors[Globals.rnd.Next(Config.boomColors.Length)], true, null));
+                }
+            }
+            if (Globals.soundEnabled)
+                Globals.soundsDictionary["explosion"].Play();
         }
 
         public override void Exit(int nextStateId)
@@ -128,7 +172,9 @@ namespace PixelPerfect
 
         public override void Resume(int poppedStateId)
         {
+#if !WINDOWS
             touchId = -1;
+#endif
             state = MenuState.IDLE;
         }
 
@@ -394,19 +440,53 @@ namespace PixelPerfect
                     if (startPositionX < 0.0f)
                     {
                         startPositionX = 0.0f;
-                        state = MenuState.IDLE;
+                        if (Globals.detonateWorldKeylock > -1)
+                            state = MenuState.EXPLODE;
+                        else
+                            state = MenuState.IDLE;                        
                     }
-                }
-                else if (startPositionX < 0.0f)
+                }                
+                else if (startPositionX <= 0.0f)
                 {
                     startPositionX += timeFactor * Config.Menu.SLIDE_SPEED;
                     if (startPositionX > 0.0f)
                     {
                         startPositionX = 0.0f;
+                        if (Globals.detonateWorldKeylock > -1)                        
+                            state = MenuState.EXPLODE;
+                        else
+                            state = MenuState.IDLE;                        
+                    }
+                }
+            }
+            else if (state == MenuState.EXPLODE)
+            {
+                boomDelay += gameTime.ElapsedGameTime;
+                if (boomDelay.TotalMilliseconds > 500)
+                {
+                    boomDelay = TimeSpan.Zero;
+                    if (Globals.soundEnabled)
+                        Globals.soundsDictionary["randomize"].Play();
+                    state = MenuState.EXPLODING;
+                }
+            }
+            else if (state == MenuState.EXPLODING)
+            {
+                boomColorTime += gameTime.ElapsedGameTime;
+                if (boomColorTime.TotalMilliseconds > Config.Player.BOOMCOLOR_TIME_MS)
+                {
+                    boomColorTime = TimeSpan.Zero;
+                    if (++boomColorIndex >= Config.boomColors.Length)
+                    {
+                        PixelExplosion(Globals.detonateWorldKeylock);
+                        worldButtons[Globals.detonateWorldKeylock].active = true;
+                        Globals.detonateWorldKeylock = -1;
+                        boomColorIndex = 0;
                         state = MenuState.IDLE;
                     }
                 }
-            }    
+                return;
+            }
         }
 
         public void SelectWorld(int world)
@@ -436,20 +516,28 @@ namespace PixelPerfect
                 x = centeringX + i * (worldButtons[i].Width + Config.Menu.WORLD_HORIZONTAL_SPACE) + (int)menuSlidingShift;
                 y = Config.Menu.WORLD_OFFSET_Y;
 
-                color = Globals.worlds[i].Completed() ? Color.Green : Color.White;                    
+                color = Globals.worlds[i].Completed() ? Color.Gold: Color.White;                                   
                 
                 worldButtons[i].setPosition(new Vector2(x, y));
-                if (Globals.worlds[i].Completed())
-                    worldButtons[i].Draw(spriteBatch, Color.Green);
+                if (color != Color.White)
+                    worldButtons[i].Draw(spriteBatch, color);
                 else
                     worldButtons[i].Draw(spriteBatch);
 
 
-                if (!Globals.worlds[i].active)
-                    spriteBatch.Draw(Globals.textureDictionary["keylock"], new Vector2(x, y), Color.White);
+                if (!Globals.worlds[i].active || i == Globals.detonateWorldKeylock)
+                {
+                    Color keylockColor = Color.White;
+                    if (state == MenuState.EXPLODING && i == Globals.detonateWorldKeylock)
+                        keylockColor = Config.boomColors[boomColorIndex];
+
+                    spriteBatch.Draw(Globals.textureDictionary["keylock"], new Vector2(x, y), keylockColor);
+                }
 
                 var textOffset = Globals.silkscreenFont.MeasureString(Globals.worlds[i].name) / 2;
                 spriteBatch.DrawString(Globals.silkscreenFont, Globals.worlds[i].name, new Vector2(x - textOffset.X + Globals.textureDictionary[Globals.worlds[i].icon].Width / 2, y + Globals.textureDictionary[Globals.worlds[i].icon].Height + Config.Menu.TEXT_SPACE), color);
+                if (Globals.worlds[i].BeatWorldPerfektTime())
+                    spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(x, y), Color.White);
 
                 spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - (Config.Menu.BOINGS_SIZE * 5 + Config.Menu.BOINGS_SPACE * 4) / 2 + (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) * i, Config.Menu.BOINGS_OFFSET_Y, Config.Menu.BOINGS_SIZE, Config.Menu.BOINGS_SIZE), (i == selectedWorld ? Color.Blue : Color.White));
                 for (int j = 0; j < Config.Menu.SMALL_BOINGS_QTY; j++)
@@ -475,7 +563,7 @@ namespace PixelPerfect
             bool walking = (state == MenuState.FLOATING || state == MenuState.SLIDING);
             spriteBatch.Draw(Globals.spritesDictionary["player"].texture,
                              new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - (Config.Menu.BOINGS_SIZE * 5 + Config.Menu.BOINGS_SPACE * 4) / 2 - 3 + (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) * selectedWorld + (int)(progressBetweenLevels * (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE)), 
-                                          Config.Menu.BOINGS_OFFSET_Y - 20, 8, 16), new Rectangle(0, walking ? playerAnimation.GetCurrentFrame() * 16 : 32, 8, 16), Color.White);
+                                          Config.Menu.BOINGS_OFFSET_Y - 20, 8, 16), new Rectangle(0, walking ? (playerAnimation.GetCurrentFrame() + 1) * 16 : 0, 8, 16), Color.White);
         }
     }
 }
