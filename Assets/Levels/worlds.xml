@@ -2,9 +2,9 @@
 <worlds>
   <world name="cool" icon="cool" directory="cool">
     <level name="beg1" time="00:05:45.00" value="Hello world!"/>
-    <level name="beg3" time="00:05:45.00" value="i'm like a bird"/>
     <level name="beg5" time="00:05:45.00" value="white men can jump"/>
-    <level name="beg6" time="00:05:45.00" value="hello"/>    
+    <level name="beg6" time="00:05:45.00" value="hello"/>        
+    <level name="beg3" time="00:05:45.00" value="i'm like a bird"/>
     <level name="beg7" time="00:05:45.00" value="just jump"/>
     <level name="beg8" time="00:05:45.00" value="well, well, well"/>   
     <level name="beg2" time="00:05:45.00" value="can't touch this"/>
@@ -14,7 +14,7 @@
   </world>
   <world name="happy" icon="happy" directory="happy">
 	  <level name="pp0"  time="00:05:45.00"  value="industrial"/>
-	  <level name="si2"  time="00:05:45.00"  value="corporate lifestyle"/>
+	  <level name="si2"  time="00:05:45.00"  value="corporate"/>
 	  <level name="si5"  time="00:05:45.00" value="late shift"/>
 	  <level name="si6"  time="00:05:45.00" value="more new friends"/>
 	  <level name="si11" time="00:05:45.00" value="hangover"/>

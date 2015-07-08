@@ -28,25 +28,33 @@ namespace PixelPerfect
     [ProtoContract]
     public sealed class Savestate
     {
-        public const int CURRENT_VERSION = 4;
+        public const int CURRENT_VERSION = 5;
 
         [ProtoMember(1)]
         public int version = CURRENT_VERSION;
-
+        
         public static Savestate Instance { get; private set; } 
         
         [ProtoMember(2)]
         public Dictionary<String, Levelsave> levelSaves;
 
+        [ProtoMember(3, OverwriteList=true)]
+        public bool[] suitUnlocked; 
+
         private Savestate() 
         {
             levelSaves = new Dictionary<string, Levelsave>();
-            //soundsEnabled = musicEnabled = true;
+            suitUnlocked = new bool[Config.Player.SUIT_QTY];
+            suitUnlocked[0] = true;
+#if DEBUG
+            for (int i = 0; i < suitUnlocked.Length; i++)
+                suitUnlocked[i] = true;
+#endif
         }
 
         public static void Reset()
         {
-            Instance = new Savestate();
+            Instance = new Savestate();            
             Instance.Save(true);
         }
 

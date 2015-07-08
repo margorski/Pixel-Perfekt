@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO.IsolatedStorage;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -30,9 +31,12 @@ namespace PixelPerfect
         Button restartButton = new Button("", new Rectangle(72,64, 24, 24), Globals.textureDictionary["restart"], Globals.silkscreenFont, false);
         Button infoButton = new Button("", new Rectangle(72, 92, 24, 24), Globals.textureDictionary["info"], Globals.silkscreenFont, false);
         Button backButton = new Button("", new Rectangle(72, 120, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
+        Button musicButton = new Button("", new Rectangle(240, 130, 24, 24), Globals.textureDictionary["music"], Globals.silkscreenFont, true);
+        Button soundButton = new Button("", new Rectangle(210, 130, 24, 24), Globals.textureDictionary["sound"], Globals.silkscreenFont, true);
 
         public PauseState()
         {
+
         }
 
         public override void Enter(int previousStateId)
@@ -45,6 +49,8 @@ namespace PixelPerfect
 #else
             touchCollection = TouchPanel.GetState();
 #endif
+            soundButton.value = Globals.soundEnabled;
+            musicButton.value = Globals.musicEnabled;
         }
 
         public override void Exit(int nextStateId)
@@ -60,12 +66,13 @@ namespace PixelPerfect
 
         public override void Resume(int poppedStateId)
         {
-
+            soundButton.value = Globals.soundEnabled;
+            musicButton.value = Globals.musicEnabled;
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 180)));
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 100)));
             spriteBatch.DrawString(Globals.silkscreenFont, "PAUSE", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 44, 6), Color.White, 0.0f, Vector2.Zero, 3.0f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(Globals.silkscreenFont, "CONTINUE", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 39), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(Globals.silkscreenFont, "RESTART", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 67), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
@@ -75,6 +82,8 @@ namespace PixelPerfect
             playButton.Draw(spriteBatch);
             restartButton.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
+            musicButton.Draw(spriteBatch);
+            soundButton.Draw(spriteBatch);
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool suspended)
@@ -101,10 +110,12 @@ namespace PixelPerfect
             {
                 if (touch.State == TouchLocationState.Pressed)
                 {
-                restartButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
-                backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
-                infoButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
-                playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    restartButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    infoButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    musicButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                 }
                 if (touch.State == TouchLocationState.Released)
                 {
@@ -122,8 +133,26 @@ namespace PixelPerfect
                     else if (infoButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {
                         Globals.gameStateManager.PushState(Config.States.CONTROLS);                    
+                    }                            
+                    else if (musicButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                    {
+                        Globals.musicEnabled = musicButton.value;
+                        IsolatedStorageSettings.ApplicationSettings["music"] = Globals.musicEnabled;
+                        IsolatedStorageSettings.ApplicationSettings.Save();
+                        if (Globals.musicEnabled)
+                            MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
+                        else
+                            MediaPlayer.Stop();
+                        continue;
                     }
-                }            
+                    else if (soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                    {
+                        Globals.soundEnabled = soundButton.value;
+                        IsolatedStorageSettings.ApplicationSettings["sound"] = Globals.soundEnabled;
+                        IsolatedStorageSettings.ApplicationSettings.Save();
+                        continue;
+                    }
+                }
             }
 #else
             currMouseState = Mouse.GetState();
@@ -133,6 +162,8 @@ namespace PixelPerfect
                 backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
                 infoButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
                 playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                musicButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
             }
             else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
             {
@@ -150,6 +181,18 @@ namespace PixelPerfect
                 else if (infoButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
                     Globals.gameStateManager.PushState(Config.States.CONTROLS);                    
+                }
+                else if (musicButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                {
+                    Globals.musicEnabled = musicButton.value;
+                    if (Globals.musicEnabled)
+                        MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
+                    else
+                        MediaPlayer.Stop();
+                }
+                else if (soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                {
+                    Globals.soundEnabled = soundButton.value;
                 }
             }
             prevMouseState = currMouseState;

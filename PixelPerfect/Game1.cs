@@ -50,6 +50,7 @@ namespace PixelPerfect
 
             // Frame rate is 30 fps by default for Windows Phone.
             TargetElapsedTime = TimeSpan.FromTicks(111111);
+            Globals.game = this;
             
         }
 
@@ -110,6 +111,13 @@ namespace PixelPerfect
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             Globals.soundEnabled = (bool)IsolatedStorageSettings.ApplicationSettings["sound"];
+            
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("suit"))
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("suit", 0);
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+            Globals.suit = (int)IsolatedStorageSettings.ApplicationSettings["suit"];
 #endif
 
             gameStateManager = new GameStateManager();
@@ -140,6 +148,17 @@ namespace PixelPerfect
             var controlsState = new ControlsState();
             controlsState.scale = scale;
 
+            var suitState = new SuitSelectState(gameStateManager);
+            suitState.scale = scale;
+
+            var suitUnlockedState = new SuitUnlockedState();
+            
+            var winState = new WinState();
+            winState.scale = scale;
+
+            gameStateManager.RegisterState(Config.States.WIN, winState);
+            gameStateManager.RegisterState(Config.States.SUITUNLOCKED, suitUnlockedState);
+            gameStateManager.RegisterState(Config.States.SUITSELECT, suitState);
             gameStateManager.RegisterState(Config.States.CONTROLS, controlsState);
             gameStateManager.RegisterState(Config.States.TAP, tapState);
             gameStateManager.RegisterState(Config.States.BACKGROUND, backgroundState);
@@ -196,8 +215,11 @@ namespace PixelPerfect
             Globals.textureDictionary.Add("tap", Content.Load<Texture2D>("menu\\tap"));
             Globals.textureDictionary.Add("next", Content.Load<Texture2D>("menu\\next"));
             Globals.textureDictionary.Add("restart", Content.Load<Texture2D>("menu\\restart"));
+            Globals.textureDictionary.Add("suit", Content.Load<Texture2D>("menu\\shirt"));
+            Globals.textureDictionary.Add("suitbutton", Content.Load<Texture2D>("menu\\suitebtn"));
+            Globals.textureDictionary.Add("suitbuttonlocked", Content.Load<Texture2D>("menu\\suitebtnlocked"));
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
-
+                
             //sprites
             Globals.spritesDictionary.Add("biggo_128x128", new Sprite("biggo_128x128", 128, 128, 2));
             Globals.spritesDictionary.Add("enemies_16x16", new Sprite("enemies_16x16", 16, 16));

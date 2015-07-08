@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" orientation="orthogonal" renderorder="right-down" width="34" height="17" tilewidth="8" tileheight="8" nextobjectid="6">
  <properties>
-  <property name="color1" value="1"/>
-  <property name="color2" value="1"/>
+  <property name="color1" value="9"/>
+  <property name="color2" value="9"/>
   <property name="emmitercolor" value="81"/>
   <property name="enemycolor" value="91"/>
   <property name="hudcolor" value="21"/>

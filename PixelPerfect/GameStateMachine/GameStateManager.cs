@@ -124,28 +124,30 @@ namespace PixelPerfect
         public bool PushState(int stateId, bool transition = false, int delay = 0)
         {
             this.delay = delay;
+            this.transition = transition;
+            nextStateId = stateId;
 
             if (!registeredStates.ContainsKey(stateId))
                 return false;
 
             if (stateStack.ContainsKey(stateId))
                 return false;
+                        
+            if (stateStack.Count > 0)
+            { 
+                stateStack.ElementAt(stateStack.Count - 1).Value.Suspend(stateId);                    
+                previousStateId = stateStack.ElementAt(stateStack.Count - 1).Key;
+            }
 
             if (transition)
             {
-                previousStateId = stateStack.ElementAt(stateStack.Count - 1).Key;
                 state = State.Delay;
-                nextStateId = stateId;
             }
             else
             {
-                if (stateStack.Count > 0)
-                    stateStack.ElementAt(stateStack.Count - 1).Value.Suspend(stateId);
+                SetState();
+                stateStack.ElementAt(stateStack.Count - 1).Value.Enter(previousStateId);
             }
-
-            stateStack.Add(stateId, registeredStates[stateId]);
-            stateStack[stateId].Enter(-1);
-
             return true;
         }
 

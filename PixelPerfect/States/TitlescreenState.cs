@@ -51,7 +51,10 @@ namespace PixelPerfect
          }
 
         public override void Enter(int previousStateId)
-        {
+        {            
+            soundButton.value = Globals.soundEnabled;
+            musicButton.value = Globals.musicEnabled;
+
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
                 MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
 #if !WINDOWS
@@ -78,7 +81,10 @@ namespace PixelPerfect
         }
 
         public override void Resume(int poppedStateId)
-        {
+        {            
+            soundButton.value = Globals.soundEnabled;
+            musicButton.value = Globals.musicEnabled;
+
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
                 MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
 #if !WINDOWS
@@ -90,6 +96,16 @@ namespace PixelPerfect
 
             if (backgroundLevel != null)
                 backgroundLevel.Resume(poppedStateId);            
+        }
+
+        public void Update_HandleBack()
+        {
+            currGPState = GamePad.GetState(PlayerIndex.One);
+
+            if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
+                Globals.game.Exit();
+
+            prevGPState = currGPState;
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
@@ -110,6 +126,8 @@ namespace PixelPerfect
                 return;
 
             wavyText.Update(gameTime);
+
+            Update_HandleBack();
 
 #if WINDOWS
             currMouseState = Mouse.GetState();

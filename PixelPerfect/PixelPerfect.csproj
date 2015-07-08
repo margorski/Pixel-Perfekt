@@ -93,6 +93,9 @@
     <Compile Include="Level.cs" />
     <Compile Include="States\ControlsState.cs" />
     <Compile Include="States\LevelDetailsState.cs" />
+    <Compile Include="States\WinState.cs" />
+    <Compile Include="States\SuitSelectState.cs" />
+    <Compile Include="States\SuitUnlockedState.cs" />
     <Compile Include="States\TapState.cs" />
     <Compile Include="States\TextureBackgroundState.cs" />
     <Compile Include="States\WorldSelectState.cs" />
@@ -672,6 +675,18 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\menu\tap.xnb">
       <Link>Content\menu\tap.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\shirt.xnb">
+      <Link>Content\menu\shirt.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\suitebtn.xnb">
+      <Link>Content\menu\suitebtn.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\suitebtnlocked.xnb">
+      <Link>Content\menu\suitebtnlocked.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config">

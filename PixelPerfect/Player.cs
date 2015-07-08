@@ -72,7 +72,7 @@ namespace PixelPerfect
         private int boomColorIndex = 0;
         private TimeSpan boomColorTime = TimeSpan.Zero;
 
-        public Player(Vector2 position, Texture2D texture)
+        public Player(Vector2 position, Texture2D texture, int spriteColumn)
         {
             this.startPosition = position;
             speed = baseSpeed = new Vector2(Config.Player.MOVE_SPEED, 0.0f);
@@ -82,8 +82,8 @@ namespace PixelPerfect
             animation = new Animation(Config.Player.ANIM_FRAMES, Config.Player.ANIMATION_DELAY, true);
             state = 0x0;
             boomColorIndex = 0;
-            spriteColumn = World.LastActiveWorld();
-            textureArray = Globals.spritesDictionary["player"].textureArray[0];
+            this.spriteColumn = spriteColumn;
+            textureArray = Globals.spritesDictionary["player"].textureArray[spriteColumn];
         }
 
         public void Update(GameTime gameTime)
@@ -363,14 +363,14 @@ namespace PixelPerfect
             {
                 if (textureColors[i].A == 255)
                 {
-                    Vector2 boomCenter = position + new Vector2(texture.Width / 2, texture.Height / 2);
-                    Vector2 pixPos = position + new Vector2(i % texture.Width, i / texture.Width);
+                    Vector2 boomCenter = position + new Vector2(Config.Player.WIDTH / 2, Config.Player.HEIGHT / 3 * 2);
+                    Vector2 pixPos = position + new Vector2(i % Config.Player.WIDTH, i / Config.Player.WIDTH);
                     Vector2 pixSpeed = (pixPos - boomCenter) * Globals.rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
                     Vector2 acc = Vector2.Zero;// new Vector2(rnd.Next(-100, 100), rnd.Next(-100, 100));
 
                     Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
-                                    pixSpeed, acc, Config.boomColors[Globals.rnd.Next(Config.boomColors.Length)], true, Globals.CurrentMap));
+                                    pixSpeed, acc, textureColors[i] /*Config.boomColors[Globals.rnd.Next(Config.boomColors.Length)]*/, true, Globals.CurrentMap));
                 }
             }
             if (Globals.soundEnabled)

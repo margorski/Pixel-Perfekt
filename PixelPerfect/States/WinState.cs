@@ -1,0 +1,505 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Input.Touch;
+using Microsoft.Xna.Framework.Media;
+
+namespace PixelPerfect
+{
+    class WinState : GameState
+    {
+        enum ScreenState
+        {
+            DEATHCOUNT,
+            DELAY,
+            TIMECOUNT,
+            TROPHY,
+            IDLE
+        }
+
+        private TimeSpan fadeTime;
+        ScreenState screenState = ScreenState.DEATHCOUNT;
+
+#if WINDOWS
+        private MouseState prevMouseState;
+        private MouseState currMouseState;
+#else
+        TouchCollection touchCollection;
+#endif
+        GamePadState prevGPState;
+        GamePadState currGPState;
+
+        WavyText caption = new WavyText("WELL DONE!", new Vector2(80, 7), 3000, 2.0f, Config.titleColors, 13.0f, 3f, 0.0f);
+
+        Button backButton = new Button("", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 36 - 40, 120, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
+        Button restartButton = new Button("", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 12, 120, 24, 24), Globals.textureDictionary["restart"], Globals.silkscreenFont, false);
+        Button playButton = new Button("", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 + 16 + 40, 120, 24, 24), Globals.textureDictionary["next"], Globals.silkscreenFont, false);
+
+        private string levelId = "";
+        private TimeSpan levelTime = TimeSpan.Zero;
+        private int deaths = -1;
+
+
+        private float currentDeaths = 0;
+        private float currentTotalDeaths = 0;
+        private TimeSpan currentLevelTime = TimeSpan.Zero;
+        private TimeSpan soundTimer = TimeSpan.Zero;
+
+        private Color currentDeathsColor = Color.Gray;
+        private Color currentTotalDeathsColor = Color.Gray;
+        private Color currentLevelTimeColor = Color.Gray;
+
+        private TimeSpan delayTimer = TimeSpan.FromMilliseconds(500.0);
+
+        private List<EmiterPart> fireworks = new List<EmiterPart>();
+
+        private TimeSpan trophyTimer = TimeSpan.FromMilliseconds(500.0);
+        private bool trophy = false;
+
+        public WinState()
+        {
+        }
+
+        public void SetStats(string levelId, TimeSpan levelTime, int deaths)
+        {
+            this.levelId = levelId;
+            this.levelTime = levelTime;
+            this.deaths = deaths;
+        }
+
+        public override void Enter(int previousStateId)
+        {
+            if (deaths < 0 || levelTime == TimeSpan.Zero || levelId == "")
+            {
+                Globals.gameStateManager.PopState();
+                return;
+            }
+
+            fireworks.Clear();
+            for (int i = 0; i < 5; i++)
+                fireworks.Add(new EmiterPart(new Vector2(200 - 30 * i, 180),
+                              140 + (uint)Globals.rnd.Next(30), 180.0f + Globals.rnd.Next(40), MovementDirection.Up,
+                              Globals.spritesDictionary["enemies_8x8"].texture,
+                              Globals.spritesDictionary["enemies_8x8"].textureArray[0],
+                              new Rectangle(0, 0, 8, 8), Color.White, 100, Globals.pixelParticles, null, true, false, true));
+            fadeTime = new TimeSpan(0, 0, 0, 0, 500);
+            if (Globals.musicEnabled)
+                MediaPlayer.Pause();
+#if WINDOWS
+            currMouseState = prevMouseState = Mouse.GetState();
+#else
+            touchCollection = TouchPanel.GetState();
+#endif
+            bool checkForSuitUnlock = false;
+            if (!Savestate.Instance.levelSaves[levelId].completed)
+            {
+                Savestate.Instance.levelSaves[levelId].completed = true;
+                Savestate.Instance.levelSaves[levelId].skipped = false;
+                Savestate.Instance.levelSaves[levelId].bestTime = levelTime;
+
+                // checking if time is beaten, if so then maybe unlock character
+                if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))
+                    checkForSuitUnlock = true;
+            }
+            else if (Savestate.Instance.levelSaves[levelId].bestTime > levelTime)
+            {
+                bool beatenpreviously = false;
+                if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))
+                    beatenpreviously = true;
+
+                Savestate.Instance.levelSaves[levelId].bestTime = levelTime;
+
+                if (!beatenpreviously && Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))
+                    checkForSuitUnlock = true;
+            }
+
+            if (checkForSuitUnlock)
+            {
+                var perfektTimeCount = World.BeatPerfektTimeCount();
+
+                if (perfektTimeCount == 50)
+                {
+                    UnlockSuit(Config.Player.SUIT_QTY - 1);
+                }
+                else if (perfektTimeCount % 3 == 0)
+                {
+                    UnlockRandomSuit();
+                }
+            }
+            Savestate.Instance.Save();
+
+            Globals.soundsDictionary["coin"].Pitch = 1.0f;
+        }
+
+        public override void Exit(int nextStateId)
+        {
+            screenState = ScreenState.DEATHCOUNT;
+            currentDeaths = currentTotalDeaths = 0.0f;
+            currentLevelTime = TimeSpan.Zero;
+            Globals.soundsDictionary["coin"].Pitch = 0.0f;
+            delayTimer = TimeSpan.Zero;
+            trophy = false;
+            trophyTimer = TimeSpan.FromMilliseconds(500.0); ;
+        }
+
+        public override void Suspend(int pushedStateId)
+        {
+
+        }
+
+        public override void Resume(int poppedStateId)
+        {
+        }
+
+        public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
+        {
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 200)));
+
+            caption.Draw(spriteBatch);
+            
+            spriteBatch.DrawString(Globals.silkscreenFont, "DEATHS:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 32), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, ((int)currentDeaths).ToString("D3"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 60, 32), currentDeathsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(Globals.textureDictionary["skull"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 30,
+                                                                               Globals.textureDictionary["skull"].Width * 2,
+                                                                               Globals.textureDictionary["skull"].Height * 2), Color.White);
+
+            spriteBatch.DrawString(Globals.silkscreenFont, "TOTAL DEATHS:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 62), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, ((int)currentTotalDeaths).ToString("D3"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 60, 62), currentTotalDeathsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(Globals.textureDictionary["skull"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 60,
+                                                                   Globals.textureDictionary["skull"].Width * 2,
+                                                                   Globals.textureDictionary["skull"].Height * 2), Color.White);
+
+            if (trophy)
+                spriteBatch.Draw(Globals.textureDictionary["trophy"], new Rectangle(180, 82,
+                                                                                Globals.textureDictionary["trophy"].Width * 2,
+                                                                                Globals.textureDictionary["trophy"].Height * 2), new Color(Color.Gold, (float)(1.0 - trophyTimer.TotalMilliseconds / 500.0)));
+
+            spriteBatch.DrawString(Globals.silkscreenFont, "TIME:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 92), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, currentLevelTime.ToString("mm\\:ss\\.f"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 35, 92), currentLevelTimeColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(Globals.textureDictionary["clock"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 90,
+                                                                   Globals.textureDictionary["clock"].Width * 2,
+                                                                   Globals.textureDictionary["clock"].Height * 2), Color.White);
+            
+            spriteBatch.DrawString(Globals.silkscreenFont, "BACK", new Vector2(56, 145), Color.White, 0.0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, "RESTART", new Vector2(111, 145), Color.White, 0.0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, "NEXT", new Vector2(187, 145), Color.White, 0.0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0.0f);
+
+            playButton.Draw(spriteBatch);
+            restartButton.Draw(spriteBatch);
+            backButton.Draw(spriteBatch);
+
+            foreach (EmiterPart emiterpart in fireworks)
+                emiterpart.Draw(spriteBatch, Vector2.Zero);
+        }
+
+        public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool suspended)
+        {
+            if (suspended)
+                return;
+
+            caption.Update(gameTime);
+            foreach (EmiterPart emiterpart in fireworks)
+                emiterpart.Update(gameTime);
+
+            if (fadeTime > TimeSpan.Zero)
+            {
+                fadeTime -= gameTime.ElapsedGameTime;
+                if (fadeTime < TimeSpan.Zero)
+                    fadeTime = TimeSpan.Zero;
+            }
+
+            currGPState = GamePad.GetState(PlayerIndex.One);
+#if !WINDOWS
+            touchCollection = TouchPanel.GetState();
+#else
+            currMouseState = Mouse.GetState();
+#endif            
+            switch (screenState)
+            {
+                case ScreenState.DEATHCOUNT:
+                    UpdateCounterSound(gameTime);
+                    float deathIncrement = (float)(gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f * 40.0f);
+                    
+                    currentDeaths += deathIncrement;
+                    if (currentDeaths >= deaths)
+                    {
+                        currentDeaths = deaths;
+                        currentDeathsColor = Color.White;
+                    }
+                    
+                    currentTotalDeaths += deathIncrement;
+                    if (currentTotalDeaths >= Savestate.Instance.levelSaves[levelId].deathCount)
+                    {
+                        currentTotalDeaths = Savestate.Instance.levelSaves[levelId].deathCount;
+                        currentTotalDeathsColor = Color.White;
+                    }
+
+                    if (currentDeaths == deaths && currentTotalDeaths == Savestate.Instance.levelSaves[levelId].deathCount)
+                        screenState = ScreenState.DELAY;
+
+                    if (Clicked())
+                        SetIdle();
+
+                    break;
+
+                case ScreenState.DELAY:
+                    delayTimer -= gameTime.ElapsedGameTime;
+                    if (delayTimer <= TimeSpan.Zero)
+                        screenState = ScreenState.TIMECOUNT;
+
+                    if (Clicked())
+                        SetIdle();
+
+                    break;
+
+                case ScreenState.TIMECOUNT:
+                    UpdateCounterSound(gameTime);
+                    currentLevelTime = currentLevelTime.Add(TimeSpan.FromMilliseconds(gameTime.ElapsedGameTime.TotalMilliseconds * 25.0));
+                    if (currentLevelTime >= levelTime)
+                    {
+                        currentLevelTime = levelTime;
+                        currentLevelTimeColor = Color.White;
+                        if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))
+                        {
+                            trophy = true;
+                            screenState = ScreenState.TROPHY;
+                        }
+                        else
+                        {
+                            screenState = ScreenState.IDLE;
+                        }
+                        
+                    }
+
+                    if (Clicked())
+                        SetIdle();
+
+                    break;
+
+                case ScreenState.TROPHY:
+                    trophyTimer -= gameTime.ElapsedGameTime;
+                    if (trophyTimer <= TimeSpan.Zero)
+                    {
+                        screenState = ScreenState.IDLE;
+                    }
+
+                    if (Clicked())
+                        SetIdle();
+
+                    break;
+
+                case ScreenState.IDLE:                   
+                    if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
+                        GoBack();
+
+                    if (Globals.unlockedSuit > -1)
+                    {
+                        Globals.gameStateManager.PushState(Config.States.SUITUNLOCKED, true);
+                        return;
+                    }
+#if !WINDOWS
+                    
+                    foreach (TouchLocation touch in touchCollection)
+                    {
+                        if (touch.State == TouchLocationState.Pressed)
+                        {
+                            restartButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                            backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                            playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                        }
+                        if (touch.State == TouchLocationState.Released)
+                        {
+                            if (playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                                NextLevel();
+                            else if (restartButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                            {                    
+                                Globals.gameStateManager.PopState();
+                                Globals.CurrentLevelState.Reset();
+                            }
+                            else if (backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                            {
+                                GoBack();
+                            }
+                        }
+                    }
+#else
+                    if (currMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        restartButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                        backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                        playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                    }
+                    else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
+                    {
+                        if (playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                            NextLevel();
+                        else if (restartButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                        {                    
+                            Globals.gameStateManager.PopState();
+                            Globals.CurrentLevelState.Reset();
+                        }
+                        else if (backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                        {
+                            GoBack();
+                        }
+                    }
+#endif 
+                    break;
+            }
+
+#if WINDOWS
+            prevMouseState = currMouseState;
+#endif
+            prevGPState = currGPState;
+        }
+
+        private void NextLevel()
+        {
+            if (Globals.worlds[Globals.selectedWorld].Completed())
+            {
+                if (Globals.selectedWorld == Globals.worlds.Count - 1)
+                {
+                    Globals.gameStateManager.ChangeState(Config.States.TITLESCREEN);//ending
+                    return;
+                }
+                else if (!Globals.worlds[Globals.selectedWorld + 1].active)
+                {
+                    Theme.ReloadTheme(Globals.selectedWorld + 1);
+                    Globals.detonateWorldKeylock = Globals.selectedWorld + 1;
+                }
+                Globals.gameStateManager.PopState();
+                Globals.gameStateManager.ChangeState(Config.States.WORLDSELECT);
+            }
+            else
+            {
+                Globals.gameStateManager.PopState();
+                Globals.gameStateManager.UnregisterState(Config.States.LEVEL);
+                
+                int nextLevel = Globals.selectedLevel;
+                do
+                {
+                    nextLevel++;
+                }
+                while (nextLevel < Globals.worlds[Globals.selectedWorld].levels.Count && Globals.worlds[Globals.selectedWorld].LevelCompleted(nextLevel));
+
+                nextLevel = 0;
+                do
+                {
+                    nextLevel++;
+                }
+                while (nextLevel < Globals.worlds[Globals.selectedWorld].levels.Count && Globals.worlds[Globals.selectedWorld].LevelCompleted(nextLevel));
+
+                if (nextLevel >= Globals.worlds[Globals.selectedWorld].levels.Count)
+                    Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
+                else
+                    Globals.selectedLevel = nextLevel;
+
+                var levelState = new LevelState(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel));
+                levelState.scale = scale;
+                levelState.name = Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName;
+                Globals.gameStateManager.RegisterState(Config.States.LEVEL, levelState);
+                Globals.gameStateManager.ChangeState(Config.States.LEVEL);
+            }
+        }
+
+        private void UpdateCounterSound(GameTime gameTime)
+        {
+            soundTimer += gameTime.ElapsedGameTime;
+            if (soundTimer.TotalMilliseconds > 100)
+            {                
+                if (Globals.soundEnabled)
+                    Globals.soundsDictionary["coin"].Play();
+                soundTimer = TimeSpan.Zero;
+            }
+        }
+
+        private bool Clicked()
+        {
+#if !WINDOWS
+            foreach (TouchLocation touch in touchCollection)
+            {
+                if (touch.State == TouchLocationState.Released)
+                {
+                    return true;
+                }
+            }
+#else
+            if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
+            {
+                return true;
+            }
+#endif 
+            if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
+                return true;
+
+            return false;
+        }
+
+        private void SetIdle()
+        {
+            currentDeathsColor = currentTotalDeathsColor = currentLevelTimeColor = Color.White;
+            currentDeaths = deaths;
+            currentTotalDeaths = Savestate.Instance.levelSaves[levelId].deathCount;
+            currentLevelTime = levelTime;
+            screenState = ScreenState.IDLE;
+            if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))            
+                trophy = true;
+            trophyTimer = TimeSpan.Zero;
+        }
+
+        public void GoBack()
+        {
+            // checking if world is completed
+            if (Globals.worlds[Globals.selectedWorld].Completed())
+            {
+                if (Globals.selectedWorld == Globals.worlds.Count - 1)
+                {
+                    Globals.gameStateManager.ChangeState(Config.States.TITLESCREEN);//ending
+                    return;
+                }
+                else if (!Globals.worlds[Globals.selectedWorld + 1].active)
+                {
+                    Theme.ReloadTheme(Globals.selectedWorld + 1);
+                    Globals.detonateWorldKeylock = Globals.selectedWorld + 1;
+                }
+                Globals.gameStateManager.PopState();
+                Globals.gameStateManager.ChangeState(Config.States.WORLDSELECT);
+            }
+            else
+            {
+                Globals.gameStateManager.PopState();
+                Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
+            }
+        }
+
+        private void UnlockSuit(int id)
+        {
+            Savestate.Instance.suitUnlocked[id] = true;
+            Globals.unlockedSuit = id;            
+        }
+
+        private void UnlockRandomSuit()
+        {
+#if DEBUG
+            return;
+#else
+            int rndNumber = 0;
+
+            do
+            {
+                rndNumber = Globals.rnd.Next(Config.Player.SUIT_QTY - 1);
+            }
+            while (Savestate.Instance.suitUnlocked[rndNumber]);
+
+            UnlockSuit(rndNumber);
+#endif
+        }
+    }
+}

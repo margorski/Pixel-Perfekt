@@ -112,7 +112,7 @@ namespace PixelPerfect
 
         public void EmitPart()
         {
-            emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, partTextureArray, textureRectangle, color, animationDelay, explode, animationreverse));
+            emitedParts.Add(new EmiterPart(startPosition, distance, speed, movementDirection, texture, partTextureArray, textureRectangle, color, animationDelay, Globals.CurrentLevelState.pixelParticles, Globals.CurrentMap, explode, animationreverse));
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 offset)

@@ -36,6 +36,7 @@ namespace PixelPerfect
         List<Button> levelButtons = new List<Button>();
 
         Button backButton;
+        Button suitButton;
         Animation pikpokAnimation = new Animation(4, Config.DEFAULT_ANIMATION_SPEED, false);
         public LevelSelectState(GameStateManager gameStateManager) 
         {
@@ -56,7 +57,7 @@ namespace PixelPerfect
             var titlex = Config.SCREEN_WIDTH_SCALED / 2.0f - Globals.silkscreenFont.MeasureString(worldName).X * 2.0f / 2.0f;
             caption = new WavyText(worldName, new Vector2(titlex, 7), 3000, 2.0f, Config.titleColors, 13.0f, 3f, 0.0f);
             backButton = new Button("", new Rectangle(Config.Menu.BACK_X, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
-
+            suitButton = new Button("", new Rectangle(Config.Menu.BUTTONS_X + 2 * (24 + Config.Menu.BUTTONS_SPACE), Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["suit"], Globals.silkscreenFont, false);
             Globals.selectedLevel = -1;            
             
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
@@ -151,6 +152,7 @@ namespace PixelPerfect
                         button.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                     }
                     backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    suitButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                 }
                 else if (touch.State == TouchLocationState.Released)
                 {
@@ -161,6 +163,8 @@ namespace PixelPerfect
                     }
                     if (backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                         GoBack();
+                    else if (suitButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                        gameStateManager.ChangeState(Config.States.SUITSELECT, true, Config.Menu.TRANSITION_DELAY);
                 }
             }
 #else
@@ -171,6 +175,7 @@ namespace PixelPerfect
                     button.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
                 }
                 backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                suitButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
             }
             else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
             {
@@ -181,6 +186,8 @@ namespace PixelPerfect
                 }
                 if (backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                     GoBack();
+                else if (suitButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                    gameStateManager.ChangeState(Config.States.SUITSELECT, true, Config.Menu.TRANSITION_DELAY);
             }
 #endif
         }
@@ -201,7 +208,7 @@ namespace PixelPerfect
             if (caption != null)
                 caption.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
-
+            suitButton.Draw(spriteBatch);
             Color color = Color.White;
             int levelCount = 0;
 

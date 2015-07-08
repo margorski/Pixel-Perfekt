@@ -28,7 +28,7 @@ namespace PixelPerfect
         private Map map;        
         private Player player;
         private Hud hud;
-        private List<PixelParticle> pixelParticles = new List<PixelParticle>();
+        public List<PixelParticle> pixelParticles = new List<PixelParticle>();
 #if !WINDOWS
         //private TouchCollection touchCollection;
         private int touchId = 0; 
@@ -384,45 +384,8 @@ namespace PixelPerfect
                 if (map.EnteredDoors(player.boundingBox))
                 {
                     Globals.soundsDictionary["doors"].Stop();
-                    if (!Savestate.Instance.levelSaves[LevelId()].completed)
-                    {
-                        Savestate.Instance.levelSaves[LevelId()].completed = true;
-                        Savestate.Instance.levelSaves[LevelId()].skipped = false;
-                        Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
-                        Savestate.Instance.Save();
-                    }
-                    else if (Savestate.Instance.levelSaves[LevelId()].bestTime > levelTime)
-                    {
-                        Savestate.Instance.levelSaves[LevelId()].bestTime = levelTime;
-                        Savestate.Instance.Save();
-                    }
-                    if (Globals.worlds[Globals.selectedWorld].Completed())
-                    {
-                        if (Globals.selectedWorld == Globals.worlds.Count - 1)
-                        {
-                            Globals.gameStateManager.ChangeState(Config.States.TITLESCREEN);//ending
-                            return;
-                        }
-                        else if (!Globals.worlds[Globals.selectedWorld + 1].active)
-                        {
-                            Theme.ReloadTheme(Globals.selectedWorld + 1);
-                            Globals.detonateWorldKeylock = Globals.selectedWorld + 1;
-                        }
-                        Globals.gameStateManager.ChangeState(Config.States.WORLDSELECT);
-                    }
-                    else
-                    {
-                        Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
-                        //Globals.selectedLevel++;
-                        //var levelState = new LevelState(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel));
-                        //levelState.scale = scale;
-                        //levelState.name = Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName;
-                        //Globals.gameStateManager.UnregisterState(Config.States.LEVEL);
-                        //Globals.gameStateManager.RegisterState(Config.States.LEVEL, levelState);
-                        //if (!Globals.gameStateManager.ChangeState(Config.States.LEVEL))
-                        //    Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
-                    }
-                    
+                    ((WinState)Globals.gameStateManager.GetState(Config.States.WIN)).SetStats(LevelId(), levelTime, deathCount);
+                    Globals.gameStateManager.PushState(Config.States.WIN, true);                                                          
                     return;
                 }
             }
@@ -431,6 +394,7 @@ namespace PixelPerfect
             if (!menuLevel)
                 hud.Update(gameTime);
         }
+
 
 #if WINDOWS
         private void MouseInput(GameTime gameTime)
@@ -680,7 +644,7 @@ namespace PixelPerfect
             if (!menuLevel)
                 hud.Init(name, map.collectiblesCount, Globals.colorList[levelColors.hudcolor]);
 
-            player = new Player(map.startPosition, Globals.spritesDictionary["player"].texture);          
+            player = new Player(map.startPosition, Globals.spritesDictionary["player"].texture, (menuLevel ? Globals.suit * 5 + World.LastActiveWorld() : Globals.selectedWorld + Globals.suit * 5));          
             if (map.moving)
                 player.SetMovingMapState(-28.0f);         
 
@@ -728,17 +692,17 @@ namespace PixelPerfect
             prevGPState = currGPState = GamePad.GetState(PlayerIndex.One);
         }
 
+        public string LevelId()
+        {
+            return levelFile;
+        }
+
         public void AddPixelParticle(PixelParticle pixelParticle)
         {
             pixelParticles.Add(pixelParticle);
 
             while (pixelParticles.Count > Config.PixelParticle.MAX_PARTICLES_LEVEL)
                 pixelParticles.RemoveAt(Globals.rnd.Next(pixelParticles.Count));
-        }
-
-        public string LevelId()
-        {
-            return levelFile;
         }
     }
 }

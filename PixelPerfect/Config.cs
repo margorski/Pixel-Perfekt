@@ -32,11 +32,11 @@ namespace PixelPerfect
                                        Color.SpringGreen, Color.Teal, Color.RoyalBlue, Color.AntiqueWhite, Color.Chocolate, 
                                        Color.HotPink, Color.Honeydew, Color.PaleVioletRed, Color.SteelBlue, Color.Indigo,
                                        Color.Orange, Color.Yellow, Color.OldLace, Color.MediumPurple, Color.Azure, Color.Red};
-        public static Color[] titleColors = {Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.White, 
+        public static Color[] titleColors = {Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.Turquoise, 
                                              Color.Red, Color.Cyan, Color.Yellow, Color.Blue, Color.Magenta, Color.Green, Color.Orange, Color.LawnGreen,
-                                            Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.White, 
+                                            Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.Turquoise, 
                                              Color.Red, Color.Cyan, Color.Yellow, Color.Blue, Color.Magenta, Color.Green, Color.Orange, Color.LawnGreen,
-                                            Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.White, 
+                                            Color.Red, Color.Yellow, Color.Green, Color.Blue, Color.Magenta, Color.Turquoise, 
                                              Color.Red, Color.Cyan, Color.Yellow, Color.Blue, Color.Magenta, Color.Green, Color.Orange, Color.LawnGreen};
         public const string SAVEFILE_NAME = "savefile.dat";
         public struct States
@@ -45,12 +45,15 @@ namespace PixelPerfect
             public const int TITLESCREEN = 100;
             public const int WORLDSELECT = 120;
             public const int LEVELSELECT = 150;
+            public const int SUITSELECT = 170;
             public const int LEVELDETAILS = 190;
             public const int LEVEL = 200;
             public const int LEVELMIN = LEVEL;
             public const int LEVELMAX = 300;
             public const int PAUSE = 300;
             public const int TAP = 350;
+            public const int WIN = 370;
+            public const int SUITUNLOCKED = 390;
             public const int TEXT = 400;
             public const int CONTROLS = 500;
             public const int DUMMY = 666;
@@ -90,7 +93,7 @@ namespace PixelPerfect
             public const float MAX_FLY_SPEED = -150.0f;
             public const int PIXELPARTICLE_LIFETIME_MIN = 400;
             public const int PIXELPARTICLE_LIFETIME_MAX = 1200;                        
-            public const int MAX_EXPLOSION_MAGNITUDE = 30;
+            public const int MAX_EXPLOSION_MAGNITUDE = 90;
             public const int MAX_PARTICLES_MENU = 2000;
             public const int MAX_PARTICLES_LEVEL = 1000;
         }
@@ -110,6 +113,7 @@ namespace PixelPerfect
             public const float MOVE_SPEED = 25.0f;
             public const int ANIMATION_DELAY = 150;
             public const int ANIM_FRAMES = 5;
+            public const int SUIT_QTY = 18;
         }
 
         public struct Enemy
@@ -188,6 +192,10 @@ namespace PixelPerfect
             public const int LEVEL_OFFSET_Y = 32;
             public const int LEVEL_HORIZONTAL_SPACE = 10;
             public const int LEVEL_VERTICAL_SPACE = 10;
+            public const int SUIT_OFFSET_X = 16;
+            public const int SUIT_OFFSET_Y = 24;
+            public const int SUIT_HORIZONTAL_SPACE = 20;
+            public const int SUIT_VERTICAL_SPACE = 12;
             public const int TEXT_SPACE = 5;
             public const int NUM_IN_ROW = 5;
             public const int TRANSITION_DELAY = 1000;
@@ -203,6 +211,7 @@ namespace PixelPerfect
             public const int BACK_Y = 130;
             public const int BUTTONS_X = 180;
             public const int BUTTONS_SPACE = 6;
+            public const int SUIT_UNLOCKED_WAIT_TIME = 2000;
         }
     }
 }

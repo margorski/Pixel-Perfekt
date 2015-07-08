@@ -189,7 +189,7 @@ namespace PixelPerfect
 
             foreach (TouchLocation touch in touchCollection)
             {
-                if (touch.State == TouchLocationState.Pressed)
+                if (touch.State == TouchLocationState.Pressed || touch.State == TouchLocationState.Moved)
                 {
                     playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                 }

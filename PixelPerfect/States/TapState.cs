@@ -56,7 +56,7 @@ namespace PixelPerfect
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 180)));
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 100)));
             spriteBatch.DrawString(Globals.silkscreenFont, "GO!", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 22, Config.SCREEN_HEIGHT_SCALED / 2 - 34), Color.White, 0.0f, Vector2.Zero, 3.0f, SpriteEffects.None, 0.0f);
             spriteBatch.Draw(Globals.textureDictionary["tap"], new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 12, Config.SCREEN_HEIGHT_SCALED / 2 - 10), new Rectangle(0, tapAnimation.GetCurrentFrame() * 24, 24, 24), Color.White);
         }

@@ -119,6 +119,12 @@
     <Compile Include="..\PixelPerfect\States\PauseState.cs">
       <Link>States\PauseState.cs</Link>
     </Compile>
+    <Compile Include="..\PixelPerfect\States\SuitSelectState.cs">
+      <Link>States\SuitSelectState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\SuitUnlockedState.cs">
+      <Link>States\SuitUnlockedState.cs</Link>
+    </Compile>
     <Compile Include="..\PixelPerfect\States\TapState.cs">
       <Link>States\TapState.cs</Link>
     </Compile>
@@ -130,6 +136,9 @@
     </Compile>
     <Compile Include="..\PixelPerfect\States\TitlescreenState.cs">
       <Link>States\TitlescreenState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\WinState.cs">
+      <Link>States\WinState.cs</Link>
     </Compile>
     <Compile Include="..\PixelPerfect\States\WorldSelectState.cs">
       <Link>States\WorldSelectState.cs</Link>
@@ -708,6 +717,18 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\menu\tap.xnb">
       <Link>Content\menu\tap.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\shirt.xnb">
+      <Link>Content\menu\shirt.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\suitebtn.xnb">
+      <Link>Content\menu\suitebtn.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\menu\suitebtnlocked.xnb">
+      <Link>Content\menu\suitebtnlocked.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

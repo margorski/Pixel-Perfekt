@@ -34,6 +34,9 @@ namespace PixelPerfect
         MovementDirection movementDirection;
         MovePhase movePhase;
         bool explode = false;
+        List<PixelParticle> pixelContainer;
+        Map emitMap = null;
+        bool randomizeColors = false;
 
         Color[] textureArray;
 
@@ -57,7 +60,7 @@ namespace PixelPerfect
 
         public EmiterPart() { }
 
-        public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Color[] textureArray, Rectangle textureRectangle, Color color, int animationDelay, bool explode = false, bool animationreverse = false)
+        public EmiterPart(Vector2 position, uint distance, float speed, MovementDirection movementDirection, Texture2D texture, Color[] textureArray, Rectangle textureRectangle, Color color, int animationDelay, List<PixelParticle> pixelContainer, Map emitMap, bool explode = false, bool animationreverse = false, bool randomColors = false)
         {
             this.position = position;
             this.texture = texture;
@@ -68,6 +71,9 @@ namespace PixelPerfect
             movePhase = MovePhase.StartStretch;
             this.color = color;
             this.explode = explode;
+            this.pixelContainer = pixelContainer;
+            this.emitMap = emitMap;
+            this.randomizeColors = randomizeColors;
 
             animation = new Animation(4, animationDelay, animationreverse);
 
@@ -328,11 +334,11 @@ namespace PixelPerfect
                     Vector2 pixPos = position + new Vector2(i % size.X, i / size.X);
                     pixPos.Y-=4;
                     Vector2 pixSpeed = (pixPos - boomCenter) * Globals.rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
-                    Vector2 acc = new Vector2(Globals.rnd.Next(-1000, 1000), Globals.rnd.Next(-1000, 1000));
+                    Vector2 acc = Vector2.Zero;//new Vector2(Globals.rnd.Next(-1000, 1000), Globals.rnd.Next(-1000, 1000));
 
-                    Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
+                    AddPixelParticle(new PixelParticle(pixPos,
                                     0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
-                                    pixSpeed, acc, Globals.emitersColor, true, Globals.CurrentMap));
+                                    pixSpeed, acc, Config.boomColors[Globals.rnd.Next(Config.boomColors.Length)], true, emitMap));
                 }
             }
         }
@@ -343,6 +349,14 @@ namespace PixelPerfect
             Color[] currentFrameArray = new Color[frameSizeInArray];
             Array.Copy(textureArray, frameSizeInArray * animation.GetCurrentFrame(), currentFrameArray, 0, frameSizeInArray);
             return currentFrameArray;            
+        }
+
+        private void AddPixelParticle(PixelParticle pixelParticle)
+        {
+            pixelContainer.Add(pixelParticle);
+
+            while (pixelContainer.Count > Config.PixelParticle.MAX_PARTICLES_LEVEL)
+                pixelContainer.RemoveAt(Globals.rnd.Next(pixelContainer.Count));
         }
     }
 

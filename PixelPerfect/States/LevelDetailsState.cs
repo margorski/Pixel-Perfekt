@@ -126,7 +126,7 @@ namespace PixelPerfect
 #if !WINDOWS
             foreach (TouchLocation touch in touchState)
             {
-                if (touch.State == TouchLocationState.Pressed)
+                if (touch.State == TouchLocationState.Pressed || touch.State == TouchLocationState.Moved)
                 {
                     startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                     skipButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);

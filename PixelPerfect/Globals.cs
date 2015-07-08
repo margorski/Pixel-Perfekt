@@ -41,5 +41,8 @@ namespace PixelPerfect
         public static int selectedWorld = -1;
         public static int selectedLevel = -1;
         public static int detonateWorldKeylock = -1;
+        public static int suit = 0;
+        public static int unlockedSuit = -1;
+        public static Game game;
     }
 }

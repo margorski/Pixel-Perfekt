@@ -260,5 +260,20 @@ namespace PixelPerfect
         {
             return Globals.worlds.FindLastIndex(world => world.active);
         }
+        
+        public static int BeatPerfektTimeCount()
+        {
+            int count = 0;
+
+            foreach (World world in Globals.worlds)
+            {
+                for (int i = 0; i < 10; i++)
+                {
+                    if (world.BeatLevelPerfektTime(i))
+                        count++;
+                }
+            }
+            return count;
+        }
     }
 }
