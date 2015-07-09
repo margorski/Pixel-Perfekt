@@ -24,6 +24,28 @@ namespace PixelPerfect
         [ProtoMember(6)]
         public int completeDeathCount = 0;
     }
+    [ProtoContract]
+    public sealed class SavestateV4
+
+    {
+        public const int CURRENT_VERSION = 4;
+
+        [ProtoMember(1)]
+        public int version = CURRENT_VERSION;
+
+        public static Savestate Instance { get; private set; }
+
+        [ProtoMember(2)]
+        public Dictionary<String, Levelsave> levelSaves;
+
+        [ProtoMember(3, OverwriteList = true)]
+        public bool[] suitUnlocked;
+
+        private SavestateV4()
+        {
+            levelSaves = new Dictionary<string, Levelsave>();
+        }
+    }
 
     [ProtoContract]
     public sealed class Savestate
@@ -52,6 +74,14 @@ namespace PixelPerfect
 #endif
         }
 
+        private Savestate ConvertFromV4()
+        {
+            var newSaveState = new Savestate();
+            newSaveState.levelSaves = new Dictionary<string,Levelsave>(levelSaves);
+
+            return newSaveState;
+        }
+
         public static void Reset()
         {
             Instance = new Savestate();            
@@ -71,7 +101,12 @@ namespace PixelPerfect
                         {
                             Instance = Serializer.Deserialize<Savestate>(savefile);
                             if (Instance.version != CURRENT_VERSION)
-                                CreateSavestate();
+                            {
+                                if (Instance.version == 4)
+                                    Instance = Instance.ConvertFromV4();
+                                else
+                                    CreateSavestate();
+                            }
                         }
                     }
                     else

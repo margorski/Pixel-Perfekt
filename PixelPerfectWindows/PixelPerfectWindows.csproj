@@ -119,6 +119,9 @@
     <Compile Include="..\PixelPerfect\States\PauseState.cs">
       <Link>States\PauseState.cs</Link>
     </Compile>
+    <Compile Include="..\PixelPerfect\States\SplashScreenState.cs">
+      <Link>States\SplashScreenState.cs</Link>
+    </Compile>
     <Compile Include="..\PixelPerfect\States\SuitSelectState.cs">
       <Link>States\SuitSelectState.cs</Link>
     </Compile>
@@ -729,6 +732,10 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\menu\suitebtnlocked.xnb">
       <Link>Content\menu\suitebtnlocked.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\logo.xnb">
+      <Link>Content\logo.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />

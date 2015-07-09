@@ -242,14 +242,14 @@ namespace PixelPerfect
                     if (currentDeaths >= deaths)
                     {
                         currentDeaths = deaths;
-                        currentDeathsColor = Color.Red;
+                        currentDeathsColor = Color.Blue;
                     }
                     
                     currentTotalDeaths += deathIncrement;
                     if (currentTotalDeaths >= Savestate.Instance.levelSaves[levelId].deathCount)
                     {
                         currentTotalDeaths = Savestate.Instance.levelSaves[levelId].deathCount;
-                        currentTotalDeathsColor = Color.Red;
+                        currentTotalDeathsColor = Color.Blue;
                     }
 
                     if (currentDeaths == deaths && currentTotalDeaths == Savestate.Instance.levelSaves[levelId].deathCount)
@@ -276,7 +276,7 @@ namespace PixelPerfect
                     if (currentLevelTime >= levelTime)
                     {
                         currentLevelTime = levelTime;
-                        currentLevelTimeColor = Color.Red;
+                        currentLevelTimeColor = Color.Blue;
                         if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))
                         {
                             trophy = true;

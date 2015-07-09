@@ -42,6 +42,7 @@ namespace PixelPerfect
         public struct States
         {
             public const int BACKGROUND = 1;
+            public const int SPLASHSCREEN = 50;
             public const int TITLESCREEN = 100;
             public const int WORLDSELECT = 120;
             public const int LEVELSELECT = 150;
