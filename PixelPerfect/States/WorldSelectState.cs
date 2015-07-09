@@ -537,7 +537,7 @@ namespace PixelPerfect
                 var textOffset = Globals.silkscreenFont.MeasureString(Globals.worlds[i].name) / 2;
                 spriteBatch.DrawString(Globals.silkscreenFont, Globals.worlds[i].name, new Vector2(x - textOffset.X + Globals.textureDictionary[Globals.worlds[i].icon].Width / 2, y + Globals.textureDictionary[Globals.worlds[i].icon].Height + Config.Menu.TEXT_SPACE), color);
                 if (Globals.worlds[i].BeatWorldPerfektTime())
-                    spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(x, y), Color.White);
+                    spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(x, y), Color.Gold);
 
                 spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - (Config.Menu.BOINGS_SIZE * 5 + Config.Menu.BOINGS_SPACE * 4) / 2 + (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) * i, Config.Menu.BOINGS_OFFSET_Y, Config.Menu.BOINGS_SIZE, Config.Menu.BOINGS_SIZE), (i == selectedWorld ? Color.Blue : Color.White));
                 for (int j = 0; j < Config.Menu.SMALL_BOINGS_QTY; j++)

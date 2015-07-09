@@ -41,7 +41,8 @@ namespace PixelPerfect
 
         WavyText caption;
         int[] tileMap;
-
+        Vector2 miniMapPosition;
+        Rectangle miniMapBorder;
 
         public LevelDetailsState(GameStateManager gameStateManager) 
         {
@@ -52,6 +53,11 @@ namespace PixelPerfect
             skipButton = new Button("", new Rectangle(Config.Menu.BUTTONS_X + 24 + Config.Menu.BUTTONS_SPACE, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["skip"], Globals.silkscreenFont, false);
             startButton = new Button("", new Rectangle(Config.Menu.BUTTONS_X + 2 * (24 + Config.Menu.BUTTONS_SPACE), Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["play2"], Globals.silkscreenFont, false);
             backButton = new Button("", new Rectangle(Config.Menu.BACK_X, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
+
+            miniMapPosition = new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE / 2, 30);
+            miniMapBorder =  new Rectangle((int)miniMapPosition.X, (int)miniMapPosition.Y,
+                                                                               Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE + 4,
+                                                                               Config.Map.NORMAL_HEIGHT * Config.Tile.MINISIZE + 4);
          }
 
         public override void Enter(int previousStateId)
@@ -135,7 +141,7 @@ namespace PixelPerfect
                 }
                 if (touch.State == TouchLocationState.Released)
                 {
-                    if (startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                    if (startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true) || miniMapBorder.Contains((int)touch.Position.X / scale, (int)touch.Position.Y / scale))
                         StartLevel();
                     else if (skipButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {
@@ -158,7 +164,7 @@ namespace PixelPerfect
             }
             else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
             {
-                if (startButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                if (startButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true) || miniMapBorder.Contains(currMouseState.X / scale, currMouseState.Y / scale))
                     StartLevel();
                 else if (skipButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
@@ -252,20 +258,17 @@ namespace PixelPerfect
             Util.DrawStringAligned(spriteBatch, deathsString, Globals.silkscreenFont, deathColor, new Rectangle(0, 117, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(3, 0), Util.Align.Right);
             spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(178, 117), deathColor);
 
-            DrawMiniMap(spriteBatch, new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE / 2, 30));
+            DrawMiniMap(spriteBatch);
             skipButton.Draw(spriteBatch);
             startButton.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
-           // infoButton.Draw(spriteBatch);
         }
 
-        public void DrawMiniMap(SpriteBatch spriteBatch, Vector2 position)
+        public void DrawMiniMap(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle((int)position.X, (int)position.Y,
-                                                                               Config.Map.NORMAL_WIDTH * Config.Tile.MINISIZE + 4,
-                                                                               Config.Map.NORMAL_HEIGHT * Config.Tile.MINISIZE + 4),
-                                                                               Color.Black);
-
+            Vector2 position = new Vector2(miniMapPosition.X, miniMapPosition.Y);
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], miniMapBorder, Color.Black);
+            
             position.X += 2;
             position.Y += 2;
 

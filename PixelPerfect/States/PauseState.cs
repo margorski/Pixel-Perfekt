@@ -29,7 +29,8 @@ namespace PixelPerfect
 
         Button playButton = new Button("", new Rectangle(72,36, 24, 24), Globals.textureDictionary["play2"], Globals.silkscreenFont, false);
         Button restartButton = new Button("", new Rectangle(72,64, 24, 24), Globals.textureDictionary["restart"], Globals.silkscreenFont, false);
-        Button infoButton = new Button("", new Rectangle(72, 92, 24, 24), Globals.textureDictionary["info"], Globals.silkscreenFont, false);
+        Button skipButton = new Button("", new Rectangle(72, 92, 24, 24), Globals.textureDictionary["skip"], Globals.silkscreenFont, false);
+        Button infoButton = new Button("", new Rectangle(180, 130, 24, 24), Globals.textureDictionary["info"], Globals.silkscreenFont, false);
         Button backButton = new Button("", new Rectangle(72, 120, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
         Button musicButton = new Button("", new Rectangle(240, 130, 24, 24), Globals.textureDictionary["music"], Globals.silkscreenFont, true);
         Button soundButton = new Button("", new Rectangle(210, 130, 24, 24), Globals.textureDictionary["sound"], Globals.silkscreenFont, true);
@@ -51,6 +52,12 @@ namespace PixelPerfect
 #endif
             soundButton.value = Globals.soundEnabled;
             musicButton.value = Globals.musicEnabled;
+
+            if (Savestate.Instance.Skipped() || Globals.worlds[Globals.selectedWorld].LevelSkipped(Globals.selectedLevel) || Globals.selectedLevel >= Globals.worlds[Globals.selectedWorld].levels.Count - 1
+                || Globals.worlds[Globals.selectedWorld].LevelCompleted(Globals.selectedLevel))
+                skipButton.active = false;
+            else
+                skipButton.active = true;
         }
 
         public override void Exit(int nextStateId)
@@ -76,7 +83,7 @@ namespace PixelPerfect
             spriteBatch.DrawString(Globals.silkscreenFont, "PAUSE", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 44, 6), Color.White, 0.0f, Vector2.Zero, 3.0f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(Globals.silkscreenFont, "CONTINUE", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 39), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(Globals.silkscreenFont, "RESTART", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 67), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(Globals.silkscreenFont, "CONTROLS", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 95), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, "SKIP", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 95), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(Globals.silkscreenFont, "BACK", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 123), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
             infoButton.Draw(spriteBatch);
             playButton.Draw(spriteBatch);
@@ -84,6 +91,7 @@ namespace PixelPerfect
             backButton.Draw(spriteBatch);
             musicButton.Draw(spriteBatch);
             soundButton.Draw(spriteBatch);
+            skipButton.Draw(spriteBatch);
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool suspended)
@@ -116,6 +124,7 @@ namespace PixelPerfect
                     playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                     musicButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                     soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                    skipButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                 }
                 if (touch.State == TouchLocationState.Released)
                 {
@@ -152,6 +161,12 @@ namespace PixelPerfect
                         IsolatedStorageSettings.ApplicationSettings.Save();
                         continue;
                     }
+                    else if (skipButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                    {
+                        if (Globals.worlds[Globals.selectedWorld].Skip(Globals.selectedLevel))
+                            GoBack();
+                        continue;
+                    }
                 }
             }
 #else
@@ -164,6 +179,7 @@ namespace PixelPerfect
                 playButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
                 musicButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
                 soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
+                skipButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, false);
             }
             else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
             {
@@ -193,6 +209,11 @@ namespace PixelPerfect
                 else if (soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
                     Globals.soundEnabled = soundButton.value;
+                }
+                else if (skipButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                {
+                    if (Globals.worlds[Globals.selectedWorld].Skip(Globals.selectedLevel))
+                        GoBack();
                 }
             }
             prevMouseState = currMouseState;

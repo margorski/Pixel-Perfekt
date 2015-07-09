@@ -217,8 +217,15 @@ namespace PixelPerfect
                 if (!levelFile.Substring(levelFile.Length - 4, 4).ToLower().Equals(".tmx"))
                     levelFile += ".tmx";
             }
+            Globals.graphics.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
             this.menuLevel = menuLevel;
             this.scale = scale;
+        }
+
+        void GraphicsDevice_DeviceReset(object sender, EventArgs e)
+        {
+            if (!menuLevel)
+                ReloadGradientTexture();
         }
 
         public override void Enter(int previousStateId)
@@ -247,7 +254,6 @@ namespace PixelPerfect
 
         public override void Resume(int poppedStateId)
         {
-            ReloadGradientTexture();
             ResetInput();
             if (Globals.musicEnabled)
                 MediaPlayer.Resume();

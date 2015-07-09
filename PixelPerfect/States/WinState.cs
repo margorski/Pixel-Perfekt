@@ -17,6 +17,7 @@ namespace PixelPerfect
     {
         enum ScreenState
         {
+            WAIT,
             DEATHCOUNT,
             DELAY,
             TIMECOUNT,
@@ -25,7 +26,7 @@ namespace PixelPerfect
         }
 
         private TimeSpan fadeTime;
-        ScreenState screenState = ScreenState.DEATHCOUNT;
+        ScreenState screenState = ScreenState.WAIT;
 
 #if WINDOWS
         private MouseState prevMouseState;
@@ -52,11 +53,11 @@ namespace PixelPerfect
         private TimeSpan currentLevelTime = TimeSpan.Zero;
         private TimeSpan soundTimer = TimeSpan.Zero;
 
-        private Color currentDeathsColor = Color.Gray;
-        private Color currentTotalDeathsColor = Color.Gray;
-        private Color currentLevelTimeColor = Color.Gray;
-
-        private TimeSpan delayTimer = TimeSpan.FromMilliseconds(500.0);
+        private Color currentDeathsColor = Color.White;
+        private Color currentTotalDeathsColor = Color.White;
+        private Color currentLevelTimeColor = Color.White;
+        
+        private TimeSpan delayTimer = TimeSpan.FromMilliseconds(100.0);
 
         private List<EmiterPart> fireworks = new List<EmiterPart>();
 
@@ -85,7 +86,7 @@ namespace PixelPerfect
             fireworks.Clear();
             for (int i = 0; i < 5; i++)
                 fireworks.Add(new EmiterPart(new Vector2(200 - 30 * i, 180),
-                              140 + (uint)Globals.rnd.Next(30), 180.0f + Globals.rnd.Next(40), MovementDirection.Up,
+                              125 + (uint)Globals.rnd.Next(30), 200.0f + Globals.rnd.Next(40), MovementDirection.Up,
                               Globals.spritesDictionary["enemies_8x8"].texture,
                               Globals.spritesDictionary["enemies_8x8"].textureArray[0],
                               new Rectangle(0, 0, 8, 8), Color.White, 100, Globals.pixelParticles, null, true, false, true));
@@ -223,6 +224,16 @@ namespace PixelPerfect
 #endif            
             switch (screenState)
             {
+
+                case ScreenState.WAIT:
+                    delayTimer -= gameTime.ElapsedGameTime;
+                    if (delayTimer <= TimeSpan.Zero)
+                    {
+                        screenState = ScreenState.DEATHCOUNT;
+                        delayTimer = TimeSpan.FromMilliseconds(500.0);
+                    }
+                    break;
+
                 case ScreenState.DEATHCOUNT:
                     UpdateCounterSound(gameTime);
                     float deathIncrement = (float)(gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0f * 40.0f);
@@ -231,14 +242,14 @@ namespace PixelPerfect
                     if (currentDeaths >= deaths)
                     {
                         currentDeaths = deaths;
-                        currentDeathsColor = Color.White;
+                        currentDeathsColor = Color.Red;
                     }
                     
                     currentTotalDeaths += deathIncrement;
                     if (currentTotalDeaths >= Savestate.Instance.levelSaves[levelId].deathCount)
                     {
                         currentTotalDeaths = Savestate.Instance.levelSaves[levelId].deathCount;
-                        currentTotalDeathsColor = Color.White;
+                        currentTotalDeathsColor = Color.Red;
                     }
 
                     if (currentDeaths == deaths && currentTotalDeaths == Savestate.Instance.levelSaves[levelId].deathCount)
@@ -265,7 +276,7 @@ namespace PixelPerfect
                     if (currentLevelTime >= levelTime)
                     {
                         currentLevelTime = levelTime;
-                        currentLevelTimeColor = Color.White;
+                        currentLevelTimeColor = Color.Red;
                         if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))
                         {
                             trophy = true;
@@ -379,24 +390,12 @@ namespace PixelPerfect
             }
             else
             {
-                Globals.gameStateManager.PopState();
-                Globals.gameStateManager.UnregisterState(Config.States.LEVEL);
-                
-                int nextLevel = Globals.selectedLevel;
-                do
-                {
-                    nextLevel++;
-                }
-                while (nextLevel < Globals.worlds[Globals.selectedWorld].levels.Count && Globals.worlds[Globals.selectedWorld].LevelCompleted(nextLevel));
+                int nextLevel = findNextLevel(Globals.selectedLevel);
 
-                nextLevel = 0;
-                do
-                {
-                    nextLevel++;
-                }
-                while (nextLevel < Globals.worlds[Globals.selectedWorld].levels.Count && Globals.worlds[Globals.selectedWorld].LevelCompleted(nextLevel));
+                if (nextLevel < 0) // only skipped lvls left
+                    nextLevel = findNextLevel(0); // find skipped level                
 
-                if (nextLevel >= Globals.worlds[Globals.selectedWorld].levels.Count)
+                if (nextLevel < 0)
                     Globals.gameStateManager.ChangeState(Config.States.LEVELSELECT);
                 else
                     Globals.selectedLevel = nextLevel;
@@ -404,9 +403,27 @@ namespace PixelPerfect
                 var levelState = new LevelState(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel));
                 levelState.scale = scale;
                 levelState.name = Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName;
+                
+                Globals.gameStateManager.UnregisterState(Config.States.LEVEL);                
                 Globals.gameStateManager.RegisterState(Config.States.LEVEL, levelState);
+                Globals.gameStateManager.PopState();
                 Globals.gameStateManager.ChangeState(Config.States.LEVEL);
             }
+        }
+
+        private int findNextLevel(int startLevel)
+        {
+            int nextLevel = startLevel;
+            do
+            {
+                nextLevel++;
+            }
+            while (nextLevel < Globals.worlds[Globals.selectedWorld].levels.Count && Globals.worlds[Globals.selectedWorld].LevelCompleted(nextLevel));
+
+            if (nextLevel >= Globals.worlds[Globals.selectedWorld].levels.Count)
+                return -1;
+            else
+                return nextLevel;
         }
 
         private void UpdateCounterSound(GameTime gameTime)
@@ -449,6 +466,7 @@ namespace PixelPerfect
             currentTotalDeaths = Savestate.Instance.levelSaves[levelId].deathCount;
             currentLevelTime = levelTime;
             screenState = ScreenState.IDLE;
+            fadeTime = TimeSpan.Zero;
             if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))            
                 trophy = true;
             trophyTimer = TimeSpan.Zero;

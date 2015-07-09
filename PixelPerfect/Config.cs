@@ -94,8 +94,8 @@ namespace PixelPerfect
             public const int PIXELPARTICLE_LIFETIME_MIN = 400;
             public const int PIXELPARTICLE_LIFETIME_MAX = 1200;                        
             public const int MAX_EXPLOSION_MAGNITUDE = 90;
-            public const int MAX_PARTICLES_MENU = 2000;
-            public const int MAX_PARTICLES_LEVEL = 1000;
+            public const int MAX_PARTICLES_MENU = 1000;
+            public const int MAX_PARTICLES_LEVEL = 700;
         }
 
         public struct Player

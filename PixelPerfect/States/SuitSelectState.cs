@@ -230,7 +230,9 @@ namespace PixelPerfect
                 }
                 currentButton++;
             }
-            
+
+            spriteBatch.DrawString(Globals.silkscreenFont, "UNLOCK SUIT EVERY 3x", new Vector2(77, 137), Color.White, 0.0f, Vector2.Zero, 1.4f, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(240, 134), Color.Gold);            
         }
     }
 }

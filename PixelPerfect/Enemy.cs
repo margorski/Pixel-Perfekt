@@ -44,7 +44,7 @@ namespace PixelPerfect
         private TimeSpan delayTimer = TimeSpan.Zero;
         private int waitTime = 0;
         private bool waiting = false;
-        private bool started = false;
+        private bool started = true;
 
         private readonly Vector2 startPosition;
         // debug
@@ -108,8 +108,11 @@ namespace PixelPerfect
 
         public void SetDelayTime(int delayTime)
         {
-            if (delayTime >= 0)
+            if (delayTime > 0)
+            {
+                started = false;
                 this.delayTime = delayTime;
+            }                
         }
 
         protected void SetOffset()

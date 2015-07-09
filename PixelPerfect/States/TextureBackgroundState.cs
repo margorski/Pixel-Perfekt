@@ -22,6 +22,12 @@ namespace PixelPerfect
         public TextureBackgroundState(int color1, int color2)
         {
             ChangeColors(color1, color2);
+            Globals.graphics.GraphicsDevice.DeviceReset += GraphicsDevice_DeviceReset;
+        }
+
+        void GraphicsDevice_DeviceReset(object sender, EventArgs e)
+        {
+            ReloadGradient();
         }
 
         public override void Enter(int previousStateId)
@@ -38,7 +44,6 @@ namespace PixelPerfect
 
         public override void Resume(int poppedStateId)
         {
-            ReloadGradient();
         }
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)

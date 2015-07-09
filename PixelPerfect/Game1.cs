@@ -25,6 +25,18 @@ namespace PixelPerfect
 
         GameStateManager gameStateManager;
 
+        Dictionary<string, string> textureDictionary = new Dictionary<string, string>()
+        {
+            {"pixel", "pixel"}, {"play", "menu\\play"}, {"music", "menu\\music"}, {"sound", "menu\\sound"}, {"back", "menu\\back"},
+            {"info", "menu\\info"}, {"play2", "menu\\play2"}, {"skip", "menu\\skip"}, {"miniTileset", "tileset_mini"}, {"miniPlayer", "player_mini"},
+            {"cool", "moods\\cool"}, {"happy", "moods\\happy"}, {"confused", "moods\\confused"}, {"shocked", "moods\\shocked"}, {"scared", "moods\\scared"},
+            {"keylock", "keylock"}, {"coolLevel", "moods\\level_cool"}, {"happyLevel", "moods\\level_happy"}, {"confusedLevel", "moods\\level_confused"}, 
+            {"shockedLevel", "moods\\level_shocked"}, {"scaredLevel", "moods\\level_scared"}, {"keylockLevel", "keylock_small"}, {"trophy", "menu\\trophy"},
+            {"skull", "menu\\skull"}, {"clock", "menu\\clock"}, {"tap", "menu\\tap"}, {"next", "menu\\next"}, {"restart", "menu\\restart"},
+            {"suit", "menu\\shirt"}, {"suitbutton", "menu\\suitebtn"}, {"suitbuttonlocked", "menu\\suitebtnlocked"}, {"miniDoor", "door_mini"}
+        };
+
+      
         private float scale = 1.0f;
         //private float margin = 0.0f;
 
@@ -184,66 +196,53 @@ namespace PixelPerfect
             spriteBatch3 = new SpriteBatch(GraphicsDevice);
 
             MediaPlayer.IsRepeating = true;
-            
-            Globals.textureDictionary.Add("pixel", Content.Load<Texture2D>("pixel"));
-            Globals.textureDictionary.Add("play", Content.Load<Texture2D>("menu\\play"));
-            Globals.textureDictionary.Add("music", Content.Load<Texture2D>("menu\\music"));
-            Globals.textureDictionary.Add("sound", Content.Load<Texture2D>("menu\\sound"));
-            Globals.textureDictionary.Add("logo", Content.Load<Texture2D>("menu\\logo"));
-            Globals.textureDictionary.Add("back", Content.Load<Texture2D>("menu\\back"));
-            Globals.textureDictionary.Add("info", Content.Load<Texture2D>("menu\\info"));
-            Globals.textureDictionary.Add("play2", Content.Load<Texture2D>("menu\\play2"));
-            Globals.textureDictionary.Add("skip", Content.Load<Texture2D>("menu\\skip"));
-            Globals.textureDictionary.Add("miniTileset", Content.Load<Texture2D>("tileset_mini"));
-            Globals.textureDictionary.Add("miniPlayer", Content.Load<Texture2D>("player_mini"));
-            Globals.textureDictionary.Add("miniDoor", Content.Load<Texture2D>("door_mini"));
-            Globals.textureDictionary.Add("cool", Content.Load<Texture2D>("moods\\cool"));
-            Globals.textureDictionary.Add("happy", Content.Load<Texture2D>("moods\\happy"));
-            Globals.textureDictionary.Add("confused", Content.Load<Texture2D>("moods\\confused"));
-            Globals.textureDictionary.Add("shocked", Content.Load<Texture2D>("moods\\shocked"));
-            Globals.textureDictionary.Add("scared", Content.Load<Texture2D>("moods\\scared"));
-            Globals.textureDictionary.Add("keylock", Content.Load<Texture2D>("keylock"));
-            Globals.textureDictionary.Add("coolLevel", Content.Load<Texture2D>("moods\\level_cool"));
-            Globals.textureDictionary.Add("happyLevel", Content.Load<Texture2D>("moods\\level_happy"));
-            Globals.textureDictionary.Add("confusedLevel", Content.Load<Texture2D>("moods\\level_confused"));
-            Globals.textureDictionary.Add("shockedLevel", Content.Load<Texture2D>("moods\\level_shocked"));
-            Globals.textureDictionary.Add("scaredLevel", Content.Load<Texture2D>("moods\\level_scared"));
-            Globals.textureDictionary.Add("keylockLevel", Content.Load<Texture2D>("keylock_small"));
-            Globals.textureDictionary.Add("trophy", Content.Load<Texture2D>("menu\\trophy"));
-            Globals.textureDictionary.Add("skull", Content.Load<Texture2D>("menu\\skull"));
-            Globals.textureDictionary.Add("clock", Content.Load<Texture2D>("menu\\clock"));
-            Globals.textureDictionary.Add("tap", Content.Load<Texture2D>("menu\\tap"));
-            Globals.textureDictionary.Add("next", Content.Load<Texture2D>("menu\\next"));
-            Globals.textureDictionary.Add("restart", Content.Load<Texture2D>("menu\\restart"));
-            Globals.textureDictionary.Add("suit", Content.Load<Texture2D>("menu\\shirt"));
-            Globals.textureDictionary.Add("suitbutton", Content.Load<Texture2D>("menu\\suitebtn"));
-            Globals.textureDictionary.Add("suitbuttonlocked", Content.Load<Texture2D>("menu\\suitebtnlocked"));
+   
             Globals.silkscreenFont = Content.Load<SpriteFont>("Silkscreen");
-                
-            //sprites
+            Globals.tileset = new Tileset("tileset");
+            LoadTextures();
+            LoadSprites();
+            LoadSounds();
+            LoadMusic();
+        }
+
+        private void LoadTextures()
+        {
+            foreach (KeyValuePair<string, string> texture in textureDictionary)
+            {
+                if (!Globals.textureDictionary.ContainsKey(texture.Key))
+                    Globals.textureDictionary.Add(texture.Key, Content.Load<Texture2D>(texture.Value));
+            }
+        }
+
+        private void LoadSprites()
+        {
             Globals.spritesDictionary.Add("biggo_128x128", new Sprite("biggo_128x128", 128, 128, 2));
             Globals.spritesDictionary.Add("enemies_16x16", new Sprite("enemies_16x16", 16, 16));
             Globals.spritesDictionary.Add("enemies_32x32", new Sprite("enemies_32x32", 32, 32));
             Globals.spritesDictionary.Add("enemies_8x8", new Sprite("enemies_8x8", 8, 8));
             Globals.spritesDictionary.Add("king_48x48", new Sprite("king_48x48", 48, 48, 14));
-            Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16, 6));            
-            Globals.tileset = new Tileset("tileset");
-            
-            ////sounds
+            Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16, 6));      
+        }
+
+        private void LoadSounds()
+        {
             Globals.soundsDictionary.Add("coin", Content.Load<SoundEffect>(@"Sounds\Pickup_Coin8").CreateInstance());
             Globals.soundsDictionary.Add("jump", Content.Load<SoundEffect>(@"Sounds\Jump4").CreateInstance());
             Globals.soundsDictionary.Add("explosion", Content.Load<SoundEffect>(@"Sounds\Explosion9").CreateInstance());
             Globals.soundsDictionary.Add("randomize", Content.Load<SoundEffect>(@"Sounds\Randomize3").CreateInstance());
             Globals.soundsDictionary.Add("hit", Content.Load<SoundEffect>(@"Sounds\Hit_Hurt2").CreateInstance());
             Globals.soundsDictionary.Add("doors", Content.Load<SoundEffect>(@"Sounds\Randomize2").CreateInstance());
-            Globals.soundsDictionary["doors"].IsLooped = true;            
+            Globals.soundsDictionary["doors"].IsLooped = true;
             foreach (KeyValuePair<string, SoundEffectInstance> sfeffect in Globals.soundsDictionary)
                 sfeffect.Value.Volume = 0.15f;
             Globals.soundsDictionary["hit"].Volume = 0.2f;
             Globals.soundsDictionary["coin"].Volume = 0.12f;
             Globals.soundsDictionary["doors"].Volume = 0.2f;
             Globals.soundsDictionary["doors"].Pitch = 0.5f;
-            // music
+        }
+
+        private void LoadMusic()
+        {
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\xylophone (loop)"));
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\Elevator Music (loop)"));
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\8-bit loop (loop)"));
@@ -260,6 +259,7 @@ namespace PixelPerfect
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\wubby dancer (loop)"));
             Globals.backgroundMusicList.Add(Content.Load<Song>(@"music\King Boss (loop)"));
         }
+
 
         protected override void UnloadContent()
         {
@@ -311,6 +311,8 @@ namespace PixelPerfect
 #if !WINDOWS
             Savestate.Instance.Save();
 #endif
+            if (gameStateManager != null && gameStateManager.IsStateOnTop(Config.States.LEVEL))
+                Globals.gameStateManager.PushState(Config.States.PAUSE); 
             base.OnDeactivated(sender, args);
         }
 

@@ -226,7 +226,7 @@ namespace PixelPerfect
                         spriteBatch.Draw(Globals.spritesDictionary["enemies_16x16"].texture, new Vector2(button.rectangle.X, button.rectangle.Y), 
                                          new Rectangle(0, pikpokAnimation.GetCurrentFrame() * 16, 16, 16), Color.White);
                     if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(levelCount))
-                        spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(button.rectangle.X, button.rectangle.Y), Color.White);
+                        spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(button.rectangle.X, button.rectangle.Y), Color.Gold);
                 }
                 spriteBatch.DrawString(Globals.silkscreenFont, (levelCount + 1).ToString(),
                                     new Vector2(button.rectangle.Right - 10, button.rectangle.Bottom - 10), color
