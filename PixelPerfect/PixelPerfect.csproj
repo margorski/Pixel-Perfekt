@@ -240,9 +240,6 @@
       <Link>Content\Sounds\Hit_Hurt2.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="defaultAdSettings.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="icon.png" />
     <Content Include="iconic_medium.png" />
     <Content Include="iconic_small.png" />
@@ -694,6 +691,22 @@
       <Link>Content\logo.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\key.xnb">
+      <Link>Content\key.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\cutscenes\cutscene1.xnb">
+      <Link>Content\cutscenes\cutscene1.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\cutscenes\exclamation.xnb">
+      <Link>Content\cutscenes\exclamation.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\cutscenes\question.xnb">
+      <Link>Content\cutscenes\question.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -723,7 +736,11 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <SDKReference Include="MSAdvertising, Version=6.1">
+      <Name>Microsoft Advertising SDK for Windows Phone 8 %28XAML%29</Name>
+    </SDKReference>
+  </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
@@ -732,6 +749,10 @@
   </ItemGroup>
   <ItemGroup>
     <!-- A reference to the entire .Net Framework and Windows SDK are automatically included -->
+    <Reference Include="AdDuplex.WindowsPhone, Version=9.0.0.6, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AdDuplexWP8.9.0.0.6\lib\wp8\AdDuplex.WindowsPhone.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="AdRotator">
       <HintPath>..\packages\AdRotator.2.1.1\lib\wp8\AdRotator.dll</HintPath>
     </Reference>

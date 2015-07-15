@@ -81,10 +81,8 @@ namespace PixelPerfect
             //                        new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Center);
 
             leveltitle.Draw(spriteBatch);
-            spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(209, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
-            Util.DrawStringAligned(spriteBatch, "DEATHS: " + levelsave.deathCount, Globals.silkscreenFont, Color.White,
-                        new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
-                        new Vector2(3, Config.Hud.TEXT_POSITION_Y), Util.Align.Right);
+            spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(200, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
+            spriteBatch.DrawString(Globals.silkscreenFont, "DEATHS: " + levelsave.deathCount, new Vector2(210, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
 
             foreach (Tile tile in collectibleTiles)
                 tile.Draw(spriteBatch, Vector2.Zero);

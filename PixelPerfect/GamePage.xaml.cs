@@ -27,7 +27,7 @@ namespace PixelPerfect
                 throw new InvalidOperationException("There can be only one GamePage object!");
             Instance = this;
             _game = XamlGame<Game1>.Create("", this);
-            
+            //AdRotator.Invalidate(null);
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
             
@@ -48,5 +48,27 @@ namespace PixelPerfect
         //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
         //    ApplicationBar.MenuItems.Add(appBarMenuItem);
         //}
+
+        public void AdsOff()
+        {
+            AdsControl(false);
+        }
+
+        public void AdsOn()
+        {
+            AdsControl(true);
+        }
+
+        public void AdsControl(bool value)
+        {
+            if (AdRotator == null)
+                return;
+
+            Deployment.Current.Dispatcher.BeginInvoke(() =>
+            {
+                AdRotator.IsEnabled = value;
+                AdRotator.Visibility = (value ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed);                
+            });
+        }
     }
 }

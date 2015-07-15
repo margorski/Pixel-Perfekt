@@ -48,7 +48,7 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            spriteBatch.Draw(background, Vector2.Zero, Color.White);
+            spriteBatch.Draw(background, new Rectangle(0,0, Config.SCREEN_WIDTH_SCALED + 10, Config.SCREEN_HEIGHT_SCALED), Color.White);
         }
 
         public override void Update(GameTime gameTime, bool suspended)
@@ -64,7 +64,7 @@ namespace PixelPerfect
 
         public void ReloadGradient()
         {
-            background = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[color1], Globals.colorList[color2], Util.GradientType.Horizontal);
+            background = Util.GetGradientTexture(1, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[color1], Globals.colorList[color2], Util.GradientType.Horizontal);
         }
     }
 }

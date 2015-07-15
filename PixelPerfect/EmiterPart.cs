@@ -53,7 +53,7 @@ namespace PixelPerfect
             get
             {
                 var rectangle = AdjustTextureRectangle();
-                rectangle.Y += animation.GetCurrentFrame() * textureRectangle.Height;
+                rectangle.Y += animation.currentFrame * textureRectangle.Height;
                 return rectangle;                
             }
         }
@@ -347,7 +347,7 @@ namespace PixelPerfect
         {
             int frameSizeInArray = (int)(textureRectangle.Width * textureRectangle.Height);
             Color[] currentFrameArray = new Color[frameSizeInArray];
-            Array.Copy(textureArray, frameSizeInArray * animation.GetCurrentFrame(), currentFrameArray, 0, frameSizeInArray);
+            Array.Copy(textureArray, frameSizeInArray * animation.currentFrame, currentFrameArray, 0, frameSizeInArray);
             return currentFrameArray;            
         }
 

@@ -31,7 +31,8 @@ namespace PixelPerfect
         public List<PixelParticle> pixelParticles = new List<PixelParticle>();
 #if !WINDOWS
         //private TouchCollection touchCollection;
-        private int touchId = 0; 
+        private int touchId = 0;
+        private TimeSpan adTimer = TimeSpan.FromSeconds(Config.AD_TIMER);
 #else
         private MouseState previousMouseState;
         private MouseState currentMouseState;
@@ -51,7 +52,7 @@ namespace PixelPerfect
         
         //Button resetButton;
         
-        private Texture2D backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
+        private Texture2D backgroundTexture = Util.GetGradientTexture(1, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
 
         private LevelColors levelColors = new LevelColors();
         private bool colors = false;
@@ -195,7 +196,7 @@ namespace PixelPerfect
             if (levelColors.color1 < 0 || levelColors.color1 > Globals.colorList.Count - 1 || levelColors.color2 < 0 || levelColors.color2 > Globals.colorList.Count - 1)
                 return;
 
-            backgroundTexture = Util.GetGradientTexture(Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[levelColors.color1], Globals.colorList[levelColors.color2], Util.GradientType.Horizontal);
+            backgroundTexture = Util.GetGradientTexture(1, Config.SCREEN_HEIGHT_SCALED, Globals.colorList[levelColors.color1], Globals.colorList[levelColors.color2], Util.GradientType.Horizontal);
         }
 
         private void RefreshColors()
@@ -230,8 +231,10 @@ namespace PixelPerfect
 
         public override void Enter(int previousStateId)
         {
-            InitLevel();     
+            InitLevel();
             ResetInput();
+            //if (!menuLevel)
+            //    Reset(true);
             if (Globals.musicEnabled && !menuLevel)
                 MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
             if (!menuLevel)
@@ -250,6 +253,10 @@ namespace PixelPerfect
                 sfinstance.Value.Stop();
             if (!menuLevel)
                 MediaPlayer.Stop();
+#if !WINDOWS
+            if (!menuLevel)
+                GamePage.Instance.AdsOff();
+#endif
         }
 
         public override void Resume(int poppedStateId)
@@ -265,6 +272,14 @@ namespace PixelPerfect
 
         public override void Suspend(int pushedStateId)
         {
+#if !WINDOWS            
+            if (!menuLevel && pushedStateId != Config.States.TAP)
+            {
+                GamePage.Instance.AdsOff();
+                if (adTimer == TimeSpan.Zero)
+                    adTimer = TimeSpan.FromMilliseconds(1.0);
+            }
+#endif
             if (menuLevel)
                 InitLevel();
             else
@@ -276,8 +291,19 @@ namespace PixelPerfect
 
         public override void Update(GameTime gameTime, bool suspended)
         {            
-            if (suspended)
+            if (suspended)            
                 return;
+#if !WINDOWS
+            if (adTimer > TimeSpan.Zero && !menuLevel)
+            {
+                adTimer -= gameTime.ElapsedGameTime;
+                if (adTimer <= TimeSpan.Zero)
+                {
+                    adTimer = TimeSpan.Zero;
+                    GamePage.Instance.AdsOn();
+                }
+            }
+#endif
 
             if (!menuLevel)
             {
@@ -596,7 +622,7 @@ namespace PixelPerfect
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
             if (backgroundTexture != null && !menuLevel)
-                spriteBatch.Draw(backgroundTexture, Vector2.Zero, Color.White);
+                spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 10, Config.SCREEN_HEIGHT_SCALED), Color.White);
 
             if (!upsidedownBatch)
             {
@@ -666,7 +692,8 @@ namespace PixelPerfect
 
         public void Reset()
         {
-            map.Reset();
+            if (!menuLevel)
+                map.Reset();
             player.Reset();
             Globals.soundsDictionary["doors"].Stop();
             if (map.moving)
@@ -683,7 +710,9 @@ namespace PixelPerfect
             }
 
             if (!menuLevel)
+            {
                 Globals.gameStateManager.PushState(Config.States.TAP);
+            }
         }
 
         private void ResetInput()

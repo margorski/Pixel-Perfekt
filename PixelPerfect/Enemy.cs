@@ -70,7 +70,7 @@ namespace PixelPerfect
         {
             get
             {
-                return new Rectangle(textureColumn * (int)textureSize.X, animation.GetCurrentFrame() * (int)textureSize.Y, (int)textureSize.X, (int)textureSize.Y);
+                return new Rectangle(textureColumn * (int)textureSize.X, animation.currentFrame * (int)textureSize.Y, (int)textureSize.X, (int)textureSize.Y);
             }
         }
 
@@ -96,8 +96,6 @@ namespace PixelPerfect
                 reverse = false;
 
             animation = new Animation(frames, animationDelay, animationreverse);
- 
-            AdjustSpeed();
         }
 
         public void SetBlinkTeleportTime(int blinkTime)
@@ -106,13 +104,22 @@ namespace PixelPerfect
                 this.blinkTime = blinkTime;
         }
 
-        public void SetDelayTime(int delayTime)
+        public void SetDelay(int delayTime)
+        {
+            this.delayTime = delayTime;
+        }
+
+        public void PrepareDelay()
         {
             if (delayTime > 0)
             {
                 started = false;
-                this.delayTime = delayTime;
-            }                
+            }
+            else
+            {
+                started = true;
+                Init();
+            }
         }
 
         protected void SetOffset()
@@ -321,7 +328,7 @@ namespace PixelPerfect
             }
             else
             {
-                Array.Copy(textureArray, frameSizeInArray * animation.GetCurrentFrame(), currentFrameArray, 0, frameSizeInArray);
+                Array.Copy(textureArray, frameSizeInArray * animation.currentFrame, currentFrameArray, 0, frameSizeInArray);
             }
             
             return currentFrameArray;
@@ -332,6 +339,12 @@ namespace PixelPerfect
             movepointsList.Add(movePoint);
         }
 
+        public void Prepare()
+        {
+            AdjustSpeed();
+            Reset();
+        }
+
         public void Reset()
         {
             if (guardPosition != Vector2.Zero && guardian)
@@ -340,11 +353,12 @@ namespace PixelPerfect
             currentBlinkTime = 0;
             currentDelayTime = 0;
             waitTimer = TimeSpan.Zero;
-            waiting = started = false;
+            waiting = false;
             goingBack = false;
             onGuard = false;
             animation.Reset();
             currentPosition = targetPosition = startPosition;
+            PrepareDelay();
         }
 
         public void PixelExplosion()

@@ -65,7 +65,7 @@ namespace PixelPerfect
             get
             {
                 //var spriteColumn = Theme.Themes.e(Globals.selectedWorld == -1 ? 0 : Globals.selectedWorld);
-                return new Rectangle(spriteColumn * Config.Player.WIDTH, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : (animation.GetCurrentFrame() + 1) * Config.Player.HEIGHT, Config.Player.WIDTH, Config.Player.HEIGHT);
+                return new Rectangle(spriteColumn * Config.Player.WIDTH, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : (animation.currentFrame + 1) * Config.Player.HEIGHT, Config.Player.WIDTH, Config.Player.HEIGHT);
             }
         }
 
@@ -419,7 +419,7 @@ namespace PixelPerfect
             }
             else
             {
-                Array.Copy(textureArray, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : frameSizeInArray * (animation.GetCurrentFrame() + 1), currentFrameArray, 0, frameSizeInArray);
+                Array.Copy(textureArray, (GetState(State.stopped) || GetState(State.jumping)) ? 0 : frameSizeInArray * (animation.currentFrame + 1), currentFrameArray, 0, frameSizeInArray);
             }
             return currentFrameArray;
         }

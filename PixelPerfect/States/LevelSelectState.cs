@@ -223,8 +223,8 @@ namespace PixelPerfect
                 {
                     button.Draw(spriteBatch, color);
                     if (Globals.worlds[Globals.selectedWorld].LevelSkipped(levelCount))
-                        spriteBatch.Draw(Globals.spritesDictionary["enemies_16x16"].texture, new Vector2(button.rectangle.X, button.rectangle.Y), 
-                                         new Rectangle(0, pikpokAnimation.GetCurrentFrame() * 16, 16, 16), Color.White);
+                        spriteBatch.Draw(Globals.spritesDictionary["enemies_16x16"].texture, new Vector2(button.rectangle.X, button.rectangle.Y),
+                                         new Rectangle(0, pikpokAnimation.currentFrame * 16, 16, 16), Color.White);
                     if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(levelCount))
                         spriteBatch.Draw(Globals.textureDictionary["trophy"], new Vector2(button.rectangle.X, button.rectangle.Y), Color.Gold);
                 }
@@ -245,8 +245,8 @@ namespace PixelPerfect
                 if (skipped)
                     break;
                 Vector2 position = new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 8 - 26 + 26 * i, Config.Menu.SKIPTEXT_Y + 4);
-                spriteBatch.Draw(Globals.spritesDictionary["enemies_16x16"].texture, position, new Rectangle(0, 
-                    (!skipped ? pikpokAnimation.GetCurrentFrame() * 16 : 16), 16, 16), 
+                spriteBatch.Draw(Globals.spritesDictionary["enemies_16x16"].texture, position, new Rectangle(0,
+                    (!skipped ? pikpokAnimation.currentFrame * 16 : 16), 16, 16), 
                     (!skipped ? Color.White : Color.DimGray));
             }
         }

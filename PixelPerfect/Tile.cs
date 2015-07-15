@@ -185,7 +185,7 @@ namespace PixelPerfect
                 return;
 
             Rectangle animSourceRect = sourceRect;
-            animSourceRect.Y += animation.GetCurrentFrame() * Config.Tile.SIZE;
+            animSourceRect.Y += animation.currentFrame * Config.Tile.SIZE;
 
             spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X + (int)offset.X, boundingBox.Y + Config.DRAW_OFFSET_Y + (int)offset.Y, boundingBox.Width, boundingBox.Height), animSourceRect, Globals.tilesColor);
         }

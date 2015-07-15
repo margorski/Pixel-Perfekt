@@ -777,7 +777,7 @@ namespace PixelPerfect
                                                                                 reverse, blink, guardian, offset, wait, teleport, areverse, frames));
                                                                 if (blink || teleport) // same time used for teleport delay and blink delay, teleport work only on normal move
                                                                     enemiesList.Last().SetBlinkTeleportTime(blinkTime);
-                                                                enemiesList.Last().SetDelayTime(localdelay);
+                                                                enemiesList.Last().SetDelay(localdelay);
 
                                                                 for (int i = 1; i < points.Length; i++)
                                                                 {
@@ -788,6 +788,7 @@ namespace PixelPerfect
                                                                     var movePoint = startPosition + new Vector2(moveX, moveY);
                                                                     enemiesList.Last().AddMovepoint(movePoint);
                                                                 }
+                                                                enemiesList.Last().Prepare();
                                                                 //enemiesList.Last().Init();                                                                
                                                                 //              ,
                                                                 //new Vector2(x + moveX, y + moveY),

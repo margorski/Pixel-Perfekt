@@ -27,12 +27,16 @@ namespace PixelPerfect
             {"keylock", "keylock"}, {"coolLevel", "moods\\level_cool"}, {"happyLevel", "moods\\level_happy"}, {"confusedLevel", "moods\\level_confused"}, 
             {"shockedLevel", "moods\\level_shocked"}, {"scaredLevel", "moods\\level_scared"}, {"keylockLevel", "keylock_small"}, {"trophy", "menu\\trophy"},
             {"skull", "menu\\skull"}, {"clock", "menu\\clock"}, {"tap", "menu\\tap"}, {"next", "menu\\next"}, {"restart", "menu\\restart"},
-            {"suit", "menu\\shirt"}, {"suitbutton", "menu\\suitebtn"}, {"suitbuttonlocked", "menu\\suitebtnlocked"}, {"miniDoor", "door_mini"}
+            {"suit", "menu\\shirt"}, {"suitbutton", "menu\\suitebtn"}, {"suitbuttonlocked", "menu\\suitebtnlocked"}, {"miniDoor", "door_mini"},
+            {"key", "key"}, {"cutscene1", "cutscenes\\cutscene1"}, {"exclamation", "cutscenes\\exclamation"}, {"question", "cutscenes\\question"}
         };
 
         public override void Enter(int previousStateId)
         {
             logo = Globals.content.Load<Texture2D>("logo");
+#if !WINDOWS
+            GamePage.Instance.AdsOff();
+#endif
         }
 
         public override void Exit(int nextStateId)
@@ -60,7 +64,7 @@ namespace PixelPerfect
             {
                 task = new Task(() =>
                 {
-                    LoadContent();
+                        LoadContent();
                     RegisterStates();
                     Theme.ReloadTheme(World.LastActiveWorld());
                 });
@@ -73,6 +77,7 @@ namespace PixelPerfect
                 Globals.gameStateManager.PushState(Config.States.BACKGROUND);
                 Globals.gameStateManager.PushState(Config.States.DUMMY);
                 Globals.gameStateManager.PushState(Config.States.TITLESCREEN);
+                Globals.gameStateManager.PushState(1200);
             }
         }
 
@@ -113,6 +118,291 @@ namespace PixelPerfect
             Globals.gameStateManager.RegisterState(Config.States.LEVELSELECT, levelSelectState);
             Globals.gameStateManager.RegisterState(Config.States.LEVELDETAILS, levelDetailsState);
             Globals.gameStateManager.RegisterState(Config.States.DUMMY, dummyState);
+
+            PrepareCutscenes();
+        }
+
+        private void PrepareCutscenes()
+        {            
+            Cutscene.CutsceneState cutsceneState = new Cutscene.CutsceneState();
+            Cutscene.Scene scene = new Cutscene.Scene();
+            scene._duration = TimeSpan.FromSeconds(30.0);
+            #region BACKGROUND
+            Cutscene.Image background = new Cutscene.Image();
+            background.textureName = "cutscene1";
+            Cutscene.Keyframe keyframe = new Cutscene.Keyframe();
+            keyframe._time = TimeSpan.FromSeconds(0.0);
+            keyframe.scale = 2.0f;
+            background.keyframeList.Add(keyframe);
+            Cutscene.Keyframe keyframe2 = new Cutscene.Keyframe(keyframe);
+            keyframe2._time = TimeSpan.FromSeconds(30.0);
+            background.keyframeList.Add(keyframe2);
+            scene.items.Add(background);
+            #endregion
+            #region KEYS
+            TimeSpan[] keyframeTime = {
+                                          TimeSpan.FromSeconds(11.0),
+                                          TimeSpan.FromSeconds(15.0),
+                                          TimeSpan.FromSeconds(15.7),
+                                          TimeSpan.FromSeconds(16.4),
+                                          TimeSpan.FromSeconds(17.1),
+                                          TimeSpan.FromSeconds(17.8),
+                                          TimeSpan.FromSeconds(18.5),
+                                          TimeSpan.FromSeconds(19.2),
+                                          TimeSpan.FromSeconds(19.9),
+                                          TimeSpan.FromSeconds(20.6),
+                                          TimeSpan.FromSeconds(21.3),
+                                          TimeSpan.FromSeconds(23.2)
+                                      };
+            int currentKey = 11;
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 5 - i; j++)
+                {
+                    Cutscene.Image key = new Cutscene.Image();
+                    key.textureName = "key";
+                    Cutscene.Keyframe keykeyframe0 = new Cutscene.Keyframe(keyframe);
+                    keykeyframe0.position = new Vector2(20 + j * 12 + i * 6, 122 - i * 16);
+                    key.keyframeList.Add(keykeyframe0);
+
+                    Cutscene.Keyframe keykeyframe1 = new Cutscene.Keyframe(keyframe2);
+                    keykeyframe1.position = keykeyframe0.position;
+                    keykeyframe1._time = keyframeTime[currentKey];
+                    key.keyframeList.Add(keykeyframe1);
+
+                    Cutscene.Keyframe keykeyframe2 = new Cutscene.Keyframe(keykeyframe1);
+                    keykeyframe2.position = new Vector2(63, 94);
+                    keykeyframe2._time = keyframeTime[currentKey] + TimeSpan.FromSeconds(0.5);
+                    //if (currentKey == 11)
+                    //    keykeyframe2._time += TimeSpan.FromSeconds(1.3);
+                    key.keyframeList.Add(keykeyframe2);
+
+                    if (currentKey == 11)
+                    {
+                        Cutscene.Keyframe keykeyframe2andhalf1 = new Cutscene.Keyframe(keykeyframe2);
+                        keykeyframe2andhalf1._time += TimeSpan.FromSeconds(1.3);
+                        key.keyframeList.Add(keykeyframe2andhalf1);
+
+                        Cutscene.Keyframe keykeyframe2andhalf2 = new Cutscene.Keyframe(keykeyframe2andhalf1);
+                        keykeyframe2andhalf2.position = new Vector2(73, 94);
+                        keykeyframe2andhalf2._time += TimeSpan.FromSeconds(2.5);
+                        key.keyframeList.Add(keykeyframe2andhalf2);
+                    }
+                    
+                    Cutscene.Keyframe keykeyframe3 = new Cutscene.Keyframe(keykeyframe2);
+                    keykeyframe3._time = keyframeTime[currentKey] + TimeSpan.FromSeconds(2.0);
+                    if (currentKey == 11)
+                        keykeyframe3._time += TimeSpan.FromSeconds(3.8);
+                    keykeyframe3.position = new Vector2(293, 94);
+                    key.keyframeList.Add(keykeyframe3);   
+
+                    scene.items.Add(key);
+                    currentKey--;
+                }
+            }
+            #endregion
+            #region MAIN_PIKPOK
+            Cutscene.AnimatedImage pikpok = new Cutscene.AnimatedImage();
+            pikpok.textureName = "enemies_16x16";
+            pikpok.reverse = false;
+            pikpok.frameCount = Config.ANIM_FRAMES;
+            pikpok.frameTime = Config.DEFAULT_ANIMATION_SPEED;
+            pikpok.startFrame = new Rectangle(0,0, 16, 16);
+
+            Cutscene.Keyframe pikpok_keyframe1 = new Cutscene.Keyframe();
+            pikpok_keyframe1._time = TimeSpan.FromSeconds(2.0);
+            pikpok_keyframe1.position = new Vector2(280, 106);
+            pikpok_keyframe1.scale = 2.0f;
+            pikpok.keyframeList.Add(pikpok_keyframe1);
+
+            Cutscene.Keyframe pikpok_keyframe2 = new Cutscene.Keyframe();
+            pikpok_keyframe2.scale = 2.0f;
+            pikpok_keyframe2.position = new Vector2(150, 106);
+            pikpok_keyframe2._time = TimeSpan.FromSeconds(7.0);
+            pikpok_keyframe2.animated = false;
+            pikpok.keyframeList.Add(pikpok_keyframe2);
+
+            Cutscene.Keyframe pikpok_keyframe3 = new Cutscene.Keyframe();
+            pikpok_keyframe3.scale = 2.0f;
+            pikpok_keyframe3.position = new Vector2(150, 106);
+            pikpok_keyframe3._time = TimeSpan.FromSeconds(10.0);
+            pikpok_keyframe3.animated = true;
+            pikpok.keyframeList.Add(pikpok_keyframe3);
+
+            Cutscene.Keyframe pikpok_keyframe4 = new Cutscene.Keyframe();
+            pikpok_keyframe4.scale = 2.0f;
+            pikpok_keyframe4.position = new Vector2(50, 106);
+            pikpok_keyframe4._time = TimeSpan.FromSeconds(11.0);
+            pikpok_keyframe4.animated = false;
+            pikpok.keyframeList.Add(pikpok_keyframe4);
+
+            Cutscene.Keyframe pikpok_keyframe5 = new Cutscene.Keyframe();
+            pikpok_keyframe5.scale = 2.0f;
+            pikpok_keyframe5.position = new Vector2(50, 106);
+            pikpok_keyframe5._time = TimeSpan.FromSeconds(11.5);
+            pikpok_keyframe5.animated = true;
+            pikpok.keyframeList.Add(pikpok_keyframe5);
+
+            Cutscene.Keyframe pikpok_keyframe6 = new Cutscene.Keyframe();
+            pikpok_keyframe6.scale = 2.0f;
+            pikpok_keyframe6.position = new Vector2(280, 106);
+            pikpok_keyframe6._time = TimeSpan.FromSeconds(13.0);
+            pikpok.keyframeList.Add(pikpok_keyframe6);
+
+            scene.items.Add(pikpok);
+            #endregion
+            TimeSpan baseTimeSpan;
+            #region REST_PIKPOK
+            for (int i = 0; i < 10; i++)
+            {
+                baseTimeSpan = TimeSpan.FromSeconds(i * 0.7);
+                pikpok = new Cutscene.AnimatedImage();
+                pikpok.textureName = "enemies_16x16";
+                pikpok.reverse = false;
+                pikpok.frameCount = Config.ANIM_FRAMES;
+                pikpok.frameTime = Config.DEFAULT_ANIMATION_SPEED;
+                pikpok.startFrame = new Rectangle(0, 0, 16, 16);
+
+                pikpok_keyframe1 = new Cutscene.Keyframe();
+                pikpok_keyframe1._time = TimeSpan.FromSeconds(13.5) + baseTimeSpan;
+                pikpok_keyframe1.position = new Vector2(280, 106);
+                pikpok_keyframe1.scale = 2.0f;
+                pikpok.keyframeList.Add(pikpok_keyframe1);
+
+                pikpok_keyframe4 = new Cutscene.Keyframe();
+                pikpok_keyframe4.scale = 2.0f;
+                pikpok_keyframe4.position = new Vector2(50, 106);
+                pikpok_keyframe4._time = TimeSpan.FromSeconds(15.0) + baseTimeSpan;
+                pikpok_keyframe4.animated = false;
+                pikpok.keyframeList.Add(pikpok_keyframe4);
+
+                pikpok_keyframe5 = new Cutscene.Keyframe();
+                pikpok_keyframe5.scale = 2.0f;
+                pikpok_keyframe5.position = new Vector2(50, 106);
+                pikpok_keyframe5._time = TimeSpan.FromSeconds(15.5) + baseTimeSpan;
+                pikpok_keyframe5.animated = true;
+                pikpok.keyframeList.Add(pikpok_keyframe5);
+
+                pikpok_keyframe6 = new Cutscene.Keyframe();
+                pikpok_keyframe6.scale = 2.0f;
+                pikpok_keyframe6.position = new Vector2(280, 106);
+                pikpok_keyframe6._time = TimeSpan.FromSeconds(17.0) + baseTimeSpan;
+                pikpok.keyframeList.Add(pikpok_keyframe6);
+
+                scene.items.Add(pikpok);
+            }
+            #endregion
+            #region LATE_PIKPOK
+            baseTimeSpan = TimeSpan.FromSeconds(8.0);
+            pikpok = new Cutscene.AnimatedImage();
+            pikpok.textureName = "enemies_16x16";
+            pikpok.reverse = false;
+            pikpok.frameCount = Config.ANIM_FRAMES;
+            pikpok.frameTime = Config.DEFAULT_ANIMATION_SPEED;
+            pikpok.startFrame = new Rectangle(0, 0, 16, 16);
+
+            pikpok_keyframe1 = new Cutscene.Keyframe();
+            pikpok_keyframe1._time = TimeSpan.FromSeconds(13.5) + baseTimeSpan;
+            pikpok_keyframe1.position = new Vector2(280, 106);
+            pikpok_keyframe1.scale = 2.0f;
+            pikpok.keyframeList.Add(pikpok_keyframe1);
+
+            pikpok_keyframe4 = new Cutscene.Keyframe();
+            pikpok_keyframe4.scale = 2.0f;
+            pikpok_keyframe4.position = new Vector2(50, 106);
+            pikpok_keyframe4._time = TimeSpan.FromSeconds(15.2) + baseTimeSpan;
+            pikpok_keyframe4.animated = false;
+            pikpok.keyframeList.Add(pikpok_keyframe4);
+
+            pikpok_keyframe5 = new Cutscene.Keyframe();
+            pikpok_keyframe5.scale = 2.0f;
+            pikpok_keyframe5.position = new Vector2(50, 106);
+            pikpok_keyframe5._time = TimeSpan.FromSeconds(17.0) + baseTimeSpan;
+            pikpok_keyframe5.animated = false;
+            pikpok.keyframeList.Add(pikpok_keyframe5);
+
+            pikpok_keyframe6 = new Cutscene.Keyframe();
+            pikpok_keyframe6.scale = 2.0f;
+            pikpok_keyframe6.position = new Vector2(60, 106);
+            pikpok_keyframe6._time = TimeSpan.FromSeconds(19.5) + baseTimeSpan;
+            pikpok_keyframe6.animated = true;
+            pikpok.keyframeList.Add(pikpok_keyframe6);
+
+            var pikpok_keyframe7 = new Cutscene.Keyframe();
+            pikpok_keyframe7.scale = 2.0f;
+            pikpok_keyframe7.position = new Vector2(280, 106);
+            pikpok_keyframe7._time = TimeSpan.FromSeconds(21.0) + baseTimeSpan;
+            pikpok.keyframeList.Add(pikpok_keyframe7);
+
+            scene.items.Add(pikpok);
+
+            #endregion
+            #region PLAYER
+            Vector2 startVector = new Vector2(-15.0f, 106);
+            Vector2 endVector = new Vector2(15.0f, 106);
+
+            var playerItem = Cutscene.AnimatedImage.Player(startVector, endVector, TimeSpan.FromSeconds(22.0), 15.0f, 2.0f);
+            Cutscene.Keyframe last = new Cutscene.Keyframe(playerItem.keyframeList[1]);
+            last._time = TimeSpan.FromSeconds(30.0);
+
+            scene.items.Add(playerItem);
+
+            var playerItemShocked = Cutscene.AnimatedImage.Player(endVector, endVector, TimeSpan.FromSeconds(24), 5.0f, 2.0f);
+            playerItemShocked.staticFrame = 1;
+            playerItemShocked.startFrame = new Rectangle(24, 16, 8, 16);
+            playerItemShocked.keyframeList[0].animated = false;
+            playerItemShocked.keyframeList[1]._time = TimeSpan.FromSeconds(25.5);
+            playerItemShocked.keyframeList[1].animated = false;
+            Cutscene.Keyframe playerKeyframe0 = new Cutscene.Keyframe(playerItemShocked.keyframeList[1]);
+            playerKeyframe0._time = TimeSpan.FromSeconds(27.5);
+            playerKeyframe0.position.X += 10;
+            playerItemShocked.keyframeList.Add(playerKeyframe0);
+            scene.items.Add(playerItemShocked);
+
+            var playerItemScared = Cutscene.AnimatedImage.Player(endVector + new Vector2(10, 0), endVector + new Vector2(10, 0), TimeSpan.FromSeconds(27.5), 10.0f, 2.0f);
+            playerItemScared.startFrame = new Rectangle(32, 16, 8, 16);
+            playerItemScared.keyframeList[1]._time += TimeSpan.FromSeconds(1);
+
+            Cutscene.Keyframe playerKeyframe1 = new Cutscene.Keyframe(playerItemScared.keyframeList[1]);
+            playerKeyframe1._time += TimeSpan.FromSeconds(1.5);
+            playerKeyframe1.position.X += 240;
+            playerItemScared.keyframeList.Add(playerKeyframe1);
+            scene.items.Add(playerItemScared);
+
+            #endregion
+
+            #region QUESTIONMARK
+            Cutscene.Image questionMark = new Cutscene.Image();
+            questionMark.textureName = "question";
+            Cutscene.Keyframe questionKeyframe0 = new Cutscene.Keyframe();
+            questionKeyframe0.scale = 2.0f;
+            questionKeyframe0._time = TimeSpan.FromSeconds(7.0);
+            questionKeyframe0.position = new Vector2(160, 90);
+            Cutscene.Keyframe questionKeyframe1 = new Cutscene.Keyframe(questionKeyframe0);
+            questionKeyframe1._time = TimeSpan.FromSeconds(8.5);
+            questionMark.keyframeList.Add(questionKeyframe0);
+            questionMark.keyframeList.Add(questionKeyframe1);
+            scene.items.Add(questionMark);
+            #endregion
+            #region EXCLAMATIONMARK
+            Cutscene.Image exclamationMark = new Cutscene.Image();
+            exclamationMark.textureName = "exclamation";
+            Cutscene.Keyframe exclamationKeyframe0 = new Cutscene.Keyframe();
+            exclamationKeyframe0.scale = 2.0f;
+            exclamationKeyframe0._time = TimeSpan.FromSeconds(8.5);
+            exclamationKeyframe0.position = new Vector2(160, 90);
+            Cutscene.Keyframe exclamationKeyframe1 = new Cutscene.Keyframe(exclamationKeyframe0);
+            exclamationKeyframe1._time = TimeSpan.FromSeconds(10.0);
+            exclamationMark.keyframeList.Add(exclamationKeyframe0);
+            exclamationMark.keyframeList.Add(exclamationKeyframe1);
+            scene.items.Add(exclamationMark);
+            #endregion
+
+            cutsceneState.scenes.Add(scene);            
+            scene.Init();
+
+            Globals.gameStateManager.RegisterState(1200, cutsceneState);            
         }
 
         private void LoadContent()
@@ -122,7 +412,7 @@ namespace PixelPerfect
             LoadTextures();
             LoadSprites();
             LoadSounds();
-            LoadMusic();
+            LoadMusic();            
         }
 
         private void LoadTextures()

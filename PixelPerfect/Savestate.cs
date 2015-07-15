@@ -79,6 +79,20 @@ namespace PixelPerfect
             var newSaveState = new Savestate();
             newSaveState.levelSaves = new Dictionary<string,Levelsave>(levelSaves);
 
+#if !DEBUG
+            // randomize suits for achieved trophies
+            int rndNumber = 0;
+
+            for (int i = 0; i < (World.BeatPerfektTimeCount() / 3); i++)
+            {
+                do
+                {
+                    rndNumber = Globals.rnd.Next(Config.Player.SUIT_QTY - 1);
+                }
+                while (newSaveState.suitUnlocked[rndNumber]);
+                newSaveState.suitUnlocked[rndNumber] = true;
+            }
+#endif
             return newSaveState;
         }
 

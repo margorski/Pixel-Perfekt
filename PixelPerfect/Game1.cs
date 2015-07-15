@@ -29,7 +29,7 @@ namespace PixelPerfect
         //private float margin = 0.0f;
 
         public Game1()
-        {
+        {                        
             graphics = new GraphicsDeviceManager(this);
             Globals.graphics = graphics;
             Globals.content = Content;
@@ -44,7 +44,7 @@ namespace PixelPerfect
             InactiveSleepTime = TimeSpan.FromSeconds(1);
 #else
             this.IsMouseVisible = true;                   
-#endif
+#endif            
             ScaleScreen();
             Content.RootDirectory = "Content";
 

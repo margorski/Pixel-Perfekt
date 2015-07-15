@@ -18,10 +18,24 @@ namespace PixelPerfect
         private int frameTime;
         private bool reverse;
 
-        private int currentFrame;
+        public int currentFrame
+        {
+            set
+            {
+                if (value >= frameCount)
+                    return;
+                _currentFrame = value;
+            }
+            get
+            {
+                return _currentFrame;
+            }
+        }
+
+        private int _currentFrame;
         private TimeSpan currentTime;
         private bool backward;
-
+        
         public Animation(int frameCount, int frameTime, bool reverse)
         {
             currentTime = TimeSpan.Zero;
@@ -45,41 +59,37 @@ namespace PixelPerfect
 
         private void NextFrameNormal()
         {
-            currentFrame++;
-            if (currentFrame >= frameCount)
-                currentFrame = 0;
+            _currentFrame++;
+            if (_currentFrame >= frameCount)
+                _currentFrame = 0;
         }
 
         private void NextFrameReverse()
         {
             if (backward)
             {
-                currentFrame--;
-                if (currentFrame < 0)
+                _currentFrame--;
+                if (_currentFrame < 0)
                 {
                     backward = false;
-                    currentFrame = 1;
+                    _currentFrame = 1;
                 }
             }
             else
             {
-                currentFrame++;
-                if (currentFrame >= frameCount)
+                _currentFrame++;
+                if (_currentFrame >= frameCount)
                 {
-                    currentFrame = frameCount - 2;
+                    _currentFrame = frameCount - 2;
                     backward = true;
                 }
             }
         }
 
-        public int GetCurrentFrame()
-        {
-            return currentFrame;
-        }
 
         public void Reset()
         {
-            currentFrame = 0;
+            _currentFrame = 0;
             currentTime = TimeSpan.Zero;
         }
     }

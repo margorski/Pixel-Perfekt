@@ -88,12 +88,12 @@ namespace PixelPerfect
             spriteBatch.DrawString(Globals.silkscreenFont, "TAP TO", new Vector2(40, 20), Color.White, 0.0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.0f);
             spriteBatch.Draw(Globals.textureDictionary["tap"], new Vector2(54, 34), new Rectangle(0, (reverseClick ? 24 : 0) , 24, 24), Color.White);
             spriteBatch.DrawString(Globals.silkscreenFont, "REVERSE", new Vector2(40, 64), Color.White, 0.0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.0f);
-            spriteBatch.Draw(Globals.spritesDictionary["player"].texture, new Rectangle(86, 40, 8, 16), new Rectangle(0, (playerRunAnimation.GetCurrentFrame() + 1) * 16, 8, 16), Color.White, 0.0f, Vector2.Zero, (reverse ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0.0f);
+            spriteBatch.Draw(Globals.spritesDictionary["player"].texture, new Rectangle(86, 40, 8, 16), new Rectangle(0, (playerRunAnimation.currentFrame + 1) * 16, 8, 16), Color.White, 0.0f, Vector2.Zero, (reverse ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0.0f);
 
             spriteBatch.DrawString(Globals.silkscreenFont, "HOLD TO", new Vector2(40, 94), Color.White, 0.0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.0f);
-            spriteBatch.Draw(Globals.textureDictionary["tap"], new Vector2(54, 108), new Rectangle(0, 24 * stopTapAnimation.GetCurrentFrame(), 24, 24), Color.White);
+            spriteBatch.Draw(Globals.textureDictionary["tap"], new Vector2(54, 108), new Rectangle(0, 24 * stopTapAnimation.currentFrame, 24, 24), Color.White);
             spriteBatch.DrawString(Globals.silkscreenFont, "STOP", new Vector2(52, 138), Color.White, 0.0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.0f);
-            spriteBatch.Draw(Globals.spritesDictionary["player"].texture, new Vector2(86, 114), new Rectangle(0, stopTapAnimation.GetCurrentFrame() == 0 ? (playerRunAnimation.GetCurrentFrame() + 1) * 16 : 0, 8, 16), Color.White);
+            spriteBatch.Draw(Globals.spritesDictionary["player"].texture, new Vector2(86, 114), new Rectangle(0, stopTapAnimation.currentFrame == 0 ? (playerRunAnimation.currentFrame + 1) * 16 : 0, 8, 16), Color.White);
 
             spriteBatch.DrawString(Globals.silkscreenFont, "RIGHT SIDE", new Vector2((Config.SCREEN_WIDTH_SCALED / 4) * 3 - 40, 2), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(Globals.silkscreenFont, "TAP TO", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 44, 50), Color.White, 0.0f, Vector2.Zero, 1.3f, SpriteEffects.None, 0.0f);

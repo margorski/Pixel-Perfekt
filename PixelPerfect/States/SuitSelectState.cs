@@ -221,7 +221,7 @@ namespace PixelPerfect
                 {
                     spriteBatch.Draw(Globals.spritesDictionary["player"].texture, new Vector2(suitButton.rectangle.X + 8, suitButton.rectangle.Y + 4),
                                  new Rectangle((currentButton * 5 + World.LastActiveWorld()) * Config.Player.WIDTH,
-                                                (stopped ? 0 : (Config.Player.HEIGHT) * (playerAnimation.GetCurrentFrame() + 1)),
+                                                (stopped ? 0 : (Config.Player.HEIGHT) * (playerAnimation.currentFrame + 1)),
                                                 Config.Player.WIDTH, Config.Player.HEIGHT), Color.White);
                     var textPosition = new Vector2(suitButton.rectangle.X + suitButton.rectangle.Width / 2,
                                                    suitButton.rectangle.Y + suitButton.rectangle.Height);

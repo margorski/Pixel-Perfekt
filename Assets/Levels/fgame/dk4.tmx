@@ -29,7 +29,7 @@
    <property name="sizex" value="32"/>
    <property name="sizey" value="32"/>
    <property name="speed" value="40"/>
-   <property name="speedx" value="15"/>
+   <property name="speedx" value="10"/>
    <property name="speedy" value="15"/>
    <property name="texture" value="enemies_32x32"/>
   </properties>

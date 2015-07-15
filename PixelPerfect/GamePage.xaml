@@ -22,10 +22,14 @@
 
         <!-- Media element for audio -->
         <MediaElement></MediaElement>
-        <!--<adRotator:AdRotatorControl x:Name="AdRotator" AdHeight="90" AdWidth="480"
-                                    LocalSettingsLocation="defaultAdSettings.xml"
-                                    AutoStartAds="True" VerticalAlignment="Bottom" Margin="0 0 0 -4"
-                                    IsEnabled="True" Visibility="Collapsed" />-->
+        <adRotator:AdRotatorControl x:Name="AdRotator" 
+                                    AdWidth="800"
+                                    AdHeight="90"                                 
+                                    RemoteSettingsLocation="https://dl.dropboxusercontent.com/u/66210036/defaultAdSettings.xml"
+                                    VerticalAlignment="Bottom" 
+                                    HorizontalAlignment="Center"                              
+                                    AutoStartAds="True"
+                                    />
         <!-- LOCALIZATION NOTE:
             To localize the displayed strings copy their values to appropriately named
             keys in the app's neutral language resource file (AppResources.resx) then

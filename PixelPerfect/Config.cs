@@ -25,7 +25,8 @@ namespace PixelPerfect
         public const int DRAW_OFFSET_Y = 0;
         public const bool CENTER_PIVOT = true;
         public const int ANIM_FRAMES = 4;
-
+        public const int AD_TIMER = 60; // s
+        
         public const int SKIP_AMOUNT = 3;
 
         public static Color[] boomColors = { Color.White, Color.Red, Color.Blue, Color.LightSeaGreen, Color.OrangeRed, Color.Crimson, 
@@ -171,7 +172,7 @@ namespace PixelPerfect
 
         public struct Hud
         {
-            public const int HUD_HEIGHT = 3 * Tile.SIZE + 1;
+            public const int HUD_HEIGHT = 3 * Tile.SIZE + 3;
             public const int AVATAR_POSITION_Y = Config.SCREEN_HEIGHT_SCALED - HUD_HEIGHT;
             public const int AVATAR_POSITION_X = 20;
             public const int TEXT_POSITION_Y = AVATAR_POSITION_Y;            

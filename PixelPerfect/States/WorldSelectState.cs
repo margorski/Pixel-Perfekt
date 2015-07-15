@@ -562,8 +562,8 @@ namespace PixelPerfect
 
             bool walking = (state == MenuState.FLOATING || state == MenuState.SLIDING);
             spriteBatch.Draw(Globals.spritesDictionary["player"].texture,
-                             new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - (Config.Menu.BOINGS_SIZE * 5 + Config.Menu.BOINGS_SPACE * 4) / 2 - 3 + (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) * selectedWorld + (int)(progressBetweenLevels * (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE)), 
-                                          Config.Menu.BOINGS_OFFSET_Y - 20, 8, 16), new Rectangle(0, walking ? (playerAnimation.GetCurrentFrame() + 1) * 16 : 0, 8, 16), Color.White);
+                             new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - (Config.Menu.BOINGS_SIZE * 5 + Config.Menu.BOINGS_SPACE * 4) / 2 - 3 + (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE) * selectedWorld + (int)(progressBetweenLevels * (Config.Menu.BOINGS_SIZE + Config.Menu.BOINGS_SPACE)),
+                                          Config.Menu.BOINGS_OFFSET_Y - 20, 8, 16), new Rectangle(0, walking ? (playerAnimation.currentFrame + 1) * 16 : 0, 8, 16), Color.White);
         }
     }
 }

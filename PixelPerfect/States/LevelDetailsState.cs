@@ -255,8 +255,8 @@ namespace PixelPerfect
             Util.DrawStringAligned(spriteBatch, "PERFEKT TIME: " + Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].time.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.Gold, new Rectangle(0, 104, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(16, 0), Util.Align.Center);
             Util.DrawStringAligned(spriteBatch, timeString, Globals.silkscreenFont, timeColor, new Rectangle(0, 117, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(19, 0), Util.Align.Left);
             spriteBatch.Draw(Globals.textureDictionary["clock"], new Vector2(8, 117), timeColor);
-            Util.DrawStringAligned(spriteBatch, deathsString, Globals.silkscreenFont, deathColor, new Rectangle(0, 117, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(3, 0), Util.Align.Right);
-            spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(178, 117), deathColor);
+            spriteBatch.DrawString(Globals.silkscreenFont, deathsString, new Vector2(176, 117), deathColor);
+            spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(166, 117), deathColor);
 
             DrawMiniMap(spriteBatch);
             skipButton.Draw(spriteBatch);
