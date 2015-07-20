@@ -143,6 +143,10 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\..\..\..\Users\Mariusz\Dropbox\Public\defaultAdSettings.xml">
+      <Link>defaultAdSettings.xml</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="..\Assets\Levels\worlds.xml">
       <Link>Levels\worlds.xml</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -353,7 +357,6 @@
     </Content>
     <Content Include="pikpok.png" />
     <Content Include="pikpok_small.png" />
-    <Content Include="ReleaseNotes.txt" />
     <Content Include="..\Content\Content\bin\PSM\Content\tileset_mini.xnb">
       <Link>Content\tileset_mini.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -707,6 +710,10 @@
       <Link>Content\cutscenes\question.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\cutscenes\credits.xnb">
+      <Link>Content\cutscenes\credits.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -774,6 +781,10 @@
     <Reference Include="MonoGame.Framework, Version=3.4.0.456, Culture=neutral, processorArchitecture=MSIL" />
     <Reference Include="protobuf-net">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\windowsphone8\protobuf-net.dll</HintPath>
+    </Reference>
+    <Reference Include="RateMyApp, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\RateMyApp.1.1.0\lib\sl4-wp71\RateMyApp.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />

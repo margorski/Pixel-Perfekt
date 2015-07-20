@@ -22,14 +22,14 @@ namespace PixelPerfect.Cutscene
             set { _duration = TimeSpan.Parse(value); }
         }
         public TimeSpan _duration;
-        public string backroundMusic = "";
+        public int backroundMusic = -1;
         public Color backgroundColor = Color.Transparent;
         public Texture2D gradientTexture = null;
         private Song music;
 
         public void Init()
         {
-            foreach (Image item in items)
+            foreach (Item item in items)
                 item.Init();
 
             //foreach (Text text in texts)
@@ -38,9 +38,9 @@ namespace PixelPerfect.Cutscene
             foreach (Sound sound in sounds)
                 sound.Init();
 
-            if (backroundMusic != "")
+            if (backroundMusic > -1)
             {
-                music = Globals.content.Load<Song>(backroundMusic);
+                music = Globals.backgroundMusicList[backroundMusic];
                 if (music != null)
                     MediaPlayer.Play(music);
             }

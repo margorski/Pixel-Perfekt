@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.IO;
+using System.IO.IsolatedStorage;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -50,7 +51,6 @@ namespace PixelPerfect
 
         public TimeSpan levelTime { private set; get; }
         
-        //Button resetButton;
         
         private Texture2D backgroundTexture = Util.GetGradientTexture(1, Config.SCREEN_HEIGHT_SCALED, Color.MidnightBlue, Color.DarkSlateBlue, Util.GradientType.Horizontal);
 
@@ -59,6 +59,7 @@ namespace PixelPerfect
         private bool menuLevel = false;
 
 #if WINDOWS
+        #region CHANGE_COLORS
         private void PreviousColor1()
         {
             if (--levelColors.color1 < 0)
@@ -189,6 +190,7 @@ namespace PixelPerfect
                 levelColors.tilecolor = Globals.colorList.Count - 1;
             Globals.tilesColor = Globals.colorList[levelColors.tilecolor];
         }
+        #endregion
 #endif
 
         private void ReloadGradientTexture()
@@ -235,14 +237,27 @@ namespace PixelPerfect
             ResetInput();
             //if (!menuLevel)
             //    Reset(true);
-            if (Globals.musicEnabled && !menuLevel)
-                MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
+
             if (!menuLevel)
             {
                 if (Globals.selectedLevel == 0 && Globals.selectedWorld == 0)
+                {
                     Globals.gameStateManager.PushState(Config.States.CONTROLS);
+//                    if (!Globals.firstCutscene)
+//                    {
+//#if !WINDOWS
+//                        Globals.firstCutscene = true;
+//                        IsolatedStorageSettings.ApplicationSettings["cutscene1"] = Globals.firstCutscene;
+//                        IsolatedStorageSettings.ApplicationSettings.Save();
+//#endif
+                        Globals.gameStateManager.PushState(Config.States.FIRST_CUTSCENE);
+                    //}
+                }
                 else
                     Globals.gameStateManager.PushState(Config.States.TAP);
+
+                if (Globals.musicEnabled && !menuLevel)
+                    MediaPlayer.Play(Globals.backgroundMusicList[map.music]);
             }
         }
 

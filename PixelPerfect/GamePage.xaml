@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:adRotator="clr-namespace:AdRotator;assembly=AdRotator"
+    xmlns:rma="clr-namespace:RateMyApp.Controls;assembly=RateMyApp"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -26,10 +27,19 @@
                                     AdWidth="800"
                                     AdHeight="90"                                 
                                     RemoteSettingsLocation="https://dl.dropboxusercontent.com/u/66210036/defaultAdSettings.xml"
+                                    LocalSettingsLocation="defaultAdSettings.xml"                                    
                                     VerticalAlignment="Bottom" 
                                     HorizontalAlignment="Center"                              
                                     AutoStartAds="True"
                                     />
+        <rma:FeedbackOverlay x:Name="FeedbackOverlay"
+                             FeedbackTo="pixelperfektgam@gmail.com"
+                             EnableAnimation="True"
+                             Grid.RowSpan="2"
+                             ApplicationName="Pixel Perfekt"
+                             CompanyName="Gorsky"
+                             FirstCount="2"
+                             CountDays="True"/>
         <!-- LOCALIZATION NOTE:
             To localize the displayed strings copy their values to appropriately named
             keys in the app's neutral language resource file (AppResources.resx) then

@@ -28,7 +28,8 @@ namespace PixelPerfect
             {"shockedLevel", "moods\\level_shocked"}, {"scaredLevel", "moods\\level_scared"}, {"keylockLevel", "keylock_small"}, {"trophy", "menu\\trophy"},
             {"skull", "menu\\skull"}, {"clock", "menu\\clock"}, {"tap", "menu\\tap"}, {"next", "menu\\next"}, {"restart", "menu\\restart"},
             {"suit", "menu\\shirt"}, {"suitbutton", "menu\\suitebtn"}, {"suitbuttonlocked", "menu\\suitebtnlocked"}, {"miniDoor", "door_mini"},
-            {"key", "key"}, {"cutscene1", "cutscenes\\cutscene1"}, {"exclamation", "cutscenes\\exclamation"}, {"question", "cutscenes\\question"}
+            {"key", "key"}, {"cutscene1", "cutscenes\\cutscene1"}, {"exclamation", "cutscenes\\exclamation"}, {"question", "cutscenes\\question"},
+            {"credits", "cutscenes\\credits"}
         };
 
         public override void Enter(int previousStateId)
@@ -53,9 +54,9 @@ namespace PixelPerfect
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            Vector2 position = new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - logo.Width / 2,
-                                           Config.SCREEN_HEIGHT_SCALED / 2 - logo.Height / 2);
-            spriteBatch.Draw(logo, position, Color.White);
+            Vector2 position = new Vector2(Config.SCREEN_WIDTH_SCALED / 2,
+                                           Config.SCREEN_HEIGHT_SCALED / 2);
+            spriteBatch.Draw(logo, position, null, Color.White, 0.0f, new Vector2(logo.Width /2 , logo.Height / 2), 0.5f, SpriteEffects.None, 0.0f);
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool suspended)
@@ -64,7 +65,7 @@ namespace PixelPerfect
             {
                 task = new Task(() =>
                 {
-                        LoadContent();
+                    LoadContent();
                     RegisterStates();
                     Theme.ReloadTheme(World.LastActiveWorld());
                 });
@@ -77,7 +78,7 @@ namespace PixelPerfect
                 Globals.gameStateManager.PushState(Config.States.BACKGROUND);
                 Globals.gameStateManager.PushState(Config.States.DUMMY);
                 Globals.gameStateManager.PushState(Config.States.TITLESCREEN);
-                Globals.gameStateManager.PushState(1200);
+                //Globals.gameStateManager.PushState(Config.States.FIFTH_CUTSCENE);
             }
         }
 
@@ -123,10 +124,16 @@ namespace PixelPerfect
         }
 
         private void PrepareCutscenes()
+        {
+            PrepareFirstCutscene();
+            PrepareLastCutscene();
+        }
+
+        private void PrepareFirstCutscene()
         {            
             Cutscene.CutsceneState cutsceneState = new Cutscene.CutsceneState();
             Cutscene.Scene scene = new Cutscene.Scene();
-            scene._duration = TimeSpan.FromSeconds(30.0);
+            scene._duration = TimeSpan.FromSeconds(32.0);
             #region BACKGROUND
             Cutscene.Image background = new Cutscene.Image();
             background.textureName = "cutscene1";
@@ -244,11 +251,16 @@ namespace PixelPerfect
             pikpok_keyframe5.animated = true;
             pikpok.keyframeList.Add(pikpok_keyframe5);
 
+            Cutscene.Sound sound = new Cutscene.Sound();
+            sound.soundName = "coin";
+            sound._time = TimeSpan.FromSeconds(11.5);
+
             Cutscene.Keyframe pikpok_keyframe6 = new Cutscene.Keyframe();
             pikpok_keyframe6.scale = 2.0f;
             pikpok_keyframe6.position = new Vector2(280, 106);
             pikpok_keyframe6._time = TimeSpan.FromSeconds(13.0);
             pikpok.keyframeList.Add(pikpok_keyframe6);
+            scene.sounds.Add(sound);
 
             scene.items.Add(pikpok);
             #endregion
@@ -283,6 +295,10 @@ namespace PixelPerfect
                 pikpok_keyframe5._time = TimeSpan.FromSeconds(15.5) + baseTimeSpan;
                 pikpok_keyframe5.animated = true;
                 pikpok.keyframeList.Add(pikpok_keyframe5);
+                Cutscene.Sound sound2 = new Cutscene.Sound(sound);
+                sound2.soundName = "coin";
+                sound2._time = TimeSpan.FromSeconds(15.5) + baseTimeSpan;
+                scene.sounds.Add(sound2);
 
                 pikpok_keyframe6 = new Cutscene.Keyframe();
                 pikpok_keyframe6.scale = 2.0f;
@@ -321,6 +337,10 @@ namespace PixelPerfect
             pikpok_keyframe5._time = TimeSpan.FromSeconds(17.0) + baseTimeSpan;
             pikpok_keyframe5.animated = false;
             pikpok.keyframeList.Add(pikpok_keyframe5);
+            Cutscene.Sound sound3 = new Cutscene.Sound(sound);
+            sound3.soundName = "coin";
+            sound3._time = TimeSpan.FromSeconds(23.7);
+            scene.sounds.Add(sound3);
 
             pikpok_keyframe6 = new Cutscene.Keyframe();
             pikpok_keyframe6.scale = 2.0f;
@@ -402,8 +422,137 @@ namespace PixelPerfect
             cutsceneState.scenes.Add(scene);            
             scene.Init();
 
-            Globals.gameStateManager.RegisterState(1200, cutsceneState);            
+            Globals.gameStateManager.RegisterState(Config.States.FIRST_CUTSCENE, cutsceneState);            
         }
+
+        private void PrepareLastCutscene()
+        {
+            TimeSpan endTime = TimeSpan.FromSeconds(100.0);
+            Cutscene.CutsceneState cutsceneState = new Cutscene.CutsceneState();            
+            Cutscene.Scene scene = new Cutscene.Scene();
+            scene._duration = endTime;
+            scene.backgroundColor = Color.Black;
+            Cutscene.Image background = new Cutscene.Image();
+            background.textureName = "credits";
+            Cutscene.Keyframe startKeyframe = new Cutscene.Keyframe();
+            startKeyframe._time = TimeSpan.Zero;
+            startKeyframe.position = new Vector2(0, Config.SCREEN_HEIGHT_SCALED);            
+            background.keyframeList.Add(startKeyframe);
+            Cutscene.Keyframe endKeyframe = new Cutscene.Keyframe();
+            endKeyframe._time = endTime;
+            endKeyframe.position = new Vector2(0, -(Globals.textureDictionary["credits"].Height - Config.SCREEN_HEIGHT_SCALED));
+            background.keyframeList.Add(endKeyframe);
+
+            Cutscene.Text text = new Cutscene.Text();
+            text.text = "CONGRATULATIONS! \n\nCONSIDER YOURSELF\nA HERO!";
+            Cutscene.Keyframe textkeyframe = new Cutscene.Keyframe(startKeyframe);
+            textkeyframe.printedLetters = text.text.Length;
+            textkeyframe.position = new Vector2(80,100);
+            textkeyframe.scale = 1.4f;
+            textkeyframe.color = Color.White;
+            text.keyframeList.Add(textkeyframe);
+            endKeyframe = new Cutscene.Keyframe(textkeyframe);
+            endKeyframe._time = TimeSpan.FromSeconds(10);
+            text.keyframeList.Add(endKeyframe);
+
+            scene.items.Add(background);
+            scene.items.Add(text);
+            cutsceneState.scenes.Add(scene);
+            scene.Init();
+
+            Globals.gameStateManager.RegisterState(Config.States.FIFTH_CUTSCENE, cutsceneState);            
+        }
+
+        //private void PrepareSecondCutscene()
+        //{
+        //    Cutscene.CutsceneState cutsceneState = new Cutscene.CutsceneState();
+        //    Cutscene.Scene scene = new Cutscene.Scene();
+        //    scene.gradientTexture = Util.GetGradientTexture(1, Config.SCREEN_HEIGHT_SCALED, Color.Orange, Color.Yellow, Util.GradientType.Horizontal);
+        //    scene._duration = TimeSpan.FromSeconds(50.0);
+
+        //    #region MAIN_PIKPOK
+        //    Cutscene.AnimatedImage pikpok = new Cutscene.AnimatedImage();
+        //    pikpok.textureName = "enemies_16x16";
+        //    pikpok.reverse = false;
+        //    pikpok.frameCount = Config.ANIM_FRAMES;
+        //    pikpok.frameTime = Config.DEFAULT_ANIMATION_SPEED;
+        //    pikpok.startFrame = new Rectangle(0, 0, 16, 16);
+
+        //    Cutscene.Keyframe pikpok_keyframe1 = new Cutscene.Keyframe();
+        //    pikpok_keyframe1._time = TimeSpan.FromSeconds(1.0);
+        //    pikpok_keyframe1.position = new Vector2(-20, 76);
+        //    pikpok.keyframeList.Add(pikpok_keyframe1);
+
+        //    Cutscene.Keyframe pikpok_keyframe2 = new Cutscene.Keyframe();
+        //    pikpok_keyframe2.position = new Vector2(200, 90);
+        //    pikpok_keyframe2._time = TimeSpan.FromSeconds(7.0);            
+        //    pikpok.keyframeList.Add(pikpok_keyframe2);
+
+        //    Cutscene.Keyframe pikpok_keyframe3 = new Cutscene.Keyframe();
+        //    pikpok_keyframe3.position = new Vector2(40, 60);
+        //    pikpok_keyframe3._time = TimeSpan.FromSeconds(13.0);
+        //    pikpok.keyframeList.Add(pikpok_keyframe3);
+
+        //    Cutscene.Keyframe pikpok_keyframe4 = new Cutscene.Keyframe();
+        //    pikpok_keyframe4.position = new Vector2(160, 120);
+        //    pikpok_keyframe4._time = TimeSpan.FromSeconds(18.0);            
+        //    pikpok.keyframeList.Add(pikpok_keyframe4);
+
+        //    Cutscene.Keyframe pikpok_keyframe5 = new Cutscene.Keyframe();
+        //    pikpok_keyframe5.position = new Vector2(120, 20);
+        //    pikpok_keyframe5._time = TimeSpan.FromSeconds(22.0);            
+        //    pikpok.keyframeList.Add(pikpok_keyframe5);
+
+
+        //    Cutscene.Keyframe pikpok_keyframe7 = new Cutscene.Keyframe();
+        //    pikpok_keyframe7.position = new Vector2(Config.SCREEN_WIDTH_SCALED / 2, Config.SCREEN_HEIGHT_SCALED / 2);
+        //    pikpok_keyframe7._time = TimeSpan.FromSeconds(26.0);
+        //    pikpok.keyframeList.Add(pikpok_keyframe7);
+
+        //    Cutscene.Keyframe pikpok_keyframe8 = new Cutscene.Keyframe();
+        //    pikpok_keyframe8.position = new Vector2(Config.SCREEN_WIDTH_SCALED / 2, Config.SCREEN_HEIGHT_SCALED / 2);
+        //    pikpok_keyframe8._time = TimeSpan.FromSeconds(50.0);
+        //    pikpok.keyframeList.Add(pikpok_keyframe8);
+
+        //    scene.items.Add(pikpok);
+        //    #endregion            
+            
+        //    #region PLAYERS
+        //    var playerItem = Cutscene.AnimatedImage.Player(new Vector2(280, 90), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 50, Config.SCREEN_HEIGHT_SCALED / 2), TimeSpan.FromSeconds(4.5), 5.0f);
+        //    playerItem.keyframeList[playerItem.keyframeList.Count - 1]._time = TimeSpan.FromSeconds(40.0);
+        //    Cutscene.Keyframe waitKeyframe = new Cutscene.Keyframe(playerItem.keyframeList[playerItem.keyframeList.Count - 1]);
+        //    waitKeyframe._time = TimeSpan.FromSeconds((28.0));
+        //    playerItem.keyframeList.Add(waitKeyframe);
+        //    scene.items.Add(playerItem);
+
+        //    playerItem = Cutscene.AnimatedImage.Player(new Vector2(-20, 50), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 40, Config.SCREEN_HEIGHT_SCALED / 2), TimeSpan.FromSeconds(9.5), 5.0f);
+        //    playerItem.keyframeList[playerItem.keyframeList.Count - 1]._time = TimeSpan.FromSeconds(40.0);
+        //    waitKeyframe = new Cutscene.Keyframe(playerItem.keyframeList[playerItem.keyframeList.Count - 1]);
+        //    waitKeyframe._time = TimeSpan.FromSeconds((28.0));
+        //    playerItem.keyframeList.Add(waitKeyframe);
+        //    scene.items.Add(playerItem);
+
+        //    playerItem = Cutscene.AnimatedImage.Player(new Vector2(180, 160), new Vector2(Config.SCREEN_WIDTH_SCALED / 2, Config.SCREEN_HEIGHT_SCALED / 2 + 40), TimeSpan.FromSeconds(17.0), 5.0f);
+        //    playerItem.keyframeList[playerItem.keyframeList.Count - 1]._time = TimeSpan.FromSeconds(40.0);
+        //    waitKeyframe = new Cutscene.Keyframe(playerItem.keyframeList[playerItem.keyframeList.Count - 1]);
+        //    waitKeyframe._time = TimeSpan.FromSeconds((28.0));
+        //    playerItem.keyframeList.Add(waitKeyframe);
+        //    scene.items.Add(playerItem);
+
+        //    playerItem = Cutscene.AnimatedImage.Player(new Vector2(120, -10), new Vector2(Config.SCREEN_WIDTH_SCALED / 2, Config.SCREEN_HEIGHT_SCALED / 2 - 40), TimeSpan.FromSeconds(22.5), 5.0f);
+        //    playerItem.keyframeList[playerItem.keyframeList.Count - 1]._time = TimeSpan.FromSeconds(40.0);
+        //    waitKeyframe = new Cutscene.Keyframe(playerItem.keyframeList[playerItem.keyframeList.Count - 1]);            
+        //    waitKeyframe._time = TimeSpan.FromSeconds((28.0));
+        //    playerItem.keyframeList.Add(waitKeyframe);
+        //    scene.items.Add(playerItem);
+
+        //    #endregion
+        //    cutsceneState.scenes.Add(scene);                                   
+        //    scene.Init();
+
+        //    Globals.gameStateManager.RegisterState(Config.States.SECOND_CUTSCENE, cutsceneState);  
+
+        //}
 
         private void LoadContent()
         {

@@ -10,7 +10,7 @@ namespace PixelPerfect.Cutscene
 {
     public class Sound
     {
-        public string soundPath;
+        public string soundName;
         public string time
         {
             get { return _time.ToString(); }
@@ -18,12 +18,23 @@ namespace PixelPerfect.Cutscene
         }
         public TimeSpan _time;
 
-        private SoundEffect soundEffect;
+        private SoundEffectInstance soundEffect;
         private TimeSpan currentTime = TimeSpan.Zero;
+
+        public Sound()
+        {
+        }
+
+        public Sound (Sound sound)
+        {
+            this.soundName = sound.soundName;
+            this._time = sound._time;
+        }
 
         public void Init()
         {
-            soundEffect = Globals.content.Load<SoundEffect>(soundPath);
+            soundEffect = Globals.soundsDictionary[soundName];
+            currentTime = TimeSpan.Zero;
         }
 
         public bool Update(GameTime gameTime)

@@ -33,6 +33,8 @@ namespace PixelPerfect.Cutscene
         public virtual void Init()
         {            
             keyframeList.Sort((kf1, kf2) => kf1._time.CompareTo(kf2._time));
+            currentTime = TimeSpan.Zero;
+            currentKeyframe = 0;
         }
 
         public virtual bool Update(GameTime gameTime)

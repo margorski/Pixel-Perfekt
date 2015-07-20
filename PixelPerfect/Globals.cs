@@ -44,5 +44,6 @@ namespace PixelPerfect
         public static int suit = 0;
         public static int unlockedSuit = -1;
         public static Game game;
+        public static bool firstCutscene = false;
     }
 }

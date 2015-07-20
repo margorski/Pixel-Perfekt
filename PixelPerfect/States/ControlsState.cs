@@ -15,9 +15,6 @@ namespace PixelPerfect
 {
     class ControlsState : GameState
     {
-        private TimeSpan fadeTime;
-
-
         Button playButton = new Button("", new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 12, 130, 24, 24), Globals.textureDictionary["play2"], Globals.silkscreenFont, false);
 
         Animation stopTapAnimation = new Animation(2, 1500, false);
@@ -34,7 +31,9 @@ namespace PixelPerfect
         private bool jumping = false;
         private bool jumpingClicking = false;
         private TimeSpan jumpTime = TimeSpan.Zero;
-        
+
+        GamePadState prevGPState;
+        GamePadState currGPState;
 #if WINDOWS
         private MouseState previousMouseState;
         private MouseState currentMouseState;
@@ -48,7 +47,6 @@ namespace PixelPerfect
 
         public override void Enter(int previousStateId)
         {
-            fadeTime = new TimeSpan(0, 0, 0, 0, 500);
             reverseTime = TimeSpan.Zero;
             reverseClick = reverse = false;
             jumpPosition = 0.0f;
@@ -77,11 +75,9 @@ namespace PixelPerfect
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
-        {
-            var fadingColor = 1.0f - (float)fadeTime.TotalMilliseconds / 500.0f;
-            
-            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED / 2 + 1, Config.SCREEN_HEIGHT_SCALED), new Color(Color.Indigo, fadingColor * 0.9f));
-            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 + 1, 0, Config.SCREEN_WIDTH_SCALED / 2 + 1, Config.SCREEN_HEIGHT_SCALED), new Color(Color.SeaGreen, fadingColor * 0.9f));
+        {            
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED / 2 + 1, Config.SCREEN_HEIGHT_SCALED), new Color(Color.Indigo, 0.9f));
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 + 1, 0, Config.SCREEN_WIDTH_SCALED / 2 + 1, Config.SCREEN_HEIGHT_SCALED), new Color(Color.SeaGreen, 0.9f));
             
             spriteBatch.DrawString(Globals.silkscreenFont, "LEFT SIDE", new Vector2(Config.SCREEN_WIDTH_SCALED / 4 - 37, 2), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
 
@@ -108,17 +104,16 @@ namespace PixelPerfect
         {
             if (suspended)
                 return;
-            
+
+            currGPState = GamePad.GetState(PlayerIndex.One);
+            if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
+                Globals.gameStateManager.PopState();
+
+            prevGPState = currGPState;
+
             stopTapAnimation.Update(gameTime);
             playerRunAnimation.Update(gameTime);
-
-            if (fadeTime > TimeSpan.Zero)
-            {
-                fadeTime -= gameTime.ElapsedGameTime;
-                if (fadeTime < TimeSpan.Zero)
-                    fadeTime = TimeSpan.Zero;
-            }
-
+   
             if (!reverseClick)
             {
                 reverseTime += gameTime.ElapsedGameTime;

@@ -118,6 +118,13 @@ namespace PixelPerfect
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             Globals.suit = (int)IsolatedStorageSettings.ApplicationSettings["suit"];
+
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("cutscene1"))
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("cutscene1", true);
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+            Globals.firstCutscene = (bool)IsolatedStorageSettings.ApplicationSettings["cutscene1"];
 #endif
 
             gameStateManager = new GameStateManager();

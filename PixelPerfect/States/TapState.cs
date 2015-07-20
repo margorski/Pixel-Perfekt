@@ -25,6 +25,8 @@ namespace PixelPerfect
 #else
         TouchCollection touchCollection;
 #endif
+        GamePadState prevGPState;
+        GamePadState currGPState;
 
         public TapState()
         {
@@ -51,7 +53,12 @@ namespace PixelPerfect
 
         public override void Resume(int poppedStateId)
         {
-         
+            fadeTime = new TimeSpan(0, 0, 0, 0, 500);
+#if WINDOWS
+            currentMouseState = previousMouseState = Mouse.GetState();
+#else
+            touchCollection = TouchPanel.GetState();
+#endif
         }
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
@@ -73,6 +80,13 @@ namespace PixelPerfect
                 if (fadeTime < TimeSpan.Zero)
                     fadeTime = TimeSpan.Zero;
             }
+
+            currGPState = GamePad.GetState(PlayerIndex.One);
+            if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
+                Globals.gameStateManager.ChangeState(Config.States.PAUSE);
+
+            prevGPState = currGPState;
+
 #if WINDOWS
             currentMouseState = Mouse.GetState();
 

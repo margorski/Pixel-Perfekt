@@ -17,7 +17,7 @@ namespace PixelPerfect
         /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
          */        
-        public const int SCREEN_WIDTH_SCALED = 268; //SCREEN_WIDTH / 2;
+        public const int SCREEN_WIDTH_SCALED = 270; //SCREEN_WIDTH / 2;
         public const int SCREEN_HEIGHT_SCALED = 160; //SCREEN_HEIGHT / 2;
         public const int SCALE_FACTOR = 3;
         public const int DEFAULT_ANIMATION_SPEED = 250;
@@ -59,6 +59,11 @@ namespace PixelPerfect
             public const int TEXT = 400;
             public const int CONTROLS = 500;
             public const int DUMMY = 666;
+            public const int FIRST_CUTSCENE = 710;
+            public const int SECOND_CUTSCENE = 720;
+            public const int THIRD_CUTSCENE = 730;
+            public const int FOURTH_CUTSCENE = 740;
+            public const int FIFTH_CUTSCENE = 750;
         }   
 
         public struct Map
