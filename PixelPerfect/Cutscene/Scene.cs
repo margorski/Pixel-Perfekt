@@ -42,7 +42,10 @@ namespace PixelPerfect.Cutscene
             {
                 music = Globals.backgroundMusicList[backroundMusic];
                 if (music != null)
-                    MediaPlayer.Play(music);
+                {
+                    if (Globals.musicEnabled)
+                        MediaPlayer.Play(music);
+                }
             }
         }
 

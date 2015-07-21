@@ -69,6 +69,12 @@ namespace PixelPerfect
             initialCollectiblesCount = collectiblesCount;
         }
 
+        public Vector2 GetDoorCenter()
+        {
+            Tile centerTile = tileMap.First(item => (item.attributes & Tile.Attributes.DoorsMain) > 0);
+            return new Vector2(centerTile.position.X, centerTile.position.Y);           
+        }
+
         public void Update(GameTime gameTime)
         {
             if (moving)
@@ -299,7 +305,7 @@ namespace PixelPerfect
                         return true;
                 }
             }
-
+            
             return false;
         }
 

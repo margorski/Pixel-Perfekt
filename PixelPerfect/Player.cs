@@ -29,6 +29,9 @@ namespace PixelPerfect
             public const UInt32 jumpStopped = 1 << 9;  // wtf hack for jumping from stopped position
             public const UInt32 fallThroughScreen = 1 << 10;
             public const UInt32 onMovingMap = 1 << 11;
+            public const UInt32 hiding = 1 << 12;
+            public const UInt32 hidden = 1 << 13;
+            public const UInt32 entered = 1 << 14;
         }
         // Public
         public Rectangle boundingBox
@@ -88,7 +91,7 @@ namespace PixelPerfect
 
         public void Update(GameTime gameTime)
         {
-            if (GetState(Player.State.dead))
+            if (GetState(Player.State.dead) || GetState(Player.State.hidden) || GetState(Player.State.entered))
                 return;
 
             if (GetState(Player.State.dying))
@@ -104,6 +107,14 @@ namespace PixelPerfect
                         SetState(State.dead, true);
                     }
                 }
+                return;
+            }
+
+            if (GetState(Player.State.hiding))
+            {                
+                PixelDrop();                    
+                SetState(State.hidden, true);
+                SetState(State.hiding, false);
                 return;
             }
 
@@ -135,7 +146,7 @@ namespace PixelPerfect
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (GetState(Player.State.dead))
+            if (GetState(Player.State.dead) || GetState(Player.State.hidden) || GetState(Player.State.entered))
                 return;
 
             int heightDrawModifier = 0;
@@ -377,6 +388,24 @@ namespace PixelPerfect
                 Globals.soundsDictionary["explosion"].Play();
         }
 
+        public void PixelDrop()
+        {
+            Color[] textureColors = GetCurrentFrameArray();
+
+            for (int i = 0; i < textureColors.Length; i++)
+            {
+                if (textureColors[i].A == 255)
+                {                    
+                    Vector2 pixPos = position + new Vector2(i % Config.Player.WIDTH, i / Config.Player.WIDTH);
+                    Vector2 pixSpeed = Vector2.Zero;
+                    Vector2 acc = Vector2.Zero;
+
+                    Globals.CurrentLevelState.AddPixelParticle(new PixelParticle(pixPos,
+                                    0.0f,//Config.PixelParticle.PIXELPARTICLE_PLAYER_LIFETIME_MAX,
+                                    pixSpeed, acc, textureColors[i] /*Config.boomColors[Globals.rnd.Next(Config.boomColors.Length)]*/, true, Globals.CurrentMap));
+                }
+            }
+        }
 
 
         public void SetMovingPlatformState(float modifyValue)

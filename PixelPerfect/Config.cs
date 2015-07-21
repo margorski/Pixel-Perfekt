@@ -25,8 +25,9 @@ namespace PixelPerfect
         public const int DRAW_OFFSET_Y = 0;
         public const bool CENTER_PIVOT = true;
         public const int ANIM_FRAMES = 4;
-        public const int AD_TIMER = 60; // s
-        
+        public const int AD_TIMER = 120; // s
+        public const int LEVEL_END_DELAY = 1500;
+        public const float BLACK_HOLE_FORCE = 5000.0f;
         public const int SKIP_AMOUNT = 3;
 
         public static Color[] boomColors = { Color.White, Color.Red, Color.Blue, Color.LightSeaGreen, Color.OrangeRed, Color.Crimson, 

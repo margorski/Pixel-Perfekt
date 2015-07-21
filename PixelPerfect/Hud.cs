@@ -72,13 +72,7 @@ namespace PixelPerfect
             spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), color);
 
             spriteBatch.Draw(Globals.textureDictionary["clock"], new Vector2(6, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
-            Util.DrawStringAligned(spriteBatch, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.White,
-                        new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
-                        new Vector2(17, Config.Hud.TEXT_POSITION_Y), Util.Align.Left);
-
-            //Util.DrawStringAligned(spriteBatch, levelName, Globals.silkscreenFont, Color.White,
-            //                        new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - 22, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED),
-            //                        new Vector2(0, Config.Hud.TEXT_POSITION_Y), Util.Align.Center);
+            spriteBatch.DrawString(Globals.silkscreenFont, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), new Vector2(17, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
 
             leveltitle.Draw(spriteBatch);
             spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(200, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
@@ -95,7 +89,7 @@ namespace PixelPerfect
         {
             collectibleTiles.RemoveAt(collectibleTiles.Count - 1);
             collectedTiles.Add(TileFactory.CreateTile((int)Config.TileType.KEY,
-                                                      new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - (collectedTiles.Count + 2) * (Config.Hud.COLLECTIBLES_SPACE), Config.Hud.COLLECTIBLES_Y)));
+                                                      new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - (collectedTiles.Count + 2) * (Config.Hud.COLLECTIBLES_SPACE), Config.Hud.COLLECTIBLES_Y), false));
         }
 
         public void SetText(string text)

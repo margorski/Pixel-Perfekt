@@ -24,6 +24,8 @@ namespace PixelPerfect
         double accX;
         Color color;
         bool gravityAffect;
+        public bool gravityPointEnabled = false;
+        Vector2 gravityPoint = Vector2.Zero;
 
         public bool enviroAffect;
 
@@ -50,6 +52,7 @@ namespace PixelPerfect
         private TimeSpan gravityDelayTimer = TimeSpan.Zero;
         private int gravityDelay;
         private bool gravityEnabled = false;
+        private float gravityPointForce = 0.0f;
 
         public PixelParticle(Vector2 position, double maxLifeMs, Vector2 speed, Vector2 acc, Color color, bool gravityAffect, Map map = null, bool enviroAffect = true, Config.StandingType standingType = Config.StandingType.Pixel, int gravityDelay = 0)
         {
@@ -71,6 +74,19 @@ namespace PixelPerfect
             hitSoundInstance = Globals.soundsDictionary["hit"];
         }
 
+        public void ClearGravityPoint()
+        {
+            gravityPointEnabled = false;
+            gravityPointForce = 0.0f;
+        }
+
+        public void SetGravityPoint(Vector2 target, float gravityForce)
+        {
+            gravityPointEnabled = true;
+            this.gravityPoint = target;
+            this.gravityPointForce = gravityForce;
+        }
+
         public bool Update(GameTime gameTime)
         {
             if (maxLifeMs > 0.0)
@@ -87,9 +103,17 @@ namespace PixelPerfect
                     gravityEnabled = true;
             }
 
-            if (gravityAffect && gravityEnabled)
+            if (!gravityPointEnabled && gravityAffect && gravityEnabled)
             {
                 speedY += Config.Player.GRAVITY * gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0;
+            }
+
+            if (gravityPointEnabled)
+            {
+                Vector2 diffVector = gravityPoint - position;
+                double baseGravity = (gravityPointForce * gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0) / diffVector.Length();
+                speedX += baseGravity * diffVector.X / diffVector.Length();
+                speedY += baseGravity * diffVector.Y / diffVector.Length();
             }
 
             speedX += accX * gameTime.ElapsedGameTime.TotalMilliseconds / 1000.0 + enviroSpeed.X;
@@ -106,7 +130,8 @@ namespace PixelPerfect
                 if (map.CheckCollisions(BoundingBox, Tile.Attributes.Solid, out tempRectangle))
                 {
                     alignHorizontalToTile(tempRectangle);
-                    speedX = accX = 0.0f;
+                    speedX = 0.0f;
+                    accX = 0.0f;
                 }
             }
                         
@@ -117,12 +142,17 @@ namespace PixelPerfect
                 if (map.CheckCollisions(BoundingBox, Tile.Attributes.Solid, out tempRectangle) ||    // solid block hit (from top or bottom)
                     (speedY > 0.0f && map.CheckPlatformCollisions(BoundingBox, out tempRectangle, out movingModifier, out springy, standingType)))  // platform hit, collision only when going down
                 {
-                    accX = Config.PixelParticle.HTORQUE_GROUND * (-speedX);
-                    if (Math.Abs(accX) < Config.PixelParticle.HBRAKE)
-                        accX = speedX = 0.0f;
-
                     alignVerticalToTile(tempRectangle);
-                    accY = speedY = 0.0f;
+                    speedY = 0.0f;
+
+                        accX = Config.PixelParticle.HTORQUE_GROUND * (-speedX);
+                        if (Math.Abs(accX) < Config.PixelParticle.HBRAKE)
+                        {
+                            accX = 0.0f;
+                            if (!gravityPointEnabled)
+                                speedX = 0.0f;
+                        }
+                        accY = 0.0f;
                 }
                 else
                 {
@@ -139,6 +169,15 @@ namespace PixelPerfect
             if (position.Y > Config.SCREEN_HEIGHT_SCALED || position.X < 0 || position.X > Config.SCREEN_WIDTH_SCALED) // remove on out of screen
                 return true;
 
+            if (gravityPointEnabled)
+            {
+                if ((Math.Abs(gravityPoint.X - position.X) <= 1) &&
+                    (Math.Abs(gravityPoint.Y - position.Y) <= 1))
+                {
+                    gravityPointEnabled = false;
+                    return true;
+                }
+            }
             return false;
         }
 

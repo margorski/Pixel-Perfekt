@@ -39,7 +39,8 @@
                              ApplicationName="Pixel Perfekt"
                              CompanyName="Gorsky"
                              FirstCount="2"
-                             CountDays="True"/>
+                             CountDays="False"
+                             />
         <!-- LOCALIZATION NOTE:
             To localize the displayed strings copy their values to appropriately named
             keys in the app's neutral language resource file (AppResources.resx) then

@@ -57,7 +57,8 @@ namespace PixelPerfect
         private LevelColors levelColors = new LevelColors();
         private bool colors = false;
         private bool menuLevel = false;
-
+        private bool doorGravity = false;
+        private TimeSpan endDelay = TimeSpan.Zero;
 #if WINDOWS
         #region CHANGE_COLORS
         private void PreviousColor1()
@@ -328,6 +329,11 @@ namespace PixelPerfect
                     Globals.gameStateManager.PushState(Config.States.PAUSE);
                 }
                 prevGPState = currGPState;
+
+                if (doorGravity)
+                    GoPixelsToDoors();
+                else
+                    StopPixels();
             }
 #if !WINDOWS
             if (!menuLevel)
@@ -349,7 +355,8 @@ namespace PixelPerfect
 
             player.Update(gameTime);
             
-            if (!player.GetState(Player.State.dead) && !player.GetState(Player.State.dying))
+            if (!player.GetState(Player.State.dead) && !player.GetState(Player.State.dying) && !player.GetState(Player.State.hiding) 
+                && !player.GetState(Player.State.hidden) && !player.GetState(Player.State.entered))
             {
                 levelTime += gameTime.ElapsedGameTime;
                 float movingModifier = 0.0f;
@@ -419,6 +426,8 @@ namespace PixelPerfect
                 {
                     if (!menuLevel)
                         hud.Collect();
+                    if (map.collectiblesCount == 0)
+                        doorGravity = true;
                     if (Globals.soundEnabled)
                         Globals.soundsDictionary["coin"].Play();
                 }
@@ -430,9 +439,23 @@ namespace PixelPerfect
 
                 if (map.EnteredDoors(player.boundingBox))
                 {
+                    player.SetState(Player.State.hiding, true);
+                }
+            }
+            else if (player.GetState(Player.State.hidden))
+            {
+                GoPixelsToDoors();
+                player.SetState(Player.State.hidden, false);
+                player.SetState(Player.State.entered, true);
+            }
+            else if (player.GetState(Player.State.entered))
+            {
+                endDelay += gameTime.ElapsedGameTime;
+                if (endDelay.TotalMilliseconds > Config.LEVEL_END_DELAY)
+                {
                     Globals.soundsDictionary["doors"].Stop();
                     ((WinState)Globals.gameStateManager.GetState(Config.States.WIN)).SetStats(LevelId(), levelTime, deathCount);
-                    Globals.gameStateManager.PushState(Config.States.WIN, true);                                                          
+                    Globals.gameStateManager.PushState(Config.States.WIN, true);
                     return;
                 }
             }
@@ -442,7 +465,24 @@ namespace PixelPerfect
                 hud.Update(gameTime);
         }
 
+        private void GoPixelsToDoors()
+        {
+            var doorCenter = map.GetDoorCenter();
+            doorCenter.X += 4;
+            doorCenter.Y += 4;            
+            foreach (PixelParticle pixel in pixelParticles.Where(p => !p.gravityPointEnabled))
+            {
+                pixel.SetGravityPoint(doorCenter, Config.BLACK_HOLE_FORCE);
+            }
+        }
 
+        private void StopPixels()
+        {
+            foreach (PixelParticle pixel in pixelParticles.Where(p => p.gravityPointEnabled))
+            {
+                pixel.ClearGravityPoint();
+            }
+        }
 #if WINDOWS
         private void MouseInput(GameTime gameTime)
         {
@@ -461,7 +501,7 @@ namespace PixelPerfect
                     Reset();
                 }
             }
-            else
+            else if (!player.GetState(Player.State.hiding) && !player.GetState(Player.State.hidden) && !player.GetState(Player.State.entered))
             {
                 if (currentMouseState.LeftButton == ButtonState.Released && previousMouseState.LeftButton == ButtonState.Pressed) // mouse button released
                 {
@@ -475,9 +515,6 @@ namespace PixelPerfect
                                                         (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale));
                     var mousePosition = new Point((int)currentMouseState.X, (int)currentMouseState.Y);
 
-                    //if (resetButton.Clicked(mousePosition.X, mousePosition.Y, scale))                    
-                      //  InitLevel();
-                    //else 
                     if (leftScreenHalf.Contains(mousePosition))
                         player.Stop(gameTime);
                     else if (rightScreenHalf.Contains(mousePosition))
@@ -494,6 +531,7 @@ namespace PixelPerfect
         {
             currentKeyboardState = Keyboard.GetState();
 
+            #region CHANGE_COLORS
             // DEBUGGGGG
             // color1
             if (currentKeyboardState.IsKeyDown(Keys.A) && previousKeyboardState.IsKeyUp(Keys.A))            
@@ -547,7 +585,7 @@ namespace PixelPerfect
             if (currentKeyboardState.IsKeyDown(Keys.F10) && previousKeyboardState.IsKeyUp(Keys.F10))
                 Globals.graphics.ToggleFullScreen();
             // END DEBUGG
-
+            #endregion
             if ((currentKeyboardState.IsKeyDown(Keys.Escape) && previousKeyboardState.IsKeyUp(Keys.Escape)))
                 Globals.gameStateManager.PushState(Config.States.PAUSE);
 
@@ -639,16 +677,14 @@ namespace PixelPerfect
             if (backgroundTexture != null && !menuLevel)
                 spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 10, Config.SCREEN_HEIGHT_SCALED), Color.White);
 
-            if (!upsidedownBatch)
-            {
-                foreach (PixelParticle pixelParticle in pixelParticles)
-                    pixelParticle.Draw(spriteBatch);
 
-                map.Draw(spriteBatch);
+            foreach (PixelParticle pixelParticle in pixelParticles)
+                pixelParticle.Draw(spriteBatch);
 
-                player.Draw(spriteBatch);
-            }
-            
+            map.Draw(spriteBatch);
+
+            player.Draw(spriteBatch);
+
             if (!menuLevel)
                 hud.Draw(spriteBatch);
 
@@ -707,6 +743,8 @@ namespace PixelPerfect
 
         public void Reset()
         {
+            doorGravity = false;
+            endDelay = TimeSpan.Zero;
             if (!menuLevel)
                 map.Reset();
             player.Reset();

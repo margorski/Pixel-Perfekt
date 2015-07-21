@@ -42,7 +42,8 @@ namespace PixelPerfect.Cutscene
             currentTime += gameTime.ElapsedGameTime;
             if (currentTime >= _time)
             {
-                Play();
+                if (Globals.soundEnabled)
+                    Play();
                 return false;
             }
             return true;
