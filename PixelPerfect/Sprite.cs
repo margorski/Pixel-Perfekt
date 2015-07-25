@@ -20,14 +20,17 @@ namespace PixelPerfect
 
         public Sprite (string path, int width, int height, int frames = Config.ANIM_FRAMES)
         {
+            // doprowadzic by util.preparearray przygotowywal kolumny Color arrayow
             texture = Globals.content.Load<Texture2D>(path);
-            textureArray = new List<Color[]>();
-            int textureNum = texture.Width / width;
+            textureArray = Util.PrepareTextureArray(texture, width, height * frames);
+            
+            //textureArray = new List<Color[]>();
+            //int textureNum = texture.Width / width;
 
-            for (int i = 0; i < textureNum; i++)
-            {
-                textureArray.Add(Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(i * width, 0, width, height * frames)), width, height * frames));
-            }
+            //for (int i = 0; i < textureNum; i++)
+            //{
+            //    textureArray.Add(Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle(i * width, 0, width, height * frames)), width, height * frames));
+            //}
                 
         }
     }

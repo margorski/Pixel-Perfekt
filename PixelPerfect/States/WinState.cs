@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO.IsolatedStorage;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -136,6 +137,20 @@ namespace PixelPerfect
             }
             Savestate.Instance.Save();
 
+            if (Globals.worlds[Globals.selectedWorld].Completed() &&
+                Globals.selectedWorld == Globals.worlds.Count - 1 &&                
+                !Globals.completed)
+            {                
+                backButton.active = false;
+                restartButton.active = false;                
+            }
+            else
+            {
+                backButton.active = true;
+                restartButton.active = true;
+            }
+            
+
             Globals.soundsDictionary["coin"].Pitch = 1.0f;
         }
 
@@ -144,10 +159,12 @@ namespace PixelPerfect
             screenState = ScreenState.DEATHCOUNT;
             currentDeaths = currentTotalDeaths = 0.0f;
             currentLevelTime = TimeSpan.Zero;
+            currentDeathsColor = currentLevelTimeColor = currentTotalDeathsColor = Color.White;
             Globals.soundsDictionary["coin"].Pitch = 0.0f;
             delayTimer = TimeSpan.Zero;
             trophy = false;
-            trophyTimer = TimeSpan.FromMilliseconds(500.0); ;
+            trophyTimer = TimeSpan.FromMilliseconds(500.0);
+            backButton.active = restartButton.active = true;
         }
 
         public override void Suspend(int pushedStateId)
@@ -161,7 +178,7 @@ namespace PixelPerfect
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 200)));
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 200)));
 
             caption.Draw(spriteBatch);
             
@@ -178,12 +195,12 @@ namespace PixelPerfect
                                                                    Globals.textureDictionary["skull"].Height * 2), Color.White);
 
             if (trophy)
-                spriteBatch.Draw(Globals.textureDictionary["trophy"], new Rectangle(180, 82,
+                spriteBatch.Draw(Globals.textureDictionary["trophy"], new Rectangle(148, 82,
                                                                                 Globals.textureDictionary["trophy"].Width * 2,
                                                                                 Globals.textureDictionary["trophy"].Height * 2), new Color(Color.Gold, (float)(1.0 - trophyTimer.TotalMilliseconds / 500.0)));
 
             spriteBatch.DrawString(Globals.silkscreenFont, "TIME:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 92), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(Globals.silkscreenFont, currentLevelTime.ToString("mm\\:ss\\.f"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 35, 92), currentLevelTimeColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, currentLevelTime.ToString("mm\\:ss\\.ff"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 28, 92), currentLevelTimeColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.Draw(Globals.textureDictionary["clock"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 90,
                                                                    Globals.textureDictionary["clock"].Width * 2,
                                                                    Globals.textureDictionary["clock"].Height * 2), Color.White);
@@ -377,8 +394,19 @@ namespace PixelPerfect
             {
                 if (Globals.selectedWorld == Globals.worlds.Count - 1)
                 {
-                    Globals.gameStateManager.ChangeState(Config.States.TITLESCREEN);//ending
-                    return;
+                    if (!Globals.completed)
+                    {
+#if !WINDOWS
+                        Globals.completed = true;
+                        IsolatedStorageSettings.ApplicationSettings["completed"] = true;
+                        IsolatedStorageSettings.ApplicationSettings.Save();
+#endif
+                        Globals.gameStateManager.PopState();
+                        Globals.gameStateManager.PopState();
+                        Globals.gameStateManager.PushState(Config.States.WORLDSELECT);
+                        Globals.gameStateManager.PushState(Config.States.FINAL_CUTSCENE);
+                        return;
+                    }
                 }
                 else if (!Globals.worlds[Globals.selectedWorld + 1].active)
                 {
@@ -461,7 +489,7 @@ namespace PixelPerfect
 
         private void SetIdle()
         {
-            currentDeathsColor = currentTotalDeathsColor = currentLevelTimeColor = Color.White;
+            currentDeathsColor = currentTotalDeathsColor = currentLevelTimeColor = Color.Blue;
             currentDeaths = deaths;
             currentTotalDeaths = Savestate.Instance.levelSaves[levelId].deathCount;
             currentLevelTime = levelTime;
@@ -477,9 +505,9 @@ namespace PixelPerfect
             // checking if world is completed
             if (Globals.worlds[Globals.selectedWorld].Completed())
             {
-                if (Globals.selectedWorld == Globals.worlds.Count - 1)
-                {
-                    Globals.gameStateManager.ChangeState(Config.States.TITLESCREEN);//ending
+                if (Globals.selectedWorld == Globals.worlds.Count - 1 &&
+                    !Globals.completed)
+                {                    
                     return;
                 }
                 else if (!Globals.worlds[Globals.selectedWorld + 1].active)
@@ -509,6 +537,9 @@ namespace PixelPerfect
             return;
 #else
             int rndNumber = 0;
+
+            if (Savestate.Instance.suitUnlocked.All<bool>(suit => suit == true))
+                return;
 
             do
             {

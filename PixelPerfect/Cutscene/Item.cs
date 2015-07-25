@@ -128,7 +128,7 @@ namespace PixelPerfect.Cutscene
         public bool reverse = false;
         public int staticFrame = 1;
 
-        public static AnimatedImage Player(Vector2 startPosition, Vector2 endPosition, TimeSpan startTime, float pixPerSecond = 5.0f, float scale = 1.0f)
+        public static AnimatedImage Player(Vector2 startPosition, Vector2 endPosition, TimeSpan startTime, float pixPerSecond = 5.0f, float scale = 1.0f, int column = 0)
         {
                 AnimatedImage player = new Cutscene.AnimatedImage();
                 bool goLeft = ((endPosition.X - startPosition.X) < 0.0f ? true : false);
@@ -137,7 +137,7 @@ namespace PixelPerfect.Cutscene
                 player.frameCount = Config.Player.ANIM_FRAMES;
                 player.frameTime = Config.Player.ANIMATION_DELAY;
                 player.reverse = true;
-                player.startFrame = new Rectangle(0, Config.Player.HEIGHT, Config.Player.WIDTH * 1, Config.Player.HEIGHT);
+                player.startFrame = new Rectangle(column * 8, Config.Player.HEIGHT, Config.Player.WIDTH * 1, Config.Player.HEIGHT);
                 player.textureName = "player";
 
                 var keyframe = new Cutscene.Keyframe();

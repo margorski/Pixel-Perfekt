@@ -12,7 +12,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PixelPerfect
 {
-    class Animation
+    public class Animation
     {
         private int frameCount;
         private int frameTime;

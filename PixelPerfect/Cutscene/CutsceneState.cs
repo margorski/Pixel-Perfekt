@@ -22,6 +22,8 @@ namespace PixelPerfect.Cutscene
         private int currentScene = 0;
         private TimeSpan currentDuration = TimeSpan.Zero;
 
+        public int backroundMusic = -1;
+
         GamePadState prevGPState;
         GamePadState currGPState;
 
@@ -30,11 +32,18 @@ namespace PixelPerfect.Cutscene
         public override void Enter(int previousStateId)
         {
             Init();
+            MediaPlayer.Stop();
+
+            if (backroundMusic > -1 && Globals.musicEnabled)
+            {
+                MediaPlayer.Play(Globals.backgroundMusicList[backroundMusic]);
+            }
         }
 
         public override void Exit(int nextStateId)
         {
             Init();
+            MediaPlayer.Stop();
         }
 
         public override void Suspend(int pushedStateId)
@@ -52,10 +61,10 @@ namespace PixelPerfect.Cutscene
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool suspended)
         {
-            currGPState = GamePad.GetState(PlayerIndex.One);
-            if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
-                Globals.gameStateManager.PopState();
-            prevGPState = currGPState;
+            //currGPState = GamePad.GetState(PlayerIndex.One);
+            //if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
+            //    Globals.gameStateManager.PopState();
+            //prevGPState = currGPState;
 
 
             currentDuration += gameTime.ElapsedGameTime;

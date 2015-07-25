@@ -127,7 +127,7 @@ namespace PixelPerfect
             Texture2D newTexture = new Texture2D(Globals.graphics.GraphicsDevice, blitRect.Width, blitRect.Height);
             Color[] newTextureColors = new Color[blitRect.Width * blitRect.Height];
 
-            
+
             Color[] textureColors = new Color[texture.Width * texture.Height];
             texture.GetData<Color>(textureColors);
 
@@ -149,6 +149,38 @@ namespace PixelPerfect
             return newTexture;
         }
         
+
+        public static List<Color[]> PrepareTextureArray(Texture2D texture, int width, int height)
+        {           
+            var tileTextureArray = new List<Color[]>();
+            int tilesInRow = texture.Width / width;
+            int textureNum = tilesInRow * (texture.Height / height);
+            Color[] textureColors = new Color[texture.Width * texture.Height];
+            texture.GetData<Color>(textureColors);
+
+            for (int i = 0; i < textureNum; i++)            
+            {
+                Color[] colorArray = new Color[width * height];
+
+                int startColumn = (i % tilesInRow) * width;
+                int endColumn = startColumn + width;
+                int startRow = (i / tilesInRow) * height;
+                int endRow = startRow + height;
+                int counter = 0;
+
+                for (int j = startRow; j < endRow; j++)
+                {
+                    for (int k = startColumn; k < endColumn; k++)
+                    {
+                        colorArray[counter++] = textureColors[j * texture.Width + k];
+                    }
+                }
+                tileTextureArray.Add(colorArray);
+            }
+
+            return tileTextureArray;
+        }
+
         public static Texture2D GetGradientTexture(int width, int height, Color color1, Color color2, GradientType gradientType)
         {
             Texture2D gradientTexture = new Texture2D(Globals.graphics.GraphicsDevice, width, height);

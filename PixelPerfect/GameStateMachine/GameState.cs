@@ -10,7 +10,7 @@ using Microsoft.Xna.Framework.Media;
 
 namespace PixelPerfect
 {
-    abstract class GameState
+    public abstract class GameState
     {
         public float scale = 1.0f;
 

@@ -215,7 +215,7 @@ namespace PixelPerfect
             foreach (Button button in levelButtons)
             {
                 color = Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(levelCount) ? Color.Gold :
-                        Globals.worlds[Globals.selectedWorld].LevelCompleted(levelCount) ? Color.Green :
+                        Globals.worlds[Globals.selectedWorld].LevelCompleted(levelCount) ? Color.GreenYellow :
                         Globals.worlds[Globals.selectedWorld].LevelSkipped(levelCount) ? Color.MediumVioletRed : Color.White;
                 if (color == Color.White)
                     button.Draw(spriteBatch);

@@ -67,7 +67,7 @@ namespace PixelPerfect
             Deployment.Current.Dispatcher.BeginInvoke(() =>
             {
                 AdRotator.IsEnabled = value;
-                AdRotator.Visibility = (value ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed);                
+                AdRotator.Visibility = (value ? System.Windows.Visibility.Visible : System.Windows.Visibility.Collapsed);
             });
         }
     }

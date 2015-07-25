@@ -22,7 +22,6 @@ namespace PixelPerfect.Cutscene
             set { _duration = TimeSpan.Parse(value); }
         }
         public TimeSpan _duration;
-        public int backroundMusic = -1;
         public Color backgroundColor = Color.Transparent;
         public Texture2D gradientTexture = null;
         private Song music;
@@ -37,16 +36,6 @@ namespace PixelPerfect.Cutscene
             
             foreach (Sound sound in sounds)
                 sound.Init();
-
-            if (backroundMusic > -1)
-            {
-                music = Globals.backgroundMusicList[backroundMusic];
-                if (music != null)
-                {
-                    if (Globals.musicEnabled)
-                        MediaPlayer.Play(music);
-                }
-            }
         }
 
         public void Update(GameTime gameTime)
@@ -73,9 +62,9 @@ namespace PixelPerfect.Cutscene
         public void Draw(SpriteBatch spriteBatch)
         {
             if (gradientTexture != null)
-                spriteBatch.Draw(gradientTexture, new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 40, Config.SCREEN_HEIGHT_SCALED), Color.White);
+                spriteBatch.Draw(gradientTexture, new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), Color.White);
             else
-                spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 40, Config.SCREEN_HEIGHT_SCALED), backgroundColor);
+                spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), backgroundColor);
 
             foreach (Item item in items)
                 item.Draw(spriteBatch);

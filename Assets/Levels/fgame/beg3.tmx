@@ -5,7 +5,7 @@
   <property name="color2" value="133"/>
   <property name="emmitercolor" value="78"/>
   <property name="enemycolor" value="55"/>
-  <property name="hudcolor" value="0"/>
+  <property name="hudcolor" value="133"/>
   <property name="music" value="1"/>
   <property name="name" value="i'm like a bird"/>
   <property name="tilecolor" value="66"/>

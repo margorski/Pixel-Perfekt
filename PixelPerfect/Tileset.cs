@@ -21,15 +21,7 @@ namespace PixelPerfect
         public Tileset (string path, int width = Config.Tile.SIZE, int height = Config.Tile.SIZE)
         {
             texture = Globals.content.Load<Texture2D>(path);
-            tileTextureArray = new List<Color[]>();
-            int tilesInRow = texture.Width / width;
-            int textureNum = tilesInRow * (texture.Height / height);
-
-            for (int i = 0; i < textureNum; i++)
-            {
-                tileTextureArray.Add(Util.GetTextureArray(Util.BlitTexture(texture, new Rectangle((i % tilesInRow) * width, (i / tilesInRow) * height, width, height)), width, height));
-            }
-                
+            tileTextureArray = Util.PrepareTextureArray(texture, width, height);
         }
     }
 }

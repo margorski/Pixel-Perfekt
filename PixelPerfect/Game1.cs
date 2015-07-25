@@ -119,12 +119,12 @@ namespace PixelPerfect
             }
             Globals.suit = (int)IsolatedStorageSettings.ApplicationSettings["suit"];
 
-            if (!IsolatedStorageSettings.ApplicationSettings.Contains("cutscene1"))
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("completed"))
             {
-                IsolatedStorageSettings.ApplicationSettings.Add("cutscene1", true);
+                IsolatedStorageSettings.ApplicationSettings.Add("completed", false);
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
-            Globals.firstCutscene = (bool)IsolatedStorageSettings.ApplicationSettings["cutscene1"];
+            Globals.completed = (bool)IsolatedStorageSettings.ApplicationSettings["completed"];
 #endif
 
             gameStateManager = new GameStateManager();
@@ -177,11 +177,11 @@ namespace PixelPerfect
             matrix *= Matrix.CreateScale(scale);
             var translationShift = gameStateManager.GetHorizontalTransition();
             var shiftMatrix = matrix * Matrix.CreateTranslation(new Vector3(graphics.GraphicsDevice.Viewport.Width * translationShift.X, graphics.GraphicsDevice.Viewport.Height * translationShift.Y, 0.0f));
-
+            
             spriteBatch3.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, shiftMatrix);//Matrix.CreateScale(scale));
             spriteBatch2.Begin(SpriteSortMode.Deferred, BlendState.NonPremultiplied, SamplerState.PointClamp, null, null, null, matrix);
-         
+
             gameStateManager.Draw(spriteBatch, spriteBatch2, spriteBatch3);
 
             spriteBatch2.End();

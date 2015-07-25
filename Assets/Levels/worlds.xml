@@ -1,63 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <worlds>
   <world name="cool" icon="cool" directory="cool">
-    <level name="beg1" time="00:00:31.50" value="Hello world!"/>
-    <level name="beg5" time="00:00:51.50" value="white men can jump"/>
-    <level name="beg6" time="00:00:23.50" value="hello"/>        
-    <level name="beg3" time="00:00:36.00" value="i'm like a bird"/>
-    <level name="beg7" time="00:00:32.50" value="just jump"/>
-    <level name="beg8" time="00:00:45.50" value="well, well, well"/>   
-    <level name="beg2" time="00:00:24.00" value="can't touch this"/>
-    <level name="beg4" time="00:00:31.00" value="spike strip"/>    
-    <level name="si1"  time="00:00:44.50" value="bouncy bouncers"/>
-    <level name="si4"  time="00:00:24.00" value="Meet new friends" />
+    <level name="beg1" time="00:00:35.00" value="Hello world!"/>
+    <level name="beg5" time="00:00:56.00" value="white men can jump"/>
+    <level name="beg6" time="00:00:40.00" value="hello"/>        
+    <level name="beg3" time="00:00:41.00" value="i'm like a bird"/>
+    <level name="beg7" time="00:00:40.00" value="just jump"/>
+    <level name="beg8" time="00:00:52.00" value="well, well, well"/>   
+    <level name="beg2" time="00:00:32.00" value="can't touch this"/>
+    <level name="beg4" time="00:00:36.00" value="spike strip"/>    
+    <level name="si1"  time="00:00:52.00" value="bouncy bouncers"/>
+    <level name="si4"  time="00:00:29.00" value="Meet new friends" />
   </world>
   <world name="happy" icon="happy" directory="happy">
-	  <level name="pp0"  time="00:00:42.50"  value="industrial"/>
-	  <level name="si2"  time="00:00:35.00"  value="corporate"/>
-	  <level name="si5"  time="00:00:22.50" value="late shift"/>
-	  <level name="si6"  time="00:00:41.50" value="more new friends"/>
-	  <level name="si11" time="00:00:30.50" value="hangover"/>
-	  <level name="si8"  time="00:00:52.80" value="long way home"/>
-	  <level name="si7"  time="00:00:34.00" value="down in a cavern"/>
-	  <level name="si3"  time="00:00:33.80" value="up a tree"/>
-	  <level name="si10" time="00:00:54.00" value="under the bridge" />
-	  <level name="si9"  time="00:00:43.00" value="back and forth"/>
+	  <level name="pp0"  time="00:00:45.50"  value="industrial"/>
+	  <level name="si2"  time="00:00:38.00"  value="corporate"/>
+	  <level name="si5"  time="00:00:25.50" value="late shift"/>
+	  <level name="si6"  time="00:00:44.50" value="more new friends"/>
+	  <level name="si11" time="00:00:40.00" value="hangover"/>
+	  <level name="si8"  time="00:00:55.80" value="long way home"/>
+	  <level name="si7"  time="00:00:46.00" value="down in a cavern"/>
+	  <level name="si3"  time="00:00:42.00" value="up a tree"/>
+	  <level name="si10" time="00:00:59.00" value="under the bridge" />
+	  <level name="si9"  time="00:00:55.00" value="back and forth"/>
   </world>
   <world name="confused" icon="confused" directory="confused">
-	  <level name="pm1"  time="00:00:34.00" value="spooky"/>
-	  <level name="pm5"  time="00:00:25.50" value="go round"/>
-	  <level name="pm11" time="00:00:26.50" value="run you fools" />
-	  <level name="pm6"  time="00:00:47.00" value="passing through"/>
-	  <level name="pm8"  time="00:00:30.50" value="space in me"/>
-	  <level name="pm2"  time="00:00:48.70" value="is left right?"/>
-	  <level name="pm10" time="00:01:18.50" value="minotaur"/>
-	  <level name="pm7"  time="00:00:44.00" value="hive"/>
-	  <level name="pm3"  time="00:00:42.00" value="chaos theory" />        
-	  <level name="pm4"  time="00:01:42.00" value="turmoil here today" />
+	  <level name="pm1"  time="00:00:36.00" value="spooky"/>
+	  <level name="pm5"  time="00:00:27.50" value="go round"/>
+	  <level name="pm11" time="00:00:28.50" value="run you fools" />
+	  <level name="pm6"  time="00:00:49.00" value="passing through"/>
+	  <level name="pm8"  time="00:00:32.50" value="space in me"/>
+	  <level name="pm2"  time="00:00:50.70" value="is left right?"/>
+	  <level name="pm10" time="00:01:20.50" value="minotaur"/>
+	  <level name="pm7"  time="00:00:46.00" value="hive"/>
+	  <level name="pm3"  time="00:00:44.00" value="chaos theory" />        
+	  <level name="pm4"  time="00:01:44.00" value="turmoil here today" />
   </world>
   <world name="shocked" icon="shocked" directory="shocked">
-	  <level name="bb1"  time="00:00:56.00" value="mirror, mirror"/>
-    <level name="bb2"  time="00:00:27.00" value="hyperspeed" />
-	  <level name="bb3"  time="00:00:56.00" value="haunted house"/>
-	  <level name="bb4"  time="00:01:10.00" value="frying pan"/>
-	  <level name="bb5"  time="00:00:43.50" value="PEEK-A-BOO" />
-	  <level name="bb6"  time="00:00:50.00" value="elevator action"/>
-	  <level name="bb7"  time="00:00:46.00" value="ninja"/>
-	  <level name="bb8"  time="00:00:53.00" value="library"/>
-	  <level name="bb9"  time="00:01:06.00" value="CGA"/>
-	  <level name="bb10" time="00:00:45.00" value="aquarium" />
+	  <level name="bb1"  time="00:00:57.00" value="mirror, mirror"/>
+    <level name="bb2"  time="00:00:28.00" value="hyperspeed" />
+	  <level name="bb3"  time="00:00:57.00" value="haunted house"/>
+	  <level name="bb4"  time="00:01:11.00" value="frying pan"/>
+	  <level name="bb5"  time="00:00:44.50" value="PEEK-A-BOO" />
+	  <level name="bb6"  time="00:00:51.00" value="elevator action"/>
+	  <level name="bb7"  time="00:00:47.00" value="ninja"/>
+	  <level name="bb8"  time="00:00:54.00" value="library"/>
+	  <level name="bb9"  time="00:01:07.00" value="CGA"/>
+	  <level name="bb10" time="00:00:46.00" value="aquarium" />
   </world>
   <world name="scared" icon="scared" directory="scared">
-	  <level name="bb11" time="00:05:45.00" value="JOE, MAC and IAN"/>
-	  <level name="dk8"  time="00:05:45.00"  value="death cage"/>
-	  <level name="dk1"  time="00:05:45.00" value="it grew dark"/>
-	  <level name="dk3"  time="00:05:45.00" value="one false step"/>
-	  <level name="dk2"  time="00:05:45.00" value="hell's atrium"/>
-	  <level name="dk5"  time="00:05:45.00" value="HOT-HEADED"/>
-	  <level name="dk4"  time="00:05:45.00" value="walking dead"/>
-	  <level name="dk6"  time="00:05:45.00" value="make haste slowly"/>
-	  <level name="dk7"  time="00:05:45.00" value="PRECISELY"/>
-	  <level name="dk9"  time="00:05:45.00" value="hail to the king"/>
+	  <level name="bb11" time="00:01:00.00" value="JOE, MAC and IAN"/>
+	  <level name="dk8"  time="00:00:33.00"  value="death cage"/>
+	  <level name="dk1"  time="00:00:43.00" value="it grew dark"/>
+	  <level name="dk3"  time="00:00:55.00" value="one false step"/>
+	  <level name="dk5"  time="00:00:59.00" value="HOT-HEADED"/>
+    <level name="dk6"  time="00:00:37.00" value="make haste slowly"/>
+	  <level name="dk4"  time="00:00:42.50" value="walking dead"/>	  
+    <level name="dk2"  time="00:00:48.30" value="hell's atrium"/>
+	  <level name="dk7"  time="00:01:04.00" value="PRECISELY"/>    
+	  <level name="dk9"  time="00:00:45.00" value="hail to the king"/>
   </world>
 </worlds>

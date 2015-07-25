@@ -79,7 +79,7 @@ namespace PixelPerfect
 
         public override void Draw(Microsoft.Xna.Framework.Graphics.SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 2, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 100)));
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Color(0, 0, 0, (int)((1.0f - (float)fadeTime.TotalMilliseconds / 500.0f) * 100)));
             spriteBatch.DrawString(Globals.silkscreenFont, "PAUSE", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 44, 6), Color.White, 0.0f, Vector2.Zero, 3.0f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(Globals.silkscreenFont, "CONTINUE", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 39), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);
             spriteBatch.DrawString(Globals.silkscreenFont, "RESTART", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 30, 67), Color.White, 0.0f, Vector2.Zero, 2.0f, SpriteEffects.None, 0.0f);

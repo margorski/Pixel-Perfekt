@@ -69,10 +69,10 @@ namespace PixelPerfect
             Levelsave levelsave;
             Savestate.Instance.levelSaves.TryGetValue(Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel), out levelsave);
 
-            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED + 20, Config.SCREEN_HEIGHT_SCALED), color);
+            spriteBatch.Draw(Globals.textureDictionary["pixel"], new Rectangle(0, Config.SCREEN_HEIGHT_SCALED - Config.Hud.HUD_HEIGHT, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), color);
 
             spriteBatch.Draw(Globals.textureDictionary["clock"], new Vector2(6, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
-            spriteBatch.DrawString(Globals.silkscreenFont, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.f"), new Vector2(17, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
+            spriteBatch.DrawString(Globals.silkscreenFont, "Time: " + Globals.CurrentLevelState.levelTime.ToString("mm\\:ss\\.ff"), new Vector2(17, Config.Hud.TEXT_POSITION_Y + 3), Color.White);
 
             leveltitle.Draw(spriteBatch);
             spriteBatch.Draw(Globals.textureDictionary["skull"], new Vector2(200, Config.Hud.TEXT_POSITION_Y + 3), Color.White);

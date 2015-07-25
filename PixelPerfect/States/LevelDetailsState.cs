@@ -237,7 +237,7 @@ namespace PixelPerfect
             if (exist)
             {
                 deathsString += levelsave.deathCount;
-                timeString += levelsave.bestTime.ToString("mm\\:ss\\.f");
+                timeString += levelsave.bestTime.ToString("mm\\:ss\\.ff");
             }
             else
             {
@@ -252,7 +252,7 @@ namespace PixelPerfect
             if (caption != null)
                 caption.Draw(spriteBatch);
 
-            Util.DrawStringAligned(spriteBatch, "PERFEKT TIME: " + Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].time.ToString("mm\\:ss\\.f"), Globals.silkscreenFont, Color.Gold, new Rectangle(0, 104, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(16, 0), Util.Align.Center);
+            Util.DrawStringAligned(spriteBatch, "PERFEKT TIME: " + Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].time.ToString("mm\\:ss\\.ff"), Globals.silkscreenFont, Color.Gold, new Rectangle(0, 104, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(16, 0), Util.Align.Center);
             Util.DrawStringAligned(spriteBatch, timeString, Globals.silkscreenFont, timeColor, new Rectangle(0, 117, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), new Vector2(19, 0), Util.Align.Left);
             spriteBatch.Draw(Globals.textureDictionary["clock"], new Vector2(8, 117), timeColor);
             spriteBatch.DrawString(Globals.silkscreenFont, deathsString, new Vector2(176, 117), deathColor);

@@ -675,7 +675,7 @@ namespace PixelPerfect
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
             if (backgroundTexture != null && !menuLevel)
-                spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED + 10, Config.SCREEN_HEIGHT_SCALED), Color.White);
+                spriteBatch.Draw(backgroundTexture, new Rectangle(0, 0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), Color.White);
 
 
             foreach (PixelParticle pixelParticle in pixelParticles)

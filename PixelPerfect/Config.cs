@@ -25,7 +25,7 @@ namespace PixelPerfect
         public const int DRAW_OFFSET_Y = 0;
         public const bool CENTER_PIVOT = true;
         public const int ANIM_FRAMES = 4;
-        public const int AD_TIMER = 120; // s
+        public const int AD_TIMER = 180; // s
         public const int LEVEL_END_DELAY = 1500;
         public const float BLACK_HOLE_FORCE = 5000.0f;
         public const int SKIP_AMOUNT = 3;
@@ -61,10 +61,7 @@ namespace PixelPerfect
             public const int CONTROLS = 500;
             public const int DUMMY = 666;
             public const int FIRST_CUTSCENE = 710;
-            public const int SECOND_CUTSCENE = 720;
-            public const int THIRD_CUTSCENE = 730;
-            public const int FOURTH_CUTSCENE = 740;
-            public const int FIFTH_CUTSCENE = 750;
+            public const int FINAL_CUTSCENE = 750;
         }   
 
         public struct Map
@@ -102,8 +99,8 @@ namespace PixelPerfect
             public const int PIXELPARTICLE_LIFETIME_MIN = 400;
             public const int PIXELPARTICLE_LIFETIME_MAX = 1200;                        
             public const int MAX_EXPLOSION_MAGNITUDE = 90;
-            public const int MAX_PARTICLES_MENU = 1000;
-            public const int MAX_PARTICLES_LEVEL = 700;
+            public const int MAX_PARTICLES_MENU = 700;
+            public const int MAX_PARTICLES_LEVEL = 500;
         }
 
         public struct Player

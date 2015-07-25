@@ -16,10 +16,10 @@
     shell:SystemTray.IsVisible="False">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" Background="Black">
         <!--Drawing surface for DirectX content - supports Landscape and Portrait-->
         
-        <DrawingSurface x:Name="XnaSurface" />
+        <DrawingSurface x:Name="XnaSurface" HorizontalAlignment="Center" Width="800" />
 
         <!-- Media element for audio -->
         <MediaElement></MediaElement>

@@ -48,7 +48,7 @@ namespace PixelPerfect
 
         public override void Draw(SpriteBatch spriteBatch, bool suspended, bool upsidedownBatch = false)
         {
-            spriteBatch.Draw(background, new Rectangle(0,0, Config.SCREEN_WIDTH_SCALED + 10, Config.SCREEN_HEIGHT_SCALED), Color.White);
+            spriteBatch.Draw(background, new Rectangle(0,0, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED), Color.White);
         }
 
         public override void Update(GameTime gameTime, bool suspended)
