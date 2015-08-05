@@ -244,15 +244,15 @@ namespace PixelPerfect
                 if (Globals.selectedLevel == 0 && Globals.selectedWorld == 0)
                 {
                     Globals.gameStateManager.PushState(Config.States.CONTROLS);
-//                    if (!Globals.firstCutscene)
-//                    {
-//#if !WINDOWS
-//                        Globals.firstCutscene = true;
-//                        IsolatedStorageSettings.ApplicationSettings["cutscene1"] = Globals.firstCutscene;
-//                        IsolatedStorageSettings.ApplicationSettings.Save();
-//#endif
+                    if (!Globals.firstcutscene)
+                    {
+                        Globals.firstcutscene = true;
+#if !WINDOWS
+                        IsolatedStorageSettings.ApplicationSettings["firstcutscene"] = Globals.firstcutscene;
+                        IsolatedStorageSettings.ApplicationSettings.Save();
+#endif
                         Globals.gameStateManager.PushState(Config.States.FIRST_CUTSCENE);
-                    //}
+                    }
                 }
                 else
                     Globals.gameStateManager.PushState(Config.States.TAP);

@@ -35,6 +35,8 @@ namespace PixelPerfect
         Button musicButton = new Button("", new Rectangle(240, 130, 24, 24), Globals.textureDictionary["music"], Globals.silkscreenFont, true);
         Button soundButton = new Button("", new Rectangle(210, 130, 24, 24), Globals.textureDictionary["sound"], Globals.silkscreenFont, true);
 
+        bool previousMusicEnabled = false;
+
         public PauseState()
         {
 
@@ -52,6 +54,7 @@ namespace PixelPerfect
 #endif
             soundButton.value = Globals.soundEnabled;
             musicButton.value = Globals.musicEnabled;
+            previousMusicEnabled = Globals.musicEnabled;
 
             if (Savestate.Instance.Skipped() || Globals.worlds[Globals.selectedWorld].LevelSkipped(Globals.selectedLevel) || Globals.selectedLevel >= Globals.worlds[Globals.selectedWorld].levels.Count - 1
                 || Globals.worlds[Globals.selectedWorld].LevelCompleted(Globals.selectedLevel))
@@ -63,7 +66,12 @@ namespace PixelPerfect
         public override void Exit(int nextStateId)
         {
             if (Globals.musicEnabled)
-                MediaPlayer.Resume();
+            {
+                if (previousMusicEnabled)
+                    MediaPlayer.Resume();
+                else
+                    MediaPlayer.Play(Globals.backgroundMusicList[Globals.CurrentMap.music]);
+            }
         }
 
         public override void Suspend(int pushedStateId)
@@ -148,10 +156,6 @@ namespace PixelPerfect
                         Globals.musicEnabled = musicButton.value;
                         IsolatedStorageSettings.ApplicationSettings["music"] = Globals.musicEnabled;
                         IsolatedStorageSettings.ApplicationSettings.Save();
-                        if (Globals.musicEnabled)
-                            MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
-                        else
-                            MediaPlayer.Stop();
                         continue;
                     }
                     else if (soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
@@ -200,11 +204,7 @@ namespace PixelPerfect
                 }
                 else if (musicButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
-                    Globals.musicEnabled = musicButton.value;
-                    if (Globals.musicEnabled)
-                        MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
-                    else
-                        MediaPlayer.Stop();
+                    Globals.musicEnabled = musicButton.value;                    
                 }
                 else if (soundButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {

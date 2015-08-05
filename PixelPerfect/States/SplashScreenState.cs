@@ -40,16 +40,16 @@ namespace PixelPerfect
         public override void Enter(int previousStateId)
         {
             logo = Globals.content.Load<Texture2D>("logo");
-           
+
             //var titlex = Config.SCREEN_WIDTH_SCALED / 2 - Globals.silkscreenFont.MeasureString("LOADING").X / 2;
             //loading = new WavyText("LOADING", new Vector2(titlex, 130), 1500, 1.0f, Config.titleColors, 12.0f, 1.0f, 0.0f);
-#if !WINDOWS
-            GamePage.Instance.AdsOff();
-#endif
         }
 
         public override void Exit(int nextStateId)
         {
+//#if !WINDOWS
+  //          GamePage.Instance.AdsOff();
+//#endif
         }
                 
         public override void Suspend(int pushedStateId)

@@ -504,13 +504,9 @@ namespace PixelPerfect
         {
             // checking if world is completed
             if (Globals.worlds[Globals.selectedWorld].Completed())
-            {
-                if (Globals.selectedWorld == Globals.worlds.Count - 1 &&
-                    !Globals.completed)
-                {                    
-                    return;
-                }
-                else if (!Globals.worlds[Globals.selectedWorld + 1].active)
+            {                
+                if (Globals.selectedWorld < Globals.worlds.Count - 1 &&
+                    !Globals.worlds[Globals.selectedWorld + 1].active)
                 {
                     Theme.ReloadTheme(Globals.selectedWorld + 1);
                     Globals.detonateWorldKeylock = Globals.selectedWorld + 1;

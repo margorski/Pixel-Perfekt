@@ -24,9 +24,6 @@ namespace PixelPerfect.Cutscene
 
         public int backroundMusic = -1;
 
-        GamePadState prevGPState;
-        GamePadState currGPState;
-
         public CutsceneState() { }
 
         public override void Enter(int previousStateId)
@@ -61,12 +58,6 @@ namespace PixelPerfect.Cutscene
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool suspended)
         {
-            //currGPState = GamePad.GetState(PlayerIndex.One);
-            //if (currGPState.Buttons.Back == ButtonState.Pressed && prevGPState.Buttons.Back == ButtonState.Released)
-            //    Globals.gameStateManager.PopState();
-            //prevGPState = currGPState;
-
-
             currentDuration += gameTime.ElapsedGameTime;
 
             if (currentDuration >= CurrentScene()._duration)

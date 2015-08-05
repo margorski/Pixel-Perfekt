@@ -38,7 +38,7 @@ namespace PixelPerfect
         {
             get
             {
-                return new Rectangle((int)position.X, (int)position.Y, Config.Player.WIDTH, Config.Player.HEIGHT);
+                return new Rectangle((int)position.X, (int)position.Y + (spriteColumn >= 65 ? 7 : 0), Config.Player.WIDTH, (spriteColumn >= 65 ? 9 : Config.Player.HEIGHT));
             }
         }
         public Vector2 speed;
@@ -200,7 +200,7 @@ namespace PixelPerfect
 
             if ((position.Y) > (Config.Map.HEIGHT * Config.Tile.SIZE) - 1)
             {
-                position.Y = 0 - Config.Player.HEIGHT;
+                position.Y =  - boundingBox.Height;
                 SetState(State.fallThroughScreen, true);
             }
             //else if (position.Y < -Config.Player.HEIGHT)
@@ -220,7 +220,7 @@ namespace PixelPerfect
         public void SetVerticalPositionOnTile(Rectangle tileBox)
         {
             if (speed.Y > 0.0f)
-                position.Y = (float)(tileBox.Top - Config.Player.HEIGHT);
+                position.Y = (float)(tileBox.Top - boundingBox.Height);
             else
                 position.Y = (float)tileBox.Bottom;
         }
@@ -374,8 +374,8 @@ namespace PixelPerfect
             {
                 if (textureColors[i].A == 255)
                 {
-                    Vector2 boomCenter = position + new Vector2(Config.Player.WIDTH / 2, Config.Player.HEIGHT / 3 * 2);
-                    Vector2 pixPos = position + new Vector2(i % Config.Player.WIDTH, i / Config.Player.WIDTH);
+                    Vector2 boomCenter = position + new Vector2(Config.Player.WIDTH / 2, boundingBox.Height / 3 * 2);
+                    Vector2 pixPos = position + new Vector2(i % Config.Player.WIDTH, i / boundingBox.Width);
                     Vector2 pixSpeed = (pixPos - boomCenter) * Globals.rnd.Next(0, Config.PixelParticle.MAX_EXPLOSION_MAGNITUDE);
                     Vector2 acc = Vector2.Zero;// new Vector2(rnd.Next(-100, 100), rnd.Next(-100, 100));
 
