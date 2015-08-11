@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
 using System.IO.IsolatedStorage;
+using Windows.ApplicationModel.Store;
 
 namespace PixelPerfect
 {
@@ -132,6 +133,14 @@ namespace PixelPerfect
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             Globals.firstcutscene = (bool)IsolatedStorageSettings.ApplicationSettings["firstcutscene"];
+
+            if (!IsolatedStorageSettings.ApplicationSettings.Contains("swappedcontrols"))
+            {
+                IsolatedStorageSettings.ApplicationSettings.Add("swappedcontrols", false);
+                IsolatedStorageSettings.ApplicationSettings.Save();
+            }
+            Globals.swappedControls = (bool)IsolatedStorageSettings.ApplicationSettings["swappedcontrols"];
+            Globals.noads = CurrentApp.LicenseInformation.ProductLicenses["noads"].IsActive;
 #endif
 
             gameStateManager = new GameStateManager();

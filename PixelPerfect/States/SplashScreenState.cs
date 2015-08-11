@@ -31,6 +31,7 @@ namespace PixelPerfect
             {"skull", "menu\\skull"}, {"clock", "menu\\clock"}, {"tap", "menu\\tap"}, {"next", "menu\\next"}, {"restart", "menu\\restart"},
             {"suit", "menu\\shirt"}, {"suitbutton", "menu\\suitebtn"}, {"suitbuttonlocked", "menu\\suitebtnlocked"}, {"miniDoor", "door_mini"},
             {"key", "key"}, {"cutscene1", "cutscenes\\cutscene1"}, {"exclamation", "cutscenes\\exclamation"}, {"question", "cutscenes\\question"},   
+            {"ads", "menu\\ads"}, {"swap", "menu\\swap"}
         };
 
         public SplashScreenState()

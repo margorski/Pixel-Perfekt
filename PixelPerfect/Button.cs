@@ -26,6 +26,7 @@ namespace PixelPerfect
         public bool value = false;
         public bool clicked { private set; get; }
         private bool toggleable = false;
+        public bool visible = true;
 
         public int X { get { return rectangle.X; } }
         public int Y { get { return rectangle.Y; } }
@@ -44,6 +45,9 @@ namespace PixelPerfect
         
         public bool Clicked(int x, int y, bool release)
         {
+            if (!visible)
+                return false;
+
             clicked = false;
 
             if (!active)
@@ -78,6 +82,9 @@ namespace PixelPerfect
 
         public void Toggle()
         {
+            if (!visible)
+                return;
+
             if (!toggleable)
                 return;
 
@@ -85,7 +92,10 @@ namespace PixelPerfect
         }
 
         public void Draw (SpriteBatch spriteBatch)
-        {            
+        {
+            if (!visible)
+                return;
+
             var color = (active ? activeColor : notactiveColor);
             if (toggleable && !value)
                 color = toggleColor;
@@ -99,7 +109,10 @@ namespace PixelPerfect
         }
 
         public void Draw(SpriteBatch spriteBatch, Color color)
-        {          
+        {
+            if (!visible)
+                return;
+
             spriteBatch.Draw(texture, rectangle, color);
 
             var dimensions = font.MeasureString(text);

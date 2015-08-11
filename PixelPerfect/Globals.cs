@@ -46,5 +46,7 @@ namespace PixelPerfect
         public static Game game;
         public static bool completed = false;
         public static bool firstcutscene = false;
+        public static bool swappedControls = false;
+        public static bool noads = false;
     }
 }

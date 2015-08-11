@@ -41,7 +41,7 @@ namespace PixelPerfect
         bool stopped = false;
 
         private string[] names = {"NORMAN", "COMMIE", "EIFFEL", "MESA", "NEON", "BLING",
-                                  "PANTY", "SMOKIE", "BASTARD", "KENT", "PLUMBER", "BANER",
+                                  "PANTY", "SMOKIE", "KENNEY", "KENT", "PLUMBER", "BANER",
                                   "MUTANT", "BOY", "RCOP", "GRYPHON", "IRON", "PIKPOK"};
 
         public SuitSelectState(GameStateManager gameStateManager) 

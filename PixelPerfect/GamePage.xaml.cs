@@ -12,6 +12,8 @@ using MonoGame.Framework.WindowsPhone;
 using PixelPerfect.Resources;
 using Microsoft.AdMediator.WindowsPhone8;
 using System.Diagnostics;
+using Windows.ApplicationModel.Store;
+using StoreExitAction = System.Action<string, string, bool>;
 
 namespace PixelPerfect
 {
@@ -20,10 +22,15 @@ namespace PixelPerfect
         private Game1 _game;
         public static GamePage Instance = null;
 
+        private static StoreExitAction StoreExitCallback;
+
         // Constructor
         public GamePage()
         {
             InitializeComponent();
+
+
+            CurrentApp.LicenseInformation.LicenseChanged += LicenseInformation_LicenseChanged;
 
             if (Instance != null)
                 throw new InvalidOperationException("There can be only one GamePage object!");
@@ -34,7 +41,12 @@ namespace PixelPerfect
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
             //AdRotator.Invalidate(null);            
-            
+
+        }
+
+        void LicenseInformation_LicenseChanged()
+        {
+            Globals.noads = CurrentApp.LicenseInformation.ProductLicenses["noads"].IsActive;
         }
 
         // Sample code for building a localized ApplicationBar
@@ -86,10 +98,48 @@ namespace PixelPerfect
 
         public void AdsOn()
         {
+            if (Globals.noads)
+                return;
 #if !WINDOWS
             //AdMediator_6FC9F8.Visibility = System.Windows.Visibility.Visible;            
             AdMediator_6FC9F8.Resume();
 #endif
         }
+
+
+#if !WINDOWS
+        public void LaunchStoreForProductPurchase(string productID, bool requestReceipt, StoreExitAction storeExitCallback)
+        {
+
+            StoreExitCallback = storeExitCallback;
+            Dispatcher.BeginInvoke(() => LaunchStoreForProductPurchaseASync(productID, requestReceipt));
+        }
+
+        private static async void LaunchStoreForProductPurchaseASync(string productID, bool requestReceipt)
+        {
+            bool productPurchaseError = false;
+            string receipt = "";
+
+            try
+            {
+                receipt = await CurrentApp.RequestProductPurchaseAsync(productID, requestReceipt);
+
+            }
+            catch (Exception ex)
+            {
+                productPurchaseError = true;
+            }
+
+            try
+            {
+                if (StoreExitCallback != null) StoreExitCallback(productID, receipt, productPurchaseError);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+            }
+
+        }
+#endif
     }
 }

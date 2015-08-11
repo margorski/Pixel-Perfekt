@@ -515,12 +515,25 @@ namespace PixelPerfect
                                                         (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale));
                     var mousePosition = new Point((int)currentMouseState.X, (int)currentMouseState.Y);
 
-                    if (leftScreenHalf.Contains(mousePosition))
-                        player.Stop(gameTime);
-                    else if (rightScreenHalf.Contains(mousePosition))
+                    if (!Globals.swappedControls)
                     {
-                        if (player.Jump() && Globals.soundEnabled)
-                            Globals.soundsDictionary["jump"].Play();
+                        if (leftScreenHalf.Contains(mousePosition))
+                            player.Stop(gameTime);
+                        else if (rightScreenHalf.Contains(mousePosition))
+                        {
+                            if (player.Jump() && Globals.soundEnabled)
+                                Globals.soundsDictionary["jump"].Play();
+                        }
+                    }
+                    else
+                    {
+                        if (rightScreenHalf.Contains(mousePosition))
+                            player.Stop(gameTime);
+                        else if (leftScreenHalf.Contains(mousePosition))
+                        {
+                            if (player.Jump() && Globals.soundEnabled)
+                                Globals.soundsDictionary["jump"].Play();
+                        }
                     }
                 }
             }
@@ -646,27 +659,40 @@ namespace PixelPerfect
                         touchId = 0;
                         player.EndOfStop(gameTime);
                     }
-
-                    //if (resetButton.Clicked((int)tl.Position.X, (int)tl.Position.Y, scale))
-                    //    InitLevel();
-                    //else 
-                    if (new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0,
-                                      (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y))
-                        && tl.State == TouchLocationState.Pressed)
+                    else if (tl.State == TouchLocationState.Pressed)
                     {
-                        if (player.Jump() && Globals.soundEnabled)
-                            Globals.soundsDictionary["jump"].Play();
-                    }
-
-                    else if (new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2),
-                                                 (int)(Config.SCREEN_HEIGHT_SCALED * scale)).Contains(new Point((int)tl.Position.X, (int)tl.Position.Y)))
-                    {
-                        if (tl.State == TouchLocationState.Pressed)
+                        var leftScreenHalf = new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2),
+                                                            (int)(Config.SCREEN_HEIGHT_SCALED * scale));
+                        var rightScreenHalf = new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0,
+                                                            (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale));
+                        var touchPosition = new Point((int)tl.Position.X, (int)tl.Position.Y);
+                        if (!Globals.swappedControls)
                         {
-                            touchId = tl.Id;
-                            player.Stop(gameTime);
+                            if (leftScreenHalf.Contains(touchPosition))
+                            {
+                                touchId = tl.Id;
+                                player.Stop(gameTime);
+                            }
+                            else if (rightScreenHalf.Contains(touchPosition))
+                            {
+                                if (player.Jump() && Globals.soundEnabled)
+                                    Globals.soundsDictionary["jump"].Play();
+                            }
                         }
-                    }
+                        else
+                        {
+                            if (rightScreenHalf.Contains(touchPosition))
+                            {
+                                touchId = tl.Id;
+                                player.Stop(gameTime);
+                            }
+                            else if (leftScreenHalf.Contains(touchPosition))
+                            {
+                                if (player.Jump() && Globals.soundEnabled)
+                                    Globals.soundsDictionary["jump"].Play();
+                            }
+                        }
+                    }                    
                 }
             }
         }

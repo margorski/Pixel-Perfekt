@@ -38,7 +38,7 @@ namespace PixelPerfect
         {
             get
             {
-                return new Rectangle((int)position.X, (int)position.Y + (spriteColumn >= 65 ? 7 : 0), Config.Player.WIDTH, (spriteColumn >= 65 ? 9 : Config.Player.HEIGHT));
+                return new Rectangle((int)position.X, (int)position.Y, Config.Player.WIDTH, Config.Player.HEIGHT);
             }
         }
         public Vector2 speed;

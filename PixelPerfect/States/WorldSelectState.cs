@@ -10,6 +10,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
+using Windows.ApplicationModel.Store;
+using StoreExitAction = System.Action<string, string, bool>;
 
 #if !WINDOWS
 using Microsoft.Phone.Tasks;
@@ -46,6 +48,7 @@ namespace PixelPerfect
 
         Button sendButton;
         Button backButton;
+        Button adsButton;
         List<Button> worldButtons = new List<Button>();
 
         int selectedWorld = 0;        
@@ -97,6 +100,8 @@ namespace PixelPerfect
 
             worldTile = Globals.content.Load<Texture2D>("leveltile");
             backButton = new Button("", new Rectangle(Config.Menu.BACK_X, Config.Menu.BACK_Y, 24, 24), Globals.textureDictionary["back"], Globals.silkscreenFont, false);
+            adsButton = new Button("", new Rectangle(220, Config.Menu.BACK_Y, 44, 24), Globals.textureDictionary["ads"], Globals.silkscreenFont, false);            
+
             foreach (World world in Globals.worlds)
             {
                 var icon = Globals.textureDictionary[world.icon];
@@ -133,7 +138,9 @@ namespace PixelPerfect
             }                
                         
             if (Globals.musicEnabled && MediaPlayer.State != MediaState.Playing)
-                MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);       
+                MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
+
+            adsButton.visible = !Globals.noads;
 #if !WINDOWS     
             touchId = -1;
 #endif
@@ -176,6 +183,7 @@ namespace PixelPerfect
             touchId = -1;
 #endif
             state = MenuState.IDLE;
+            adsButton.visible = !Globals.noads;
         }
 
         public override void Suspend(int pushedStateId)
@@ -268,7 +276,8 @@ namespace PixelPerfect
                                     break;
                             }
                             sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
-                            backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);    
+                            backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+                            adsButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                         }
                         break;
 
@@ -276,9 +285,10 @@ namespace PixelPerfect
                         if (Math.Abs(touch.Position.X - startPositionX) > Config.Menu.INACTIVE_AREA)
                         {
                             foreach (Button worldButton in worldButtons)
-                                worldButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
+                            worldButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
                             sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
-                            backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);          
+                            backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
+                            adsButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
                             state = MenuState.SLIDING;                        
                         }
                         else if (touch.State == TouchLocationState.Released)
@@ -298,6 +308,10 @@ namespace PixelPerfect
                             {
                                 GoBack();
                             }   
+                            else if (adsButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
+                            {
+                                RemoveAds();
+                            }
                             touchId = -1;
                             state = MenuState.IDLE;
                         }
@@ -359,7 +373,8 @@ namespace PixelPerfect
 
                         }
                         sendButton.Clicked(currMouseState.X, currMouseState.Y, scale, false);
-                        backButton.Clicked(currMouseState.X, currMouseState.Y, scale, false);
+                        backButton.Clicked(currMouseState.X, currMouseState.Y, scale, false);           
+                        adsButton.Clicked(currMouseState.X, currMouseState.Y, scale, false);
                     }
                     break;
 
@@ -369,7 +384,8 @@ namespace PixelPerfect
                         foreach (Button worldButton in worldButtons)
                             worldButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true);
                         sendButton.Clicked(currMouseState.X, currMouseState.Y, scale, true);
-                        backButton.Clicked(currMouseState.X, currMouseState.Y, scale, true);
+                        backButton.Clicked(currMouseState.X, currMouseState.Y, scale, true);            
+                        adsButton.Clicked(currMouseState.X, currMouseState.Y, scale, true);
                         state = MenuState.SLIDING;                        
                     }
                     else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
@@ -389,6 +405,10 @@ namespace PixelPerfect
                         else if (backButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                         {
                             GoBack();
+                        }   
+                        else if (adsButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
+                        {
+                            RemoveAds();
                         }   
                         state = MenuState.IDLE;
                     }
@@ -489,6 +509,13 @@ namespace PixelPerfect
             }
         }
 
+        private void RemoveAds()
+        {
+#if !WINDOWS
+            GamePage.Instance.LaunchStoreForProductPurchase("noads", false, null);
+#endif
+        }
+
         public void SelectWorld(int world)
         {
             if (world >= Globals.worlds.Count)
@@ -502,6 +529,7 @@ namespace PixelPerfect
         {
             caption.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
+            adsButton.Draw(spriteBatch);
 #if DEBUG
             sendButton.Draw(spriteBatch);
 #endif
