@@ -10,10 +10,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
+
+#if WINDOWS_PHONE
 using Windows.ApplicationModel.Store;
 using StoreExitAction = System.Action<string, string, bool>;
-
-#if !WINDOWS
 using Microsoft.Phone.Tasks;
 #endif
 
@@ -237,7 +237,7 @@ namespace PixelPerfect
 
         private void SendDataEmail()
         {
-#if WINDOWS
+#if !WINDOWS_PHONE
             return;
 #else
             EmailComposeTask emailComposeTask = new EmailComposeTask();
@@ -511,7 +511,7 @@ namespace PixelPerfect
 
         private void RemoveAds()
         {
-#if !WINDOWS
+#if WINDOWS_PHONE
             GamePage.Instance.LaunchStoreForProductPurchase("noads", false, null);
 #endif
         }

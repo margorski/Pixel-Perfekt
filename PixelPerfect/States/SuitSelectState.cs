@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 
-#if !WINDOWS
+#if WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
 
@@ -41,8 +41,8 @@ namespace PixelPerfect
         bool stopped = false;
 
         private string[] names = {"NORMAN", "COMMIE", "EIFFEL", "MESA", "NEON", "BLING",
-                                  "PANTY", "SMOKIE", "KENNEY", "KENT", "PLUMBER", "BANER",
-                                  "MUTANT", "BOY", "RCOP", "GRYPHON", "IRON", "PIKPOK"};
+                                  "RAYTEK", "CYREX", "JOGURT", "WYJEC", "PLUMBER", "WILKUU",
+                                  "MUTANT", "EMPI", "RCOP", "GRYPHON", "IRON", "PIKPOK"};
 
         public SuitSelectState(GameStateManager gameStateManager) 
         {
@@ -145,7 +145,11 @@ namespace PixelPerfect
                                                               buttonTexture,
                                                               Globals.silkscreenFont, false));
                 if (!Savestate.Instance.suitUnlocked[i])
+#if DEBUG
+                    suitButtons[i].active = true;                
+#else
                     suitButtons[i].active = false;                
+#endif
             }
         }
 
@@ -173,8 +177,10 @@ namespace PixelPerfect
                     {
                         if (button.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                             Globals.suit = suitButtons.IndexOf(button);
+#if WINDOWS_PHONE
                             IsolatedStorageSettings.ApplicationSettings["suit"] = Globals.suit;
                             IsolatedStorageSettings.ApplicationSettings.Save();
+#endif
                     }
                     if (backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                         GoBack();

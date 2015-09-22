@@ -260,7 +260,7 @@ namespace PixelPerfect
         }
 
         public bool CheckCollisionsPixelPerfectPlayer(Player player, UInt32 attributes)
-        {
+        {            
             int startRow = player.boundingBox.Top / Config.Tile.SIZE;
             int endRow = (player.boundingBox.Bottom - 1) / Config.Tile.SIZE;
             int startColumn = player.boundingBox.Left / Config.Tile.SIZE;
@@ -426,7 +426,7 @@ namespace PixelPerfect
             
         }
 
-        public static Map LoadMap(string directory, string xmlFile, GraphicsDeviceManager graphics, ContentManager content, Hud hud, float scale = 1.0f)
+        public static Map LoadMap(string directory, string xmlFile, GraphicsDeviceManager graphics, ContentManager content, Hud hud, Vector2 scale)
         {
             Texture2D pixel = content.Load<Texture2D>("pixel");
             Texture2D tileset = null;
@@ -443,7 +443,7 @@ namespace PixelPerfect
             string layername = "";
             bool emit = true;
             int music = 0;
-
+            
             using (XmlReader xmlreader = XmlReader.Create(TitleContainer.OpenStream(@"Levels\" + xmlFile)))
             {
                 while (xmlreader.Read())

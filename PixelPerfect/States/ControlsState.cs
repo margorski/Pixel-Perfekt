@@ -240,7 +240,7 @@ namespace PixelPerfect
         private void Swap()
         {
             Globals.swappedControls = !Globals.swappedControls;
-#if !WINDOWS
+#if WINDOWS_PHONE
             IsolatedStorageSettings.ApplicationSettings["swappedcontrols"] = Globals.swappedControls;
             IsolatedStorageSettings.ApplicationSettings.Save();
 #endif

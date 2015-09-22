@@ -72,10 +72,10 @@ namespace PixelPerfect
             rectangle = new Rectangle((int)position.X, (int)position.Y, rectangle.Width, rectangle.Height);
         }
             
-        public bool Clicked(int x, int y, float scale, bool release)
+        public bool Clicked(int x, int y, Vector2 scale, bool release)
         {
-            x = (int)(x / scale);
-            y = (int)(y / scale);
+            x = (int)(x / scale.X);
+            y = (int)(y / scale.Y);
 
             return Clicked(x, y, release);
         }

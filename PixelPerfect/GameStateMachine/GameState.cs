@@ -12,7 +12,7 @@ namespace PixelPerfect
 {
     public abstract class GameState
     {
-        public float scale = 1.0f;
+        public Vector2 scale = new Vector2(1.0f, 1.0f);
 
         public abstract void Enter(int previousStateId);
         public abstract void Exit(int nextStateId);

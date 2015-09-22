@@ -28,20 +28,21 @@ namespace PixelPerfect
             this.music = music;
         }
                 
-        public static Theme Cool = new Theme(25, 24, 2, new LevelState("", "menu\\menu_cool", true, Config.SCALE_FACTOR));
-        public static Theme Happy = new Theme(46, 50, 3, new LevelState("", "menu\\menu_happy", true, Config.SCALE_FACTOR));
-        public static Theme Confused = new Theme(23, 135, 4, new LevelState("", "menu\\menu_confused", true, Config.SCALE_FACTOR)); // clud
-        public static Theme Shocked = new Theme(26, 26, 5, new LevelState("", "menu\\menu_shocked", true, Config.SCALE_FACTOR)); //chip chippy
-        public static Theme Scared = new Theme(9, 82, 11, new LevelState("", "menu\\menu_scared", true, Config.SCALE_FACTOR)); //rising
+        public static Theme Cool = new Theme(25, 24, 2, new LevelState("", "menu\\menu_cool", true, new Vector2(1.0f, 1.0f)));
+        public static Theme Happy = new Theme(46, 50, 3, new LevelState("", "menu\\menu_happy", true, new Vector2(1.0f, 1.0f)));
+        public static Theme Confused = new Theme(23, 135, 4, new LevelState("", "menu\\menu_confused", true, new Vector2(1.0f, 1.0f))); // clud
+        public static Theme Shocked = new Theme(26, 26, 5, new LevelState("", "menu\\menu_shocked", true, new Vector2(1.0f, 1.0f))); //chip chippy
+        public static Theme Scared = new Theme(9, 82, 11, new LevelState("", "menu\\menu_scared", true, new Vector2(1.0f, 1.0f))); //rising
         public static Theme[] Themes = { Cool, Happy, Confused, Shocked, Scared };
         public static Theme CurrentTheme = Themes[0];        
 
-        public static void ReloadTheme (int id)
+        public static void ReloadTheme (int id, Vector2 scale)
         {
             Theme.CurrentTheme = Theme.Themes[id];
             var backgroundState = (TextureBackgroundState)Globals.gameStateManager.GetState(Config.States.BACKGROUND);
             backgroundState.ChangeColors(Theme.CurrentTheme.color1, Theme.CurrentTheme.color2);
             var titleScreenState = (TitlescreenState)Globals.gameStateManager.GetState(Config.States.TITLESCREEN);
+            Theme.CurrentTheme.level.scale = scale;
             titleScreenState.backgroundLevel = Theme.CurrentTheme.level;
         }
     }

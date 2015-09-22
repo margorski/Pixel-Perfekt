@@ -1,0 +1,659 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{64FC2DB9-7FAD-4B98-8CF5-4F727EDC9EDC}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>PixelPerfektAndroid</RootNamespace>
+    <AssemblyName>PixelPerfektAndroid</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidApplication>true</AndroidApplication>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidSupportedAbis>armeabi-v7a%3bx86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <TargetFrameworkVersion>v4.2</TargetFrameworkVersion>
+    <MonoGamePlatform>Android</MonoGamePlatform>
+    <MonoGameContentBuilderExe>
+    </MonoGameContentBuilderExe>
+    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
+    <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkSkip />
+    <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <Debugger>Xamarin</Debugger>
+    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+    <DevInstrumentationEnabled>True</DevInstrumentationEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;ANDROID</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
+    <AndroidLinkSkip />
+    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
+    <BundleAssemblies>False</BundleAssemblies>
+    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
+    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86,x86_64,arm64-v8a</AndroidSupportedAbis>
+    <AndroidStoreUncompressedFileExtensions />
+    <MandroidI18n />
+    <Debugger>Xamarin</Debugger>
+    <AotAssemblies>False</AotAssemblies>
+    <EnableLLVM>False</EnableLLVM>
+    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
+    <EnableProguard>False</EnableProguard>
+    <DevInstrumentationEnabled>False</DevInstrumentationEnabled>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="mscorlib" />
+    <Reference Include="OpenTK" />
+    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+      <HintPath>..\packages\protobuf-net.2.0.0.668\lib\portable-sl4+net40+wp7+windows8\protobuf-net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>False</Private>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\PixelPerfect\Animation.cs">
+      <Link>Animation.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Background.cs">
+      <Link>Background.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Button.cs">
+      <Link>Button.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Config.cs">
+      <Link>Config.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Cutscene\CutsceneState.cs">
+      <Link>Cutscene\CutsceneState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Cutscene\Item.cs">
+      <Link>Cutscene\Item.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Cutscene\Keyframe.cs">
+      <Link>Cutscene\Keyframe.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Cutscene\Scene.cs">
+      <Link>Cutscene\Scene.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Cutscene\Serializer.cs">
+      <Link>Cutscene\Serializer.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Cutscene\Sound.cs">
+      <Link>Cutscene\Sound.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Emiter.cs">
+      <Link>Emiter.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\EmiterPart.cs">
+      <Link>EmiterPart.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Enemy.cs">
+      <Link>Enemy.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Game1.cs">
+      <Link>Game1.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\GameStateMachine\GameState.cs">
+      <Link>GameStateMachine\GameState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\GameStateMachine\GameStateManager.cs">
+      <Link>GameStateMachine\GameStateManager.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Globals.cs">
+      <Link>Globals.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Hud.cs">
+      <Link>Hud.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Level.cs">
+      <Link>Level.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Map.cs">
+      <Link>Map.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\PixelParticle.cs">
+      <Link>PixelParticle.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Player.cs">
+      <Link>Player.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Program.cs">
+      <Link>Program.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Savestate.cs">
+      <Link>Savestate.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Sprite.cs">
+      <Link>Sprite.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\ControlsState.cs">
+      <Link>States\ControlsState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\LevelDetailsState.cs">
+      <Link>States\LevelDetailsState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\LevelSelectState.cs">
+      <Link>States\LevelSelectState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\LevelState.cs">
+      <Link>States\LevelState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\PauseState.cs">
+      <Link>States\PauseState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\SplashScreenState.cs">
+      <Link>States\SplashScreenState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\SuitSelectState.cs">
+      <Link>States\SuitSelectState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\SuitUnlockedState.cs">
+      <Link>States\SuitUnlockedState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\TapState.cs">
+      <Link>States\TapState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\TextState.cs">
+      <Link>States\TextState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\TextureBackgroundState.cs">
+      <Link>States\TextureBackgroundState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\TitlescreenState.cs">
+      <Link>States\TitlescreenState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\WinState.cs">
+      <Link>States\WinState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\States\WorldSelectState.cs">
+      <Link>States\WorldSelectState.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Theme.cs">
+      <Link>Theme.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Tile.cs">
+      <Link>Tile.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\TileFactory.cs">
+      <Link>TileFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Tileset.cs">
+      <Link>Tileset.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Trigger.cs">
+      <Link>Trigger.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\Util.cs">
+      <Link>Util.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\WavyText.cs">
+      <Link>WavyText.cs</Link>
+    </Compile>
+    <Compile Include="..\PixelPerfect\World.cs">
+      <Link>World.cs</Link>
+    </Compile>
+    <Compile Include="Activity1.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="..\assets\levels\fgame\pm1.tmx">
+      <Link>Assets\Levels\confused\pm1.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm10.tmx">
+      <Link>Assets\Levels\confused\pm10.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm11.tmx">
+      <Link>Assets\Levels\confused\pm11.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm2.tmx">
+      <Link>Assets\Levels\confused\pm2.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm3.tmx">
+      <Link>Assets\Levels\confused\pm3.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm4.tmx">
+      <Link>Assets\Levels\confused\pm4.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm5.tmx">
+      <Link>Assets\Levels\confused\pm5.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm6.tmx">
+      <Link>Assets\Levels\confused\pm6.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm7.tmx">
+      <Link>Assets\Levels\confused\pm7.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pm8.tmx">
+      <Link>Assets\Levels\confused\pm8.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\beg1.tmx">
+      <Link>Assets\Levels\cool\beg1.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\beg2.tmx">
+      <Link>Assets\Levels\cool\beg2.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\beg3.tmx">
+      <Link>Assets\Levels\cool\beg3.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\beg4.tmx">
+      <Link>Assets\Levels\cool\beg4.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\beg5.tmx">
+      <Link>Assets\Levels\cool\beg5.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\beg6.tmx">
+      <Link>Assets\Levels\cool\beg6.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\beg7.tmx">
+      <Link>Assets\Levels\cool\beg7.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\beg8.tmx">
+      <Link>Assets\Levels\cool\beg8.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si1.tmx">
+      <Link>Assets\Levels\cool\si1.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si4.tmx">
+      <Link>Assets\Levels\cool\si4.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\pp0.tmx">
+      <Link>Assets\Levels\happy\pp0.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si10.tmx">
+      <Link>Assets\Levels\happy\si10.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si11.tmx">
+      <Link>Assets\Levels\happy\si11.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si2.tmx">
+      <Link>Assets\Levels\happy\si2.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si3.tmx">
+      <Link>Assets\Levels\happy\si3.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si5.tmx">
+      <Link>Assets\Levels\happy\si5.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si6.tmx">
+      <Link>Assets\Levels\happy\si6.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si7.tmx">
+      <Link>Assets\Levels\happy\si7.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si8.tmx">
+      <Link>Assets\Levels\happy\si8.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\si9.tmx">
+      <Link>Assets\Levels\happy\si9.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\menu_confused.tmx">
+      <Link>Assets\Levels\menu\menu_confused.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\menu_cool.tmx">
+      <Link>Assets\Levels\menu\menu_cool.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\menu_happy.tmx">
+      <Link>Assets\Levels\menu\menu_happy.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\menu_scared.tmx">
+      <Link>Assets\Levels\menu\menu_scared.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\menu_shocked.tmx">
+      <Link>Assets\Levels\menu\menu_shocked.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb11.tmx">
+      <Link>Assets\Levels\scared\bb11.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk1.tmx">
+      <Link>Assets\Levels\scared\dk1.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk2.tmx">
+      <Link>Assets\Levels\scared\dk2.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk3.tmx">
+      <Link>Assets\Levels\scared\dk3.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk4.tmx">
+      <Link>Assets\Levels\scared\dk4.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk5.tmx">
+      <Link>Assets\Levels\scared\dk5.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk6.tmx">
+      <Link>Assets\Levels\scared\dk6.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk7.tmx">
+      <Link>Assets\Levels\scared\dk7.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk8.tmx">
+      <Link>Assets\Levels\scared\dk8.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\dk9.tmx">
+      <Link>Assets\Levels\scared\dk9.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb1.tmx">
+      <Link>Assets\Levels\shocked\bb1.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb10.tmx">
+      <Link>Assets\Levels\shocked\bb10.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb2.tmx">
+      <Link>Assets\Levels\shocked\bb2.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb3.tmx">
+      <Link>Assets\Levels\shocked\bb3.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb4.tmx">
+      <Link>Assets\Levels\shocked\bb4.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb5.tmx">
+      <Link>Assets\Levels\shocked\bb5.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb6.tmx">
+      <Link>Assets\Levels\shocked\bb6.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb7.tmx">
+      <Link>Assets\Levels\shocked\bb7.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb8.tmx">
+      <Link>Assets\Levels\shocked\bb8.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\fgame\bb9.tmx">
+      <Link>Assets\Levels\shocked\bb9.tmx</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\assets\levels\worlds.xml">
+      <Link>Assets\Levels\worlds.xml</Link>
+      <SubType>Designer</SubType>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\cutscenes\credits.xnb">
+      <Link>Assets\Content\cutscenes\credits.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\cutscenes\cutscene1.xnb">
+      <Link>Assets\Content\cutscenes\cutscene1.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\cutscenes\exclamation.xnb">
+      <Link>Assets\Content\cutscenes\exclamation.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\cutscenes\question.xnb">
+      <Link>Assets\Content\cutscenes\question.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\ads.xnb">
+      <Link>Assets\Content\menu\ads.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\back.xnb">
+      <Link>Assets\Content\menu\back.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\clock.xnb">
+      <Link>Assets\Content\menu\clock.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\info.xnb">
+      <Link>Assets\Content\menu\info.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\logo.xnb">
+      <Link>Assets\Content\menu\logo.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\music.xnb">
+      <Link>Assets\Content\menu\music.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\next.xnb">
+      <Link>Assets\Content\menu\next.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\play.xnb">
+      <Link>Assets\Content\menu\play.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\play2.xnb">
+      <Link>Assets\Content\menu\play2.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\restart.xnb">
+      <Link>Assets\Content\menu\restart.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\shirt.xnb">
+      <Link>Assets\Content\menu\shirt.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\skip.xnb">
+      <Link>Assets\Content\menu\skip.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\skull.xnb">
+      <Link>Assets\Content\menu\skull.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\sound.xnb">
+      <Link>Assets\Content\menu\sound.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\suitebtn.xnb">
+      <Link>Assets\Content\menu\suitebtn.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\suitebtnlocked.xnb">
+      <Link>Assets\Content\menu\suitebtnlocked.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\swap.xnb">
+      <Link>Assets\Content\menu\swap.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\tap.xnb">
+      <Link>Assets\Content\menu\tap.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\menu\trophy.xnb">
+      <Link>Assets\Content\menu\trophy.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\confused.xnb">
+      <Link>Assets\Content\moods\confused.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\cool.xnb">
+      <Link>Assets\Content\moods\cool.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\happy.xnb">
+      <Link>Assets\Content\moods\happy.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\level_confused.xnb">
+      <Link>Assets\Content\moods\level_confused.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\level_cool.xnb">
+      <Link>Assets\Content\moods\level_cool.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\level_happy.xnb">
+      <Link>Assets\Content\moods\level_happy.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\level_scared.xnb">
+      <Link>Assets\Content\moods\level_scared.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\level_shocked.xnb">
+      <Link>Assets\Content\moods\level_shocked.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\scared.xnb">
+      <Link>Assets\Content\moods\scared.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\moods\shocked.xnb">
+      <Link>Assets\Content\moods\shocked.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\sounds\Explosion9.xnb">
+      <Link>Assets\Content\Sounds\Explosion9.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\sounds\Hit_Hurt2.xnb">
+      <Link>Assets\Content\Sounds\Hit_Hurt2.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\sounds\Jump4.xnb">
+      <Link>Assets\Content\Sounds\Jump4.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\sounds\Pickup_Coin8.xnb">
+      <Link>Assets\Content\Sounds\Pickup_Coin8.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\sounds\Randomize2.xnb">
+      <Link>Assets\Content\Sounds\Randomize2.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\sounds\Randomize3.xnb">
+      <Link>Assets\Content\Sounds\Randomize3.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\door_mini.xnb">
+      <Link>Assets\Content\door_mini.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\fgame\biggo_128x128.xnb">
+      <Link>Assets\Content\biggo_128x128.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\fgame\enemies_16x16.xnb">
+      <Link>Assets\Content\enemies_16x16.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\fgame\enemies_32x32.xnb">
+      <Link>Assets\Content\enemies_32x32.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\fgame\enemies_8x8.xnb">
+      <Link>Assets\Content\enemies_8x8.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\fgame\king_48x48.xnb">
+      <Link>Assets\Content\king_48x48.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\fgame\player.xnb">
+      <Link>Assets\Content\player.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\fgame\tileset.xnb">
+      <Link>Assets\Content\tileset.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\key.xnb">
+      <Link>Assets\Content\key.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\keylock.xnb">
+      <Link>Assets\Content\keylock.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\keylock_small.xnb">
+      <Link>Assets\Content\keylock_small.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\leveltile.xnb">
+      <Link>Assets\Content\leveltile.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\logo.xnb">
+      <Link>Assets\Content\logo.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\pixel.xnb">
+      <Link>Assets\Content\pixel.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\player_mini.xnb">
+      <Link>Assets\Content\player_mini.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\content\content\bin\psm\content\Silkscreen.xnb">
+      <Link>Assets\Content\Silkscreen.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Content\Content\bin\PSM\Content\tileset_mini.xnb">
+      <Link>Assets\Content\tileset_mini.xnb</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\8-bit loop %28loop%29.ogg">
+      <Link>Assets\Content\music\8-bit loop %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Chaotic Filth %28loop%29.ogg">
+      <Link>Assets\Content\music\Chaotic Filth %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Chaotic Standoff %28loop%29.ogg">
+      <Link>Assets\Content\music\Chaotic Standoff %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\ChipChippy %28loop%29.ogg">
+      <Link>Assets\Content\music\ChipChippy %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Chippy Cloud Kid %28loop%29.ogg">
+      <Link>Assets\Content\music\Chippy Cloud Kid %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Dramatic Metal Entrance %28loop%29.ogg">
+      <Link>Assets\Content\music\Dramatic Metal Entrance %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Elevator Music %28loop%29.ogg">
+      <Link>Assets\Content\music\Elevator Music %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Gasoline Rainbows %28loop%29.ogg">
+      <Link>Assets\Content\music\Gasoline Rainbows %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\King Boss %28loop%29.ogg">
+      <Link>Assets\Content\music\King Boss %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Ring Leader %28loop%29.ogg">
+      <Link>Assets\Content\music\Ring Leader %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Rising Sun %28oriental with dance beats%29.ogg">
+      <Link>Assets\Content\music\Rising Sun %28oriental with dance beats%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Sad Song 1.ogg">
+      <Link>Assets\Content\music\Sad Song 1.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\Vanguard Bouncy %28loop%29.ogg">
+      <Link>Assets\Content\music\Vanguard Bouncy %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\wubby dancer %28loop%29.ogg">
+      <Link>Assets\Content\music\wubby dancer %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <AndroidAsset Include="..\Assets\music\xylophone %28loop%29.ogg">
+      <Link>Assets\Content\music\xylophone %28loop%29.ogg</Link>
+    </AndroidAsset>
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Values\Strings.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Drawable\Icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\Layout\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Drawable\Splash.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\Values\Styles.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <MonoGameContentReference Include="Assets\Content\Content.mgcb" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AndroidManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\lib\MonoGame\MonoGame.Framework\MonoGame.Framework.Android.csproj">
+      <Project>{ba9476cf-99ba-4d03-92f2-73d2c5e58883}</Project>
+      <Name>MonoGame.Framework.Android</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

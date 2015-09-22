@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 
-#if !WINDOWS
+#if WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
 
@@ -141,7 +141,7 @@ namespace PixelPerfect
                 }
                 if (touch.State == TouchLocationState.Released)
                 {
-                    if (startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true) || miniMapBorder.Contains((int)touch.Position.X / scale, (int)touch.Position.Y / scale))
+                    if (startButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true) || miniMapBorder.Contains((int)touch.Position.X / scale.X, (int)touch.Position.Y / scale.Y))
                         StartLevel();
                     else if (skipButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {
@@ -164,7 +164,7 @@ namespace PixelPerfect
             }
             else if (currMouseState.LeftButton == ButtonState.Released && prevMouseState.LeftButton == ButtonState.Pressed)
             {
-                if (startButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true) || miniMapBorder.Contains(currMouseState.X / scale, currMouseState.Y / scale))
+                if (startButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true) || miniMapBorder.Contains(currMouseState.X / scale.X, currMouseState.Y / scale.Y))
                     StartLevel();
                 else if (skipButton.Clicked(currMouseState.Position.X, currMouseState.Position.Y, scale, true))
                 {
@@ -186,7 +186,7 @@ namespace PixelPerfect
 
         private void StartLevel()
         {
-            var levelState = new LevelState(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel));
+            var levelState = new LevelState(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel), false, scale);
             levelState.scale = scale;
             levelState.name = Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName; 
             gameStateManager.RegisterState(Config.States.LEVEL, levelState);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.IsolatedStorage;
+using System.Xml;
 using ProtoBuf;
 
 namespace PixelPerfect
@@ -63,7 +64,7 @@ namespace PixelPerfect
         [ProtoMember(3, OverwriteList=true)]
         public bool[] suitUnlocked; 
 
-        private Savestate() 
+        public Savestate() 
         {
             levelSaves = new Dictionary<string, Levelsave>();
             suitUnlocked = new bool[Config.Player.SUIT_QTY];

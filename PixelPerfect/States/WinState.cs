@@ -396,8 +396,9 @@ namespace PixelPerfect
                 {
                     if (!Globals.completed)
                     {
-#if !WINDOWS
+
                         Globals.completed = true;
+#if WINDOWS_PHONE
                         IsolatedStorageSettings.ApplicationSettings["completed"] = true;
                         IsolatedStorageSettings.ApplicationSettings.Save();
 #endif
@@ -410,7 +411,7 @@ namespace PixelPerfect
                 }
                 else if (!Globals.worlds[Globals.selectedWorld + 1].active)
                 {
-                    Theme.ReloadTheme(Globals.selectedWorld + 1);
+                    Theme.ReloadTheme(Globals.selectedWorld + 1, scale);
                     Globals.detonateWorldKeylock = Globals.selectedWorld + 1;
                 }
                 Globals.gameStateManager.PopState();
@@ -428,7 +429,7 @@ namespace PixelPerfect
                 else
                     Globals.selectedLevel = nextLevel;
 
-                var levelState = new LevelState(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel));
+                var levelState = new LevelState(Globals.worlds[Globals.selectedWorld].directory, Globals.worlds[Globals.selectedWorld].GetLevelFile(Globals.selectedLevel), false, scale);
                 levelState.scale = scale;
                 levelState.name = Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName;
                 
@@ -508,7 +509,7 @@ namespace PixelPerfect
                 if (Globals.selectedWorld < Globals.worlds.Count - 1 &&
                     !Globals.worlds[Globals.selectedWorld + 1].active)
                 {
-                    Theme.ReloadTheme(Globals.selectedWorld + 1);
+                    Theme.ReloadTheme(Globals.selectedWorld + 1, scale);
                     Globals.detonateWorldKeylock = Globals.selectedWorld + 1;
                 }
                 Globals.gameStateManager.PopState();

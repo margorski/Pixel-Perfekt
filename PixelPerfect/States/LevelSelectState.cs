@@ -11,7 +11,7 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 
-#if !WINDOWS
+#if WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
 

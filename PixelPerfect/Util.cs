@@ -113,7 +113,7 @@ namespace PixelPerfect
         public static Color[] GetTextureArray(Texture2D texture, int width, int height)
         {
             Color[] colorArray = new Color[width * height];
-            texture.GetData<Color>(colorArray);
+            texture.GetData(colorArray);
             return colorArray;
         }
 
@@ -129,7 +129,7 @@ namespace PixelPerfect
 
 
             Color[] textureColors = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(textureColors);
+            texture.GetData(textureColors);
 
             int startColumn = blitRect.X;
             int endColumn = (blitRect.X + blitRect.Width);
@@ -156,7 +156,7 @@ namespace PixelPerfect
             int tilesInRow = texture.Width / width;
             int textureNum = tilesInRow * (texture.Height / height);
             Color[] textureColors = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(textureColors);
+            texture.GetData(textureColors);
 
             for (int i = 0; i < textureNum; i++)            
             {
@@ -215,7 +215,7 @@ namespace PixelPerfect
             int count = 0;
 
             Color[] textureColors = new Color[texture.Width * texture.Height];
-            texture.GetData<Color>(textureColors);
+            texture.GetData(textureColors);
 
             foreach (Color color in textureColors)
             {
@@ -271,6 +271,17 @@ namespace PixelPerfect
             Globals.graphics.GraphicsDevice.SetRenderTarget(null);
 
             return (Texture2D)Globals.renderTarget;
+        }
+
+        public static Song LoadSong(String songLocation)
+        {
+#if ANDROID
+            songLocation = "Content\\" + songLocation + ".ogg";
+            songLocation = songLocation.Replace("\\", "/");
+            return Song.FromUri(songLocation, new Uri(songLocation, UriKind.Relative));
+#else
+            return Globals.content.Load<Song>(songLocation);
+#endif
         }
     }
 }

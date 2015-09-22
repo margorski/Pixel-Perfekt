@@ -79,7 +79,7 @@ namespace PixelPerfect
                 {
                     LoadContent();
                     RegisterStates();
-                    Theme.ReloadTheme(World.LastActiveWorld());
+                    Theme.ReloadTheme(World.LastActiveWorld(), scale);
                 });
                 task.Start();
             }
@@ -807,21 +807,21 @@ namespace PixelPerfect
 
         private void LoadMusic()
         {
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\xylophone (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Elevator Music (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\8-bit loop (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Gasoline Rainbows (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Chippy Cloud Kid (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\ChipChippy (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Sad Song 1"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Dramatic Metal Entrance (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Chaotic Filth (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Chaotic Standoff (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Ring Leader (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Rising Sun (oriental with dance beats)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\Vanguard Bouncy (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\wubby dancer (loop)"));
-            Globals.backgroundMusicList.Add(Globals.content.Load<Song>(@"music\King Boss (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\xylophone (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Elevator Music (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\8-bit loop (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Gasoline Rainbows (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Chippy Cloud Kid (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\ChipChippy (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Sad Song 1"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Dramatic Metal Entrance (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Chaotic Filth (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Chaotic Standoff (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Ring Leader (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Rising Sun (oriental with dance beats)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Vanguard Bouncy (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\wubby dancer (loop)"));
+            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\King Boss (loop)"));
         }
 
     }

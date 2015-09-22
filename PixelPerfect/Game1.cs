@@ -10,7 +10,9 @@ using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
 using System.IO.IsolatedStorage;
+#if WINDOWS_PHONE
 using Windows.ApplicationModel.Store;
+#endif
 
 namespace PixelPerfect
 {
@@ -26,7 +28,10 @@ namespace PixelPerfect
 
         GameStateManager gameStateManager;
       
-        private float scale = 1.0f;
+        //private float scale = 1.0f;
+        private Vector2 scale = new Vector2(1.0f, 1.0f);
+        private Vector3 translation = new Vector3(0.0f, 0.0f, 0.0f);
+        private float translatex = 0.0f;
         //private float margin = 0.0f;
 
         public Game1()
@@ -46,7 +51,6 @@ namespace PixelPerfect
 #else
             this.IsMouseVisible = true;                   
 #endif            
-            ScaleScreen();
             Content.RootDirectory = "Content";
 
             // Frame rate is 30 fps by default for Windows Phone.
@@ -58,47 +62,86 @@ namespace PixelPerfect
 
         private void ScaleScreen()
         {
-#if !WINDOWS
-            // autoscaling part from web
-            int? scaleFactor = null;
-            var content = App.Current.Host.Content;
-            var scaleFactorProperty = content.GetType().GetProperty("ScaleFactor");
+            translation.X = -3.0f;
+#if WINDOWS_PHONE || WINDOWS
+            //int? scaleFactor = null;
+            //var content = App.Current.Host.Content;
+            //var scaleFactorProperty = content.GetType().GetProperty("ScaleFactor");
 
-            if (scaleFactorProperty != null)
-                scaleFactor = scaleFactorProperty.GetValue(content, null) as int?;
+            //if (scaleFactorProperty != null)
+            //    scaleFactor = scaleFactorProperty.GetValue(content, null) as int?;
 
-            if (scaleFactor == null)
-                scaleFactor = 100; // 100% WVGA resolution
-
-            scale = (int)scaleFactor / 100.0f;            
-            //scale *= 2.0f; // applying game scaling
-            /*
-            if (scaleFactor == 150)
-            { 
-                // 150% for 720P (scaled to 1200x720 viewport, not 1280x720 screen-res)
-                // Centered letterboxing - move Margin.Left to the right by 0.5*(1280-1200)/scale
-                GamePage.Instance.XnaSurface.Margin = new System.Windows.Thickness(40 / scale, 0, 0, 0);                
-            }
-            */
-            /*System.Windows.Media.ScaleTransform scaleTransform = new System.Windows.Media.ScaleTransform();
-            scaleTransform.ScaleX = scaleTransform.ScaleY = 6.0f;//scale * 2.0f;
-            // The auto-scaling magic happens on the following line!
-            GamePage.Instance.XnaSurface.RenderTransform = scaleTransform;*/
+            //if (scaleFactor == null)
+            //    scaleFactor = 100; // 100% WVGA resolution
+            //var tempScale = (int)scaleFactor / 100.0f;
+            scale = new Vector2(Config.SCALE_FACTOR, Config.SCALE_FACTOR);            
+#else
+            var aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
+            if (aspectRatio == 1.66666663)
+                scale = new Vector2(Config.SCALE_FACTOR, Config.SCALE_FACTOR);
+            else
+            {
+                var scaley = graphics.GraphicsDevice.Viewport.Height / (float)Config.SCREEN_HEIGHT_SCALED;
+                var scalex = graphics.GraphicsDevice.Viewport.Width / ((float)Config.SCREEN_WIDTH_SCALED - 6);
+                scale = new Vector2(scalex, 
+                                   scalex); //Math.Min(scaley, scalex);
+            
+                translation.X = (graphics.GraphicsDevice.Viewport.Width / scale.X - Config.SCREEN_WIDTH_SCALED) / 2.0f;
+                translation.Y = (graphics.GraphicsDevice.Viewport.Height / scale.Y - Config.SCREEN_HEIGHT_SCALED) / 2.0f;
+            }           
 #endif
-            scale *= Config.SCALE_FACTOR;
         }
 
+#if WINDOWS_PHONE
+        //private void ScaleWP()
+        //{
+        //    // autoscaling part from web
+        //    int? scaleFactor = null;
+        //    var content = App.Current.Host.Content;
+        //    var scaleFactorProperty = content.GetType().GetProperty("ScaleFactor");
 
+        //    if (scaleFactorProperty != null)
+        //        scaleFactor = scaleFactorProperty.GetValue(content, null) as int?;
+
+        //    if (scaleFactor == null)
+        //        scaleFactor = 100; // 100% WVGA resolution
+
+        //    scale = (int)scaleFactor / 100.0f;
+        //    //scale *= 2.0f; // applying game scaling
+        //    /*
+        //    if (scaleFactor == 150)
+        //    { 
+        //        // 150% for 720P (scaled to 1200x720 viewport, not 1280x720 screen-res)
+        //        // Centered letterboxing - move Margin.Left to the right by 0.5*(1280-1200)/scale
+        //        GamePage.Instance.XnaSurface.Margin = new System.Windows.Thickness(40 / scale, 0, 0, 0);                
+        //    }
+        //    */
+        //    /*System.Windows.Media.ScaleTransform scaleTransform = new System.Windows.Media.ScaleTransform();
+        //    scaleTransform.ScaleX = scaleTransform.ScaleY = 6.0f;//scale * 2.0f;
+        //    // The auto-scaling magic happens on the following line!
+        //    GamePage.Instance.XnaSurface.RenderTransform = scaleTransform;*/
+        //    scale *= Config.SCALE_FACTOR;
+        //}
+#endif
+
+#if ANDROID
+        //private void ScaleAndroid()
+        //{
+
+        //}
+#endif
 
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
             base.Initialize();
+
+            ScaleScreen();
             Globals.renderTarget = new RenderTarget2D(GraphicsDevice, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED,
                                                       false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
             Savestate.Init();
             
-#if !WINDOWS
+#if WINDOWS_PHONE
             if (!IsolatedStorageSettings.ApplicationSettings.Contains("music"))
             {
                 IsolatedStorageSettings.ApplicationSettings.Add("music", true);
@@ -189,8 +232,8 @@ namespace PixelPerfect
             GraphicsDevice.Clear(Color.Black);
  
             Matrix matrix = Matrix.Identity;            
-            matrix *= Matrix.CreateTranslation(new Vector3(-3, 0, 0)); // position adjusting
-            matrix *= Matrix.CreateScale(scale);
+            matrix *= Matrix.CreateTranslation(translation); // position adjusting
+            matrix *= Matrix.CreateScale(new Vector3(scale.X, scale.Y, 1.0f));
             var translationShift = gameStateManager.GetHorizontalTransition();
             var shiftMatrix = matrix * Matrix.CreateTranslation(new Vector3(graphics.GraphicsDevice.Viewport.Width * translationShift.X, graphics.GraphicsDevice.Viewport.Height * translationShift.Y, 0.0f));
             
@@ -211,7 +254,8 @@ namespace PixelPerfect
         protected override void OnDeactivated(object sender, EventArgs args)
         {
 #if !WINDOWS
-            Savestate.Instance.Save();
+            if (Savestate.Instance != null)
+                Savestate.Instance.Save();
 #endif
             if (gameStateManager != null && gameStateManager.IsStateOnTop(Config.States.LEVEL))
                 Globals.gameStateManager.PushState(Config.States.PAUSE); 
@@ -221,7 +265,8 @@ namespace PixelPerfect
         protected override void OnExiting(object sender, EventArgs args)
         {
 #if !WINDOWS
-            Savestate.Instance.Save();
+            if (Savestate.Instance != null)
+                Savestate.Instance.Save();
 #endif
             base.OnExiting(sender, args);
         }

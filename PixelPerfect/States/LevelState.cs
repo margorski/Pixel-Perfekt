@@ -212,7 +212,7 @@ namespace PixelPerfect
             ReloadGradientTexture();
         }
 
-        public LevelState(String directory, String levelFile, bool menuLevel = false, float scale = 1.0f)
+        public LevelState(String directory, String levelFile, bool menuLevel, Vector2 scale)
         {
             this.levelFile = levelFile;
             this.directory = directory;
@@ -247,7 +247,7 @@ namespace PixelPerfect
                     if (!Globals.firstcutscene)
                     {
                         Globals.firstcutscene = true;
-#if !WINDOWS
+#if WINDOWS_PHONE
                         IsolatedStorageSettings.ApplicationSettings["firstcutscene"] = Globals.firstcutscene;
                         IsolatedStorageSettings.ApplicationSettings.Save();
 #endif
@@ -269,7 +269,7 @@ namespace PixelPerfect
                 sfinstance.Value.Stop();
             if (!menuLevel)
                 MediaPlayer.Stop();
-#if !WINDOWS
+#if WINDOWS_PHONE
             if (!menuLevel)
                 GamePage.Instance.AdsOff();
 #endif
@@ -280,6 +280,8 @@ namespace PixelPerfect
             ResetInput();
             if (Globals.musicEnabled)
                 MediaPlayer.Resume();
+            if (Globals.soundEnabled && Globals.soundsDictionary["doors"].State == SoundState.Paused)
+                Globals.soundsDictionary["doors"].Resume();
             if (menuLevel)
             {
                 InitLevel();                
@@ -288,7 +290,7 @@ namespace PixelPerfect
 
         public override void Suspend(int pushedStateId)
         {
-#if !WINDOWS            
+#if WINDOWS_PHONE            
             if (!menuLevel && pushedStateId != Config.States.TAP)
             {
                 GamePage.Instance.AdsOff();
@@ -302,6 +304,8 @@ namespace PixelPerfect
             {
                 if (Globals.musicEnabled && pushedStateId == -1)
                     MediaPlayer.Pause();                
+                if (Globals.soundEnabled && Globals.soundsDictionary["doors"].State == SoundState.Playing)
+                    Globals.soundsDictionary["doors"].Pause();
             }
         }
 
@@ -309,7 +313,7 @@ namespace PixelPerfect
         {            
             if (suspended)            
                 return;
-#if !WINDOWS
+#if WINDOWS_PHONE
             if (adTimer > TimeSpan.Zero && !menuLevel)
             {
                 adTimer -= gameTime.ElapsedGameTime;
@@ -509,10 +513,10 @@ namespace PixelPerfect
                 }
                 else if (currentMouseState.LeftButton == ButtonState.Pressed && previousMouseState.LeftButton == ButtonState.Released) // mouse button pressed
                 {
-                    var leftScreenHalf = new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2),
-                                                             (int)(Config.SCREEN_HEIGHT_SCALED * scale));
-                    var rightScreenHalf = new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0,
-                                                        (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale));
+                    var leftScreenHalf = new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale.X / 2),
+                                                             (int)(Config.SCREEN_HEIGHT_SCALED * scale.Y));
+                    var rightScreenHalf = new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale.X / 2), 0,
+                                                        (int)(Config.SCREEN_WIDTH_SCALED * scale.X / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale.Y));
                     var mousePosition = new Point((int)currentMouseState.X, (int)currentMouseState.Y);
 
                     if (!Globals.swappedControls)
@@ -661,10 +665,10 @@ namespace PixelPerfect
                     }
                     else if (tl.State == TouchLocationState.Pressed)
                     {
-                        var leftScreenHalf = new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale / 2),
-                                                            (int)(Config.SCREEN_HEIGHT_SCALED * scale));
-                        var rightScreenHalf = new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale / 2), 0,
-                                                            (int)(Config.SCREEN_WIDTH_SCALED * scale / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale));
+                        var leftScreenHalf = new Rectangle(0, 0, (int)(Config.SCREEN_WIDTH_SCALED * scale.X / 2),
+                                                            (int)(Config.SCREEN_HEIGHT_SCALED * scale.Y));
+                        var rightScreenHalf = new Rectangle((int)(Config.SCREEN_WIDTH_SCALED * scale.X / 2), 0,
+                                                            (int)(Config.SCREEN_WIDTH_SCALED * scale.X / 2), (int)(Config.SCREEN_HEIGHT_SCALED * scale.Y));
                         var touchPosition = new Point((int)tl.Position.X, (int)tl.Position.Y);
                         if (!Globals.swappedControls)
                         {

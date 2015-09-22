@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Deployment xmlns="http://schemas.microsoft.com/windowsphone/2012/deployment" AppPlatformVersion="8.0">
   <DefaultLanguage xmlns="" code="en-US" />
-  <App xmlns="" ProductID="{04b4454d-6d3d-4182-9690-c6fbe2b58a3e}" Title="Pixel Perfekt" RuntimeType="Silverlight" Version="1.1" Genre="apps.normal" Author="Jelcynek" Description="Pixel Perfekt reminds that mobile games can be challenging and yet simple in its mechanics. It's an ultimate flashback of games such as Jet Set Willy, Manic Miner, Chuckie Egg. Adventure in a candy and dark mash-up world where everything tries to kill you." Publisher="Gorsky" PublisherID="{f9f884b7-f1fe-438f-9572-5a42dfd01a2f}">
+  <App xmlns="" ProductID="{04b4454d-6d3d-4182-abcd-c6fbe2b512ab}" Title="Pixel Perfekt" RuntimeType="Silverlight" Version="1.1.1" Genre="apps.normal" Author="Jelcynek" Description="Pixel Perfekt reminds that mobile games can be challenging and yet simple in its mechanics. It's an ultimate flashback of games such as Jet Set Willy, Manic Miner, Chuckie Egg. Adventure in a candy and dark mash-up world where everything tries to kill you." Publisher="Gorsky" PublisherID="{f9fabcd8-f1fe-438f-9572-5a42dfd01a2f}">
     <IconPath IsRelative="true" IsResource="false">pikpok.png</IconPath>
     <Capabilities>
       <Capability Name="ID_CAP_WEBBROWSERCOMPONENT" />

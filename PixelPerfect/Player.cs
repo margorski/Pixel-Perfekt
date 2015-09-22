@@ -222,7 +222,11 @@ namespace PixelPerfect
             if (speed.Y > 0.0f)
                 position.Y = (float)(tileBox.Top - boundingBox.Height);
             else
+            {
                 position.Y = (float)tileBox.Bottom;
+                if (Globals.suit == (Config.Player.SUIT_QTY - 1))
+                    position.Y -= (Config.Player.HEIGHT - Config.Player.PIKPOK_HEIGHT);
+            }
         }
 
         public void SetState(UInt32 state, bool value) 

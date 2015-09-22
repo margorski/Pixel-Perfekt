@@ -17,7 +17,7 @@ namespace PixelPerfect
         /*public const int SCREEN_WIDTH = 400;
         public const int SCREEN_HEIGHT = 240;
          */        
-        public const int SCREEN_WIDTH_SCALED = 270; //SCREEN_WIDTH / 2;
+        public const int SCREEN_WIDTH_SCALED = 272; //SCREEN_WIDTH / 2;
         public const int SCREEN_HEIGHT_SCALED = 160; //SCREEN_HEIGHT / 2;
         public const int SCALE_FACTOR = 3;
         public const int DEFAULT_ANIMATION_SPEED = 250;
@@ -25,7 +25,7 @@ namespace PixelPerfect
         public const int DRAW_OFFSET_Y = 0;
         public const bool CENTER_PIVOT = true;
         public const int ANIM_FRAMES = 4;
-        public const int AD_TIMER = 1;//180 // s
+        public const int AD_TIMER = 180; // s
         public const int LEVEL_END_DELAY = 1500;
         public const float BLACK_HOLE_FORCE = 5000.0f;
         public const int SKIP_AMOUNT = 3;
@@ -108,6 +108,7 @@ namespace PixelPerfect
             public const int BOOMCOLOR_TIME_MS = 20;
             public const int TRYJUMP_RESETTIME = 200;
             public const int STOPTIME_REVERSE_MS = 250;
+            public const int PIKPOK_HEIGHT = 13;
             public const int WIDTH = 8;
             public const int HEIGHT = 16;
             public const float JUMP_SPEED = -78.0f;
