@@ -82,7 +82,7 @@ namespace PixelPerfect
             else
                 startButton.active = false;
 
-            var levelName = Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName;
+            var levelName = (Globals.selectedWorld + 1).ToString() + "-" + (Globals.selectedLevel + 1).ToString() + " " + Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].levelName;
             var titlex = Config.SCREEN_WIDTH_SCALED / 2.0f - (Globals.silkscreenFont.MeasureString(levelName).X / 2.0f) * 2.0f;
             caption = new WavyText(levelName, new Vector2(titlex, 7), 3000, 2.0f, Config.titleColors, 13.0f, 3f, 0.0f);
 

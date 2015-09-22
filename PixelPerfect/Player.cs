@@ -38,7 +38,11 @@ namespace PixelPerfect
         {
             get
             {
-                return new Rectangle((int)position.X, (int)position.Y, Config.Player.WIDTH, Config.Player.HEIGHT);
+                if (Globals.suit == (Config.Player.SUIT_QTY - 1))
+                    return new Rectangle((int)position.X, (int)position.Y + Config.Player.HEIGHT - Config.Player.PIKPOK_HEIGHT, 
+                                     Config.Player.WIDTH, Config.Player.PIKPOK_HEIGHT);
+                else
+                    return new Rectangle((int)position.X, (int)position.Y, Config.Player.WIDTH, Config.Player.HEIGHT);
             }
         }
         public Vector2 speed;
@@ -151,13 +155,13 @@ namespace PixelPerfect
 
             int heightDrawModifier = 0;
 
-            if (boundingBox.Y + boundingBox.Height > Config.Map.HEIGHT * Config.Tile.SIZE)
-                heightDrawModifier = boundingBox.Y + boundingBox.Height - Config.Map.HEIGHT * Config.Tile.SIZE;
+            if ((int)position.Y + Config.Player.HEIGHT > Config.Map.HEIGHT * Config.Tile.SIZE)
+                heightDrawModifier = (int)position.Y + Config.Player.HEIGHT - Config.Map.HEIGHT * Config.Tile.SIZE;
 
             var sourceModifiedRectangle = sourceRectangle;
             sourceModifiedRectangle.Height -= heightDrawModifier;
 
-            spriteBatch.Draw(texture, new Rectangle(boundingBox.X + Config.DRAW_OFFSET_X, boundingBox.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, boundingBox.Height - heightDrawModifier),
+            spriteBatch.Draw(texture, new Rectangle((int)position.X + Config.DRAW_OFFSET_X, (int)position.Y + Config.DRAW_OFFSET_Y, boundingBox.Width, Config.Player.HEIGHT - heightDrawModifier),
                             sourceModifiedRectangle, Config.boomColors[boomColorIndex], 0.0f, Vector2.Zero, 
 							(GetState(State.directionLeft) ? SpriteEffects.FlipHorizontally : SpriteEffects.None), 0);
         }
@@ -212,7 +216,7 @@ namespace PixelPerfect
         public void SetHorizontalPositionOnTile(Rectangle tileBox)
         {
             if (speed.X > 0.0f)
-                position.X = (float)(tileBox.Left - Config.Player.WIDTH);
+                position.X = (float)(tileBox.Left - boundingBox.Width);
             else
                 position.X = (float)tileBox.Right;
         }
@@ -220,12 +224,11 @@ namespace PixelPerfect
         public void SetVerticalPositionOnTile(Rectangle tileBox)
         {
             if (speed.Y > 0.0f)
-                position.Y = (float)(tileBox.Top - boundingBox.Height);
+                position.Y = (float)(tileBox.Top - Config.Player.HEIGHT);
             else
             {
                 position.Y = (float)tileBox.Bottom;
-                if (Globals.suit == (Config.Player.SUIT_QTY - 1))
-                    position.Y -= (Config.Player.HEIGHT - Config.Player.PIKPOK_HEIGHT);
+                position.Y += (float)(boundingBox.Height - Config.Player.HEIGHT);
             }
         }
 
