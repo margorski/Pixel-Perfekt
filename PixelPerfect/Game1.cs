@@ -10,6 +10,9 @@ using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using System.IO;
 using System.IO.IsolatedStorage;
+#if ANDROID
+using IsolatedStorageSettings = CustomIsolatedStorageSettings.IsolatedStorageSettings;
+#endif
 #if WINDOWS_PHONE
 using Windows.ApplicationModel.Store;
 #endif
@@ -52,30 +55,21 @@ namespace PixelPerfect
             this.IsMouseVisible = true;                   
 #endif            
             Content.RootDirectory = "Content";
-
+#if WINDOWS || WINDOWS_PHONE
+            ScaleWP();
+#endif
             // Frame rate is 30 fps by default for Windows Phone.
             TargetElapsedTime = TimeSpan.FromTicks(111111);
             Globals.game = this;
-            
+
+            TouchPanel.EnabledGestures = GestureType.None;
         }
 
 
         private void ScaleScreen()
         {
             translation.X = -3.0f;
-#if WINDOWS_PHONE || WINDOWS
-            //int? scaleFactor = null;
-            //var content = App.Current.Host.Content;
-            //var scaleFactorProperty = content.GetType().GetProperty("ScaleFactor");
-
-            //if (scaleFactorProperty != null)
-            //    scaleFactor = scaleFactorProperty.GetValue(content, null) as int?;
-
-            //if (scaleFactor == null)
-            //    scaleFactor = 100; // 100% WVGA resolution
-            //var tempScale = (int)scaleFactor / 100.0f;
-            scale = new Vector2(Config.SCALE_FACTOR, Config.SCALE_FACTOR);            
-#else
+#if !(WINDOWS_PHONE || WINDOWS)
             var aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
             if (aspectRatio == 1.66666663)
                 scale = new Vector2(Config.SCALE_FACTOR, Config.SCALE_FACTOR);
@@ -93,35 +87,22 @@ namespace PixelPerfect
         }
 
 #if WINDOWS_PHONE
-        //private void ScaleWP()
-        //{
-        //    // autoscaling part from web
-        //    int? scaleFactor = null;
-        //    var content = App.Current.Host.Content;
-        //    var scaleFactorProperty = content.GetType().GetProperty("ScaleFactor");
+        private void ScaleWP()
+        {
+            var content = App.Current.Host.Content;
+            // autoscaling part from web
+            int? scaleFactor = null;
+            var scaleFactorProperty = content.GetType().GetProperty("ScaleFactor");
 
-        //    if (scaleFactorProperty != null)
-        //        scaleFactor = scaleFactorProperty.GetValue(content, null) as int?;
+            if (scaleFactorProperty != null)
+                scaleFactor = scaleFactorProperty.GetValue(content, null) as int?;
 
-        //    if (scaleFactor == null)
-        //        scaleFactor = 100; // 100% WVGA resolution
+            if (scaleFactor == null)
+                scaleFactor = 100; // 100% WVGA resolution
 
-        //    scale = (int)scaleFactor / 100.0f;
-        //    //scale *= 2.0f; // applying game scaling
-        //    /*
-        //    if (scaleFactor == 150)
-        //    { 
-        //        // 150% for 720P (scaled to 1200x720 viewport, not 1280x720 screen-res)
-        //        // Centered letterboxing - move Margin.Left to the right by 0.5*(1280-1200)/scale
-        //        GamePage.Instance.XnaSurface.Margin = new System.Windows.Thickness(40 / scale, 0, 0, 0);                
-        //    }
-        //    */
-        //    /*System.Windows.Media.ScaleTransform scaleTransform = new System.Windows.Media.ScaleTransform();
-        //    scaleTransform.ScaleX = scaleTransform.ScaleY = 6.0f;//scale * 2.0f;
-        //    // The auto-scaling magic happens on the following line!
-        //    GamePage.Instance.XnaSurface.RenderTransform = scaleTransform;*/
-        //    scale *= Config.SCALE_FACTOR;
-        //}
+            scale.X = scale.Y = (scaleFactor.Value / 100.0f);
+            scale *= Config.SCALE_FACTOR;
+        }
 #endif
 
 #if ANDROID
@@ -141,7 +122,6 @@ namespace PixelPerfect
                                                       false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
             Savestate.Init();
             
-#if WINDOWS_PHONE
             if (!IsolatedStorageSettings.ApplicationSettings.Contains("music"))
             {
                 IsolatedStorageSettings.ApplicationSettings.Add("music", true);
@@ -183,6 +163,8 @@ namespace PixelPerfect
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             Globals.swappedControls = (bool)IsolatedStorageSettings.ApplicationSettings["swappedcontrols"];
+
+#if WINDOWS_PHONE
             Globals.noads = CurrentApp.LicenseInformation.ProductLicenses["noads"].IsActive;
 #endif
 

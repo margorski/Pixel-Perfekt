@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
 using System.IO.IsolatedStorage;
+#if ANDROID
+using IsolatedStorageSettings = CustomIsolatedStorageSettings.IsolatedStorageSettings;
+#endif
 
 namespace PixelPerfect
 {
@@ -240,10 +243,8 @@ namespace PixelPerfect
         private void Swap()
         {
             Globals.swappedControls = !Globals.swappedControls;
-#if WINDOWS_PHONE
             IsolatedStorageSettings.ApplicationSettings["swappedcontrols"] = Globals.swappedControls;
             IsolatedStorageSettings.ApplicationSettings.Save();
-#endif
         }
     }
 }

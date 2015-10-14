@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
+#if ANDROID
+using IsolatedStorageSettings = CustomIsolatedStorageSettings.IsolatedStorageSettings;
+#endif
 
 namespace PixelPerfect
 {
@@ -247,10 +250,8 @@ namespace PixelPerfect
                     if (!Globals.firstcutscene)
                     {
                         Globals.firstcutscene = true;
-#if WINDOWS_PHONE
                         IsolatedStorageSettings.ApplicationSettings["firstcutscene"] = Globals.firstcutscene;
                         IsolatedStorageSettings.ApplicationSettings.Save();
-#endif
                         Globals.gameStateManager.PushState(Config.States.FIRST_CUTSCENE);
                     }
                 }

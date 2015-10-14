@@ -11,6 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
+#if ANDROID
+using IsolatedStorageSettings = CustomIsolatedStorageSettings.IsolatedStorageSettings;
+#endif
 
 namespace PixelPerfect
 {
@@ -53,6 +56,7 @@ namespace PixelPerfect
         private float currentTotalDeaths = 0;
         private TimeSpan currentLevelTime = TimeSpan.Zero;
         private TimeSpan soundTimer = TimeSpan.Zero;
+        private TimeSpan diffTime = TimeSpan.Zero;
 
         private Color currentDeathsColor = Color.White;
         private Color currentTotalDeathsColor = Color.White;
@@ -64,6 +68,7 @@ namespace PixelPerfect
 
         private TimeSpan trophyTimer = TimeSpan.FromMilliseconds(500.0);
         private bool trophy = false;
+        private TimeSpan diffPreviousTime = TimeSpan.Zero;
 
         public WinState()
         {
@@ -83,7 +88,6 @@ namespace PixelPerfect
                 Globals.gameStateManager.PopState();
                 return;
             }
-
             fireworks.Clear();
             for (int i = 0; i < 5; i++)
                 fireworks.Add(new EmiterPart(new Vector2(200 - 30 * i, 180),
@@ -92,6 +96,9 @@ namespace PixelPerfect
                               Globals.spritesDictionary["enemies_8x8"].textureArray[0],
                               new Rectangle(0, 0, 8, 8), Color.White, 100, Globals.pixelParticles, null, true, false, true));
             fadeTime = new TimeSpan(0, 0, 0, 0, 500);
+
+            diffPreviousTime = Globals.worlds[Globals.selectedWorld].DiffPreviousTime(Globals.selectedLevel, levelTime);
+
             if (Globals.musicEnabled)
                 MediaPlayer.Pause();
 #if WINDOWS
@@ -159,6 +166,8 @@ namespace PixelPerfect
             screenState = ScreenState.DEATHCOUNT;
             currentDeaths = currentTotalDeaths = 0.0f;
             currentLevelTime = TimeSpan.Zero;
+            diffTime = TimeSpan.Zero;
+            diffPreviousTime = TimeSpan.Zero;
             currentDeathsColor = currentLevelTimeColor = currentTotalDeathsColor = Color.White;
             Globals.soundsDictionary["coin"].Pitch = 0.0f;
             delayTimer = TimeSpan.Zero;
@@ -183,25 +192,33 @@ namespace PixelPerfect
             caption.Draw(spriteBatch);
             
             spriteBatch.DrawString(Globals.silkscreenFont, "DEATHS:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 32), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(Globals.silkscreenFont, ((int)currentDeaths).ToString("D3"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 60, 32), currentDeathsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, ((int)currentDeaths).ToString("D3"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 56, 32), currentDeathsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
             spriteBatch.Draw(Globals.textureDictionary["skull"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 30,
                                                                                Globals.textureDictionary["skull"].Width * 2,
                                                                                Globals.textureDictionary["skull"].Height * 2), Color.White);
 
-            spriteBatch.DrawString(Globals.silkscreenFont, "TOTAL DEATHS:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 62), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(Globals.silkscreenFont, ((int)currentTotalDeaths).ToString("D3"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 60, 62), currentTotalDeathsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.Draw(Globals.textureDictionary["skull"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 60,
+            spriteBatch.DrawString(Globals.silkscreenFont, "TOTAL DEATHS:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 58), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, ((int)currentTotalDeaths).ToString("D3"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 56, 58), currentTotalDeathsColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.Draw(Globals.textureDictionary["skull"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 58,
                                                                    Globals.textureDictionary["skull"].Width * 2,
                                                                    Globals.textureDictionary["skull"].Height * 2), Color.White);
 
             if (trophy)
-                spriteBatch.Draw(Globals.textureDictionary["trophy"], new Rectangle(148, 82,
+                spriteBatch.Draw(Globals.textureDictionary["trophy"], new Rectangle(148, 70,
                                                                                 Globals.textureDictionary["trophy"].Width * 2,
                                                                                 Globals.textureDictionary["trophy"].Height * 2), new Color(Color.Gold, (float)(1.0 - trophyTimer.TotalMilliseconds / 500.0)));
 
-            spriteBatch.DrawString(Globals.silkscreenFont, "TIME:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 92), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.DrawString(Globals.silkscreenFont, currentLevelTime.ToString("mm\\:ss\\.ff"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 28, 92), currentLevelTimeColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
-            spriteBatch.Draw(Globals.textureDictionary["clock"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 90,
+            spriteBatch.DrawString(Globals.silkscreenFont, "TIME:", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 - 55, 84), Color.White, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            spriteBatch.DrawString(Globals.silkscreenFont, currentLevelTime.ToString("mm\\:ss\\.ff"), new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 24, 84), currentLevelTimeColor, 0.0f, Vector2.Zero, 1.5f, SpriteEffects.None, 0.0f);
+            if (screenState == ScreenState.TROPHY || screenState == ScreenState.IDLE)
+            {
+                spriteBatch.DrawString(Globals.silkscreenFont, "(" + (diffTime.TotalMilliseconds > 0.0 ? "+" : "-") + diffTime.ToString("m\\:ss\\.ff") + ")", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 84, 87), (diffTime.TotalMilliseconds > 0.0 ? Color.Red : Color.Gold), 0.0f, Vector2.Zero, 1.0f, SpriteEffects.None, 0.0f);                
+                if (diffPreviousTime.TotalMilliseconds < 0.0)
+                {
+                    spriteBatch.DrawString(Globals.silkscreenFont, "NEW RECORD (-" + diffPreviousTime.ToString("m\\:ss\\.ff") + ")", new Vector2(Config.SCREEN_WIDTH_SCALED / 2 + 1, 100), Color.CornflowerBlue, 0.0f, Vector2.Zero, 1.2f, SpriteEffects.None, 0.0f);
+                }
+            }
+            spriteBatch.Draw(Globals.textureDictionary["clock"], new Rectangle(Config.SCREEN_WIDTH_SCALED / 2 - 80, 82,
                                                                    Globals.textureDictionary["clock"].Width * 2,
                                                                    Globals.textureDictionary["clock"].Height * 2), Color.White);
             
@@ -294,7 +311,10 @@ namespace PixelPerfect
                     {
                         currentLevelTime = levelTime;
                         currentLevelTimeColor = Color.Blue;
-                        if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))
+                        
+                        diffTime = levelTime - Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].time;
+
+                        if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel, levelTime))
                         {
                             trophy = true;
                             screenState = ScreenState.TROPHY;
@@ -398,10 +418,9 @@ namespace PixelPerfect
                     {
 
                         Globals.completed = true;
-#if WINDOWS_PHONE
                         IsolatedStorageSettings.ApplicationSettings["completed"] = true;
                         IsolatedStorageSettings.ApplicationSettings.Save();
-#endif
+
                         Globals.gameStateManager.PopState();
                         Globals.gameStateManager.PopState();
                         Globals.gameStateManager.PushState(Config.States.WORLDSELECT);
@@ -494,9 +513,10 @@ namespace PixelPerfect
             currentDeaths = deaths;
             currentTotalDeaths = Savestate.Instance.levelSaves[levelId].deathCount;
             currentLevelTime = levelTime;
+            diffTime = levelTime - Globals.worlds[Globals.selectedWorld].levels[Globals.selectedLevel].time;
             screenState = ScreenState.IDLE;
             fadeTime = TimeSpan.Zero;
-            if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel))            
+            if (Globals.worlds[Globals.selectedWorld].BeatLevelPerfektTime(Globals.selectedLevel, levelTime))            
                 trophy = true;
             trophyTimer = TimeSpan.Zero;
         }

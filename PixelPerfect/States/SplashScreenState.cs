@@ -19,7 +19,6 @@ namespace PixelPerfect
         TimeSpan fadeTime = TimeSpan.FromMilliseconds(500.0);
         Texture2D logo;
         private Task task;
-        WavyText loading;
 
         Dictionary<string, string> textureDictionary = new Dictionary<string, string>()
         {
@@ -71,13 +70,26 @@ namespace PixelPerfect
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool suspended)
         {
-            //loading.Update(gameTime);
+#if !ANDROID
+            LoadAssetsNonBlock();
+#else
+            LoadAssetsBlock();
+#endif
+        }
 
+        private void LoadAssetsNonBlock()
+        {
             if (task == null)
             {
                 task = new Task(() =>
                 {
-                    LoadContent();
+                    Globals.silkscreenFont = Globals.content.Load<SpriteFont>("Silkscreen");
+                    Globals.tileset = new Tileset("tileset");
+
+                    LoadTextures();
+                    LoadSprites();
+                    LoadSounds();
+                    LoadMusic();
                     RegisterStates();
                     Theme.ReloadTheme(World.LastActiveWorld(), scale);
                 });
@@ -93,6 +105,22 @@ namespace PixelPerfect
             }
         }
 
+        private void LoadAssetsBlock()
+        {
+            Globals.silkscreenFont = Globals.content.Load<SpriteFont>("Silkscreen");
+            Globals.tileset = new Tileset("tileset");
+
+            LoadTextures();
+            LoadSprites();
+            LoadSounds();
+            LoadMusic();
+            RegisterStates();
+            Theme.ReloadTheme(World.LastActiveWorld(), scale);
+            Globals.gameStateManager.PopState();
+            Globals.gameStateManager.PushState(Config.States.BACKGROUND);
+            Globals.gameStateManager.PushState(Config.States.DUMMY);
+            Globals.gameStateManager.PushState(Config.States.TITLESCREEN);
+        }
         private void RegisterStates()
         {
             var menuState = new TitlescreenState(Globals.gameStateManager);
@@ -757,16 +785,6 @@ namespace PixelPerfect
             sceneText.keyframeList.Add(textKeyframe4);
 
             return sceneText;
-        }
-
-        private void LoadContent()
-        {
-            Globals.silkscreenFont = Globals.content.Load<SpriteFont>("Silkscreen");
-            Globals.tileset = new Tileset("tileset");
-            LoadTextures();
-            LoadSprites();
-            LoadSounds();
-            LoadMusic();            
         }
 
         private void LoadTextures()

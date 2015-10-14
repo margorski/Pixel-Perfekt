@@ -71,6 +71,10 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
+    <Reference Include="MonoGame.Framework, Version=3.4.0.456, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Android\MonoGame.Framework.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="OpenTK" />
     <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
@@ -642,9 +646,9 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\lib\MonoGame\MonoGame.Framework\MonoGame.Framework.Android.csproj">
-      <Project>{ba9476cf-99ba-4d03-92f2-73d2c5e58883}</Project>
-      <Name>MonoGame.Framework.Android</Name>
+    <ProjectReference Include="..\Xamarin.Android.IsolatedStorageSettings-master\IsolatedStorageSettings\IsolatedStorageSettings\CustomIsolatedStorageSettings.csproj">
+      <Project>{f5762016-0b55-4cbb-83b8-d342bec2496d}</Project>
+      <Name>CustomIsolatedStorageSettings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />

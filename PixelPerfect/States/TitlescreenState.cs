@@ -11,7 +11,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-
+#if ANDROID
+using IsolatedStorageSettings = CustomIsolatedStorageSettings.IsolatedStorageSettings;
+#endif
 #if WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
@@ -155,10 +157,8 @@ namespace PixelPerfect
                     if (musicButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {
                         Globals.musicEnabled = musicButton.value;
-#if WINDOWS_PHONE
                         IsolatedStorageSettings.ApplicationSettings["music"] = Globals.musicEnabled;
                         IsolatedStorageSettings.ApplicationSettings.Save();
-#endif
                         if (Globals.musicEnabled)
                             MediaPlayer.Play(Globals.backgroundMusicList[Theme.CurrentTheme.music]);
                         else
@@ -168,10 +168,8 @@ namespace PixelPerfect
                     else if (soundButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                     {
                         Globals.soundEnabled = soundButton.value;
-#if WINDOWS_PHONE
                         IsolatedStorageSettings.ApplicationSettings["sound"] = Globals.soundEnabled;
                         IsolatedStorageSettings.ApplicationSettings.Save();
-#endif
                         continue;
                     }
                     else if (playButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))

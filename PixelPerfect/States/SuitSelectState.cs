@@ -10,7 +10,9 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Input.Touch;
 using Microsoft.Xna.Framework.Media;
-
+#if ANDROID
+using IsolatedStorageSettings = CustomIsolatedStorageSettings.IsolatedStorageSettings;
+#endif
 #if WINDOWS_PHONE
 using Microsoft.Phone.Tasks;
 #endif
@@ -177,10 +179,8 @@ namespace PixelPerfect
                     {
                         if (button.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                             Globals.suit = suitButtons.IndexOf(button);
-#if WINDOWS_PHONE
                             IsolatedStorageSettings.ApplicationSettings["suit"] = Globals.suit;
                             IsolatedStorageSettings.ApplicationSettings.Save();
-#endif
                     }
                     if (backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                         GoBack();

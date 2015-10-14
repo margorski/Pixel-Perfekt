@@ -83,6 +83,11 @@ namespace PixelPerfect
             return value;
         }
 
+        public bool BeatLevelPerfektTime(int id, TimeSpan levelTime)
+        {
+            return levelTime <= this.levels[id].time;
+        }
+
         public bool BeatLevelPerfektTime(int id)
         {
             Levelsave levelsave;
@@ -94,6 +99,19 @@ namespace PixelPerfect
                 return false;
 
             return levelsave.bestTime <= this.levels[id].time;
+        }
+
+        public TimeSpan DiffPreviousTime(int id, TimeSpan levelTime)
+        {
+            Levelsave levelsave;
+
+            if (!Savestate.Instance.levelSaves.TryGetValue(directory + "\\" + levels[id].shortName, out levelsave))
+                return -levelTime;
+
+            if (levelsave.bestTime == TimeSpan.Zero)
+                return -levelTime;
+
+            return levelTime - levelsave.bestTime;
         }
 
         public bool LevelCompleted(int id)
