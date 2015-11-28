@@ -2,9 +2,7 @@
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">ARM</Platform>
-    <ProductVersion>10.0.20506</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
+    <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
     <ProjectGuid>{CE6B85E7-0C2A-4D22-B071-6D24DE5CD2D8}</ProjectGuid>
     <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -156,64 +154,64 @@
       <Link>Content\leveltile.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\8-bit loop %28loop%29.wma">
-      <Link>Content\music\8-bit loop %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\8-bit loop.wma">
+      <Link>Content\music\8-bit loop.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Filth %28loop%29.wma">
-      <Link>Content\music\Chaotic Filth %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Filth.wma">
+      <Link>Content\music\Chaotic Filth.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Standoff %28loop%29.wma">
-      <Link>Content\music\Chaotic Standoff %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Standoff.wma">
+      <Link>Content\music\Chaotic Standoff.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\ChipChippy %28loop%29.wma">
-      <Link>Content\music\ChipChippy %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\ChipChippy.wma">
+      <Link>Content\music\ChipChippy.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Chippy Cloud Kid %28loop%29.wma">
-      <Link>Content\music\Chippy Cloud Kid %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Chippy Cloud Kid.wma">
+      <Link>Content\music\Chippy Cloud Kid.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Dramatic Metal Entrance %28loop%29.wma">
-      <Link>Content\music\Dramatic Metal Entrance %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Dramatic Metal Entrance.wma">
+      <Link>Content\music\Dramatic Metal Entrance.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Elevator Music %28loop%29.wma">
-      <Link>Content\music\Elevator Music %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Elevator Music.wma">
+      <Link>Content\music\Elevator Music.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Gasoline Rainbows %28loop%29.wma">
-      <Link>Content\music\Gasoline Rainbows %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Gasoline Rainbows.wma">
+      <Link>Content\music\Gasoline Rainbows.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\King Boss %28loop%29.wma">
-      <Link>Content\music\King Boss %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\King Boss.wma">
+      <Link>Content\music\King Boss.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Ring Leader %28loop%29.wma">
-      <Link>Content\music\Ring Leader %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Ring Leader.wma">
+      <Link>Content\music\Ring Leader.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Rising Sun %28oriental with dance beats%29.wma">
-      <Link>Content\music\Rising Sun %28oriental with dance beats%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Rising Sun.wma">
+      <Link>Content\music\Rising Sun.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\music\Sad Song 1.wma">
       <Link>Content\music\Sad Song 1.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Vanguard Bouncy %28loop%29.wma">
-      <Link>Content\music\Vanguard Bouncy %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Vanguard Bouncy.wma">
+      <Link>Content\music\Vanguard Bouncy.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\wubby dancer %28loop%29.wma">
-      <Link>Content\music\wubby dancer %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\wubby dancer.wma">
+      <Link>Content\music\wubby dancer.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\xylophone %28loop%29.wma">
-      <Link>Content\music\xylophone %28loop%29.wma</Link>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\xylophone.wma">
+      <Link>Content\music\xylophone.wma</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\pixel.xnb">
@@ -272,66 +270,6 @@
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\king_48x48.xnb">
       <Link>Content\king_48x48.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\8-bit loop %28loop%29.xnb">
-      <Link>Content\music\8-bit loop %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Filth %28loop%29.xnb">
-      <Link>Content\music\Chaotic Filth %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Standoff %28loop%29.xnb">
-      <Link>Content\music\Chaotic Standoff %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\ChipChippy %28loop%29.xnb">
-      <Link>Content\music\ChipChippy %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Chippy Cloud Kid %28loop%29.xnb">
-      <Link>Content\music\Chippy Cloud Kid %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Dramatic Metal Entrance %28loop%29.xnb">
-      <Link>Content\music\Dramatic Metal Entrance %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Elevator Music %28loop%29.xnb">
-      <Link>Content\music\Elevator Music %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Gasoline Rainbows %28loop%29.xnb">
-      <Link>Content\music\Gasoline Rainbows %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\King Boss %28loop%29.xnb">
-      <Link>Content\music\King Boss %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Ring Leader %28loop%29.xnb">
-      <Link>Content\music\Ring Leader %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Rising Sun %28oriental with dance beats%29.xnb">
-      <Link>Content\music\Rising Sun %28oriental with dance beats%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Sad Song 1.xnb">
-      <Link>Content\music\Sad Song 1.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\Vanguard Bouncy %28loop%29.xnb">
-      <Link>Content\music\Vanguard Bouncy %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\wubby dancer %28loop%29.xnb">
-      <Link>Content\music\wubby dancer %28loop%29.xnb</Link>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="..\Content\Content\bin\PSM\Content\music\xylophone %28loop%29.xnb">
-      <Link>Content\music\xylophone %28loop%29.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="..\Content\Content\bin\PSM\Content\fgame\biggo_128x128.xnb">
@@ -722,6 +660,66 @@
       <Link>Content\menu\swap.xnb</Link>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\8-bit loop.xnb">
+      <Link>Content\music\8-bit loop.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Filth.xnb">
+      <Link>Content\music\Chaotic Filth.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Chaotic Standoff.xnb">
+      <Link>Content\music\Chaotic Standoff.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\ChipChippy.xnb">
+      <Link>Content\music\ChipChippy.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Chippy Cloud Kid.xnb">
+      <Link>Content\music\Chippy Cloud Kid.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Dramatic Metal Entrance.xnb">
+      <Link>Content\music\Dramatic Metal Entrance.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Elevator Music.xnb">
+      <Link>Content\music\Elevator Music.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Gasoline Rainbows.xnb">
+      <Link>Content\music\Gasoline Rainbows.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\King Boss.xnb">
+      <Link>Content\music\King Boss.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Ring Leader.xnb">
+      <Link>Content\music\Ring Leader.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Rising Sun.xnb">
+      <Link>Content\music\Rising Sun.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Sad Song 1.xnb">
+      <Link>Content\music\Sad Song 1.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\Vanguard Bouncy.xnb">
+      <Link>Content\music\Vanguard Bouncy.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\wubby dancer.xnb">
+      <Link>Content\music\wubby dancer.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\Content\Content\bin\PSM\Content\music\xylophone.xnb">
+      <Link>Content\music\xylophone.xnb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -731,7 +729,6 @@
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
     </None>
-    <None Include="RateMyAppGuide_v1 1.pdf" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\AlignmentGrid.png" />
@@ -792,11 +789,6 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\RateMyApp.1.1.0\lib\directx\RateMyApp.dll</HintPath>
     </Reference>
-  </ItemGroup>
-  <ItemGroup>
-    <SDKReference Include="MSAdvertising, Version=6.1">
-      <Name>Microsoft Advertising SDK for Windows Phone 8 %28XAML%29</Name>
-    </SDKReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />

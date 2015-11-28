@@ -418,9 +418,10 @@ namespace PixelPerfect
                     {
 
                         Globals.completed = true;
+#if !WINDOWS
                         IsolatedStorageSettings.ApplicationSettings["completed"] = true;
                         IsolatedStorageSettings.ApplicationSettings.Save();
-
+#endif
                         Globals.gameStateManager.PopState();
                         Globals.gameStateManager.PopState();
                         Globals.gameStateManager.PushState(Config.States.WORLDSELECT);

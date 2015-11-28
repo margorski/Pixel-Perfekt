@@ -89,25 +89,16 @@ namespace PixelPerfect
 
         public void AdsOff()
         {
-#if !WINDOWS
             AdMediator_6FC9F8.Disable();
-            //AdMediator_6FC9F8.Visibility = System.Windows.Visibility.Collapsed;
-#endif
         }
 
 
         public void AdsOn()
         {
-            if (Globals.noads)
-                return;
-#if !WINDOWS
-            //AdMediator_6FC9F8.Visibility = System.Windows.Visibility.Visible;            
             AdMediator_6FC9F8.Resume();
-#endif
         }
 
 
-#if !WINDOWS
         public void LaunchStoreForProductPurchase(string productID, bool requestReceipt, StoreExitAction storeExitCallback)
         {
 
@@ -138,8 +129,6 @@ namespace PixelPerfect
             {
                 Console.WriteLine(ex.ToString());
             }
-
         }
-#endif
     }
 }

@@ -250,9 +250,11 @@ namespace PixelPerfect
                     if (!Globals.firstcutscene)
                     {
                         Globals.firstcutscene = true;
+#if !WINDOWS
                         IsolatedStorageSettings.ApplicationSettings["firstcutscene"] = Globals.firstcutscene;
                         IsolatedStorageSettings.ApplicationSettings.Save();
                         Globals.gameStateManager.PushState(Config.States.FIRST_CUTSCENE);
+#endif
                     }
                 }
                 else
@@ -270,10 +272,9 @@ namespace PixelPerfect
                 sfinstance.Value.Stop();
             if (!menuLevel)
                 MediaPlayer.Stop();
-#if WINDOWS_PHONE
+
             if (!menuLevel)
-                GamePage.Instance.AdsOff();
-#endif
+                Util.AdsOff();
         }
 
         public override void Resume(int poppedStateId)
@@ -290,15 +291,14 @@ namespace PixelPerfect
         }
 
         public override void Suspend(int pushedStateId)
-        {
-#if WINDOWS_PHONE            
+        {         
             if (!menuLevel && pushedStateId != Config.States.TAP)
             {
-                GamePage.Instance.AdsOff();
+                Util.AdsOff();
                 if (adTimer == TimeSpan.Zero)
                     adTimer = TimeSpan.FromMilliseconds(1.0);
             }
-#endif
+
             if (menuLevel)
                 InitLevel();
             else
@@ -314,17 +314,16 @@ namespace PixelPerfect
         {            
             if (suspended)            
                 return;
-#if WINDOWS_PHONE
+			
             if (adTimer > TimeSpan.Zero && !menuLevel)
             {
                 adTimer -= gameTime.ElapsedGameTime;
                 if (adTimer <= TimeSpan.Zero)
                 {
                     adTimer = TimeSpan.Zero;
-                    GamePage.Instance.AdsOn();
+                    Util.AdsOn();
                 }
             }
-#endif
 
             if (!menuLevel)
             {

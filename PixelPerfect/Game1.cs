@@ -34,9 +34,7 @@ namespace PixelPerfect
         //private float scale = 1.0f;
         private Vector2 scale = new Vector2(1.0f, 1.0f);
         private Vector3 translation = new Vector3(0.0f, 0.0f, 0.0f);
-        private float translatex = 0.0f;
-        //private float margin = 0.0f;
-
+        
         public Game1()
         {                        
             graphics = new GraphicsDeviceManager(this);
@@ -55,7 +53,7 @@ namespace PixelPerfect
             this.IsMouseVisible = true;                   
 #endif            
             Content.RootDirectory = "Content";
-#if WINDOWS || WINDOWS_PHONE
+#if WINDOWS_PHONE
             ScaleWP();
 #endif
             // Frame rate is 30 fps by default for Windows Phone.
@@ -69,6 +67,9 @@ namespace PixelPerfect
         private void ScaleScreen()
         {
             translation.X = -3.0f;
+#if WINDOWS
+            scale *= Config.SCALE_FACTOR;
+#endif
 #if !(WINDOWS_PHONE || WINDOWS)
             var aspectRatio = graphics.GraphicsDevice.Viewport.AspectRatio;
             if (aspectRatio == 1.66666663)
@@ -86,7 +87,7 @@ namespace PixelPerfect
 #endif
         }
 
-#if WINDOWS_PHONE
+#if WINDOWS_PHONE 
         private void ScaleWP()
         {
             var content = App.Current.Host.Content;
@@ -121,7 +122,7 @@ namespace PixelPerfect
             Globals.renderTarget = new RenderTarget2D(GraphicsDevice, Config.SCREEN_WIDTH_SCALED, Config.SCREEN_HEIGHT_SCALED,
                                                       false, GraphicsDevice.PresentationParameters.BackBufferFormat, DepthFormat.Depth24);
             Savestate.Init();
-            
+#if !WINDOWS
             if (!IsolatedStorageSettings.ApplicationSettings.Contains("music"))
             {
                 IsolatedStorageSettings.ApplicationSettings.Add("music", true);
@@ -163,7 +164,7 @@ namespace PixelPerfect
                 IsolatedStorageSettings.ApplicationSettings.Save();
             }
             Globals.swappedControls = (bool)IsolatedStorageSettings.ApplicationSettings["swappedcontrols"];
-
+#endif
 #if WINDOWS_PHONE
             Globals.noads = CurrentApp.LicenseInformation.ProductLicenses["noads"].IsActive;
 #endif

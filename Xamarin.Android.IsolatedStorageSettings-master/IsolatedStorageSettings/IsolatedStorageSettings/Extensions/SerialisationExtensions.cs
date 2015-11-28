@@ -33,7 +33,7 @@ namespace CustomIsolatedStorageSettings.Extensions
     /// <param name="serialized"></param>
     /// <returns></returns>
     public static T Deserialize<T>(this string serialized)
-    {
+    {        
       if (serialized == null) return default(T);
       var serializer = new DataContractSerializer(typeof(T));
       using (var reader = new StringReader(serialized))

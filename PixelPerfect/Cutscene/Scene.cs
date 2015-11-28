@@ -24,7 +24,6 @@ namespace PixelPerfect.Cutscene
         public TimeSpan _duration;
         public Color backgroundColor = Color.Transparent;
         public Texture2D gradientTexture = null;
-        private Song music;
 
         public void Init()
         {

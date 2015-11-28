@@ -48,7 +48,7 @@ namespace CustomIsolatedStorageSettings
     /// <returns></returns>
     public static async Task SaveDataAsync(string name, string directory, string data)
     {
-      //Get folder, create if doesn't exist.
+      //Get folder, create if doesn't exist.8
       string folderPath = Path.Combine(getPath(), directory);
       if (!Directory.Exists(folderPath)) Directory.CreateDirectory(folderPath);
 

@@ -73,7 +73,7 @@ namespace PixelPerfect
             this.explode = explode;
             this.pixelContainer = pixelContainer;
             this.emitMap = emitMap;
-            this.randomizeColors = randomizeColors;
+			this.randomizeColors = randomColors;
 
             animation = new Animation(4, animationDelay, animationreverse);
 

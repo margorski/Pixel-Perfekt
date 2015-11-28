@@ -1,0 +1,40 @@
+﻿<Properties StartupItem="PixelPerfektAndroid\PixelPerfektAndroid.csproj">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.AVD_for_5_1_WVGA" />
+  <MonoDevelop.Ide.Workbench>
+    <Files>
+      <File FileName="PixelPerfektAndroid\Properties\AndroidManifest.xml" Line="7" Column="12" />
+      <File FileName="PixelPerfektAndroid\Properties\AssemblyInfo.cs" Line="25" Column="1" />
+      <File FileName="PixelPerfektAndroid\ad\AdEventListener.cs" Line="20" Column="23" />
+      <File FileName="PixelPerfektAndroid\ad\AdWrapper.cs" Line="18" Column="23" />
+      <File FileName="PixelPerfektAndroid\Resources\Resource.Designer.cs" Line="1" Column="1" />
+      <File FileName="PixelPerfektAndroid\Resources\Values\Strings.xml" Line="6" Column="1" />
+      <File FileName="PixelPerfect\Util.cs" Line="292" Column="32" />
+      <File FileName="PixelPerfektAndroid\Activity1.cs" Line="85" Column="24" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="PixelPerfect" expanded="True">
+            <Node name="PixelPerfektAndroid" expanded="True" selected="True">
+              <Node name="ComponentReferenceFolder" expanded="True" />
+              <Node name="ad" expanded="True" />
+              <Node name="Properties" expanded="True" />
+              <Node name="Resources" expanded="True">
+                <Node name="Values" expanded="True" />
+              </Node>
+              <Node name="States" expanded="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore>
+      <Breakpoint file="c:\projekty\gamedev\serious\PixelPerfect\PixelPerfektAndroid\CustomIsolatedStorageSettings.cs" line="56" column="13" />
+      <Breakpoint file="c:\projekty\gamedev\serious\PixelPerfect\PixelPerfektAndroid\CustomIsolatedStorageSettings.cs" line="145" column="1" />
+    </BreakpointStore>
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.PixelPerfektAndroid AndroidDesignerPreferredDevice="Nexus 4" />
+</Properties>

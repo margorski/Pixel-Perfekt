@@ -283,5 +283,28 @@ namespace PixelPerfect
             return Globals.content.Load<Song>(songLocation);
 #endif
         }
+
+        public static void AdsOff()
+        {
+#if WINDOWS_PHONE
+            GamePage.Instance.AdsOff();
+#elif ANDROID
+			Activity1.Instance.AdsOff();
+#endif
+        }
+
+
+        public static void AdsOn()
+        {
+            if (Globals.noads)
+                return;
+#if WINDOWS_PHONE
+            GamePage.Instance.AdsOn();
+#elif ANDROID
+			Activity1.Instance.AdsOn();
+#endif
+        }
+
+
     }
 }

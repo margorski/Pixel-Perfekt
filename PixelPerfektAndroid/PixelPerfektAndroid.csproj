@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{64FC2DB9-7FAD-4B98-8CF5-4F727EDC9EDC}</ProjectGuid>
     <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
@@ -15,8 +13,6 @@
     <AndroidApplication>true</AndroidApplication>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidSupportedAbis>armeabi-v7a%3bx86</AndroidSupportedAbis>
-    <AndroidStoreUncompressedFileExtensions />
     <MandroidI18n />
     <TargetFrameworkVersion>v4.2</TargetFrameworkVersion>
     <MonoGamePlatform>Android</MonoGamePlatform>
@@ -26,69 +22,60 @@
     <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AndroidLinkSkip />
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
-    <BundleAssemblies>False</BundleAssemblies>
-    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86</AndroidSupportedAbis>
-    <AndroidStoreUncompressedFileExtensions />
-    <MandroidI18n />
     <Debugger>Xamarin</Debugger>
-    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
     <DevInstrumentationEnabled>True</DevInstrumentationEnabled>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE;ANDROID</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AndroidLinkSkip />
     <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
-    <BundleAssemblies>False</BundleAssemblies>
-    <AndroidCreatePackagePerAbi>False</AndroidCreatePackagePerAbi>
-    <AndroidSupportedAbis>armeabi,armeabi-v7a,x86,x86_64,arm64-v8a</AndroidSupportedAbis>
-    <AndroidStoreUncompressedFileExtensions />
-    <MandroidI18n />
     <Debugger>Xamarin</Debugger>
-    <AotAssemblies>False</AotAssemblies>
-    <EnableLLVM>False</EnableLLVM>
-    <AndroidEnableMultiDex>False</AndroidEnableMultiDex>
-    <EnableProguard>False</EnableProguard>
     <DevInstrumentationEnabled>False</DevInstrumentationEnabled>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
+    <JavaMaximumHeapSize>1G</JavaMaximumHeapSize>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
-    <Reference Include="MonoGame.Framework, Version=3.4.0.456, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\..\Program Files (x86)\MonoGame\v3.0\Assemblies\Android\MonoGame.Framework.dll</HintPath>
-    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="OpenTK" />
-    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67, processorArchitecture=MSIL">
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Xml.Serialization" />
+    <Reference Include="MonoGame.Framework">
+      <HintPath>..\..\..\..\..\Program Files %28x86%29\MonoGame\v3.0\Assemblies\Android\MonoGame.Framework.dll</HintPath>
+    </Reference>
+    <Reference Include="protobuf-net, Version=2.0.0.668, Culture=neutral, PublicKeyToken=257b51d87d2e4d67">
       <HintPath>..\packages\protobuf-net.2.0.0.668\lib\portable-sl4+net40+wp7+windows8\protobuf-net.dll</HintPath>
-      <Private>True</Private>
     </Reference>
-    <Reference Include="System">
-      <Private>False</Private>
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\packages\Xamarin.Android.Support.v4.23.0.1.3\lib\MonoAndroid403\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
-    <Reference Include="System.Core">
-      <Private>False</Private>
+    <Reference Include="Xamarin.GooglePlayServices.Basement">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Basement.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Basement.dll</HintPath>
     </Reference>
-    <Reference Include="System.Xml">
-      <Private>False</Private>
+    <Reference Include="Xamarin.GooglePlayServices.AppIndexing">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.AppIndexing.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.AppIndexing.dll</HintPath>
+    </Reference>
+    <Reference Include="Xamarin.GooglePlayServices.Ads">
+      <HintPath>..\packages\Xamarin.GooglePlayServices.Ads.27.0.0.0\lib\MonoAndroid41\Xamarin.GooglePlayServices.Ads.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -236,6 +223,10 @@
     <Compile Include="Activity1.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CustomIsolatedStorageSettings.cs" />
+    <Compile Include="SplashScreen.cs" />
+    <Compile Include="ad\AdEventListener.cs" />
+    <Compile Include="ad\AdWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <AndroidAsset Include="..\assets\levels\fgame\pm1.tmx">
@@ -575,54 +566,54 @@
     <AndroidAsset Include="..\Content\Content\bin\PSM\Content\tileset_mini.xnb">
       <Link>Assets\Content\tileset_mini.xnb</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\8-bit loop %28loop%29.ogg">
-      <Link>Assets\Content\music\8-bit loop %28loop%29.ogg</Link>
+    <None Include="packages.config" />
+    <None Include="Resources\AboutResources.txt" />
+    <None Include="Assets\AboutAssets.txt" />
+    <AndroidAsset Include="..\Assets\music\8-bit loop.ogg">
+      <Link>Assets\Content\music\8-bit loop.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Chaotic Filth %28loop%29.ogg">
-      <Link>Assets\Content\music\Chaotic Filth %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Chaotic Filth.ogg">
+      <Link>Assets\Content\music\Chaotic Filth.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Chaotic Standoff %28loop%29.ogg">
-      <Link>Assets\Content\music\Chaotic Standoff %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Chaotic Standoff.ogg">
+      <Link>Assets\Content\music\Chaotic Standoff.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\ChipChippy %28loop%29.ogg">
-      <Link>Assets\Content\music\ChipChippy %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\ChipChippy.ogg">
+      <Link>Assets\Content\music\ChipChippy.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Chippy Cloud Kid %28loop%29.ogg">
-      <Link>Assets\Content\music\Chippy Cloud Kid %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Chippy Cloud Kid.ogg">
+      <Link>Assets\Content\music\Chippy Cloud Kid.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Dramatic Metal Entrance %28loop%29.ogg">
-      <Link>Assets\Content\music\Dramatic Metal Entrance %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Dramatic Metal Entrance.ogg">
+      <Link>Assets\Content\music\Dramatic Metal Entrance.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Elevator Music %28loop%29.ogg">
-      <Link>Assets\Content\music\Elevator Music %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Elevator Music.ogg">
+      <Link>Assets\Content\music\Elevator Music.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Gasoline Rainbows %28loop%29.ogg">
-      <Link>Assets\Content\music\Gasoline Rainbows %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Gasoline Rainbows.ogg">
+      <Link>Assets\Content\music\Gasoline Rainbows.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\King Boss %28loop%29.ogg">
-      <Link>Assets\Content\music\King Boss %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\King Boss.ogg">
+      <Link>Assets\Content\music\King Boss.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Ring Leader %28loop%29.ogg">
-      <Link>Assets\Content\music\Ring Leader %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Ring Leader.ogg">
+      <Link>Assets\Content\music\Ring Leader.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Rising Sun %28oriental with dance beats%29.ogg">
-      <Link>Assets\Content\music\Rising Sun %28oriental with dance beats%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Rising Sun.ogg">
+      <Link>Assets\Content\music\Rising Sun.ogg</Link>
     </AndroidAsset>
     <AndroidAsset Include="..\Assets\music\Sad Song 1.ogg">
       <Link>Assets\Content\music\Sad Song 1.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\Vanguard Bouncy %28loop%29.ogg">
-      <Link>Assets\Content\music\Vanguard Bouncy %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\Vanguard Bouncy.ogg">
+      <Link>Assets\Content\music\Vanguard Bouncy.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\wubby dancer %28loop%29.ogg">
-      <Link>Assets\Content\music\wubby dancer %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\wubby dancer.ogg">
+      <Link>Assets\Content\music\wubby dancer.ogg</Link>
     </AndroidAsset>
-    <AndroidAsset Include="..\Assets\music\xylophone %28loop%29.ogg">
-      <Link>Assets\Content\music\xylophone %28loop%29.ogg</Link>
+    <AndroidAsset Include="..\Assets\music\xylophone.ogg">
+      <Link>Assets\Content\music\xylophone.ogg</Link>
     </AndroidAsset>
-    <None Include="packages.config" />
-    <None Include="Resources\AboutResources.txt" />
-    <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Values\Strings.xml" />
@@ -632,6 +623,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Layout\" />
+    <Folder Include="Assets\Content\music\" />
+    <Folder Include="ad\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\Drawable\Splash.png" />
@@ -643,16 +636,12 @@
     <MonoGameContentReference Include="Assets\Content\Content.mgcb" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Properties\AndroidManifest.xml" />
+    <None Include="Properties\AndroidManifest.xml">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Xamarin.Android.IsolatedStorageSettings-master\IsolatedStorageSettings\IsolatedStorageSettings\CustomIsolatedStorageSettings.csproj">
-      <Project>{f5762016-0b55-4cbb-83b8-d342bec2496d}</Project>
-      <Name>CustomIsolatedStorageSettings</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\MonoGame\v3.0\MonoGame.Content.Builder.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">
@@ -660,4 +649,10 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <ItemGroup>
+    <XamarinComponentReference Include="googleplayservices-ads">
+      <Version>27.0.0.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
 </Project>

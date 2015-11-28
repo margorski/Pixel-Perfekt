@@ -148,113 +148,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\..\Assets\music\8-bit loop %28loop%29.mp3">
-      <Link>music\8-bit loop %28loop%29.mp3</Link>
-      <Name>8-bit loop %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Chaotic Filth %28loop%29.mp3">
-      <Link>music\Chaotic Filth %28loop%29.mp3</Link>
-      <Name>Chaotic Filth %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Chaotic Standoff %28loop%29.mp3">
-      <Link>music\Chaotic Standoff %28loop%29.mp3</Link>
-      <Name>Chaotic Standoff %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\ChipChippy %28loop%29.mp3">
-      <Link>music\ChipChippy %28loop%29.mp3</Link>
-      <Name>ChipChippy %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Chippy Cloud Kid %28loop%29.mp3">
-      <Link>music\Chippy Cloud Kid %28loop%29.mp3</Link>
-      <Name>Chippy Cloud Kid %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Dramatic Metal Entrance %28loop%29.mp3">
-      <Link>music\Dramatic Metal Entrance %28loop%29.mp3</Link>
-      <Name>Dramatic Metal Entrance %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Elevator Music %28loop%29.mp3">
-      <Link>music\Elevator Music %28loop%29.mp3</Link>
-      <Name>Elevator Music %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Gasoline Rainbows %28loop%29.mp3">
-      <Link>music\Gasoline Rainbows %28loop%29.mp3</Link>
-      <Name>Gasoline Rainbows %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\King Boss %28loop%29.mp3">
-      <Link>music\King Boss %28loop%29.mp3</Link>
-      <Name>King Boss %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Ring Leader %28loop%29.mp3">
-      <Link>music\Ring Leader %28loop%29.mp3</Link>
-      <Name>Ring Leader %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Rising Sun %28oriental with dance beats%29.mp3">
-      <Link>music\Rising Sun %28oriental with dance beats%29.mp3</Link>
-      <Name>Rising Sun %28oriental with dance beats%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Sad Song 1.mp3">
-      <Link>music\Sad Song 1.mp3</Link>
-      <Name>Sad Song 1</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\Vanguard Bouncy %28loop%29.mp3">
-      <Link>music\Vanguard Bouncy %28loop%29.mp3</Link>
-      <Name>Vanguard Bouncy %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\wubby dancer %28loop%29.mp3">
-      <Link>music\wubby dancer %28loop%29.mp3</Link>
-      <Name>wubby dancer %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-    <Compile Include="..\..\Assets\music\xylophone %28loop%29.mp3">
-      <Link>music\xylophone %28loop%29.mp3</Link>
-      <Name>xylophone %28loop%29</Name>
-      <Importer>Mp3Importer</Importer>
-      <Processor>SongProcessor</Processor>
-      <ProcessorParameters_Quality>Low</ProcessorParameters_Quality>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="..\..\Assets\Levels\fgame\biggo_128x128.png">
       <Link>fgame\biggo_128x128.png</Link>
       <Name>biggo_128x128</Name>
@@ -559,6 +452,98 @@
       <Name>swap</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\..\Assets\music\8-bit loop.mp3">
+      <Link>music\8-bit loop.mp3</Link>
+      <Name>8-bit loop</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Chaotic Filth.mp3">
+      <Link>music\Chaotic Filth.mp3</Link>
+      <Name>Chaotic Filth</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Chaotic Standoff.mp3">
+      <Link>music\Chaotic Standoff.mp3</Link>
+      <Name>Chaotic Standoff</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\ChipChippy.mp3">
+      <Link>music\ChipChippy.mp3</Link>
+      <Name>ChipChippy</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Chippy Cloud Kid.mp3">
+      <Link>music\Chippy Cloud Kid.mp3</Link>
+      <Name>Chippy Cloud Kid</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Dramatic Metal Entrance.mp3">
+      <Link>music\Dramatic Metal Entrance.mp3</Link>
+      <Name>Dramatic Metal Entrance</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Elevator Music.mp3">
+      <Link>music\Elevator Music.mp3</Link>
+      <Name>Elevator Music</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Gasoline Rainbows.mp3">
+      <Link>music\Gasoline Rainbows.mp3</Link>
+      <Name>Gasoline Rainbows</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\King Boss.mp3">
+      <Link>music\King Boss.mp3</Link>
+      <Name>King Boss</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Ring Leader.mp3">
+      <Link>music\Ring Leader.mp3</Link>
+      <Name>Ring Leader</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Rising Sun.mp3">
+      <Link>music\Rising Sun.mp3</Link>
+      <Name>Rising Sun</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Sad Song 1.mp3">
+      <Link>music\Sad Song 1.mp3</Link>
+      <Name>Sad Song 1</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\Vanguard Bouncy.mp3">
+      <Link>music\Vanguard Bouncy.mp3</Link>
+      <Name>Vanguard Bouncy</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\wubby dancer.mp3">
+      <Link>music\wubby dancer.mp3</Link>
+      <Name>wubby dancer</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
+    <Compile Include="..\..\Assets\music\xylophone.mp3">
+      <Link>music\xylophone.mp3</Link>
+      <Name>xylophone</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

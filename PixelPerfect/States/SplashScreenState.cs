@@ -14,11 +14,24 @@ using PixelPerfect.Cutscene;
 
 namespace PixelPerfect
 {
+    enum LoadState
+    {
+        Init = 0,
+        Textures,
+        Sounds,
+        Music,
+        Sprites,
+        Register,
+        Finish
+    }
+
     class SplashScreenState : GameState
     {
         TimeSpan fadeTime = TimeSpan.FromMilliseconds(500.0);
         Texture2D logo;
-        private Task task;
+        int loadCounter = 0;
+        LoadState loadState = LoadState.Init;
+        Dictionary<LoadState, Action> loadDelegates = new Dictionary<LoadState,Action>();
 
         Dictionary<string, string> textureDictionary = new Dictionary<string, string>()
         {
@@ -33,8 +46,56 @@ namespace PixelPerfect
             {"ads", "menu\\ads"}, {"swap", "menu\\swap"}
         };
 
+		List<string> musicList = new List<string>()
+		{			
+			@"music\xylophone",
+			@"music\Elevator Music",
+			@"music\8-bit loop",
+			@"music\Gasoline Rainbows",
+			@"music\Chippy Cloud Kid",
+			@"music\ChipChippy",
+			@"music\Sad Song 1",
+			@"music\Dramatic Metal Entrance",
+			@"music\Chaotic Filth",
+			@"music\Chaotic Standoff",
+			@"music\Ring Leader",
+			@"music\Rising Sun",
+			@"music\Vanguard Bouncy",
+			@"music\wubby dancer",
+			@"music\King Boss"
+		};
+			
+        List<SoundLoadInfo> soundsList = new List<SoundLoadInfo>() 
+        {
+            new SoundLoadInfo("coin", @"Sounds\Pickup_Coin8", 0.0f, 0.12f),
+            new SoundLoadInfo("jump", @"Sounds\Jump4"),
+            new SoundLoadInfo("explosion", @"Sounds\Explosion9"),
+            new SoundLoadInfo("randomize", @"Sounds\Randomize3"),
+            new SoundLoadInfo("hit", @"Sounds\Hit_Hurt2", 0.0f, 0.2f),
+            new SoundLoadInfo("doors", @"Sounds\Randomize2", 0.5f, 0.2f, true)
+        };
+
+
+        List<SpriteLoadInfo> spritesList = new List<SpriteLoadInfo>()
+        {
+            new SpriteLoadInfo("biggo_128x128", "biggo_128x128", new Point(128, 128), 2),
+            new SpriteLoadInfo("enemies_16x16", "enemies_16x16", new Point(16, 16)),
+            new SpriteLoadInfo("enemies_32x32", "enemies_32x32", new Point(32, 32)),
+            new SpriteLoadInfo("enemies_8x8", "enemies_8x8", new Point(8, 8)),
+            new SpriteLoadInfo("king_48x48", "king_48x48", new Point(48, 48), 14),
+            new SpriteLoadInfo("player", "player", new Point(8, 16), 6)
+            
+        };
+
         public SplashScreenState()
         {
+            loadDelegates.Add(LoadState.Init, Init);
+            loadDelegates.Add(LoadState.Textures, LoadTextures);
+            loadDelegates.Add(LoadState.Sounds, LoadSounds);
+            loadDelegates.Add(LoadState.Music, LoadMusic);
+            loadDelegates.Add(LoadState.Sprites, LoadSprites);
+            loadDelegates.Add(LoadState.Register, RegisterStates);
+            loadDelegates.Add(LoadState.Finish, Finish);
         }
 
         public override void Enter(int previousStateId)
@@ -47,9 +108,6 @@ namespace PixelPerfect
 
         public override void Exit(int nextStateId)
         {
-//#if !WINDOWS
-  //          GamePage.Instance.AdsOff();
-//#endif
         }
                 
         public override void Suspend(int pushedStateId)
@@ -65,62 +123,73 @@ namespace PixelPerfect
             Vector2 position = new Vector2(Config.SCREEN_WIDTH_SCALED / 2,
                                            Config.SCREEN_HEIGHT_SCALED / 2);
             spriteBatch.Draw(logo, position, null, Color.White, 0.0f, new Vector2(logo.Width / 2, logo.Height / 2), 0.5f, SpriteEffects.None, 0.0f);
-            //loading.Draw(spriteBatch);
         }
 
         public override void Update(Microsoft.Xna.Framework.GameTime gameTime, bool suspended)
         {
-#if !ANDROID
-            LoadAssetsNonBlock();
-#else
-            LoadAssetsBlock();
-#endif
+            loadDelegates[loadState]();
         }
 
-        private void LoadAssetsNonBlock()
+        private void NextState()
         {
-            if (task == null)
-            {
-                task = new Task(() =>
-                {
-                    Globals.silkscreenFont = Globals.content.Load<SpriteFont>("Silkscreen");
-                    Globals.tileset = new Tileset("tileset");
-
-                    LoadTextures();
-                    LoadSprites();
-                    LoadSounds();
-                    LoadMusic();
-                    RegisterStates();
-                    Theme.ReloadTheme(World.LastActiveWorld(), scale);
-                });
-                task.Start();
-            }
-
-            if (task.IsCompleted)
-            {
-                Globals.gameStateManager.PopState();
-                Globals.gameStateManager.PushState(Config.States.BACKGROUND);
-                Globals.gameStateManager.PushState(Config.States.DUMMY);
-                Globals.gameStateManager.PushState(Config.States.TITLESCREEN);
-            }
+            loadState++;
+            loadCounter = 0;
         }
-
-        private void LoadAssetsBlock()
+        private void Init()
         {
             Globals.silkscreenFont = Globals.content.Load<SpriteFont>("Silkscreen");
             Globals.tileset = new Tileset("tileset");
-
-            LoadTextures();
-            LoadSprites();
-            LoadSounds();
-            LoadMusic();
-            RegisterStates();
-            Theme.ReloadTheme(World.LastActiveWorld(), scale);
-            Globals.gameStateManager.PopState();
-            Globals.gameStateManager.PushState(Config.States.BACKGROUND);
-            Globals.gameStateManager.PushState(Config.States.DUMMY);
-            Globals.gameStateManager.PushState(Config.States.TITLESCREEN);
+            NextState();
         }
+
+        private void LoadTextures()
+        {
+            if (loadCounter >= textureDictionary.Count)
+                NextState();
+
+            var texture = textureDictionary.ElementAt(loadCounter);
+            if (!Globals.textureDictionary.ContainsKey(texture.Key))
+                Globals.textureDictionary.Add(texture.Key, Globals.content.Load<Texture2D>(texture.Value));
+            
+            loadCounter++;
+        }
+
+        private void LoadSounds()
+        {
+            if (loadCounter >= soundsList.Count)
+                NextState();
+            
+            var sound = soundsList[loadCounter];
+            Globals.soundsDictionary.Add(sound.Key, Globals.content.Load<SoundEffect>(sound.Path).CreateInstance());
+            Globals.soundsDictionary[sound.Key].Volume = sound.Volume;
+            Globals.soundsDictionary[sound.Key].Pitch = sound.Pitch;
+            Globals.soundsDictionary[sound.Key].IsLooped = sound.IsLooped;
+
+            loadCounter++;
+        }
+
+        private void LoadMusic()
+        {
+            if (loadCounter >= musicList.Count)
+                NextState();
+            
+            var music = musicList[loadCounter];
+            Globals.backgroundMusicList.Add(Util.LoadSong(music));
+
+            loadCounter++;
+        }
+
+        private void LoadSprites()
+        {
+            if (loadCounter >= spritesList.Count)
+                NextState();
+
+            var sprite = spritesList[loadCounter];
+            Globals.spritesDictionary.Add(sprite.Key, sprite.Load());
+            
+            loadCounter++;
+        }
+
         private void RegisterStates()
         {
             var menuState = new TitlescreenState(Globals.gameStateManager);
@@ -160,8 +229,20 @@ namespace PixelPerfect
             Globals.gameStateManager.RegisterState(Config.States.DUMMY, dummyState);
 
             PrepareCutscenes();
+
+            NextState();
         }
 
+        private void Finish()
+        {
+            Theme.ReloadTheme(World.LastActiveWorld(), scale);
+            Globals.gameStateManager.PopState();
+            Globals.gameStateManager.PushState(Config.States.BACKGROUND);
+            Globals.gameStateManager.PushState(Config.States.DUMMY);
+            Globals.gameStateManager.PushState(Config.States.TITLESCREEN);
+        }
+
+        #region CUTSCENES
         private void PrepareCutscenes()
         {
             PrepareFirstCutscene();
@@ -786,60 +867,59 @@ namespace PixelPerfect
 
             return sceneText;
         }
+        #endregion
+    }
 
-        private void LoadTextures()
+    class SoundLoadInfo
+    {
+        public string Key { get; private set; }
+        public string Path { get; private set; }
+        public float Volume { get; private set; }
+        public float Pitch { get; private set; }
+        public bool IsLooped { get; private set; }
+
+        public SoundLoadInfo(string key, string path, float pitch = 0.0f, float volume = 0.15f, bool isLooped = false)
         {
-            foreach (KeyValuePair<string, string> texture in textureDictionary)
-            {
-                if (!Globals.textureDictionary.ContainsKey(texture.Key))
-                    Globals.textureDictionary.Add(texture.Key, Globals.content.Load<Texture2D>(texture.Value));
-            }
+            if (String.IsNullOrWhiteSpace(key) || String.IsNullOrWhiteSpace(path))
+                throw new ArgumentException("Key and Path cannot be null or empty string");
+
+            Key = key;
+            Path = path;
+            Volume = volume;
+            Pitch = pitch;
+            IsLooped = isLooped;
         }
-        
-        private void LoadSprites()
+    }
+
+    class SpriteLoadInfo
+    {
+        public string Key { get; private set; }
+        public string Path { get; private set; }
+        public Point Size { get; private set; }
+        public int FramesNumber { get; private set; }
+
+        private Sprite _sprite;
+
+        public SpriteLoadInfo(string key, string path, Point size, int framesNumber = Config.ANIM_FRAMES) 
         {
-            Globals.spritesDictionary.Add("biggo_128x128", new Sprite("biggo_128x128", 128, 128, 2));
-            Globals.spritesDictionary.Add("enemies_16x16", new Sprite("enemies_16x16", 16, 16));
-            Globals.spritesDictionary.Add("enemies_32x32", new Sprite("enemies_32x32", 32, 32));
-            Globals.spritesDictionary.Add("enemies_8x8", new Sprite("enemies_8x8", 8, 8));
-            Globals.spritesDictionary.Add("king_48x48", new Sprite("king_48x48", 48, 48, 14));
-            Globals.spritesDictionary.Add("player", new Sprite("player", 8, 16, 6));
+            if (String.IsNullOrWhiteSpace(key) || String.IsNullOrWhiteSpace(path))
+                throw new ArgumentException("Key and Path cannot be null or empty string");
+            
+            if (framesNumber <= 0)
+                throw new ArgumentException("Frames number must be positive value");
+
+            Key = key;
+            Path = path;
+            Size = size;
+            FramesNumber = framesNumber;
         }
 
-        private void LoadSounds()
+        public Sprite Load()
         {
-            Globals.soundsDictionary.Add("coin", Globals.content.Load<SoundEffect>(@"Sounds\Pickup_Coin8").CreateInstance());
-            Globals.soundsDictionary.Add("jump", Globals.content.Load<SoundEffect>(@"Sounds\Jump4").CreateInstance());
-            Globals.soundsDictionary.Add("explosion", Globals.content.Load<SoundEffect>(@"Sounds\Explosion9").CreateInstance());
-            Globals.soundsDictionary.Add("randomize", Globals.content.Load<SoundEffect>(@"Sounds\Randomize3").CreateInstance());
-            Globals.soundsDictionary.Add("hit", Globals.content.Load<SoundEffect>(@"Sounds\Hit_Hurt2").CreateInstance());
-            Globals.soundsDictionary.Add("doors", Globals.content.Load<SoundEffect>(@"Sounds\Randomize2").CreateInstance());
-            Globals.soundsDictionary["doors"].IsLooped = true;
-            foreach (KeyValuePair<string, SoundEffectInstance> sfeffect in Globals.soundsDictionary)
-                sfeffect.Value.Volume = 0.15f;
-            Globals.soundsDictionary["hit"].Volume = 0.2f;
-            Globals.soundsDictionary["coin"].Volume = 0.12f;
-            Globals.soundsDictionary["doors"].Volume = 0.2f;
-            Globals.soundsDictionary["doors"].Pitch = 0.5f;
-        }
-
-        private void LoadMusic()
-        {
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\xylophone (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Elevator Music (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\8-bit loop (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Gasoline Rainbows (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Chippy Cloud Kid (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\ChipChippy (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Sad Song 1"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Dramatic Metal Entrance (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Chaotic Filth (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Chaotic Standoff (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Ring Leader (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Rising Sun (oriental with dance beats)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\Vanguard Bouncy (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\wubby dancer (loop)"));
-            Globals.backgroundMusicList.Add(Util.LoadSong(@"music\King Boss (loop)"));
+            if (_sprite == null)
+                _sprite = new Sprite(Path, Size.X, Size.Y, FramesNumber);
+            
+            return _sprite;
         }
 
     }

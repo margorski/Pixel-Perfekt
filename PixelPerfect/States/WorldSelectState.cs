@@ -277,7 +277,9 @@ namespace PixelPerfect
                             }
                             sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
                             backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+#if WINDOWS_PHONE
                             adsButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, false);
+#endif
                         }
                         break;
 
@@ -288,7 +290,9 @@ namespace PixelPerfect
                             worldButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
                             sendButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
                             backButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
+#if WINDOWS_PHONE
                             adsButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true);
+#endif
                             state = MenuState.SLIDING;                        
                         }
                         else if (touch.State == TouchLocationState.Released)
@@ -308,10 +312,12 @@ namespace PixelPerfect
                             {
                                 GoBack();
                             }   
+#if WINDOWS_PHONE
                             else if (adsButton.Clicked((int)touch.Position.X, (int)touch.Position.Y, scale, true))
                             {
                                 RemoveAds();
                             }
+#endif
                             touchId = -1;
                             state = MenuState.IDLE;
                         }
@@ -529,7 +535,9 @@ namespace PixelPerfect
         {
             caption.Draw(spriteBatch);
             backButton.Draw(spriteBatch);
+#if WINDOWS_PHONE
             adsButton.Draw(spriteBatch);
+#endif
 #if DEBUG
             sendButton.Draw(spriteBatch);
 #endif
