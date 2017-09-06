@@ -21,7 +21,7 @@ namespace PixelPerfect
         public Sprite (string path, int width, int height, int frames = Config.ANIM_FRAMES)
         {
             // doprowadzic by util.preparearray przygotowywal kolumny Color arrayow
-            texture = Globals.content.Load<Texture2D>(path);
+            texture = Globals.content.Load<Texture2D>("Levels\\fgame\\" + path);
             textureArray = Util.PrepareTextureArray(texture, width, height * frames);
             
             //textureArray = new List<Color[]>();

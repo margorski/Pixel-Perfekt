@@ -19,7 +19,11 @@ namespace PixelPerfect
         [ProtoMember(3)]
         public TimeSpan bestTime = TimeSpan.Zero;
         [ProtoMember(4)]
+#if DEVELOPER_VERSION
+        public bool active = true;
+#else
         public bool active = false;
+#endif
         [ProtoMember(5)]
         public bool skipped = false;
         [ProtoMember(6)]
@@ -69,7 +73,7 @@ namespace PixelPerfect
             levelSaves = new Dictionary<string, Levelsave>();
             suitUnlocked = new bool[Config.Player.SUIT_QTY];
             suitUnlocked[0] = true;
-#if DEBUG
+#if DEVELOPER_VERSION
             for (int i = 0; i < suitUnlocked.Length; i++)
                 suitUnlocked[i] = true;
 #endif

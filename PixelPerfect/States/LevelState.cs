@@ -292,13 +292,14 @@ namespace PixelPerfect
 
         public override void Suspend(int pushedStateId)
         {         
+            /*
             if (!menuLevel && pushedStateId != Config.States.TAP)
             {
                 Util.AdsOff();
                 if (adTimer == TimeSpan.Zero)
                     adTimer = TimeSpan.FromMilliseconds(1.0);
             }
-
+            */
             if (menuLevel)
                 InitLevel();
             else
@@ -314,7 +315,7 @@ namespace PixelPerfect
         {            
             if (suspended)            
                 return;
-			
+			/*
             if (adTimer > TimeSpan.Zero && !menuLevel)
             {
                 adTimer -= gameTime.ElapsedGameTime;
@@ -324,7 +325,7 @@ namespace PixelPerfect
                     Util.AdsOn();
                 }
             }
-
+            */
             if (!menuLevel)
             {
                 currGPState = GamePad.GetState(PlayerIndex.One);

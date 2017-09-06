@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PipelineBuildEvent xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <SourceFile>C:/Projects/pixelperfect/Content/../Assets/music/8-bit loop.ogg</SourceFile>
+  <SourceTime>2017-05-03T15:14:45.2836595+02:00</SourceTime>
+  <DestFile>C:/Projects/pixelperfect/Content/bin/../Assets/music/8-bit loop.xnb</DestFile>
+  <DestTime>2017-05-13T17:13:52.545529+02:00</DestTime>
+  <Importer>OggImporter</Importer>
+  <ImporterTime>2016-03-30T08:36:08+02:00</ImporterTime>
+  <Processor>SongProcessor</Processor>
+  <ProcessorTime>2016-03-30T08:36:08+02:00</ProcessorTime>
+  <Parameters>
+    <Key>Quality</Key>
+    <Value>Best</Value>
+  </Parameters>
+  <Dependencies />
+  <BuildAsset />
+  <BuildOutput>
+    <string>C:/Projects/pixelperfect/Content/bin/../Assets/music/8-bit loop.wma</string>
+  </BuildOutput>
+</PipelineBuildEvent>

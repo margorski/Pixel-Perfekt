@@ -55,7 +55,7 @@ namespace PixelPerfect
 
         public bool LevelActivated(int id)
         {
-#if !DEBUG 
+#if !DEBUG || !DEVELOPER_VERSION 
             if (id < 0 || id > levels.Count - 1)
                 return false;
             

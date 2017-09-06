@@ -538,7 +538,7 @@ namespace PixelPerfect
 #if WINDOWS_PHONE
             adsButton.Draw(spriteBatch);
 #endif
-#if DEBUG
+#if false
             sendButton.Draw(spriteBatch);
 #endif
 

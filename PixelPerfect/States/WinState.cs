@@ -551,7 +551,7 @@ namespace PixelPerfect
 
         private void UnlockRandomSuit()
         {
-#if DEBUG
+#if DEVELOPER_VERSION
             return;
 #else
             int rndNumber = 0;

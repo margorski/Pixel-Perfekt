@@ -36,13 +36,13 @@ namespace PixelPerfect
         Dictionary<string, string> textureDictionary = new Dictionary<string, string>()
         {
             {"pixel", "pixel"}, {"play", "menu\\play"}, {"music", "menu\\music"}, {"sound", "menu\\sound"}, {"back", "menu\\back"},
-            {"info", "menu\\info"}, {"play2", "menu\\play2"}, {"skip", "menu\\skip"}, {"miniTileset", "tileset_mini"}, {"miniPlayer", "player_mini"},
-            {"cool", "moods\\cool"}, {"happy", "moods\\happy"}, {"confused", "moods\\confused"}, {"shocked", "moods\\shocked"}, {"scared", "moods\\scared"},
-            {"keylock", "keylock"}, {"coolLevel", "moods\\level_cool"}, {"happyLevel", "moods\\level_happy"}, {"confusedLevel", "moods\\level_confused"}, 
-            {"shockedLevel", "moods\\level_shocked"}, {"scaredLevel", "moods\\level_scared"}, {"keylockLevel", "keylock_small"}, {"trophy", "menu\\trophy"},
+            {"info", "menu\\info"}, {"play2", "menu\\play2"}, {"skip", "menu\\skip"}, {"miniTileset", "Levels\\fgame\\tileset_mini"}, {"miniPlayer", "Levels\\fgame\\player_mini"},
+            {"cool", "Levels\\fgame\\cool"}, {"happy", "Levels\\fgame\\happy"}, {"confused", "Levels\\fgame\\confused"}, {"shocked", "Levels\\fgame\\shocked"}, {"scared", "Levels\\fgame\\scared"},
+            {"keylock", "Levels\\fgame\\keylock"}, {"coolLevel", "Levels\\fgame\\level_cool"}, {"happyLevel", "Levels\\fgame\\level_happy"}, {"confusedLevel", "Levels\\fgame\\level_confused"}, 
+            {"shockedLevel", "Levels\\fgame\\level_shocked"}, {"scaredLevel", "Levels\\fgame\\level_scared"}, {"keylockLevel", "Levels\\fgame\\keylock_small"}, {"trophy", "menu\\trophy"},
             {"skull", "menu\\skull"}, {"clock", "menu\\clock"}, {"tap", "menu\\tap"}, {"next", "menu\\next"}, {"restart", "menu\\restart"},
-            {"suit", "menu\\shirt"}, {"suitbutton", "menu\\suitebtn"}, {"suitbuttonlocked", "menu\\suitebtnlocked"}, {"miniDoor", "door_mini"},
-            {"key", "key"}, {"cutscene1", "cutscenes\\cutscene1"}, {"exclamation", "cutscenes\\exclamation"}, {"question", "cutscenes\\question"},   
+            {"suit", "menu\\shirt"}, {"suitbutton", "menu\\suitebtn"}, {"suitbuttonlocked", "menu\\suitebtnlocked"}, {"miniDoor", "Levels\\fgame\\door_mini"},
+            {"key", "Levels\\fgame\\key"}, {"cutscene1", "Cutscenes\\cutscene1"}, {"exclamation", "Cutscenes\\exclamation"}, {"question", "Cutscenes\\question"},   
             {"ads", "menu\\ads"}, {"swap", "menu\\swap"}
         };
 
@@ -138,7 +138,7 @@ namespace PixelPerfect
         private void Init()
         {
             Globals.silkscreenFont = Globals.content.Load<SpriteFont>("Silkscreen");
-            Globals.tileset = new Tileset("tileset");
+            Globals.tileset = new Tileset("Levels\\fgame\\tileset");
             NextState();
         }
 

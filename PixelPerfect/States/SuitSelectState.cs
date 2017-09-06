@@ -147,7 +147,7 @@ namespace PixelPerfect
                                                               buttonTexture,
                                                               Globals.silkscreenFont, false));
                 if (!Savestate.Instance.suitUnlocked[i])
-#if DEBUG
+#if DEVELOPER_VERSION
                     suitButtons[i].active = true;                
 #else
                     suitButtons[i].active = false;                
